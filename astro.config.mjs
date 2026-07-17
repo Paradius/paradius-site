@@ -14,6 +14,9 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       serialize(item) {
+        if (item.url.includes('/mockups/')) {
+          return undefined;
+        }
         if (item.url === 'https://paradius.dev/') {
           return { ...item, priority: 1.0 };
         }

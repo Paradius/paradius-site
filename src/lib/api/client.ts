@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { z } from 'zod';
 import type { ZodType } from 'zod';
 import { formatValidationError, recordIdentifier } from './errors';
@@ -11,10 +10,8 @@ import {
   type CaseStudy,
 } from './schemas';
 
-const FIXTURES_DIR = join(
-  dirname(fileURLToPath(import.meta.url)),
-  '../../content/fixtures',
-);
+/** Fixture JSON lives under src/content/fixtures (cwd = project root at build/dev). */
+const FIXTURES_DIR = join(process.cwd(), 'src/content/fixtures');
 
 export type DataSource = 'api' | 'fixtures';
 

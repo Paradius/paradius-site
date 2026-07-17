@@ -1,0 +1,63 @@
+---
+import MockupLayout from '../../layouts/MockupLayout.astro';
+import { MOCKUP_INDEX_SEO } from '../../lib/seo/mockups';
+
+const mockups = [
+  {
+    href: '/mockups/talent-a',
+    title: 'Talent catalog — Variant A',
+    description: 'Editorial list rows with generous whitespace and minimal stack hints.',
+  },
+  {
+    href: '/mockups/talent-b',
+    title: 'Talent catalog — Variant B',
+    description: 'Card grid with stack chips and availability badges.',
+  },
+  {
+    href: '/mockups/profile-a',
+    title: 'Profile detail — Variant A',
+    description: 'Editorial CV layout: headline, summary, experience timeline.',
+  },
+  {
+    href: '/mockups/profile-b',
+    title: 'Profile detail — Variant B',
+    description: 'Structured dossier with side meta column and experience main column.',
+  },
+  {
+    href: '/mockups/work',
+    title: 'Case study',
+    description: 'Fortune 500 retailer case — problem, solution, outcome.',
+  },
+  {
+    href: '/mockups/contact',
+    title: 'Contact form',
+    description: 'Conversion form with profile chips and commercial copy.',
+  },
+];
+---
+
+<MockupLayout seo={MOCKUP_INDEX_SEO}>
+  <div class="mockup-index">
+    <header class="mockup-index__header section-reveal">
+      <p class="mockup-index__eyebrow">Phase S2.5</p>
+      <h1 class="mockup-index__title">Design mockups</h1>
+      <p class="mockup-index__description">
+        Visual variants for new pages — awaiting Gabriel's approval before S3 implementation.
+        All routes use fixture data and are excluded from the sitemap.
+      </p>
+    </header>
+
+    <ul class="mockup-index__list section-reveal">
+      {
+        mockups.map((item) => (
+          <li class="mockup-index__item">
+            <a href={item.href} class="mockup-index__link">
+              <span class="mockup-index__link-title">{item.title}</span>
+              <span class="mockup-index__link-desc">{item.description}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</MockupLayout>

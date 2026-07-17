@@ -1,0 +1,34 @@
+---
+import MockupLayout from '../../layouts/MockupLayout.astro';
+import MockupPageHero from '../../components/mockups/MockupPageHero.astro';
+import FilterBar from '../../components/mockups/FilterBar.astro';
+import TalentCardB from '../../components/mockups/TalentCardB.astro';
+import { getProfiles } from '../../lib/api';
+import { mockupSeo } from '../../lib/seo/mockups';
+
+const profiles = await getProfiles();
+
+const seo = mockupSeo(
+  'Talent Catalog — Variant B',
+  '/mockups/talent-b',
+  'Card-grid talent catalog mockup — stack chips, availability badges, filter bar preview.',
+);
+---
+
+<MockupLayout seo={seo} variantLabel="Talent B — Card grid">
+  <MockupPageHero
+    eyebrow="Staff augmentation"
+    title="Browse our talent"
+    description="Senior nearshore engineers, vetted and ready to present within 48 hours. Filter by stack, seniority, and availability — then request the profiles that fit."
+  />
+  <FilterBar />
+  <section class="talent-catalog-b" aria-label="Talent catalog">
+    <div class="talent-catalog-b__grid">
+      {profiles.map((profile) => <TalentCardB profile={profile} />)}
+    </div>
+    <div class="talent-catalog-b__footer section-reveal">
+      <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
+      <a href="#" class="talent-catalog-b__cta" aria-disabled="true">Build your team</a>
+    </div>
+  </section>
+</MockupLayout>

@@ -1,0 +1,17 @@
+---
+import MockupLayout from '../../layouts/MockupLayout.astro';
+import ContactFormMockup from '../../components/mockups/ContactFormMockup.astro';
+import { mockupSeo } from '../../lib/seo/mockups';
+
+const seo = mockupSeo(
+  'Contact',
+  '/mockups/contact',
+  'Contact form mockup — name, email, company, message, interested profile chips.',
+);
+---
+
+<MockupLayout seo={seo} variantLabel="Contact — Form">
+  <div class="mockup-page-wrap mockup-page-wrap--narrow">
+    <ContactFormMockup />
+  </div>
+</MockupLayout>

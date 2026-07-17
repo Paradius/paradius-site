@@ -31,7 +31,7 @@ export function resolvePageMeta(page: PageSeo): ResolvedPageMeta {
   return {
     title: page.title,
     description: page.description,
-    robots: 'index, follow, max-snippet:-1, max-image-preview:large',
+    robots: page.robots ?? 'index, follow, max-snippet:-1, max-image-preview:large',
     author: 'Paradius LLC',
     keywords: page.keywords ?? DEFAULT_KEYWORDS,
     canonical: page.canonical,

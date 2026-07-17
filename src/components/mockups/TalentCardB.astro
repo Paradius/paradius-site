@@ -1,0 +1,39 @@
+---
+import type { AnonymousProfile } from '../../lib/api';
+import {
+  formatAvailability,
+  formatSeniority,
+  formatStackTag,
+  topStackTags,
+  overflowStackCount,
+} from '../../lib/mockups/formatters';
+
+interface Props {
+  profile: AnonymousProfile;
+}
+
+const { profile } = Astro.props;
+const availability = formatAvailability(profile.availability);
+const visibleStack = topStackTags(profile, 6);
+const overflow = overflowStackCount(profile, 6);
+---
+
+<article class="talent-card-b card">
+  <div class="talent-card-b__header">
+    <span class="talent-card-b__code">{profile.code}</span>
+    <span class={`mockup-badge ${availability.modifier}`}>{availability.label}</span>
+  </div>
+  <h2 class="talent-card-b__headline">{profile.headline}</h2>
+  <p class="talent-card-b__meta">
+    {formatSeniority(profile.seniority)} · {profile.yearsExperience} years experience
+  </p>
+  <div class="talent-card-b__tags" aria-label="Primary stack">
+    {
+      visibleStack.map((tag) => (
+        <span class="mockup-chip">{formatStackTag(tag)}</span>
+      ))
+    }
+    {overflow > 0 && <span class="mockup-chip mockup-chip--muted">+{overflow}</span>}
+  </div>
+  <a href="#" class="talent-card-b__cta" aria-disabled="true">View profile</a>
+</article>

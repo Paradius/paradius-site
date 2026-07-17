@@ -1,0 +1,25 @@
+---
+import MockupLayout from '../../layouts/MockupLayout.astro';
+import WorkCaseStudy from '../../components/mockups/WorkCaseStudy.astro';
+import { getCases } from '../../lib/api';
+import { mockupSeo } from '../../lib/seo/mockups';
+
+const cases = await getCases();
+const caseStudy = cases.find((c) => c.slug === 'fortune-500-home-improvement-retailer');
+
+if (!caseStudy) {
+  throw new Error('Fortune 500 retailer fixture case not found for work mockup');
+}
+
+const seo = mockupSeo(
+  'Case Study',
+  '/mockups/work',
+  'Case study mockup — Fortune 500 US home improvement retailer, anonymized per D3.',
+);
+---
+
+<MockupLayout seo={seo} variantLabel="Work — Case study">
+  <div class="mockup-page-wrap">
+    <WorkCaseStudy caseStudy={caseStudy} />
+  </div>
+</MockupLayout>

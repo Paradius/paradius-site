@@ -1,0 +1,42 @@
+---
+import type { CaseStudy } from '../../lib/api';
+import { formatStackTag } from '../../lib/mockups/formatters';
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+---
+
+<article class="work-case section-reveal">
+  <header class="work-case__header">
+    <p class="work-case__eyebrow">Case study</p>
+    <h1 class="work-case__title">{caseStudy.title}</h1>
+    <p class="work-case__client">{caseStudy.clientDescriptor}</p>
+  </header>
+
+  <div class="work-case__body">
+    <section class="work-case__section" aria-labelledby="problem-heading">
+      <h2 id="problem-heading" class="work-case__section-title">Problem</h2>
+      <p class="work-case__text">{caseStudy.problem}</p>
+    </section>
+
+    <section class="work-case__section" aria-labelledby="solution-heading">
+      <h2 id="solution-heading" class="work-case__section-title">Solution</h2>
+      <p class="work-case__text">{caseStudy.solution}</p>
+    </section>
+
+    <section class="work-case__section" aria-labelledby="outcome-heading">
+      <h2 id="outcome-heading" class="work-case__section-title">Outcome</h2>
+      <p class="work-case__text work-case__text--accent">{caseStudy.outcome}</p>
+    </section>
+  </div>
+
+  <footer class="work-case__footer">
+    <div class="work-case__stack" aria-label="Technologies used">
+      {caseStudy.stack.map((tag) => <span class="mockup-chip">{formatStackTag(tag)}</span>)}
+    </div>
+    <a href="#" class="work-case__cta" aria-disabled="true">Build your team</a>
+  </footer>
+</article>

@@ -1,0 +1,25 @@
+---
+import MockupLayout from '../../layouts/MockupLayout.astro';
+import ProfileDossierB from '../../components/mockups/ProfileDossierB.astro';
+import { getProfiles } from '../../lib/api';
+import { mockupSeo } from '../../lib/seo/mockups';
+
+const profiles = await getProfiles();
+const profile = profiles.find((p) => p.code === 'PRD-001');
+
+if (!profile) {
+  throw new Error('PRD-001 fixture profile not found for profile-b mockup');
+}
+
+const seo = mockupSeo(
+  'Profile Detail — Variant B',
+  '/mockups/profile-b',
+  'Structured dossier profile mockup for PRD-001 — side meta column + experience timeline.',
+);
+---
+
+<MockupLayout seo={seo} variantLabel="Profile B — Dossier">
+  <div class="mockup-page-wrap">
+    <ProfileDossierB profile={profile} />
+  </div>
+</MockupLayout>

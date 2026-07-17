@@ -1,0 +1,82 @@
+---
+import type { AnonymousProfile } from '../../lib/api';
+import {
+  formatAvailability,
+  formatExperienceRange,
+  formatLanguage,
+  formatSeniority,
+  formatStackTag,
+} from '../../lib/mockups/formatters';
+
+interface Props {
+  profile: AnonymousProfile;
+}
+
+const { profile } = Astro.props;
+const availability = formatAvailability(profile.availability);
+---
+
+<article class="profile-dossier-b section-reveal">
+  <header class="profile-dossier-b__header">
+    <p class="profile-dossier-b__code">{profile.code}</p>
+    <h1 class="profile-dossier-b__headline">{profile.headline}</h1>
+    <p class="profile-dossier-b__summary">{profile.summary}</p>
+  </header>
+
+  <div class="profile-dossier-b__layout">
+    <aside class="profile-dossier-b__meta" aria-label="Profile details">
+      <div class="profile-dossier-b__meta-block">
+        <h2 class="profile-dossier-b__meta-title">Availability</h2>
+        <span class={`mockup-badge ${availability.modifier}`}>{availability.label}</span>
+        <p class="profile-dossier-b__meta-note">Profiles presented within 48 hours</p>
+      </div>
+
+      <div class="profile-dossier-b__meta-block">
+        <h2 class="profile-dossier-b__meta-title">Seniority</h2>
+        <p class="profile-dossier-b__meta-value">
+          {formatSeniority(profile.seniority)} · {profile.yearsExperience} years
+        </p>
+      </div>
+
+      <div class="profile-dossier-b__meta-block">
+        <h2 class="profile-dossier-b__meta-title">Stack</h2>
+        <div class="profile-dossier-b__tags">
+          {profile.stack.map((tag) => <span class="mockup-chip">{formatStackTag(tag)}</span>)}
+        </div>
+      </div>
+
+      <div class="profile-dossier-b__meta-block">
+        <h2 class="profile-dossier-b__meta-title">Languages</h2>
+        <ul class="profile-dossier-b__languages">
+          {profile.languages.map((lang) => <li>{formatLanguage(lang)}</li>)}
+        </ul>
+      </div>
+
+      <a href="#" class="profile-dossier-b__cta" aria-disabled="true">Request this profile</a>
+    </aside>
+
+    <section class="profile-dossier-b__main" aria-labelledby="experience-heading-b">
+      <h2 id="experience-heading-b" class="profile-dossier-b__section-title">Experience</h2>
+      <ol class="profile-dossier-b__timeline">
+        {
+          profile.experience.map((entry) => (
+            <li class="profile-dossier-b__entry">
+              <div class="profile-dossier-b__entry-header">
+                <h3 class="profile-dossier-b__role">{entry.role}</h3>
+                <time class="profile-dossier-b__dates" datetime={entry.startDate}>
+                  {formatExperienceRange(entry)}
+                </time>
+              </div>
+              <p class="profile-dossier-b__industry">{entry.industryDescriptor}</p>
+              <ul class="profile-dossier-b__achievements">
+                {entry.achievements.map((achievement) => (
+                  <li>{achievement}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </div>
+</article>

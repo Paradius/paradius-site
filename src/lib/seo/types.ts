@@ -20,4 +20,6 @@ export interface PageSeo {
   webPageDescription: string;
   /** CSS selectors for SpeakableSpecification (home page headings). */
   speakableSelectors?: readonly string[];
+  /** Override robots meta (mockups use noindex). */
+  robots?: string;
 }
