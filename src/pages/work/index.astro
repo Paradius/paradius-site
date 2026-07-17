@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import TalentPageHero from '../../components/talent/TalentPageHero.astro';
+import WorkCaseStudy from '../../components/work/WorkCaseStudy.astro';
+import { getCases } from '../../lib/api';
+import { buildWorkCatalogSeo } from '../../lib/seo';
+
+const cases = await getCases();
+const seo = buildWorkCatalogSeo(cases);
+const useSecondaryHeadings = cases.length > 1;
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main">
+    <TalentPageHero
+      eyebrow="Proven delivery"
+      title="See our work"
+      description="Architecture-first staff augmentation for enterprise teams — anonymized case studies that show how we design, build, and leave systems better than we found them."
+    />
+    <section class="work-page" aria-label="Case studies">
+      <div class="work-page__cases mockup-page-wrap">
+        {cases.map((caseStudy) => (
+          <WorkCaseStudy
+            caseStudy={caseStudy}
+            headingLevel={useSecondaryHeadings ? 'h2' : 'h1'}
+          />
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <ScrollBehavior />
+</BaseLayout>

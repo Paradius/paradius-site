@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import WorkCaseStudy from '../../components/work/WorkCaseStudy.astro';
+import { getCases } from '../../lib/api';
+import { buildWorkCaseSeo } from '../../lib/seo';
+import type { CaseStudy } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const cases = await getCases();
+  return cases.map((caseStudy) => ({
+    params: { slug: caseStudy.slug },
+    props: { caseStudy },
+  }));
+}
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+const seo = buildWorkCaseSeo(caseStudy);
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main">
+    <div class="mockup-page-wrap">
+      <p class="profile-dossier-b__back">
+        <a href="/work/">← Back to case studies</a>
+      </p>
+      <WorkCaseStudy caseStudy={caseStudy} />
+    </div>
+  </main>
+  <Footer />
+  <ScrollBehavior />
+</BaseLayout>

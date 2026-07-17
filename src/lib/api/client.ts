@@ -181,12 +181,13 @@ export async function getCases(): Promise<CaseStudy[]> {
   }
 
   const raw = await loadCasesPayload();
-  casesCache = validateEnvelope(
+  const allCases = validateEnvelope(
     raw,
     'case study',
     'slug',
     caseStudySchema,
   );
+  casesCache = allCases.filter((caseStudy) => caseStudy.published);
   return casesCache;
 }
 

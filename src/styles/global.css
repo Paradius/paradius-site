@@ -1504,6 +1504,20 @@
     gap: 0.35rem;
   }
 
+  .work-page__cases {
+    display: grid;
+    gap: var(--spacing-3xl);
+  }
+
+  .work-case__cta--link {
+    cursor: pointer;
+  }
+
+  .work-case__cta--link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
   /* Contact form mockup */
   .contact-mockup__title {
     font-family: var(--font-heading);

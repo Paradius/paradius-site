@@ -1,0 +1,46 @@
+---
+import type { CaseStudy } from '../../lib/api';
+import { formatStackTag } from '../../lib/talent/formatters';
+
+interface Props {
+  caseStudy: CaseStudy;
+  /** Use h2 when multiple cases appear on the catalog page. */
+  headingLevel?: 'h1' | 'h2';
+}
+
+const { caseStudy, headingLevel = 'h1' } = Astro.props;
+const TitleTag = headingLevel;
+const idPrefix = caseStudy.slug;
+---
+
+<article class="work-case section-reveal">
+  <header class="work-case__header">
+    <p class="work-case__eyebrow">Case study</p>
+    <TitleTag class="work-case__title">{caseStudy.title}</TitleTag>
+    <p class="work-case__client">{caseStudy.clientDescriptor}</p>
+  </header>
+
+  <div class="work-case__body">
+    <section class="work-case__section" aria-labelledby={`${idPrefix}-problem-heading`}>
+      <h2 id={`${idPrefix}-problem-heading`} class="work-case__section-title">Problem</h2>
+      <p class="work-case__text">{caseStudy.problem}</p>
+    </section>
+
+    <section class="work-case__section" aria-labelledby={`${idPrefix}-solution-heading`}>
+      <h2 id={`${idPrefix}-solution-heading`} class="work-case__section-title">Solution</h2>
+      <p class="work-case__text">{caseStudy.solution}</p>
+    </section>
+
+    <section class="work-case__section" aria-labelledby={`${idPrefix}-outcome-heading`}>
+      <h2 id={`${idPrefix}-outcome-heading`} class="work-case__section-title">Outcome</h2>
+      <p class="work-case__text work-case__text--accent">{caseStudy.outcome}</p>
+    </section>
+  </div>
+
+  <footer class="work-case__footer">
+    <div class="work-case__stack" aria-label="Technologies used">
+      {caseStudy.stack.map((tag) => <span class="mockup-chip">{formatStackTag(tag)}</span>)}
+    </div>
+    <a href="/contact" class="work-case__cta work-case__cta--link">Build your team</a>
+  </footer>
+</article>
