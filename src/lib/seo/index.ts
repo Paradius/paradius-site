@@ -11,3 +11,4 @@ export { resolvePageMeta, HOME_SEO } from './meta';
 export type { ResolvedPageMeta } from './meta';
 export { buildTalentCatalogSeo, buildTalentProfileSeo } from './talent';
 export { buildWorkCatalogSeo, buildWorkCaseSeo } from './work';
+export { buildContactSeo } from './contact';

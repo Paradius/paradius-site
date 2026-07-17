@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import ContactForm from '../../components/contact/ContactForm.astro';
+import { buildContactSeo } from '../../lib/seo';
+
+const seo = buildContactSeo();
+const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL ?? '';
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main">
+    <div class="mockup-page-wrap mockup-page-wrap--narrow">
+      <ContactForm apiBaseUrl={apiBaseUrl} />
+    </div>
+  </main>
+  <Footer />
+  <ScrollBehavior />
+  <script src="../../islands/contact-form.ts"></script>
+</BaseLayout>
