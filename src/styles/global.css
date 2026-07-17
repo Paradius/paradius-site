@@ -6,15 +6,6 @@
 
 @import 'tailwindcss';
 
-/* ---------- Brand fonts ---------- */
-@font-face {
-  font-family: 'Paradius Dawn';
-  src: url('/assets/ParadiusDawn-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ---------- Design tokens (Tailwind theme) ---------- */
 @theme {
   /* Colors — black minimalist premium palette */
@@ -29,7 +20,7 @@
 
   /* Typography */
   --font-heading: 'Cormorant Garamond', 'Georgia', serif;
-  --font-brand: 'Paradius Dawn', 'Cormorant Garamond', 'Georgia', serif;
+  --font-brand: 'Cormorant Garamond', 'Georgia', serif;
   --font-body:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
