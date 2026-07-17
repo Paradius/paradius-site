@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import TalentPageHero from '../../components/talent/TalentPageHero.astro';
+import TalentFilterBar from '../../components/talent/TalentFilterBar.astro';
+import TalentCard from '../../components/talent/TalentCard.astro';
+import { getProfiles } from '../../lib/api';
+import { buildTalentCatalogSeo } from '../../lib/seo';
+
+const profiles = await getProfiles();
+const seo = buildTalentCatalogSeo(profiles);
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main">
+    <TalentPageHero
+      eyebrow="Staff augmentation"
+      title="Browse our talent"
+      description="Senior nearshore engineers, vetted and ready to present within 48 hours. Filter by role, stack, seniority, and availability — then request the profiles that fit."
+    />
+    <TalentFilterBar profiles={profiles} />
+    <section id="talent-catalog" class="talent-catalog-b" aria-label="Talent catalog">
+      <div class="talent-catalog-b__grid">
+        {profiles.map((profile) => <TalentCard profile={profile} />)}
+      </div>
+      <div class="talent-catalog-b__footer section-reveal">
+        <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
+        <a href="/contact" class="talent-catalog-b__cta">Build your team</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <ScrollBehavior />
+  <script src="../../islands/talent-filters.ts"></script>
+</BaseLayout>

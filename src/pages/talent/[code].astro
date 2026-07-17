@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import ProfileDossier from '../../components/talent/ProfileDossier.astro';
+import { getProfiles } from '../../lib/api';
+import { buildTalentProfileSeo } from '../../lib/seo';
+import type { AnonymousProfile } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const profiles = await getProfiles();
+  return profiles.map((profile) => ({
+    params: { code: profile.code },
+    props: { profile },
+  }));
+}
+
+interface Props {
+  profile: AnonymousProfile;
+}
+
+const { profile } = Astro.props;
+const seo = buildTalentProfileSeo(profile);
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main">
+    <div class="mockup-page-wrap">
+      <p class="profile-dossier-b__back">
+        <a href="/talent/">← Back to catalog</a>
+      </p>
+      <ProfileDossier profile={profile} />
+    </div>
+  </main>
+  <Footer />
+  <ScrollBehavior />
+</BaseLayout>

@@ -4,8 +4,8 @@ import {
   formatAvailability,
   formatSeniority,
   formatStackTag,
-  topStackTags,
   overflowStackCount,
+  topStackTags,
 } from '../../lib/talent/formatters';
 
 interface Props {
@@ -16,14 +16,24 @@ const { profile } = Astro.props;
 const availability = formatAvailability(profile.availability);
 const visibleStack = topStackTags(profile, 6);
 const overflow = overflowStackCount(profile, 6);
+const profileUrl = `/talent/${profile.code}/`;
 ---
 
-<article class="talent-card-b card">
+<article
+  class="talent-card-b card talent-card"
+  data-talent-card
+  data-roles={profile.roles.join(' ')}
+  data-seniority={profile.seniority}
+  data-availability={profile.availability}
+  data-stack={profile.stack.join(' ')}
+>
   <div class="talent-card-b__header">
     <span class="talent-card-b__code">{profile.code}</span>
     <span class={`mockup-badge ${availability.modifier}`}>{availability.label}</span>
   </div>
-  <h2 class="talent-card-b__headline">{profile.headline}</h2>
+  <h2 class="talent-card-b__headline">
+    <a href={profileUrl} class="talent-card__link">{profile.headline}</a>
+  </h2>
   <p class="talent-card-b__meta">
     {formatSeniority(profile.seniority)} · {profile.yearsExperience} years experience
   </p>
@@ -35,5 +45,5 @@ const overflow = overflowStackCount(profile, 6);
     }
     {overflow > 0 && <span class="mockup-chip mockup-chip--muted">+{overflow}</span>}
   </div>
-  <a href="#" class="talent-card-b__cta" aria-disabled="true">View profile</a>
+  <a href={profileUrl} class="talent-card-b__cta">View profile</a>
 </article>

@@ -22,4 +22,6 @@ export interface PageSeo {
   speakableSelectors?: readonly string[];
   /** Override robots meta (mockups use noindex). */
   robots?: string;
+  /** Extra JSON-LD blocks appended after the four global blocks. */
+  additionalJsonLd?: readonly Record<string, unknown>[];
 }

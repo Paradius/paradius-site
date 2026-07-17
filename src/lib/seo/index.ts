@@ -9,3 +9,4 @@ export {
 } from './jsonld';
 export { resolvePageMeta, HOME_SEO } from './meta';
 export type { ResolvedPageMeta } from './meta';
+export { buildTalentCatalogSeo, buildTalentProfileSeo } from './talent';

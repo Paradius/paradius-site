@@ -14,6 +14,7 @@ interface Props {
 
 const { profile } = Astro.props;
 const availability = formatAvailability(profile.availability);
+const contactUrl = `/contact?profile=${encodeURIComponent(profile.code)}`;
 ---
 
 <article class="profile-dossier-b section-reveal">
@@ -52,11 +53,11 @@ const availability = formatAvailability(profile.availability);
         </ul>
       </div>
 
-      <a href="#" class="profile-dossier-b__cta" aria-disabled="true">Request this profile</a>
+      <a href={contactUrl} class="profile-dossier-b__cta">Request this profile</a>
     </aside>
 
-    <section class="profile-dossier-b__main" aria-labelledby="experience-heading-b">
-      <h2 id="experience-heading-b" class="profile-dossier-b__section-title">Experience</h2>
+    <section class="profile-dossier-b__main" aria-labelledby="experience-heading">
+      <h2 id="experience-heading" class="profile-dossier-b__section-title">Experience</h2>
       <ol class="profile-dossier-b__timeline">
         {
           profile.experience.map((entry) => (
