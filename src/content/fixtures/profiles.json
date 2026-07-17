@@ -1,0 +1,313 @@
+{
+  "items": [
+    {
+      "code": "PRD-001",
+      "headline": "Senior Flutter Developer",
+      "seniority": "senior",
+      "roles": ["mobile", "fullstack"],
+      "stack": [
+        "bloc",
+        "ci-cd",
+        "dart",
+        "ddd",
+        "firebase",
+        "flutter",
+        "graphql",
+        "postgresql",
+        "rest",
+        "riverpod",
+        "testing"
+      ],
+      "yearsExperience": 9,
+      "summary": "Senior mobile engineer with nine years building production Flutter apps for fintech and logistics clients. Delivers clean-architecture codebases, offline-first experiences, and measurable release velocity through strong CI/CD discipline.",
+      "experience": [
+        {
+          "role": "Senior Flutter Developer",
+          "startDate": "2021-04",
+          "industryDescriptor": "fintech startup",
+          "achievements": [
+            "Led migration of a 120k-MAU consumer wallet from legacy native screens to Flutter, cutting crash-free sessions from 97.1% to 99.6% within two quarters.",
+            "Introduced feature-flagged releases and golden tests that reduced regression defects in payment flows by 42%.",
+            "Mentored four mid-level engineers on DDD folder structure and bloc/cubit testing patterns."
+          ],
+          "stack": ["flutter", "dart", "bloc", "firebase", "graphql"]
+        },
+        {
+          "role": "Flutter Developer",
+          "startDate": "2018-02",
+          "endDate": "2021-03",
+          "industryDescriptor": "logistics software company",
+          "achievements": [
+            "Built driver and dispatcher apps for a regional logistics platform handling 18k daily shipments.",
+            "Implemented background geolocation sync and optimistic UI updates for low-connectivity routes.",
+            "Partnered with backend team to design REST contracts later reused across three client projects."
+          ],
+          "stack": ["flutter", "dart", "riverpod", "rest", "postgresql"]
+        },
+        {
+          "role": "Mobile Developer",
+          "startDate": "2016-06",
+          "endDate": "2018-01",
+          "industryDescriptor": "digital agency",
+          "achievements": [
+            "Shipped two white-label retail apps on tight agency timelines with shared design-system components.",
+            "Established CI pipelines with automated widget tests on every pull request."
+          ],
+          "stack": ["flutter", "dart", "ci-cd", "testing"]
+        }
+      ],
+      "languages": [
+        { "lang": "es", "level": "native" },
+        { "lang": "en", "level": "C1" }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PRD-002",
+      "headline": "Senior Backend Engineer (Go & Java)",
+      "seniority": "senior",
+      "roles": ["backend"],
+      "stack": [
+        "aws",
+        "docker",
+        "event-driven",
+        "go",
+        "grpc",
+        "java",
+        "kafka",
+        "kubernetes",
+        "postgresql",
+        "redis",
+        "spring-boot",
+        "terraform"
+      ],
+      "yearsExperience": 11,
+      "summary": "Backend specialist with eleven years designing event-driven platforms for retail and payments. Strong in Go microservices and Java integration layers, with a track record of cutting p99 latency while keeping operational complexity manageable.",
+      "experience": [
+        {
+          "role": "Staff Backend Engineer",
+          "startDate": "2020-01",
+          "industryDescriptor": "enterprise retail technology group",
+          "achievements": [
+            "Replaced a monolithic order service with twelve Go microservices on Kubernetes, improving peak-season throughput by 3.2× without additional headcount.",
+            "Introduced outbox-pattern event publishing to Kafka, eliminating duplicate charges in marketplace checkout flows.",
+            "Owned on-call rotation and reduced Sev-1 incidents from nine per quarter to two through SLO dashboards and runbooks."
+          ],
+          "stack": ["go", "kafka", "kubernetes", "postgresql", "redis", "terraform"]
+        },
+        {
+          "role": "Senior Java Developer",
+          "startDate": "2016-03",
+          "endDate": "2019-12",
+          "industryDescriptor": "payments processor",
+          "achievements": [
+            "Built Spring Boot services handling card-present and card-not-present authorization for mid-market merchants.",
+            "Designed idempotent settlement APIs consumed by three acquiring partners.",
+            "Led PCI-scoped audit preparation for two consecutive years with zero critical findings."
+          ],
+          "stack": ["java", "spring-boot", "postgresql", "aws", "docker"]
+        },
+        {
+          "role": "Backend Developer",
+          "startDate": "2013-07",
+          "endDate": "2016-02",
+          "industryDescriptor": "B2B SaaS company",
+          "achievements": [
+            "Maintained multi-tenant billing and usage-metering services supporting 400+ enterprise accounts.",
+            "Migrated reporting workloads from synchronous SQL to Redis-backed materialized views."
+          ],
+          "stack": ["java", "postgresql", "redis", "rest"]
+        }
+      ],
+      "languages": [
+        { "lang": "en", "level": "native" },
+        { "lang": "es", "level": "B2" }
+      ],
+      "availability": "soon"
+    },
+    {
+      "code": "PRD-003",
+      "headline": "Senior React Frontend Engineer",
+      "seniority": "senior",
+      "roles": ["frontend", "fullstack"],
+      "stack": [
+        "accessibility",
+        "css",
+        "nextjs",
+        "react",
+        "storybook",
+        "tailwind",
+        "testing",
+        "typescript",
+        "vite",
+        "wcag"
+      ],
+      "yearsExperience": 8,
+      "summary": "Frontend engineer focused on design-system-driven React applications for B2B and consumer brands. Combines strong accessibility discipline with performance tuning — consistently shipping sub-2s LCP on content-heavy dashboards.",
+      "experience": [
+        {
+          "role": "Senior Frontend Engineer",
+          "startDate": "2021-09",
+          "industryDescriptor": "healthcare analytics platform",
+          "achievements": [
+            "Led rebuild of clinician dashboard from legacy jQuery to React 18 + TypeScript, improving task completion time by 28% in usability studies.",
+            "Established Storybook as the single source for 60+ accessible components with automated axe checks in CI.",
+            "Partnered with design to implement WCAG 2.1 AA patterns for data tables, modals, and form validation."
+          ],
+          "stack": ["react", "typescript", "storybook", "vite", "accessibility"]
+        },
+        {
+          "role": "Frontend Developer",
+          "startDate": "2018-05",
+          "endDate": "2021-08",
+          "industryDescriptor": "e-commerce marketplace",
+          "achievements": [
+            "Built seller portal features in Next.js serving 12k active merchants.",
+            "Reduced client bundle size by 35% through route-based code splitting and image optimization.",
+            "Introduced visual regression tests that caught layout breaks before production releases."
+          ],
+          "stack": ["react", "nextjs", "typescript", "tailwind", "testing"]
+        },
+        {
+          "role": "UI Developer",
+          "startDate": "2016-01",
+          "endDate": "2018-04",
+          "industryDescriptor": "media streaming startup",
+          "achievements": [
+            "Implemented responsive marketing sites and embedded players used by two million monthly visitors.",
+            "Collaborated with backend on GraphQL schema for personalized content rails."
+          ],
+          "stack": ["react", "css", "typescript"]
+        }
+      ],
+      "languages": [
+        { "lang": "en", "level": "C1" },
+        { "lang": "pt", "level": "B1" }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PRD-004",
+      "headline": "Senior QA Engineer",
+      "seniority": "mid",
+      "roles": ["fullstack"],
+      "stack": [
+        "api-testing",
+        "ci-cd",
+        "cypress",
+        "jest",
+        "playwright",
+        "postman",
+        "selenium",
+        "test-automation",
+        "test-planning"
+      ],
+      "yearsExperience": 7,
+      "summary": "Quality engineer with seven years bridging manual exploratory testing and automated coverage for web and mobile products. Builds pragmatic test pyramids that catch regressions early without slowing delivery teams.",
+      "experience": [
+        {
+          "role": "Senior QA Engineer",
+          "startDate": "2020-06",
+          "industryDescriptor": "insurtech scale-up",
+          "achievements": [
+            "Designed end-to-end Playwright suites for policy quoting and claims workflows, cutting production defects by 48% within six months.",
+            "Introduced contract tests between mobile apps and GraphQL gateway, surfacing breaking changes in pull requests.",
+            "Ran release readiness reviews with product and engineering, establishing clear go/no-go criteria."
+          ],
+          "stack": ["playwright", "api-testing", "ci-cd", "postman"]
+        },
+        {
+          "role": "QA Automation Engineer",
+          "startDate": "2018-01",
+          "endDate": "2020-05",
+          "industryDescriptor": "HR software company",
+          "achievements": [
+            "Migrated flaky Selenium suites to Cypress for payroll and benefits modules.",
+            "Built performance test harness validating 5k concurrent users on annual enrollment peaks.",
+            "Authored test data factories reused across three product squads."
+          ],
+          "stack": ["cypress", "selenium", "jest", "test-automation"]
+        },
+        {
+          "role": "QA Analyst",
+          "startDate": "2017-03",
+          "endDate": "2017-12",
+          "industryDescriptor": "digital agency",
+          "achievements": [
+            "Owned manual and exploratory testing for client launches across retail and nonprofit verticals.",
+            "Documented reproducible bug reports that reduced developer rework cycles."
+          ],
+          "stack": ["test-planning", "api-testing"]
+        }
+      ],
+      "languages": [
+        { "lang": "en", "level": "C1" },
+        { "lang": "es", "level": "native" }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PRD-005",
+      "headline": "Staff DevOps Engineer",
+      "seniority": "staff",
+      "roles": ["devops", "backend"],
+      "stack": [
+        "ansible",
+        "aws",
+        "docker",
+        "github-actions",
+        "grafana",
+        "helm",
+        "kubernetes",
+        "linux",
+        "prometheus",
+        "terraform"
+      ],
+      "yearsExperience": 12,
+      "summary": "Staff-level platform engineer with twelve years operating cloud-native infrastructure for high-traffic consumer and enterprise workloads. Expert in Terraform/IaC, Kubernetes hardening, and observability stacks that keep on-call sustainable.",
+      "experience": [
+        {
+          "role": "Staff DevOps Engineer",
+          "startDate": "2019-02",
+          "industryDescriptor": "global streaming media company",
+          "achievements": [
+            "Designed multi-region EKS clusters serving 40M monthly active users with automated failover drills.",
+            "Reduced infrastructure provisioning time from days to under 20 minutes via Terraform modules and GitOps workflows.",
+            "Built cost attribution dashboards that drove 22% savings on idle compute without impacting SLOs."
+          ],
+          "stack": ["kubernetes", "terraform", "aws", "helm", "prometheus", "grafana"]
+        },
+        {
+          "role": "Senior Site Reliability Engineer",
+          "startDate": "2015-08",
+          "endDate": "2019-01",
+          "industryDescriptor": "ad-tech platform",
+          "achievements": [
+            "Owned CI/CD pipelines processing 300+ daily deployments across 80 microservices.",
+            "Implemented golden-signal alerting that cut mean time to detect from 18 minutes to under four.",
+            "Led incident retrospectives and blameless postmortems adopted company-wide."
+          ],
+          "stack": ["docker", "kubernetes", "github-actions", "prometheus", "linux"]
+        },
+        {
+          "role": "Systems Engineer",
+          "startDate": "2012-06",
+          "endDate": "2015-07",
+          "industryDescriptor": "managed hosting provider",
+          "achievements": [
+            "Automated bare-metal provisioning and configuration with Ansible for hundreds of customer environments.",
+            "Migrated legacy VM farms to containerized workloads on early Docker Swarm clusters."
+          ],
+          "stack": ["ansible", "linux", "docker", "aws"]
+        }
+      ],
+      "languages": [
+        { "lang": "en", "level": "native" }
+      ],
+      "availability": "unavailable"
+    }
+  ],
+  "page": 1,
+  "perPage": 50,
+  "totalItems": 5
+}

@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "id": "case-001",
+      "title": "Store operations platform modernization",
+      "slug": "fortune-500-home-improvement-retailer",
+      "clientDescriptor": "Fortune 500 US home improvement retailer",
+      "problem": "Store associates relied on fragmented legacy tools for inventory lookups, task management, and customer assistance. Peak-season load caused frequent timeouts, and each new feature required months of coordination across siloed teams.",
+      "solution": "Paradius assembled a nearshore squad to design a unified associate mobile experience and event-driven inventory APIs. We introduced a modular Flutter client with offline-first patterns, backed by Go microservices on Kubernetes and a Kafka-based sync layer aligned to the client's existing identity provider.",
+      "stack": [
+        "flutter",
+        "go",
+        "kafka",
+        "kubernetes",
+        "ddd",
+        "ci-cd",
+        "terraform"
+      ],
+      "outcome": "Associate task completion time dropped 31% in pilot stores, inventory lookup p95 latency fell from 4.2s to under 800ms, and the client expanded the rollout from 40 to 220 locations within two quarters — without adding internal headcount.",
+      "published": true
+    },
+    {
+      "id": "case-002",
+      "title": "Real-time fraud detection pipeline",
+      "slug": "fintech-payments-scale-up",
+      "clientDescriptor": "Series B payments scale-up",
+      "problem": "A fast-growing payments company processed rising transaction volume on a rules engine that could not keep pace. False positives frustrated merchants while genuine fraud slipped through during promotional spikes.",
+      "solution": "We delivered a streaming fraud-scoring service in Go with feature stores fed by Kafka, plus a React operations console for analysts to tune rules without deployments. The architecture preserved the client's existing PCI boundaries and audit trails.",
+      "stack": [
+        "go",
+        "kafka",
+        "react",
+        "postgresql",
+        "redis",
+        "aws",
+        "event-driven"
+      ],
+      "outcome": "Fraud losses decreased 26% in the first production quarter while false-positive disputes dropped 19%, freeing the risk team to focus on new product launches instead of manual reviews.",
+      "published": true
+    },
+    {
+      "id": "case-003",
+      "title": "Clinical workflow digitization",
+      "slug": "regional-healthcare-network",
+      "clientDescriptor": "Regional healthcare network",
+      "problem": "Clinicians at a multi-site healthcare network still coordinated referrals and follow-ups through paper handoffs and shared spreadsheets, creating compliance risk and delayed patient care.",
+      "solution": "Paradius built a HIPAA-aligned referral workflow platform with a React clinician portal, Java integration services to the client's EHR, and role-based audit logging. We ran accessibility reviews with nursing staff before each release train.",
+      "stack": [
+        "react",
+        "java",
+        "spring-boot",
+        "postgresql",
+        "accessibility",
+        "ci-cd",
+        "aws"
+      ],
+      "outcome": "Average referral closure time improved from 11 days to 6 days across pilot clinics, and compliance audits reported zero critical findings related to the new workflow in the first year of operation.",
+      "published": false
+    }
+  ],
+  "page": 1,
+  "perPage": 50,
+  "totalItems": 3
+}
