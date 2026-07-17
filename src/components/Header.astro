@@ -7,7 +7,7 @@ import ParadiusLogo from './ParadiusLogo.astro';
     <a href="/" class="site-header__logo" aria-label="Paradius — Home" title="Paradius LLC">
       <ParadiusLogo class="site-header__logo-svg" />
     </a>
-    <nav class="site-header__nav" aria-label="Main navigation">
+    <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">
       <ul class="site-header__nav-list">
         <li><a href="#philosophy" class="site-header__nav-link">Philosophy</a></li>
         <li><a href="#expertise" class="site-header__nav-link">Expertise</a></li>
@@ -21,6 +21,7 @@ import ParadiusLogo from './ParadiusLogo.astro';
       type="button"
       aria-label="Toggle menu"
       aria-expanded="false"
+      aria-controls="site-nav"
     >
       <span class="site-header__menu-bar"></span>
       <span class="site-header__menu-bar"></span>

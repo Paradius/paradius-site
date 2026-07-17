@@ -25,14 +25,14 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     data-api-base-url={apiBaseUrl}
     data-api-configured={apiConfigured ? 'true' : 'false'}
   >
-    <div class="contact-form__status contact-form__status--success" data-status="success" hidden>
+    <div class="contact-form__status contact-form__status--success" data-status="success" hidden role="status" aria-live="polite">
       <p class="contact-form__status-title">Inquiry sent</p>
       <p class="contact-form__status-text">
         Thank you — we reply within 24 hours with vetted profiles that match your needs.
       </p>
     </div>
 
-    <div class="contact-form__status contact-form__status--error" data-status="error" hidden>
+    <div class="contact-form__status contact-form__status--error" data-status="error" hidden role="alert" aria-live="assertive">
       <p class="contact-form__status-title" data-error-title>Something went wrong</p>
       <p class="contact-form__status-text" data-error-message></p>
       <p class="contact-form__status-fallback" data-error-fallback hidden>
@@ -67,7 +67,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
           required
           placeholder="Your name"
         />
-        <p class="contact-form__field-error" data-field-error="name" hidden></p>
+        <p class="contact-form__field-error" id="contact-name-error" data-field-error="name" hidden></p>
       </div>
 
       <div class="contact-mockup__field" data-field="email">
@@ -81,7 +81,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
           required
           placeholder="you@company.com"
         />
-        <p class="contact-form__field-error" data-field-error="email" hidden></p>
+        <p class="contact-form__field-error" id="contact-email-error" data-field-error="email" hidden></p>
       </div>
 
       <div class="contact-mockup__field" data-field="company">
@@ -95,7 +95,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
           required
           placeholder="Company name"
         />
-        <p class="contact-form__field-error" data-field-error="company" hidden></p>
+        <p class="contact-form__field-error" id="contact-company-error" data-field-error="company" hidden></p>
       </div>
 
       <div class="contact-mockup__field" data-field="profiles">
@@ -123,7 +123,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
           required
           placeholder="Describe your team needs, timeline, and tech stack..."
         ></textarea>
-        <p class="contact-form__field-error" data-field-error="message" hidden></p>
+        <p class="contact-form__field-error" id="contact-message-error" data-field-error="message" hidden></p>
       </div>
 
       <div class="contact-form__honeypot" aria-hidden="true">

@@ -1,5 +1,6 @@
 # build output
 dist/
+.lighthouse/
 
 # generated types
 .astro/
@@ -17,3 +18,5 @@ pnpm-debug.log*
 
 # OS
 .DS_Store
+.vercel
+.env*

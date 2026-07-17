@@ -10,12 +10,11 @@ import { buildWorkCatalogSeo } from '../../lib/seo';
 
 const cases = await getCases();
 const seo = buildWorkCatalogSeo(cases);
-const useSecondaryHeadings = cases.length > 1;
 ---
 
 <BaseLayout seo={seo}>
   <Header />
-  <main class="site-main">
+  <main class="site-main" id="main-content">
     <TalentPageHero
       eyebrow="Proven delivery"
       title="See our work"
@@ -24,10 +23,7 @@ const useSecondaryHeadings = cases.length > 1;
     <section class="work-page" aria-label="Case studies">
       <div class="work-page__cases mockup-page-wrap">
         {cases.map((caseStudy) => (
-          <WorkCaseStudy
-            caseStudy={caseStudy}
-            headingLevel={useSecondaryHeadings ? 'h2' : 'h1'}
-          />
+          <WorkCaseStudy caseStudy={caseStudy} headingLevel="h2" />
         ))}
       </div>
     </section>

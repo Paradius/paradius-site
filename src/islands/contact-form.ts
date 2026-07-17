@@ -66,6 +66,12 @@ function clearFieldErrors(root: HTMLElement): void {
     const field = root.querySelector<HTMLElement>(`[data-field="${key}"]`);
     field?.classList.remove('contact-mockup__field--error');
 
+    const input = field?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+      'input, textarea',
+    );
+    input?.removeAttribute('aria-invalid');
+    input?.removeAttribute('aria-describedby');
+
     const errorEl = root.querySelector<HTMLElement>(`[data-field-error="${key}"]`);
     if (errorEl) {
       errorEl.hidden = true;
@@ -80,6 +86,15 @@ function showFieldErrors(root: HTMLElement, errors: FieldErrors): void {
   for (const [key, message] of Object.entries(errors) as [LeadFormFieldKey, string][]) {
     const field = root.querySelector<HTMLElement>(`[data-field="${key}"]`);
     field?.classList.add('contact-mockup__field--error');
+
+    const errorId = `contact-${key}-error`;
+    const input = field?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+      'input, textarea',
+    );
+    if (input) {
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', errorId);
+    }
 
     const errorEl = root.querySelector<HTMLElement>(`[data-field-error="${key}"]`);
     if (errorEl && message) {

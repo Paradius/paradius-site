@@ -131,6 +131,7 @@ function initTalentFilters(): void {
     }
 
     state = { ...state, [group]: target.dataset.value ?? '' };
+    setActivePill(group, state[group]);
     writeStateToUrl(state);
     applyFilters(cards, state, statusEl);
   });

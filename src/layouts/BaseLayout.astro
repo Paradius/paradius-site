@@ -75,10 +75,10 @@ const FAVICON_DATA_URI =
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
+      rel="stylesheet"
       href={GOOGLE_FONTS_URL}
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
+      media="print"
+      onload="this.media='all'"
     />
     <noscript>
       <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
@@ -90,6 +90,7 @@ const FAVICON_DATA_URI =
     <slot name="head" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
   </body>
 </html>

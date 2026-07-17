@@ -6,6 +6,25 @@
 
 @import 'tailwindcss';
 
+/* Metric-matched fallbacks — minimize layout shift while webfonts load */
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia');
+  size-adjust: 108%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
 /* ---------- Design tokens (Tailwind theme) ---------- */
 @theme {
   /* Colors — black minimalist premium palette */
@@ -19,10 +38,10 @@
   --color-accent-glow: rgb(192 200 212 / 0.06);
 
   /* Typography */
-  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
-  --font-brand: 'Cormorant Garamond', 'Georgia', serif;
+  --font-heading: 'Cormorant Garamond', 'Cormorant Garamond Fallback', 'Georgia', serif;
+  --font-brand: 'Cormorant Garamond', 'Cormorant Garamond Fallback', 'Georgia', serif;
   --font-body:
-    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Letter-spacing patterns */
   --tracking-heading: -0.01em; /* large serif headings */
@@ -121,6 +140,28 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--spacing-gutter);
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-link);
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    text-decoration: none;
+    transition: top var(--transition-duration-fast) ease;
+  }
+
+  .skip-link:focus {
+    top: var(--spacing-sm);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
   }
 }
 

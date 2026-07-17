@@ -21,17 +21,17 @@ const idPrefix = caseStudy.slug;
   </header>
 
   <div class="work-case__body">
-    <section class="work-case__section" aria-labelledby={`${idPrefix}-problem-heading`}>
+    <section class="work-case__section" aria-label={`Problem — ${caseStudy.title}`}>
       <h2 id={`${idPrefix}-problem-heading`} class="work-case__section-title">Problem</h2>
       <p class="work-case__text">{caseStudy.problem}</p>
     </section>
 
-    <section class="work-case__section" aria-labelledby={`${idPrefix}-solution-heading`}>
+    <section class="work-case__section" aria-label={`Solution — ${caseStudy.title}`}>
       <h2 id={`${idPrefix}-solution-heading`} class="work-case__section-title">Solution</h2>
       <p class="work-case__text">{caseStudy.solution}</p>
     </section>
 
-    <section class="work-case__section" aria-labelledby={`${idPrefix}-outcome-heading`}>
+    <section class="work-case__section" aria-label={`Outcome — ${caseStudy.title}`}>
       <h2 id={`${idPrefix}-outcome-heading`} class="work-case__section-title">Outcome</h2>
       <p class="work-case__text work-case__text--accent">{caseStudy.outcome}</p>
     </section>

@@ -6,8 +6,16 @@
   (function () {
     'use strict';
 
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
     const revealElements = document.querySelectorAll('.section-reveal');
-    if ('IntersectionObserver' in window) {
+    if (prefersReducedMotion) {
+      revealElements.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    } else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
@@ -59,7 +67,10 @@
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.classList.remove('site-header__menu-toggle--active');
         htmlEl.classList.remove('menu-open');
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start',
+        });
       });
     });
   })();
