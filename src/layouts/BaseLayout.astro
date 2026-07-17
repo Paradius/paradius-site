@@ -1,22 +1,22 @@
 ---
 /**
- * Base layout for every page: brand font loading (preloaded woff2 +
- * non-render-blocking Google Fonts, mirroring the live landing), theme
- * metas, and the black-background baseline via global design tokens.
+ * Base layout for every page: full SEO layer (meta, OG, Twitter, JSON-LD),
+ * brand font loading, and theme metas.
  */
 import '../styles/global.css';
+import { buildAllJsonLd, resolvePageMeta, type PageSeo } from '../lib/seo';
 
 interface Props {
-  title: string;
-  description: string;
+  seo: PageSeo;
 }
 
-const { title, description } = Astro.props;
+const { seo } = Astro.props;
+const meta = resolvePageMeta(seo);
+const jsonLdBlocks = buildAllJsonLd(seo);
 
 const GOOGLE_FONTS_URL =
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap';
 
-/* Same isotype favicon as the live landing (inline SVG data URI). */
 const FAVICON_DATA_URI =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364.41 774.56'%3E%3Cpath d='M196.04,774.56v-392.04l-27.65,27.65.16,295.54-125.43-127.76,66.69-67.8v68.68l30.82-30.81v-110.13l-37.52,37.52h0s-37.47,37.46-37.47,37.46h0s-37.49,37.5-37.49,37.5h0s-28.14,28.14-28.14,28.14l5.54,5.56.02.03h0l37.46,37.47,37.5,37.5,34.3,34.29,37.49,37.5.02.02h0l37.45,37.47h.01l6.22,6.22ZM168.37,0v392.04l27.65-27.65-.16-295.54,125.43,127.76-66.69,67.8v-68.68l-30.82,30.81v110.13l37.52-37.52h0s37.47-37.46,37.47-37.46h0s37.5-37.5,37.5-37.5h0s28.14-28.14,28.14-28.14l-5.54-5.56-.02-.03h0l-37.46-37.47-37.5-37.5-34.3-34.29-37.49-37.5-.02-.02h0L174.6,6.22h-.01l-6.22-6.22Z' fill='white'/%3E%3C/svg%3E";
 ---
@@ -27,8 +27,38 @@ const FAVICON_DATA_URI =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <!-- Primary Meta Tags -->
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="robots" content={meta.robots} />
+    <meta name="author" content={meta.author} />
+    <meta name="keywords" content={meta.keywords} />
+    <link rel="canonical" href={meta.canonical} />
+
+    <!-- Geo targeting -->
+    <meta name="geo.region" content={meta.geoRegion} />
+    <meta name="geo.placename" content={meta.geoPlacename} />
+
+    <!-- Open Graph / LinkedIn -->
+    <meta property="og:type" content={meta.ogType} />
+    <meta property="og:url" content={meta.ogUrl} />
+    <meta property="og:title" content={meta.ogTitle} />
+    <meta property="og:description" content={meta.ogDescription} />
+    <meta property="og:site_name" content={meta.ogSiteName} />
+    <meta property="og:locale" content={meta.ogLocale} />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content={meta.twitterCard} />
+    <meta name="twitter:title" content={meta.twitterTitle} />
+    <meta name="twitter:description" content={meta.twitterDescription} />
+    <meta name="twitter:site" content={meta.twitterSite} />
+
+    <!-- JSON-LD structured data -->
+    {
+      jsonLdBlocks.map((block) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />
+      ))
+    }
 
     <!-- Theme -->
     <meta name="theme-color" content="#000000" />
@@ -47,7 +77,7 @@ const FAVICON_DATA_URI =
       crossorigin
     />
 
-    <!-- Fonts: preconnect + non-render-blocking load (same approach as the live landing) -->
+    <!-- Fonts: preconnect + non-render-blocking load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

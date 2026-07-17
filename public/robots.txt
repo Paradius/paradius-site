@@ -1,0 +1,9 @@
+# Paradius LLC — https://paradius.dev
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://paradius.dev/sitemap.xml
+
+# Crawl-delay (optional, be polite)
+Crawl-delay: 1

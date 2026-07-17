@@ -1,0 +1,9 @@
+/* TEAM */
+Team: Paradius
+Founder: Gabriel Chorens
+Website: https://paradius.dev
+Location: Sheridan, Wyoming, USA
+
+/* SITE */
+Standards: HTML5, CSS3
+Software: Astro + Tailwind, built with care

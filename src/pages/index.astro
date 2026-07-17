@@ -1,29 +1,32 @@
 ---
-/**
- * Placeholder home page (Phase S0). Verifies the brand foundation:
- * black theme, token-driven typography, and brand assets.
- * Replaced by the full Home port in Phase S1.
- */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Philosophy from '../components/Philosophy.astro';
+import Expertise from '../components/Expertise.astro';
+import TalentTeaser from '../components/TalentTeaser.astro';
+import WorkTeaser from '../components/WorkTeaser.astro';
+import Footer from '../components/Footer.astro';
+import ScrollBehavior from '../components/ScrollBehavior.astro';
+import { HOME_SEO } from '../lib/seo';
 ---
 
-<BaseLayout
-  title="Paradius | High-End Software Engineering Consultancy — Paradius LLC"
-  description="Paradius is a high-end software engineering consultancy. Architecture-first. Engineer-first."
->
-  <main class="flex min-h-dvh flex-col items-center justify-center gap-lg px-gutter text-center">
-    <img
-      src="/assets/architecting_the_dawn_from_within.svg"
-      alt="Paradius: Architecting the Dawn from Within"
-      width="288"
-      height="97"
-      class="w-[50vw] max-w-content brightness-0 invert"
-    />
-    <p class="font-heading text-text-secondary tracking-subtitle italic">
-      Engineering as an act of will. Beyond utility.
-    </p>
-    <p class="font-brand text-accent uppercase tracking-caps text-sm">
-      Paradius
-    </p>
+<BaseLayout seo={HOME_SEO}>
+  <link
+    slot="head"
+    rel="preload"
+    href="/assets/architecting_the_dawn_from_within.svg"
+    as="image"
+  />
+
+  <Header />
+  <main>
+    <Hero />
+    <Philosophy />
+    <Expertise />
+    <TalentTeaser />
+    <WorkTeaser />
   </main>
+  <Footer />
+  <ScrollBehavior />
 </BaseLayout>

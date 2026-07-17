@@ -9,12 +9,13 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && cp dist/sitemap-0.xml dist/sitemap.xml",
     "preview": "astro preview",
     "check": "astro check && tsc --noEmit && eslint .",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.18.2"
   },
   "devDependencies": {
