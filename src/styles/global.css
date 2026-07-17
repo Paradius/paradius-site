@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Paradius — Global stylesheet
+   Design tokens extracted from landing_page/css/styles.css (single source
+   of brand truth). Components consume these tokens, never raw values.
+   ========================================================================== */
+
+@import 'tailwindcss';
+
+/* ---------- Brand fonts ---------- */
+@font-face {
+  font-family: 'Paradius Dawn';
+  src: url('/assets/ParadiusDawn-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design tokens (Tailwind theme) ---------- */
+@theme {
+  /* Colors — black minimalist premium palette */
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-divider: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9ca3af;
+  --color-accent: #c0c8d4;
+  --color-accent-dim: rgb(192 200 212 / 0.12);
+  --color-accent-glow: rgb(192 200 212 / 0.06);
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+  --font-brand: 'Paradius Dawn', 'Cormorant Garamond', 'Georgia', serif;
+  --font-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Letter-spacing patterns */
+  --tracking-heading: -0.01em; /* large serif headings */
+  --tracking-card-title: 0.01em; /* card titles */
+  --tracking-subtitle: 0.02em; /* italic hero subtitle */
+  --tracking-link: 0.03em; /* footer links / emails */
+  --tracking-caps: 0.1em; /* uppercase nav links & CTAs */
+  --tracking-caps-wide: 0.15em; /* uppercase nav links (mobile) */
+
+  /* Spacing scale (--space-* in the landing CSS) */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2.5rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
+  --spacing-3xl: 8rem;
+
+  /* Container widths (Tailwind width scale → max-w-*) */
+  --width-content: 70rem; /* 1120px — default container max */
+  --width-content-wide: 77.5rem; /* 1240px — container max on >=1400px screens */
+  --width-prose: 45rem; /* 720px — philosophy/long-form column */
+  --spacing-gutter: 1.5rem; /* container inline padding */
+  --spacing-gutter-sm: 1.25rem; /* container inline padding <=480px */
+
+  /* Transition durations (landing --transition-*) */
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 300ms;
+  --transition-duration-slow: 600ms;
+
+  /* Breakpoint for the wide-container bump */
+  --breakpoint-wide: 87.5rem; /* 1400px */
+
+  /* Motion */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1); /* the landing's slow easing */
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
