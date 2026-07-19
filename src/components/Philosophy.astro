@@ -1,32 +1,51 @@
 ---
-/** Philosophy section — content ported 1:1 from the live landing. */
+/** Philosophy — split across two frames: copy (right) then card (left). */
 ---
 
-<section class="philosophy" id="philosophy" aria-labelledby="philosophy-heading">
-  <div class="philosophy__container section-reveal">
-    <h2 class="philosophy__title" id="philosophy-heading">An Act of Faith</h2>
+<section
+  class="philosophy"
+  id="philosophy"
+  data-station="philosophy"
+  data-side="right"
+  aria-labelledby="philosophy-heading"
+>
+  <div class="philosophy__container">
+    <h2 class="philosophy__title" id="philosophy-heading" data-block>
+      Architecture Begins With People
+    </h2>
     <div class="philosophy__content">
-      <p class="philosophy__text">
-        Only one in four software engineers is happy in their current role. The rest are burning
-        out — buried in maintenance, context-switching, and systems that were designed to extract
-        output, not to cultivate craft.
+      <p class="philosophy__text" data-block>
+        Great engineering doesn’t come from process or tooling. It comes from people with the spark —
+        the ones who see systems not as they are, but as they should be, and commit themselves to
+        building that future.
       </p>
-      <p class="philosophy__text">
-        <strong>Paradius</strong> was born from a simple conviction: the quality of what we build can
-        never be separated from how we treat the people who build it. When engineers work where their
-        craft is respected — where architecture comes first and shortcuts are not negotiable —
-        something shifts. They stop performing. They start creating.
+      <p class="philosophy__text" data-block>
+        Most teams optimize for speed, tickets, and output. We optimize for intention. For engineers
+        who think in architecture, not tasks. For people who choose discipline over convenience,
+        clarity over shortcuts, and ownership over excuses.
       </p>
-      <p class="philosophy__text">
-        At Paradius, we filter carefully. We collaborate, never delegate. And we build from the
-        foundation up, because what is laid right does not need to be rebuilt.
+      <p class="philosophy__text" data-block>
+        That’s why Paradius works differently: we curate talent with the will to build things that
+        last — people who bring structure, direction, and momentum to every project they touch.
       </p>
-      <blockquote class="philosophy__quote">
-        <p>
-          For engineers: a place where you spend your time building, not fighting the system. For
-          companies: software built by people who chose to be here — and it shows in every line.
-        </p>
-      </blockquote>
     </div>
+  </div>
+</section>
+
+<section
+  class="philosophy-card"
+  id="philosophy-card"
+  data-station="philosophy-card"
+  data-side="left"
+  aria-label="Philosophy closing"
+>
+  <div class="philosophy-card__rail">
+    <blockquote class="philosophy__quote" data-block>
+      <p>
+        For engineers: a place where your spark is an asset, not a liability. For companies:
+        architecture-first teams driven by will, not inertia — reducing risk, accelerating delivery,
+        and creating systems that endure.
+      </p>
+    </blockquote>
   </div>
 </section>

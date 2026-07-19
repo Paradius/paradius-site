@@ -1,0 +1,35 @@
+---
+import { REGISTRY_SECTIONS, resolveActiveSection, type RegistrySectionId } from '../lib/brand/registry';
+
+interface Props {
+  /** Override auto-detected active section (e.g. home anchor sections). */
+  active?: RegistrySectionId | null;
+}
+
+const { active: activeOverride } = Astro.props;
+const pathname = Astro.url.pathname;
+const active = activeOverride !== undefined ? activeOverride : resolveActiveSection(pathname);
+---
+
+<nav class="registry-index" aria-label="Site architecture">
+  <ol class="registry-index__list">
+    {
+      REGISTRY_SECTIONS.map((section) => (
+        <li class="registry-index__item">
+          <a
+            href={section.href}
+            class:list={[
+              'registry-index__link',
+              { 'registry-index__link--active': active === section.id },
+            ]}
+            aria-current={active === section.id ? 'page' : undefined}
+          >
+            <span class="registry-index__num">{section.num}</span>
+            <span class="registry-index__sep" aria-hidden="true">—</span>
+            <span class="registry-index__label">{section.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>

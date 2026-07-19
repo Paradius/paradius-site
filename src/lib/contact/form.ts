@@ -183,7 +183,7 @@ export function buildMailtoUrl(
 ): string {
   const profilePart =
     interestedProfiles.length > 0
-      ? ` — Profiles: ${interestedProfiles.join(', ')}`
+      ? ` — Requisition: ${interestedProfiles.join(', ')}`
       : '';
 
   const subject = encodeURIComponent(`Team inquiry from ${fields.name.trim()}${profilePart}`);
@@ -193,7 +193,7 @@ export function buildMailtoUrl(
     `Company: ${fields.company.trim()}`,
     '',
     interestedProfiles.length > 0
-      ? `Interested profiles: ${interestedProfiles.join(', ')}`
+      ? `Requisition: ${interestedProfiles.join(', ')}`
       : '',
     '',
     fields.message.trim(),

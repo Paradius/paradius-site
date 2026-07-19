@@ -22,6 +22,8 @@ interface Props {
 
 const { caseStudy } = Astro.props;
 const seo = buildWorkCaseSeo(caseStudy);
+const cases = await getCases();
+const caseIndex = cases.findIndex((entry) => entry.slug === caseStudy.slug) + 1;
 ---
 
 <BaseLayout seo={seo}>
@@ -31,7 +33,7 @@ const seo = buildWorkCaseSeo(caseStudy);
       <p class="profile-dossier-b__back">
         <a href="/work/">← Back to case studies</a>
       </p>
-      <WorkCaseStudy caseStudy={caseStudy} />
+      <WorkCaseStudy caseStudy={caseStudy} caseIndex={caseIndex} />
     </div>
   </main>
   <Footer />

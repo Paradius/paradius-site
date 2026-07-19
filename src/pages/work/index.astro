@@ -16,14 +16,13 @@ const seo = buildWorkCatalogSeo(cases);
   <Header />
   <main class="site-main" id="main-content">
     <TalentPageHero
-      eyebrow="Proven delivery"
       title="See our work"
       description="Architecture-first staff augmentation for enterprise teams — anonymized case studies that show how we design, build, and leave systems better than we found them."
     />
     <section class="work-page" aria-label="Case studies">
       <div class="work-page__cases mockup-page-wrap">
-        {cases.map((caseStudy) => (
-          <WorkCaseStudy caseStudy={caseStudy} headingLevel="h2" />
+        {cases.map((caseStudy, index) => (
+          <WorkCaseStudy caseStudy={caseStudy} caseIndex={index + 1} headingLevel="h2" />
         ))}
       </div>
     </section>

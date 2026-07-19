@@ -3,6 +3,8 @@
  * With JS disabled, all cards remain visible in the build-rendered HTML.
  */
 
+import { formatRegistryStatus } from '../lib/brand/registry';
+
 interface FilterState {
   role: string;
   seniority: string;
@@ -90,10 +92,7 @@ function applyFilters(
 
   if (statusEl) {
     const total = cards.length;
-    statusEl.textContent =
-      visible === total
-        ? `Showing all ${total} profiles`
-        : `Showing ${visible} of ${total} profiles`;
+    statusEl.textContent = formatRegistryStatus(total, visible);
   }
 }
 

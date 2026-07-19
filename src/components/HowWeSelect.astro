@@ -1,0 +1,49 @@
+---
+/** How we select — left branch from trunk (station test slice). */
+
+const steps = [
+  {
+    title: 'Architecture review',
+    description:
+      'We examine past systems — not resumes. Code samples, design decisions, trade-offs they navigated. We look for engineers who think in layers.',
+  },
+  {
+    title: 'Standards conversation',
+    description:
+      'A technical dialogue, not an interview. How do they approach testing? Documentation? What do they refuse to ship? Their answers reveal practice, not performance.',
+  },
+  {
+    title: 'Trial engagement',
+    description:
+      'Before full commitment, a scoped project with real stakes. We see how they communicate, estimate, and handle ambiguity. The work speaks.',
+  },
+] as const;
+---
+
+<section
+  class="how-we-select"
+  id="selection"
+  data-station="selection"
+  data-side="right"
+  aria-labelledby="selection-heading"
+>
+  <div class="how-we-select__container">
+    <header class="how-we-select__header" data-block>
+      <h2 class="how-we-select__title" id="selection-heading">How we select</h2>
+      <p class="how-we-select__intro">
+        No algorithmic screening. No credential theater. We curate engineers the way we'd build our
+        own team — through conversation, code, and a short engagement that proves the fit.
+      </p>
+    </header>
+    <ol class="how-we-select__steps">
+      {
+        steps.map((step) => (
+          <li class="how-we-select__step" data-block>
+            <h3 class="how-we-select__step-title">{step.title}</h3>
+            <p class="how-we-select__step-desc">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

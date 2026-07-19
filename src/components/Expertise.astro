@@ -1,5 +1,6 @@
 ---
 /** Expertise cards — ported 1:1 from the live landing. */
+
 const cards = [
   {
     title: 'System Architecture',
@@ -22,17 +23,17 @@ const cards = [
 ] as const;
 ---
 
-<section class="expertise" id="expertise" aria-labelledby="expertise-heading">
-  <div class="expertise__container section-reveal">
-    <h2 class="expertise__title" id="expertise-heading">What Paradius Architects</h2>
-    <p class="expertise__subtitle">
+<section class="expertise" id="expertise" data-station="expertise" data-side="left" aria-labelledby="expertise-heading">
+  <div class="expertise__container">
+    <h2 class="expertise__title" id="expertise-heading" data-block>What Paradius Architects</h2>
+    <p class="expertise__subtitle" data-block>
       Architecture-first software development, delivered by senior engineers who care about what
       they leave behind.
     </p>
     <div class="expertise__grid">
       {
         cards.map((card) => (
-          <article class="card">
+          <article class="card" data-block>
             <div class="card__icon" aria-hidden="true">
               {card.icon === 'architecture' && (
                 <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -3,11 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Philosophy from '../components/Philosophy.astro';
+import HowWeSelect from '../components/HowWeSelect.astro';
 import Expertise from '../components/Expertise.astro';
+import VelocityModule from '../components/VelocityModule.astro';
 import TalentTeaser from '../components/TalentTeaser.astro';
 import WorkTeaser from '../components/WorkTeaser.astro';
 import Footer from '../components/Footer.astro';
-import ScrollBehavior from '../components/ScrollBehavior.astro';
 import { HOME_SEO } from '../lib/seo';
 ---
 
@@ -20,13 +21,15 @@ import { HOME_SEO } from '../lib/seo';
   />
 
   <Header />
-  <main id="main-content">
+  <main id="main-content" class="inverted-scroll">
     <Hero />
     <Philosophy />
+    <HowWeSelect />
     <Expertise />
+    <VelocityModule />
     <TalentTeaser />
     <WorkTeaser />
   </main>
   <Footer />
-  <ScrollBehavior />
+  <script src="../scripts/page-engine.ts"></script>
 </BaseLayout>

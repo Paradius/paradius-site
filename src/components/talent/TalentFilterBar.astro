@@ -1,5 +1,6 @@
 ---
 import type { AnonymousProfile } from '../../lib/api';
+import { formatRegistryStatus } from '../../lib/brand/registry';
 import {
   collectRoles,
   collectStackTags,
@@ -36,7 +37,7 @@ const availabilityLabels: Record<Availability, string> = {
 >
   <div class="mockup-filters__container">
     <p class="mockup-filters__hint" id="talent-filter-status" aria-live="polite">
-      Showing all {profiles.length} profiles
+      {formatRegistryStatus(profiles.length)}
     </p>
     <div class="mockup-filters__groups">
       <fieldset class="mockup-filters__group" data-filter-group="role">

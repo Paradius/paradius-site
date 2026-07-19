@@ -44,6 +44,11 @@ export const anonymousProfileSchema = z.object({
   languages: z.array(spokenLanguageSchema).default([]),
 });
 
+export const caseMetricSchema = z.object({
+  value: z.string().min(1),
+  label: z.string().min(1),
+});
+
 export const caseStudySchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
@@ -53,6 +58,8 @@ export const caseStudySchema = z.object({
   solution: z.string().min(1),
   stack: z.array(z.string()).default([]),
   outcome: z.string().min(1),
+  metrics: z.array(caseMetricSchema).default([]),
+  leftBehind: z.string().optional(),
   published: z.boolean().default(false),
 });
 
@@ -93,6 +100,7 @@ export type AnonymousProfile = z.infer<typeof anonymousProfileSchema>;
 export type AnonymousExperienceEntry = z.infer<typeof anonymousExperienceEntrySchema>;
 export type SpokenLanguage = z.infer<typeof spokenLanguageSchema>;
 export type CaseStudy = z.infer<typeof caseStudySchema>;
+export type CaseMetric = z.infer<typeof caseMetricSchema>;
 export type Seniority = z.infer<typeof senioritySchema>;
 export type Availability = z.infer<typeof availabilitySchema>;
 export type DeveloperRole = z.infer<typeof developerRoleSchema>;

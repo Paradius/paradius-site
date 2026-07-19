@@ -17,6 +17,12 @@
         "terraform"
       ],
       "outcome": "Associate task completion time dropped 31% in pilot stores, inventory lookup p95 latency fell from 4.2s to under 800ms, and the client expanded the rollout from 40 to 220 locations within two quarters — without adding internal headcount.",
+      "metrics": [
+        { "value": "−31%", "label": "Task completion time" },
+        { "value": "4.2s → 800ms", "label": "Inventory lookup p95" },
+        { "value": "40 → 220", "label": "Store rollout" }
+      ],
+      "leftBehind": "A test suite covering 94% of business-critical paths, runbooks for on-call rotations, and an architecture decision log the client's team still references.",
       "published": true
     },
     {
@@ -36,6 +42,12 @@
         "event-driven"
       ],
       "outcome": "Fraud losses decreased 26% in the first production quarter while false-positive disputes dropped 19%, freeing the risk team to focus on new product launches instead of manual reviews.",
+      "metrics": [
+        { "value": "−26%", "label": "Fraud losses" },
+        { "value": "−19%", "label": "False-positive disputes" },
+        { "value": "0", "label": "Deployments for rule changes" }
+      ],
+      "leftBehind": "A self-service rules console with full audit trails, Grafana dashboards for real-time fraud signals, and documentation that passed PCI-DSS review without findings.",
       "published": true
     },
     {
@@ -55,6 +67,12 @@
         "aws"
       ],
       "outcome": "Average referral closure time improved from 11 days to 6 days across pilot clinics, and compliance audits reported zero critical findings related to the new workflow in the first year of operation.",
+      "metrics": [
+        { "value": "11 → 6 days", "label": "Referral closure time" },
+        { "value": "0", "label": "Critical compliance findings" },
+        { "value": "100%", "label": "WCAG 2.1 AA compliance" }
+      ],
+      "leftBehind": "An accessibility-first component library, EHR integration patterns reusable across sites, and training materials co-authored with nursing staff.",
       "published": false
     }
   ],

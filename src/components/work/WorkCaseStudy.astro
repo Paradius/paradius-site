@@ -1,21 +1,26 @@
 ---
 import type { CaseStudy } from '../../lib/api';
+import { formatCaseCode } from '../../lib/brand/registry';
 import { formatStackTag } from '../../lib/talent/formatters';
 
 interface Props {
   caseStudy: CaseStudy;
+  /** 1-based position in the published catalog (for CS-00N code). */
+  caseIndex: number;
   /** Use h2 when multiple cases appear on the catalog page. */
   headingLevel?: 'h1' | 'h2';
 }
 
-const { caseStudy, headingLevel = 'h1' } = Astro.props;
+const { caseStudy, caseIndex, headingLevel = 'h1' } = Astro.props;
 const TitleTag = headingLevel;
 const idPrefix = caseStudy.slug;
+const caseCode = formatCaseCode(caseIndex);
+const hasMetrics = caseStudy.metrics && caseStudy.metrics.length > 0;
 ---
 
 <article class="work-case section-reveal">
   <header class="work-case__header">
-    <p class="work-case__eyebrow">Case study</p>
+    <p class="work-case__eyebrow">{caseCode}</p>
     <TitleTag class="work-case__title">{caseStudy.title}</TitleTag>
     <p class="work-case__client">{caseStudy.clientDescriptor}</p>
   </header>
@@ -33,13 +38,31 @@ const idPrefix = caseStudy.slug;
 
     <section class="work-case__section" aria-label={`Outcome — ${caseStudy.title}`}>
       <h2 id={`${idPrefix}-outcome-heading`} class="work-case__section-title">Outcome</h2>
-      <p class="work-case__text work-case__text--accent">{caseStudy.outcome}</p>
+      <p class="work-case__text">{caseStudy.outcome}</p>
     </section>
+
+    {hasMetrics && (
+      <div class="work-case__metrics" aria-label="Key metrics">
+        {caseStudy.metrics.map((metric) => (
+          <div class="work-case__metric">
+            <span class="work-case__metric-value">{metric.value}</span>
+            <span class="work-case__metric-label">{metric.label}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {caseStudy.leftBehind && (
+      <section class="work-case__section work-case__section--left-behind" aria-label={`What we left behind — ${caseStudy.title}`}>
+        <h2 class="work-case__section-title">What we left behind</h2>
+        <p class="work-case__text">{caseStudy.leftBehind}</p>
+      </section>
+    )}
   </div>
 
   <footer class="work-case__footer">
     <div class="work-case__stack" aria-label="Technologies used">
-      {caseStudy.stack.map((tag) => <span class="mockup-chip">{formatStackTag(tag)}</span>)}
+      {caseStudy.stack.map((tag) => <span class="registry-chip">{formatStackTag(tag)}</span>)}
     </div>
     <a href="/contact" class="work-case__cta work-case__cta--link">Build your team</a>
   </footer>
