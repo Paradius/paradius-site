@@ -1,0 +1,1009 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Home v3 Mockup — Paradius',
+  description: 'Internal mockup for the Paradius home redesign — native scroll, ascending circuit tree.',
+  canonical: `${SITE_URL}/mockups/home-v3/`,
+  robots: 'noindex, nofollow',
+  webPageName: 'Home v3 Mockup',
+  webPageDescription: 'Internal design mockup for the Paradius home page redesign.',
+};
+
+const selectionSteps = [
+  {
+    title: 'Architecture review',
+    description:
+      'We examine past systems — not resumes. Code samples, design decisions, trade-offs they navigated. We look for engineers who think in layers.',
+  },
+  {
+    title: 'Standards conversation',
+    description:
+      'A technical dialogue, not an interview. How do they approach testing? Documentation? What do they refuse to ship? Their answers reveal practice, not performance.',
+  },
+  {
+    title: 'Trial engagement',
+    description:
+      'Before full commitment, a scoped project with real stakes. We see how they communicate, estimate, and handle ambiguity. The work speaks.',
+  },
+] as const;
+
+const expertiseCards = [
+  {
+    title: 'System Architecture',
+    description:
+      'Every decision at the foundation echoes through the lifetime of a product. We design systems from the architecture up — scalable, maintainable, and built to evolve with your business rather than against it.',
+    icon: 'architecture',
+  },
+  {
+    title: 'Cross-Platform Engineering',
+    description:
+      'Native-quality experiences on every platform, from a single source of truth. We choose the right technology for the problem — then execute it with the discipline that turns a good idea into a lasting product.',
+    icon: 'mobile',
+  },
+  {
+    title: 'Technical Integrity',
+    description:
+      'We review every line. We test what matters. We document what others skip. Not because a process demands it, but because the engineers here hold themselves to that standard.',
+    icon: 'integrity',
+  },
+] as const;
+---
+
+<BaseLayout seo={seo}>
+  <link
+    slot="head"
+    rel="preload"
+    href="/assets/architecting_the_dawn_from_within.svg"
+    as="image"
+  />
+
+  <Header />
+
+  <div class="home-v3">
+    <div class="home-v3__tree" data-home-v3-tree aria-hidden="true"></div>
+
+    <main id="main-content" class="home-v3__main">
+      <!-- Hero -->
+      <section class="home-v3__hero" aria-labelledby="hero-heading">
+        <div class="home-v3__hero-inner">
+          <h1 id="hero-heading" class="sr-only">
+            Paradius — Architecting the Dawn from Within | Software Engineering Consultancy
+          </h1>
+          <img
+            class="home-v3__tagline"
+            src="/assets/architecting_the_dawn_from_within.svg"
+            alt="Paradius: Architecting the Dawn from Within"
+            width="288"
+            height="97"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <p class="home-v3__subtitle">
+            Curated talent drafting the future's blueprint
+          </p>
+          <div class="home-v3__actions">
+            <a href="/talent" class="home-v3__cta">Browse the registry</a>
+            <a href="/contact" class="home-v3__cta home-v3__cta--secondary">Start your team</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 — CONVICTION -->
+      <section
+        class="home-v3__section home-v3__section--philosophy"
+        data-home-v3-section
+        id="philosophy"
+        aria-labelledby="philosophy-heading"
+      >
+        <div class="home-v3__container">
+          <div class="home-v3__rails">
+            <div class="home-v3__rail home-v3__rail--left">
+              <p class="home-v3__eyebrow home-v3__reveal" style="--reveal-i: 0">01 — CONVICTION</p>
+              <h2 class="home-v3__title home-v3__reveal" id="philosophy-heading" style="--reveal-i: 1">
+                Architecture Begins With People
+              </h2>
+              <div class="home-v3__prose">
+                <p class="home-v3__text home-v3__reveal" style="--reveal-i: 2">
+                  Great engineering doesn't come from process or tooling. It comes from people with the spark —
+                  the ones who see systems not as they are, but as they should be, and commit themselves to
+                  building that future.
+                </p>
+                <p class="home-v3__text home-v3__reveal" style="--reveal-i: 3">
+                  Most teams optimize for speed, tickets, and output. We optimize for intention. For engineers
+                  who think in architecture, not tasks. For people who choose discipline over convenience,
+                  clarity over shortcuts, and ownership over excuses.
+                </p>
+                <p class="home-v3__text home-v3__reveal" style="--reveal-i: 4">
+                  That's why Paradius works differently: we curate talent with the will to build things that
+                  last — people who bring structure, direction, and momentum to every project they touch.
+                </p>
+              </div>
+            </div>
+
+            <svg
+              class="home-v3__branch home-v3__branch--philosophy"
+              data-home-v3-branch
+              viewBox="0 0 120 200"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M60 8 L60 48 L24 48 L24 120 L96 120 L96 192"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="60" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="96" cy="192" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rail home-v3__rail--right">
+              <blockquote class="home-v3__quote home-v3__reveal" style="--reveal-i: 5">
+                <p>
+                  For engineers: a place where your spark is an asset, not a liability. For companies:
+                  architecture-first teams driven by will, not inertia — reducing risk, accelerating delivery,
+                  and creating systems that endure.
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 — SELECTION -->
+      <section
+        class="home-v3__section home-v3__section--selection"
+        data-home-v3-section
+        id="selection"
+        aria-labelledby="selection-heading"
+      >
+        <div class="home-v3__container">
+          <div class="home-v3__rails home-v3__rails--reverse">
+            <div class="home-v3__rail home-v3__rail--right">
+              <p class="home-v3__eyebrow home-v3__reveal" style="--reveal-i: 0">02 — SELECTION</p>
+              <h2 class="home-v3__title home-v3__reveal" id="selection-heading" style="--reveal-i: 1">
+                How we select
+              </h2>
+              <p class="home-v3__text home-v3__reveal" style="--reveal-i: 2">
+                No algorithmic screening. No credential theater. We curate engineers the way we'd build our
+                own team — through conversation, code, and a short engagement that proves the fit.
+              </p>
+            </div>
+
+            <svg
+              class="home-v3__branch home-v3__branch--selection"
+              data-home-v3-branch
+              viewBox="0 0 120 160"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M96 8 L96 56 L60 56 L60 104 L24 104 L24 152"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="96" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="24" cy="152" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rail home-v3__rail--left home-v3__rail--span">
+              <ol class="home-v3__steps">
+                {
+                  selectionSteps.map((step, index) => (
+                    <li class="home-v3__step home-v3__reveal" style={`--reveal-i: ${index + 3}`}>
+                      <h3 class="home-v3__step-title">{step.title}</h3>
+                      <p class="home-v3__step-desc">{step.description}</p>
+                    </li>
+                  ))
+                }
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 — PRACTICE (Expertise + Velocity) -->
+      <section
+        class="home-v3__section home-v3__section--practice"
+        data-home-v3-section
+        id="expertise"
+        aria-labelledby="expertise-heading"
+      >
+        <div class="home-v3__container">
+          <div class="home-v3__rails">
+            <div class="home-v3__rail home-v3__rail--left">
+              <p class="home-v3__eyebrow home-v3__reveal" style="--reveal-i: 0">03 — PRACTICE</p>
+              <h2 class="home-v3__title home-v3__reveal" id="expertise-heading" style="--reveal-i: 1">
+                What Paradius Architects
+              </h2>
+              <p class="home-v3__text home-v3__reveal" style="--reveal-i: 2">
+                Architecture-first software development, delivered by senior engineers who care about what
+                they leave behind.
+              </p>
+            </div>
+
+            <svg
+              class="home-v3__branch home-v3__branch--practice"
+              data-home-v3-branch
+              viewBox="0 0 120 120"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M24 8 L24 48 L60 48 L60 88 L96 88 L96 112"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="24" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="96" cy="112" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rail home-v3__rail--right home-v3__rail--span">
+              <div class="home-v3__cards">
+                {
+                  expertiseCards.map((card, index) => (
+                    <article class="home-v3__card home-v3__reveal" style={`--reveal-i: ${index + 3}`}>
+                      <div class="home-v3__card-icon" aria-hidden="true">
+                        {card.icon === 'architecture' && (
+                          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="1.5" />
+                            <rect x="14" y="14" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5" />
+                            <rect x="26" y="14" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5" />
+                            <rect x="14" y="26" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5" />
+                            <rect x="26" y="26" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5" />
+                          </svg>
+                        )}
+                        {card.icon === 'mobile' && (
+                          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="12" y="4" width="24" height="40" rx="4" stroke="currentColor" stroke-width="1.5" />
+                            <line x1="12" y1="12" x2="36" y2="12" stroke="currentColor" stroke-width="1.5" />
+                            <line x1="12" y1="36" x2="36" y2="36" stroke="currentColor" stroke-width="1.5" />
+                            <circle cx="24" cy="40" r="1.5" fill="currentColor" />
+                          </svg>
+                        )}
+                        {card.icon === 'integrity' && (
+                          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 4L6 14v20l18 10 18-10V14L24 4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+                            <path d="M24 24L6 14" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M24 24l18-10" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M24 24v20" stroke="currentColor" stroke-width="1.5" />
+                          </svg>
+                        )}
+                      </div>
+                      <h3 class="home-v3__card-title">{card.title}</h3>
+                      <p class="home-v3__card-desc">{card.description}</p>
+                    </article>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="home-v3__velocity">
+            <svg
+              class="home-v3__branch home-v3__branch--velocity"
+              data-home-v3-branch
+              viewBox="0 0 80 140"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M56 8 L56 60 L24 60 L24 132"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="56" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="24" cy="132" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rails home-v3__rails--reverse home-v3__rails--velocity">
+              <div class="home-v3__rail home-v3__rail--right">
+                <h2 class="home-v3__title home-v3__title--sm home-v3__reveal" id="velocity-heading" style="--reveal-i: 6">
+                  Velocity is a consequence of standards
+                </h2>
+              </div>
+              <div class="home-v3__rail home-v3__rail--left">
+                <p class="home-v3__text home-v3__reveal" style="--reveal-i: 7">
+                  Fast teams aren't fast because they skip steps. They're fast because they don't have to
+                  revisit decisions, explain context twice, or fix what was rushed the first time.
+                </p>
+                <p class="home-v3__text home-v3__reveal" style="--reveal-i: 8">
+                  Our engineers use AI as a standard of practice — not a shortcut, but a multiplier
+                  applied to work that was already rigorous. The foundation stays clean. The pace compounds.
+                </p>
+                <p class="home-v3__accent home-v3__reveal" style="--reveal-i: 9">
+                  You don't hire us because we move fast. You hire us because what we build doesn't slow you down later.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 — EVIDENCE -->
+      <section
+        class="home-v3__section home-v3__section--evidence"
+        data-home-v3-section
+        id="work-teaser"
+        aria-labelledby="work-teaser-heading"
+      >
+        <div class="home-v3__container">
+          <div class="home-v3__rails">
+            <div class="home-v3__rail home-v3__rail--left">
+              <p class="home-v3__eyebrow home-v3__reveal" style="--reveal-i: 0">04 — EVIDENCE</p>
+              <h2 class="home-v3__title home-v3__reveal" id="work-teaser-heading" style="--reveal-i: 1">
+                See our work
+              </h2>
+              <p class="home-v3__text home-v3__reveal" style="--reveal-i: 2">
+                Architecture-first engagements for enterprise teams — anonymized case studies that show how we
+                design, build, and leave systems better than we found them.
+              </p>
+              <a href="/work" class="home-v3__teaser-cta home-v3__reveal" style="--reveal-i: 3">View case studies</a>
+            </div>
+
+            <svg
+              class="home-v3__branch home-v3__branch--evidence"
+              data-home-v3-branch
+              viewBox="0 0 100 100"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M24 8 L24 48 L76 48 L76 92"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="24" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="76" cy="92" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rail home-v3__rail--right home-v3__rail--panel home-v3__reveal" style="--reveal-i: 4">
+              <p class="home-v3__panel-label">Case studies</p>
+              <p class="home-v3__panel-text">
+                Anonymized architecture-first engagements — systems designed, built, and left better than we found them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 — REGISTRY -->
+      <section
+        class="home-v3__section home-v3__section--registry"
+        data-home-v3-section
+        id="talent-teaser"
+        aria-labelledby="talent-teaser-heading"
+      >
+        <div class="home-v3__container">
+          <div class="home-v3__rails home-v3__rails--reverse">
+            <div class="home-v3__rail home-v3__rail--right">
+              <p class="home-v3__eyebrow home-v3__reveal" style="--reveal-i: 0">05 — REGISTRY</p>
+              <h2 class="home-v3__title home-v3__reveal" id="talent-teaser-heading" style="--reveal-i: 1">
+                Browse our talent
+              </h2>
+              <p class="home-v3__text home-v3__reveal" style="--reveal-i: 2">
+                Senior engineers across architecture, mobile, and back-end — anonymized profiles you can
+                review, filter, and request within 48 hours.
+              </p>
+              <a href="/talent" class="home-v3__teaser-cta home-v3__reveal" style="--reveal-i: 3">Explore the catalog</a>
+            </div>
+
+            <svg
+              class="home-v3__branch home-v3__branch--registry"
+              data-home-v3-branch
+              viewBox="0 0 100 100"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M76 8 L76 48 L24 48 L24 92"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="76" cy="8" r="3" fill="currentColor"></circle>
+              <circle cx="24" cy="92" r="3" fill="currentColor"></circle>
+            </svg>
+
+            <div class="home-v3__rail home-v3__rail--left home-v3__rail--panel home-v3__reveal" style="--reveal-i: 4">
+              <p class="home-v3__panel-label">Talent registry</p>
+              <p class="home-v3__panel-text">
+                Senior engineers across architecture, mobile, and back-end — review, filter, and request within 48 hours.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <Footer />
+  <script src="../../scripts/home-v3.ts"></script>
+</BaseLayout>
+
+<style>
+  /* Neutralize global body tree — mockup uses its own layer */
+  :global(body:has(.home-v3))::before {
+    opacity: 0 !important;
+  }
+
+  /* Solidify the glass header on this page so scrolling content never reads
+     as colliding with the nav links */
+  :global(body:has(.home-v3) .site-header) {
+    background-color: rgb(0 0 0 / 0.82);
+  }
+
+  .home-v3 {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .home-v3__tree {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: min(92vw, 72rem);
+    height: 200dvh;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-50vh);
+    opacity: 0.04;
+    background-color: #fff;
+    -webkit-mask-image: url('/assets/circuit_tree_full.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    -webkit-mask-size: 100% 100%;
+    mask-image: url('/assets/circuit_tree_full.svg');
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    mask-size: 100% 100%;
+    will-change: transform, opacity;
+  }
+
+  .home-v3__main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .home-v3__hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100dvh;
+    padding-top: calc(var(--site-header-height) + clamp(4rem, 12vh, 7rem));
+    padding-bottom: clamp(2rem, 5vh, 3rem);
+    box-sizing: border-box;
+  }
+
+  .home-v3__hero-inner {
+    text-align: center;
+    max-width: 1500px;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .home-v3__tagline {
+    display: block;
+    width: 44vw;
+    max-width: 880px;
+    height: auto;
+    margin-inline: auto;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0;
+    transform: translateY(1.5rem);
+    filter: brightness(0) invert(1);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 78%);
+    -webkit-mask-size: 100% 300%;
+    -webkit-mask-position: 0% 0%;
+    mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 78%);
+    mask-size: 100% 300%;
+    mask-position: 0% 0%;
+    animation: home-v3-dawn-rise 2.2s var(--ease-brand) 0.3s both;
+  }
+
+  @keyframes home-v3-dawn-rise {
+    0% {
+      opacity: 0;
+      transform: translateY(1.5rem);
+      mask-position: 0% 0%;
+      -webkit-mask-position: 0% 0%;
+      filter: brightness(0) invert(0.35) drop-shadow(0 0 0 rgb(214 206 188 / 0));
+    }
+
+    55% {
+      opacity: 1;
+      filter: brightness(0) invert(1) drop-shadow(0 0 34px rgb(214 206 188 / 0.3));
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      mask-position: 0% 100%;
+      -webkit-mask-position: 0% 100%;
+      filter: brightness(0) invert(1) drop-shadow(0 0 18px rgb(200 208 220 / 0.14));
+    }
+  }
+
+  .home-v3__subtitle {
+    font-family: var(--font-brand);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+    letter-spacing: var(--tracking-subtitle);
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(0.75rem);
+    animation: home-v3-quiet-rise 1.2s var(--ease-brand) 1.5s both;
+  }
+
+  .home-v3__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(0.75rem);
+    animation: home-v3-quiet-rise 1.2s var(--ease-brand) 1.85s both;
+  }
+
+  @keyframes home-v3-quiet-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .home-v3__cta {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease,
+      transform var(--transition-duration-fast) ease;
+  }
+
+  .home-v3__cta:hover,
+  .home-v3__cta:focus-visible {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    transform: translateY(-1px);
+  }
+
+  .home-v3__cta--secondary {
+    color: var(--color-text-primary);
+    background-color: transparent;
+  }
+
+  .home-v3__cta--secondary:hover,
+  .home-v3__cta--secondary:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg);
+  }
+
+  /* Sections */
+  .home-v3__section {
+    position: relative;
+    padding-block: 0;
+    margin-top: clamp(6rem, 8vw, 8rem);
+    scroll-margin-top: calc(var(--site-header-height) + 1.5rem);
+  }
+
+  .home-v3__section--philosophy {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .home-v3__section--registry {
+    margin-bottom: clamp(6rem, 8vw, 10rem);
+  }
+
+  .home-v3__container {
+    max-width: var(--width-content-wide);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .home-v3__rails {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 5rem minmax(0, 1fr);
+    gap: var(--spacing-md);
+    align-items: start;
+  }
+
+  .home-v3__section--selection .home-v3__rail--right,
+  .home-v3__section--registry .home-v3__rail--right {
+    grid-column: 3;
+  }
+
+  .home-v3__section--selection .home-v3__branch,
+  .home-v3__section--registry .home-v3__branch {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .home-v3__section--registry .home-v3__rail--left.home-v3__rail--panel {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .home-v3__rail--span {
+    grid-column: 1 / -1;
+    margin-top: var(--spacing-lg);
+  }
+
+
+  .home-v3__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-system);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .home-v3__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-heading);
+    margin: 0 0 var(--spacing-md);
+    line-height: 1.15;
+  }
+
+  .home-v3__title--sm {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .home-v3__prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .home-v3__text {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .home-v3__quote {
+    position: relative;
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+    margin: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .home-v3__quote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-top: 2px solid var(--color-accent);
+    border-left: 2px solid var(--color-accent);
+    pointer-events: none;
+  }
+
+  .home-v3__quote p {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  /* Branches */
+  .home-v3__branch {
+    width: 5rem;
+    height: auto;
+    align-self: stretch;
+    color: var(--color-accent);
+    opacity: 0.7;
+  }
+
+  .home-v3__branch path {
+    transition: stroke-dashoffset 1.2s ease;
+  }
+
+  /* Steps grid */
+  .home-v3__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .home-v3__step {
+    padding: var(--spacing-lg);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-divider);
+  }
+
+  .home-v3__step-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .home-v3__step-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* Expertise cards */
+  .home-v3__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .home-v3__card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    text-align: left;
+  }
+
+  .home-v3__card-icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-accent);
+  }
+
+  .home-v3__card-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-v3__card-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-sm);
+    letter-spacing: var(--tracking-card-title);
+  }
+
+  .home-v3__card-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* Velocity sub-block */
+  .home-v3__velocity {
+    position: relative;
+    margin-top: clamp(4rem, 6vw, 6rem);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .home-v3__branch--velocity {
+    position: absolute;
+    left: calc(50% - 2.5rem);
+    top: var(--spacing-lg);
+    width: 5rem;
+    height: 8rem;
+  }
+
+  .home-v3__rails--velocity {
+    padding-top: var(--spacing-xl);
+  }
+
+  /* Explicit rail placement — without this, auto-placement drops the text
+     rail into the 5rem branch column */
+  .home-v3__rails--velocity .home-v3__rail--right {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .home-v3__rails--velocity .home-v3__rail--left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-v3__accent {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-accent);
+    margin: var(--spacing-md) 0 0;
+  }
+
+  /* Teaser sections */
+  .home-v3__teaser-cta {
+    display: inline-block;
+    margin-top: var(--spacing-md);
+    padding: 0.75rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
+  }
+
+  .home-v3__teaser-cta:hover,
+  .home-v3__teaser-cta:focus-visible {
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .home-v3__rail--panel {
+    padding: var(--spacing-lg);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    align-self: center;
+  }
+
+  .home-v3__panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-system);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .home-v3__panel-text {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* Reveal animations */
+  .home-v3__reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.75s var(--ease-brand),
+      transform 0.75s var(--ease-brand);
+    transition-delay: calc(0.2s + var(--reveal-i, 0) * 0.08s);
+  }
+
+  .home-v3__section.is-revealed .home-v3__reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .home-v3__tagline {
+      width: 80vw;
+      max-width: 90vw;
+    }
+
+    .home-v3__rails,
+    .home-v3__rails--reverse {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .home-v3__rails .home-v3__rail--right,
+    .home-v3__rails .home-v3__rail--left,
+    .home-v3__rails .home-v3__branch,
+    .home-v3__rails .home-v3__rail--span,
+    .home-v3__rails .home-v3__rail--panel,
+    .home-v3__section--registry .home-v3__rail--left.home-v3__rail--panel {
+      grid-column: auto;
+      grid-row: auto;
+      order: unset;
+    }
+
+    .home-v3__branch {
+      position: absolute;
+      left: 0.25rem;
+      top: 0;
+      width: 1.5rem;
+      height: 4rem;
+      opacity: 0.5;
+    }
+
+    .home-v3__section {
+      padding-left: 1.75rem;
+    }
+
+    .home-v3__branch--velocity {
+      left: 0.25rem;
+      top: 0;
+    }
+
+    .home-v3__steps,
+    .home-v3__cards {
+      grid-template-columns: 1fr;
+    }
+
+    .home-v3__rail--span {
+      margin-top: var(--spacing-md);
+    }
+
+    .home-v3__cta {
+      padding: 0.75rem 2rem;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .home-v3__tagline {
+      max-width: 1600px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-v3__tagline,
+    .home-v3__subtitle,
+    .home-v3__actions {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      filter: brightness(0) invert(1);
+      mask-position: 0% 100%;
+      -webkit-mask-position: 0% 100%;
+    }
+
+    .home-v3__reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .home-v3__branch path {
+      stroke-dashoffset: 0 !important;
+      transition: none;
+    }
+
+    .home-v3__tree {
+      opacity: 0.17;
+      transform: translateX(-50%) translateY(-25vh);
+    }
+  }
+</style>

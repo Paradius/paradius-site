@@ -1,0 +1,423 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../../lib/seo';
+
+const seo: PageSeo = {
+  title: 'The Paradius Engine — Operating Model',
+  description:
+    'The complete operational definition of Paradius — a high-throughput, distributed software engine engineered for architectural excellence.',
+  canonical: `${SITE_URL}/mockups/engine/`,
+  robots: 'noindex, nofollow',
+  webPageName: 'The Paradius Engine',
+  webPageDescription: 'Internal mockup — the Paradius operating model in editorial format.',
+};
+
+const chapters = [
+  {
+    id: 'acquisition',
+    eyebrow: 'SYS-01 — ACQUISITION',
+    paragraphs: [
+      'Paradius is not a monolithic staffing agency or a high-volume headhunting mill; it is a high-throughput, distributed software engine engineered for absolute architectural excellence. Our operation begins with surgical precision: a curated <span class="engine__term">sniping pipeline</span> where we target high-caliber talent through direct network nodes, rigorous references, and deep profile evaluations that match our core ethos.',
+      'Every engineer undergoes comprehensive technical and behavioral stress-testing, culminating in a direct synchronization with our CEO to ensure total alignment with what it means to build under the Paradius banner. While our operational capacity spans the entire tech spectrum—acknowledging regional limits in specialized niches like robotics or hyper-focused generative AI—we never measure our strength by developer headcount, but by the density and caliber of our output, supported by dynamic talent pipelines ready to scale execution capacity on demand.',
+    ],
+    quote: 'We never measure our strength by developer headcount, but by the density and caliber of our output.',
+  },
+  {
+    id: 'distributed-operation',
+    eyebrow: 'SYS-02 — DISTRIBUTED OPERATION',
+    paragraphs: [
+      'Operationally, Paradius functions as a <span class="engine__term">high-redundancy</span>, distributed architecture rather than a static nucleus. When a developer joins an engagement, they begin with complete physical immersion at our office hub, paired directly with a senior mentor who enforces our rigorous quality standards.',
+      'This <span class="engine__term">zero-latency</span> physical environment accelerates growth, enforces strict time commitment, and transforms the workplace into a shared mental processor where blockers are eliminated in real time. This human synchronization is hardwired into our proprietary AI-accelerated development plugin, which enforces strict, automated guardrails over every single line of code shipped.',
+      'Daily face-to-face communication establishes operational transparency and high fault tolerance; once these channels are fully established, developers transition to a fully remote model without any loss in throughput. Furthermore, our mentorship framework naturally eliminates <span class="engine__term">single points of failure</span>—context is continuously distributed across multiple team members, ensuring immediate gap-filling and zero-friction transitions when scaling talent.',
+    ],
+    quote: 'A shared mental processor where blockers are eliminated in real time.',
+  },
+  {
+    id: 'infrastructure',
+    eyebrow: 'SYS-03 — INFRASTRUCTURE & RETENTION',
+    paragraphs: [
+      'We handle the full technical infrastructure and tooling, equipping our engineers with everything required to become indispensable assets. Our AI plugin and delivery observability stack enforce automated guardrails, correct development drift in real time, and give executive leadership precise, day-to-day operational metrics. This process continuously updates both client knowledge bases and our own internal standards.',
+      'Beyond technical guardrails, Paradius achieves a developer retention rate near 100%. Designed by an engineer for engineers, our environment fosters long-term commitment through continuous learning, performance-driven bonuses, and ongoing training in multicultural communication, language skills, and platform adaptation—enabling our talent to seamlessly integrate and scale into high-impact positions within Fortune 500 environments — from big-box retail to enterprise platforms.',
+    ],
+    quote: 'Designed by an engineer, for engineers.',
+  },
+  {
+    id: 'commercial',
+    eyebrow: 'SYS-04 — COMMERCIAL SCAFFOLDING',
+    paragraphs: [
+      'Supported by standard US-nearshore rate structures, ironclad B2B legal frameworks, and a dynamic ecosystem of internal R&D projects that keep our bench warm and evolving, Paradius is built to scale in record time.',
+      'Our ultimate objective in any strategic partnership is to deploy this distributed intelligence, tackle high-complexity challenges, and redefine the standards of software execution.',
+    ],
+    quote: 'Built to scale in record time.',
+  },
+] as const;
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+
+  <div class="engine">
+    <main id="main-content" class="engine__main">
+      <!-- Hero -->
+      <header class="engine__hero" aria-labelledby="engine-heading">
+        <div class="engine__hero-inner">
+          <p class="engine__eyebrow engine__reveal" style="--reveal-i: 0">OPERATING MODEL</p>
+          <h1 id="engine-heading" class="engine__title engine__reveal" style="--reveal-i: 1">
+            The Paradius Engine
+          </h1>
+          <p class="engine__lede engine__reveal" style="--reveal-i: 2">
+            Not a monolithic staffing agency. A high-throughput, distributed software engine.
+          </p>
+        </div>
+      </header>
+
+      <!-- Chapters -->
+      <article class="engine__article" aria-label="Operating model chapters">
+        {
+          chapters.map((chapter, chapterIndex) => (
+            <section
+              class="engine__chapter"
+              data-engine-section
+              id={chapter.id}
+              aria-labelledby={`${chapter.id}-eyebrow`}
+            >
+              <div class="engine__chapter-inner">
+                <p
+                  class="engine__eyebrow engine__reveal"
+                  id={`${chapter.id}-eyebrow`}
+                  style="--reveal-i: 0"
+                >
+                  {chapter.eyebrow}
+                </p>
+
+                <div class="engine__prose">
+                  {chapter.paragraphs.map((paragraph, pIndex) => (
+                    <p
+                      class="engine__text engine__reveal"
+                      style={`--reveal-i: ${pIndex + 1}`}
+                      set:html={paragraph}
+                    />
+                  ))}
+                </div>
+
+                <blockquote
+                  class="engine__quote engine__reveal"
+                  style={`--reveal-i: ${chapter.paragraphs.length + 1}`}
+                >
+                  <p>{chapter.quote}</p>
+                </blockquote>
+              </div>
+
+              {chapterIndex < chapters.length - 1 && (
+                <div class="engine__divider engine__reveal" style="--reveal-i: 0" aria-hidden="true" />
+              )}
+            </section>
+          ))
+        }
+      </article>
+
+      <!-- CTA -->
+      <section class="engine__cta-section" data-engine-section aria-labelledby="engine-cta-heading">
+        <div class="engine__cta-inner">
+          <h2 id="engine-cta-heading" class="engine__cta-title engine__reveal" style="--reveal-i: 0">
+            Deploy distributed intelligence
+          </h2>
+          <p class="engine__cta-text engine__reveal" style="--reveal-i: 1">
+            Ready to tackle high-complexity challenges with a team built for architectural excellence.
+          </p>
+          <div class="engine__cta-actions engine__reveal" style="--reveal-i: 2">
+            <a href="/contact" class="engine__cta engine__cta--primary">Start your team</a>
+            <a href="/talent" class="engine__cta engine__cta--secondary">Browse the registry</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <Footer />
+
+  <script>
+    const sections = document.querySelectorAll('[data-engine-section]');
+    if (sections.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+      );
+      for (const section of sections) observer.observe(section);
+    }
+    document.querySelector('.engine__hero')?.classList.add('is-revealed');
+  </script>
+</BaseLayout>
+
+<style>
+  :global(body:has(.engine) .site-header) {
+    background-color: rgb(0 0 0 / 0.82);
+  }
+
+  .engine {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--color-bg);
+  }
+
+  .engine__main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .engine__hero {
+    padding-top: calc(var(--site-header-height) + clamp(2.5rem, 6vh, 4rem));
+    padding-bottom: clamp(2.5rem, 5vh, 4rem);
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .engine__hero-inner {
+    max-width: 72ch;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .engine__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-system);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .engine__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.1;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .engine__lede {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  /* Article */
+  .engine__article {
+    max-width: 72ch;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .engine__chapter {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .engine__chapter-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .engine__prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .engine__text {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.4vw, 1.0625rem);
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .engine__text :global(.engine__term) {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    letter-spacing: 0.02em;
+    color: var(--color-text-primary);
+    opacity: 0.88;
+  }
+
+  .engine__quote {
+    position: relative;
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+    margin: var(--spacing-sm) 0 0;
+    border: none;
+    background: transparent;
+  }
+
+  .engine__quote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-top: 2px solid var(--color-accent);
+    border-left: 2px solid var(--color-accent);
+    pointer-events: none;
+  }
+
+  .engine__quote p {
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  .engine__divider {
+    height: 1px;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-divider) 20%,
+      var(--color-divider) 80%,
+      transparent
+    );
+  }
+
+  /* CTA */
+  .engine__cta-section {
+    border-top: 1px solid var(--color-divider);
+    padding-block: clamp(4rem, 8vw, 6rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .engine__cta-inner {
+    max-width: 72ch;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+    text-align: center;
+  }
+
+  .engine__cta-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.2;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .engine__cta-text {
+    font-size: clamp(1rem, 1.4vw, 1.0625rem);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--spacing-lg);
+    max-width: 48ch;
+    margin-inline: auto;
+  }
+
+  .engine__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: center;
+  }
+
+  .engine__cta {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease,
+      transform var(--transition-duration-fast) ease;
+  }
+
+  .engine__cta--primary {
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
+  }
+
+  .engine__cta--primary:hover,
+  .engine__cta--primary:focus-visible {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    transform: translateY(-1px);
+  }
+
+  .engine__cta--secondary {
+    color: var(--color-text-primary);
+    background-color: transparent;
+    border: 1px solid var(--color-divider);
+  }
+
+  .engine__cta--secondary:hover,
+  .engine__cta--secondary:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg);
+    border-color: var(--color-text-primary);
+    transform: translateY(-1px);
+  }
+
+  /* Reveal */
+  .engine__reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.75s var(--ease-brand),
+      transform 0.75s var(--ease-brand);
+    transition-delay: calc(0.15s + var(--reveal-i, 0) * 0.07s);
+  }
+
+  .engine__hero.is-revealed .engine__reveal,
+  .engine__chapter.is-revealed .engine__reveal,
+  .engine__cta-section.is-revealed .engine__reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .engine__hero-inner,
+    .engine__article,
+    .engine__cta-inner {
+      padding-inline: var(--spacing-gutter-sm);
+    }
+
+    .engine__cta {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .engine__reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

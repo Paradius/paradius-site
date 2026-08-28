@@ -1,0 +1,661 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Home v6 Mockup — Paradius',
+  description: 'Internal mockup — inverted scroll ascent, invisible spine, alternating dense nodes.',
+  canonical: `${SITE_URL}/mockups/home-v6/`,
+  robots: 'noindex, nofollow',
+  webPageName: 'Home v6 Mockup',
+  webPageDescription: 'Internal design mockup for the Paradius home page v6 redesign.',
+};
+
+const enginePillars = [
+  {
+    label: 'Surgical recruitment',
+    mono: 'sniping pipeline · network nodes · deep profile evaluation',
+    text: 'A curated recruitment pipeline targeting high-caliber talent through direct network nodes, rigorous references, and evaluations aligned with our core ethos — never headcount, always density.',
+  },
+  {
+    label: 'Distributed operating model',
+    mono: 'hub immersion · senior mentor · zero-latency sync',
+    text: 'High-redundancy, distributed architecture — not a static nucleus. Physical immersion at our office hub, paired with a senior mentor, then transition to fully remote without loss in throughput.',
+  },
+  {
+    label: 'Guardrails & observability',
+    mono: 'automated guardrails · drift correction · executive metrics',
+    text: 'Proprietary AI-accelerated development plugin enforcing automated guardrails over every line shipped, with delivery observability and precise operational metrics for executive leadership.',
+  },
+  {
+    label: 'Built to scale',
+    mono: 'US-nearshore · B2B frameworks · R&D bench',
+    text: 'Supported by standard US-nearshore rate structures, ironclad B2B legal frameworks, and a dynamic internal R&D ecosystem — ready to scale execution capacity on demand.',
+  },
+] as const;
+
+const selectionSteps = [
+  {
+    title: 'Sniping pipeline',
+    description:
+      'Direct network nodes, rigorous references, and deep profile evaluations that match our core ethos. We target high-caliber talent surgically — not through volume screening.',
+  },
+  {
+    title: 'Stress-testing',
+    description:
+      'Comprehensive technical and behavioral stress-testing that surfaces how engineers think under pressure, communicate trade-offs, and hold the line on quality.',
+  },
+  {
+    title: 'CEO synchronization',
+    description:
+      'A direct synchronization with our CEO to ensure total alignment with what it means to build under the Paradius banner — architectural excellence as a shared standard.',
+  },
+] as const;
+
+const operationBlocks = [
+  {
+    title: 'Hub immersion',
+    text: 'Every engagement begins with complete physical immersion at our office hub, paired directly with a senior mentor who enforces rigorous quality standards from day one.',
+  },
+  {
+    title: 'Zero-latency environment',
+    text: 'Daily face-to-face communication establishes operational transparency and high fault tolerance — blockers eliminated in real time, context shared as a collective mental processor.',
+  },
+  {
+    title: 'Remote without drift',
+    text: 'Once channels are fully established, developers transition to fully remote with no loss in throughput — the synchronization hardwired into our proprietary development plugin.',
+  },
+  {
+    title: 'Context redundancy',
+    text: 'Mentorship distributes context across multiple team members, eliminating single points of failure and enabling zero-friction transitions when scaling talent.',
+  },
+] as const;
+
+const assuranceMetrics = [
+  '~100% developer retention',
+  'US-nearshore rate structures',
+  'Ironclad B2B frameworks',
+  'Internal R&D bench, warm and evolving',
+  'Scale on demand',
+] as const;
+---
+
+<BaseLayout seo={seo}>
+  <link
+    slot="head"
+    rel="preload"
+    href="/assets/architecting_the_dawn_from_within.svg"
+    as="image"
+  />
+
+  <Header />
+
+  <div class="home-v6">
+    <div class="home-v6__tree" data-home-v6-tree aria-hidden="true"></div>
+
+    <main id="main-content" class="home-v6__main">
+      <!-- HERO (Centro, Raíces) -->
+      <section class="home-v6__section home-v6__section--hero" aria-labelledby="hero-heading">
+        <div class="home-v6__hero-inner">
+          <h1 id="hero-heading" class="sr-only">
+            Paradius — Architecting the Dawn from Within
+          </h1>
+          <img
+            class="home-v6__tagline"
+            src="/assets/architecting_the_dawn_from_within.svg"
+            alt="Paradius: Architecting the Dawn from Within"
+            width="288"
+            height="97"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <p class="home-v6__subtitle">Curated talent drafting the future's blueprint</p>
+          <div class="home-v6__actions">
+            <a href="/talent" class="home-v6__cta">Browse the registry</a>
+            <a href="/contact" class="home-v6__cta home-v6__cta--secondary">Start your team</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 CONVICTION (Izquierda, Right-aligned) -->
+      <section class="home-v6__section" data-home-v6-node="left">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left">
+            <div class="home-v6__content">
+              <p class="home-v6__eyebrow">01 — CONVICTION</p>
+              <h2 class="home-v6__title">Architecture begins with people.</h2>
+              <p class="home-v6__text">
+                Great engineering doesn't come from process or tooling — it comes from people with the
+                spark, who see systems as they should be and commit to building that future. Paradius
+                curates talent with the will to build things that last: engineers who think in
+                architecture, choose discipline over convenience, and bring structure, direction, and
+                momentum to every engagement.
+              </p>
+            </div>
+          </div>
+          <div class="home-v6__branch home-v6__branch--left">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M100,10 L0,10" class="home-v6__branch-path" />
+              <circle cx="2" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right"></div>
+        </div>
+      </section>
+
+      <!-- 01 CITA (Derecha, Left-aligned) -->
+      <section class="home-v6__section" data-home-v6-node="right">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left"></div>
+          <div class="home-v6__branch home-v6__branch--right">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0,10 L100,10" class="home-v6__branch-path" />
+              <circle cx="98" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right">
+            <div class="home-v6__content">
+              <blockquote class="home-v6__quote">
+                <p>
+                  For engineers: a place where your spark is an asset, not a liability. For companies:
+                  architecture-first teams driven by will, not inertia — reducing risk, accelerating
+                  delivery, and creating systems that endure.
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 THE ENGINE - TESIS (Izquierda) -->
+      <section class="home-v6__section" data-home-v6-node="left">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left">
+            <div class="home-v6__content">
+              <p class="home-v6__eyebrow">02 — THE ENGINE</p>
+              <h2 class="home-v6__title home-v6__title--lg">
+                Not a monolithic staffing agency. A high-throughput, distributed software engine engineered
+                for absolute architectural excellence.
+              </h2>
+            </div>
+          </div>
+          <div class="home-v6__branch home-v6__branch--left">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M100,10 L0,10" class="home-v6__branch-path" />
+              <circle cx="2" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right"></div>
+        </div>
+      </section>
+
+      <!-- 02 NODE A - ACQUISITION (Derecha) -->
+      <section class="home-v6__section" data-home-v6-node="right">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left"></div>
+          <div class="home-v6__branch home-v6__branch--right">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0,10 L100,10" class="home-v6__branch-path" />
+              <circle cx="98" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right">
+            <article class="home-v6__node-card">
+              <h3 class="home-v6__node-title">{enginePillars[0].label}</h3>
+              <p class="home-v6__node-mono">{enginePillars[0].mono}</p>
+              <p class="home-v6__node-text">{enginePillars[0].text}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 NODE B - OPERATION (Izquierda) -->
+      <section class="home-v6__section" data-home-v6-node="left">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left">
+            <article class="home-v6__node-card">
+              <h3 class="home-v6__node-title">{enginePillars[1].label}</h3>
+              <p class="home-v6__node-mono">{enginePillars[1].mono}</p>
+              <p class="home-v6__node-text">{enginePillars[1].text}</p>
+            </article>
+          </div>
+          <div class="home-v6__branch home-v6__branch--left">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M100,10 L0,10" class="home-v6__branch-path" />
+              <circle cx="2" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right"></div>
+        </div>
+      </section>
+
+      <!-- 02 NODE C - GUARDRAILS (Derecha) -->
+      <section class="home-v6__section" data-home-v6-node="right">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left"></div>
+          <div class="home-v6__branch home-v6__branch--right">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0,10 L100,10" class="home-v6__branch-path" />
+              <circle cx="98" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right">
+            <article class="home-v6__node-card">
+              <h3 class="home-v6__node-title">{enginePillars[2].label}</h3>
+              <p class="home-v6__node-mono">{enginePillars[2].mono}</p>
+              <p class="home-v6__node-text">{enginePillars[2].text}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 ASSURANCE (Izquierda) -->
+      <section class="home-v6__section" data-home-v6-node="left">
+        <div class="home-v6__spine-container">
+          <div class="home-v6__spine-col home-v6__spine-col--left">
+            <div class="home-v6__content">
+              <p class="home-v6__eyebrow">03 — ASSURANCE</p>
+              <h2 class="home-v6__title">{enginePillars[3].label}</h2>
+              <p class="home-v6__text">{enginePillars[3].text}</p>
+              <div class="home-v6__metrics-list">
+                {assuranceMetrics.map(metric => (
+                  <span class="home-v6__metric">{metric}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div class="home-v6__branch home-v6__branch--left">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M100,10 L0,10" class="home-v6__branch-path" />
+              <circle cx="2" cy="10" r="2" class="home-v6__branch-node" />
+            </svg>
+          </div>
+          <div class="home-v6__spine-col home-v6__spine-col--right"></div>
+        </div>
+      </section>
+
+      <!-- LA COPA (04 EVIDENCE y 05 REGISTRY - Full Width) -->
+      <section class="home-v6__section home-v6__section--cup" data-home-v6-node="cup">
+        <div class="home-v6__cup-container">
+          <article class="home-v6__cup-col home-v6__cup-col--left">
+            <p class="home-v6__eyebrow">04 — EVIDENCE</p>
+            <h2 class="home-v6__title">See our work</h2>
+            <p class="home-v6__text">
+              Architecture-first engagements for enterprise teams — anonymized case studies that show
+              how we design, build, and leave systems better than we found them.
+            </p>
+            <a href="/work" class="home-v6__cta home-v6__cta--sm">View case studies</a>
+          </article>
+          
+          <article class="home-v6__cup-col home-v6__cup-col--right">
+            <p class="home-v6__eyebrow">05 — REGISTRY</p>
+            <h2 class="home-v6__title">Browse our talent</h2>
+            <p class="home-v6__text">
+              Senior engineers across architecture, mobile, and back-end — anonymized profiles you
+              can review, filter, and request within 48 hours.
+            </p>
+            <a href="/talent" class="home-v6__cta home-v6__cta--sm">Explore the catalog</a>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <Footer />
+  <script src="../../scripts/home-v6.ts"></script>
+</BaseLayout>
+
+<style>
+  /* Neutralize global styles for this mockup */
+  :global(body:has(.home-v6))::before { opacity: 0 !important; }
+  :global(body:has(.home-v6) .site-header) { background-color: rgb(0 0 0 / 0.82); }
+
+  .home-v6 {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* The Circuit Tree Background */
+  .home-v6__tree {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: min(92vw, 72rem);
+    height: 200dvh;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-50vh);
+    opacity: 0.04;
+    background-color: #fff;
+    -webkit-mask-image: url('/assets/circuit_tree_full.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    -webkit-mask-size: 100% 100%;
+    mask-image: url('/assets/circuit_tree_full.svg');
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    mask-size: 100% 100%;
+    will-change: transform, opacity;
+  }
+
+  .home-v6__main {
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+  }
+
+  /* 
+   * THE INVISIBLE SPINE SYSTEM 
+   * A CSS Grid that splits the screen exactly in 50%.
+   * Left column text aligns right. Right column text aligns left.
+   * A gap in the center creates the invisible trunk.
+   */
+  .home-v6__spine-container {
+    display: grid;
+    grid-template-columns: 1fr 6rem 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .home-v6__spine-col--left {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* forces children to hug the right edge */
+  }
+
+  .home-v6__spine-col--right {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* forces children to hug the left edge */
+  }
+
+  .home-v6__content {
+    max-width: 28rem;
+  }
+
+  /* Branches (The SVG lines) */
+  .home-v6__branch {
+    width: 100%;
+    height: 20px;
+    color: var(--color-accent);
+  }
+  
+  .home-v6__branch svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .home-v6__branch-path {
+    stroke: currentColor;
+    stroke-width: 1px;
+    fill: none;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.21, 1.11, 0.81, 0.99); /* Snappy organic reveal */
+  }
+
+  .home-v6__branch-node {
+    fill: currentColor;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center;
+    transition: all 0.4s ease 0.6s; /* Pops in after line draws */
+  }
+
+  /* Reveal States */
+  .home-v6__section[data-revealed="true"] .home-v6__branch-path {
+    stroke-dashoffset: 0;
+  }
+  .home-v6__section[data-revealed="true"] .home-v6__branch-node {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .home-v6__content, .home-v6__node-card, .home-v6__quote {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition-delay: 0.4s; /* Content fades in slightly after branch starts drawing */
+  }
+
+  .home-v6__section[data-revealed="true"] .home-v6__content,
+  .home-v6__section[data-revealed="true"] .home-v6__node-card,
+  .home-v6__section[data-revealed="true"] .home-v6__quote {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Spacing */
+  .home-v6__section {
+    padding-block: clamp(6rem, 12vh, 10rem); /* Massive breathing room between nodes */
+  }
+
+  .home-v6__section--hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: calc(var(--site-header-height) + 4rem);
+    padding-bottom: 4rem;
+  }
+
+  /* Typography */
+  .home-v6__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-system);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .home-v6__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-md);
+    line-height: 1.15;
+  }
+
+  .home-v6__title--lg {
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+  }
+
+  .home-v6__text {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--spacing-md);
+  }
+
+  /* Cards & Blocks */
+  .home-v6__node-card {
+    max-width: 24rem;
+    padding: var(--spacing-lg);
+    background-color: rgb(255 255 255 / 0.03);
+    border: 1px solid var(--color-divider);
+    border-left: 2px solid var(--color-accent); /* Architectural accent */
+    text-align: left; /* Even if on the left spine, card text stays left for readability */
+  }
+  
+  .home-v6__spine-col--left .home-v6__node-card {
+    border-left: none;
+    border-right: 2px solid var(--color-accent);
+    text-align: right;
+  }
+
+  .home-v6__node-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .home-v6__node-mono {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .home-v6__node-text {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .home-v6__quote {
+    max-width: 28rem;
+    margin: 0;
+    padding-left: var(--spacing-lg);
+    border-left: 2px solid var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-accent);
+    line-height: 1.6;
+  }
+
+  /* Assurance List */
+  .home-v6__metrics-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+  }
+  .home-v6__metric {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+  }
+
+  /* The Cup (Expansion) */
+  .home-v6__section--cup {
+    padding-top: 4rem;
+    padding-bottom: 12rem;
+  }
+  .home-v6__cup-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-inline: var(--spacing-gutter);
+  }
+  
+  .home-v6__cup-col {
+    padding: var(--spacing-xl);
+    background-color: rgb(255 255 255 / 0.02);
+    border: 1px solid var(--color-divider);
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .home-v6__section[data-revealed="true"] .home-v6__cup-col {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger the cup columns */
+  .home-v6__section[data-revealed="true"] .home-v6__cup-col--right {
+    transition-delay: 0.2s;
+  }
+
+  /* Hero Specifics */
+  .home-v6__hero-inner { text-align: center; }
+  .home-v6__tagline {
+    width: 44vw; max-width: 880px; margin: 0 auto 2rem;
+    filter: brightness(0) invert(1);
+    opacity: 0;
+    transform: translateY(1.5rem);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 78%);
+    -webkit-mask-size: 100% 300%;
+    -webkit-mask-position: 0% 0%;
+    mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 78%);
+    mask-size: 100% 300%;
+    mask-position: 0% 0%;
+    animation: home-v6-dawn-rise 2.2s var(--ease-brand) 0.3s both;
+  }
+  
+  @keyframes home-v6-dawn-rise {
+    0% {
+      opacity: 0;
+      transform: translateY(1.5rem);
+      mask-position: 0% 0%;
+      -webkit-mask-position: 0% 0%;
+      filter: brightness(0) invert(0.35) drop-shadow(0 0 0 rgb(214 206 188 / 0));
+    }
+    55% {
+      opacity: 1;
+      filter: brightness(0) invert(1) drop-shadow(0 0 34px rgb(214 206 188 / 0.3));
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      mask-position: 0% 100%;
+      -webkit-mask-position: 0% 100%;
+      filter: brightness(0) invert(1) drop-shadow(0 0 18px rgb(200 208 220 / 0.14));
+    }
+  }
+  
+  .home-v6__subtitle {
+    font-family: var(--font-brand); font-size: 1.25rem; font-style: italic;
+    color: var(--color-text-secondary); margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(0.75rem);
+    animation: home-v6-quiet-rise 1.2s var(--ease-brand) 1.5s both;
+  }
+  .home-v6__actions { 
+    display: flex; justify-content: center; gap: 1rem; 
+    opacity: 0;
+    transform: translateY(0.75rem);
+    animation: home-v6-quiet-rise 1.2s var(--ease-brand) 1.85s both;
+  }
+  
+  @keyframes home-v6-quiet-rise {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .home-v6__cta {
+    display: inline-block; padding: 0.875rem 2.5rem;
+    font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--color-bg); background-color: var(--color-text-primary);
+    text-decoration: none; border: 1px solid var(--color-text-primary);
+    transition: all 0.2s ease;
+  }
+  .home-v6__cta--secondary {
+    background-color: transparent; color: var(--color-text-primary);
+  }
+  .home-v6__cta--sm { padding: 0.75rem 2rem; margin-top: 1.5rem; }
+
+  /* Mobile Fallback (Stack everything cleanly) */
+  @media (max-width: 768px) {
+    .home-v6__spine-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .home-v6__spine-col--left, .home-v6__spine-col--right {
+      text-align: left;
+      align-items: flex-start;
+    }
+    .home-v6__branch { display: none; } /* Hide branches on mobile for cleaner read */
+    .home-v6__node-card { border-left: 2px solid var(--color-accent); border-right: none !important; text-align: left !important; }
+    .home-v6__cup-container { grid-template-columns: 1fr; }
+  }
+</style>
