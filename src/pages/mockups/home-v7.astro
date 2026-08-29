@@ -29,7 +29,7 @@ const seo: PageSeo = {
   <link
     slot="head"
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&family=Sirin+Stencil&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Saira+Stencil:wght@300..700&display=swap"
   />
 
   <Header />
@@ -103,8 +103,8 @@ const seo: PageSeo = {
         <div class="home-v7__spine">
           <div class="home-v7__col home-v7__col--left">
             <div class="home-v7__content home-v7__clip home-v7__clip--left home-v7__content--depth-2">
-              <span class="home-v7__force-label">Power</span>
-              <p class="home-v7__power-text">
+              <span class="home-v7__force-label home-v7__force-label--power">Power</span>
+              <p class="home-v7__force-text home-v7__force-text--power">
                 The architecture, the guardrails, the discipline that keeps systems from rotting.
               </p>
             </div>
@@ -112,8 +112,8 @@ const seo: PageSeo = {
           <div class="home-v7__axis" aria-hidden="true"></div>
           <div class="home-v7__col home-v7__col--right home-v7__col--hang">
             <div class="home-v7__content home-v7__clip home-v7__clip--right home-v7__content--depth-1">
-              <span class="home-v7__force-label">Will</span>
-              <p class="home-v7__voice">
+              <span class="home-v7__force-label home-v7__force-label--will">Will</span>
+              <p class="home-v7__force-text home-v7__force-text--will">
                 The spark. People who cannot leave things worse than they found them.
               </p>
             </div>
@@ -153,7 +153,7 @@ const seo: PageSeo = {
           <div class="home-v7__col home-v7__col--left">
             <div class="home-v7__content home-v7__clip home-v7__clip--left home-v7__content--depth-2">
               <article class="home-v7__ops-block">
-                <p class="home-v7__ops-text">
+                <p class="home-v7__force-text home-v7__force-text--power">
                   Every engagement begins in one room: our hub, a senior mentor at the next desk,
                   standards enforced from day one.
                 </p>
@@ -170,7 +170,7 @@ const seo: PageSeo = {
           <div class="home-v7__col home-v7__col--left">
             <div class="home-v7__content home-v7__clip home-v7__clip--left home-v7__content--depth-3">
               <article class="home-v7__ops-block">
-                <p class="home-v7__ops-text">
+                <p class="home-v7__force-text home-v7__force-text--power">
                   Then they go remote. And nothing degrades, because the discipline travels with
                   them.
                 </p>
@@ -190,7 +190,6 @@ const seo: PageSeo = {
           <div class="home-v7__col home-v7__col--right">
             <div class="home-v7__content home-v7__clip home-v7__clip--right home-v7__content--depth-2">
               <p class="home-v7__voice">Nobody here is disposable. Almost nobody leaves.</p>
-              <span class="home-v7__sys-note">retention: ~100%</span>
             </div>
           </div>
         </div>
@@ -323,18 +322,26 @@ const seo: PageSeo = {
   }
 
   /* ── TYPE LAB — two-stencil system (tecla 2 / ?type=s):
-     Stardos Stencil = voice (the Cormorant role) · Sirin Stencil = melodic body ── */
+     Allerta Stencil = LA VOZ (Power speaks it) · Saira Stencil = LA MELODÍA
+     (Will sings it). Equal hierarchy: two timbres of the same coin. ── */
   .home-v7[data-typelab='s'] {
-    --font-heading: 'Stardos Stencil', 'Cormorant Garamond', serif;
+    --font-heading: 'Allerta Stencil', 'Cormorant Garamond', sans-serif;
   }
 
   .home-v7[data-typelab='s'] .home-v7__main {
-    font-family: 'Sirin Stencil', 'Inter', sans-serif;
+    font-family: 'Saira Stencil', 'Inter', sans-serif;
   }
 
-  .home-v7[data-typelab='s'] .home-v7__force-label {
-    font-family: 'Stardos Stencil', serif;
-    font-weight: 700;
+  .home-v7[data-typelab='s'] .home-v7__force-text--power,
+  .home-v7[data-typelab='s'] .home-v7__force-label--power,
+  .home-v7[data-typelab='s'] .home-v7__row--left .home-v7__ops-text {
+    font-family: 'Allerta Stencil', sans-serif;
+  }
+
+  .home-v7[data-typelab='s'] .home-v7__force-text--will,
+  .home-v7[data-typelab='s'] .home-v7__force-label--will,
+  .home-v7[data-typelab='s'] .home-v7__col--right .home-v7__voice {
+    font-family: 'Saira Stencil', sans-serif;
   }
 
   .home-v7[data-typelab='s'] .home-v7__peak em {
@@ -651,11 +658,10 @@ const seo: PageSeo = {
   }
 
   .home-v7__ops-title {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
     font-weight: 600;
-    letter-spacing: var(--tracking-system);
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
     color: var(--color-accent);
     margin: 0 0 var(--spacing-xs);
   }
@@ -670,11 +676,10 @@ const seo: PageSeo = {
   .home-v7__engine-cta {
     display: inline-block;
     margin-top: var(--spacing-sm);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: var(--tracking-system);
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     color: var(--color-accent);
     text-decoration: none;
     border-bottom: 1px solid var(--color-accent);
@@ -785,22 +790,23 @@ const seo: PageSeo = {
     margin-bottom: var(--spacing-sm);
   }
 
-  .home-v7__power-text {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--color-text-secondary);
+  /* The two forces share ONE hierarchy — same scale, different timbre.
+     Power defaults to the sans voice, Will to the heading voice. */
+  .home-v7__force-text {
+    font-size: clamp(1.65rem, 2.7vw, 2.25rem);
+    line-height: 1.45;
+    color: var(--color-text-primary);
     margin: 0;
   }
 
-  .home-v7__sys-note {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: var(--tracking-system);
-    color: var(--color-accent);
-    margin-top: var(--spacing-sm);
+  .home-v7__force-text--power {
+    font-family: var(--font-sans);
   }
+
+  .home-v7__force-text--will {
+    font-family: var(--font-heading);
+  }
+
 
   .home-v7__row--dawn {
     display: flex;

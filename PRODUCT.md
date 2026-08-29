@@ -59,12 +59,20 @@ peaks of the page (monument scale, maximum air, their own light moment):
 1. The confession ("...You will not find one that refuses to quit the way we do.")
 2. The dawn ("The dawn is not ours. It is yours.")
 
-Engine mechanics sit one register below. System voice (mono) is always small
-and precise. A fourth jurisdiction exists: **Monumento** — the lockup's own
-face (`ParadiusDawn-Regular.woff2`, @font-face 'Paradius Dawn') for SHORT
-display lines in caps only (the POWER / WILL force labels). It is what makes
-the page visually kin to the lockup; never use it for body or long lines. When a line stands alone, the whole viewport belongs to it: no
-timid margins making the message a slave of the visual.
+Engine mechanics sit one register below. When a line stands alone, the whole
+viewport belongs to it: no timid margins making the message a slave of the
+visual.
+
+**The mono "system voice" is BANNED on the home** (owner decision 2026-08-27
+night): no mono annotations, no `retention:` notes, no mono kickers or codes
+as decoration. Mono survives only where codes are real, functional data
+(/talent registry, /work case pages). The home speaks two voices at EQUAL
+hierarchy: Power (the voice) and Will (the melody) — two timbres of the same
+coin, same scale, never one big and one small. The lockup/logo remain the
+only stencil artifacts: drawn monuments, not fonts. Text faces are anonymous
+plumbing: cold, precise, with NO identity ambitions — identity lives in the
+lockup, the myth, and the light. Stencil as page typography is a CLOSED
+experiment (five fonts tried and rejected 2026-08-27).
 
 ## The libreto (approved copy, v3)
 
