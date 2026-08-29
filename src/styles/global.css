@@ -1194,6 +1194,16 @@
     color: var(--color-text-primary);
   }
 
+  /* Standalone links (map and legal rows) carry a 24px minimum tap target.
+     Facts links are inline inside sentences, where WCAG 2.5.8 exempts them
+     and where growing the box would break the line rhythm. */
+  .footer-ledger__map a,
+  .footer-ledger__legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
   /* Zone 1: site map */
   .footer-ledger__map {
     display: flex;
@@ -1217,14 +1227,19 @@
     text-wrap: pretty;
   }
 
-  .footer-ledger__facts a {
+  /* Underlines carry the same contrast as the text they belong to: these links
+     sit among plain text, so color alone must not be what marks them. */
+  .footer-ledger__facts a,
+  .footer-ledger__legal a {
     text-decoration: underline;
-    text-decoration-color: var(--color-divider);
+    text-decoration-color: var(--color-text-secondary);
     text-underline-offset: 0.2em;
   }
 
   .footer-ledger__facts a:hover,
-  .footer-ledger__facts a:focus-visible {
+  .footer-ledger__facts a:focus-visible,
+  .footer-ledger__legal a:hover,
+  .footer-ledger__legal a:focus-visible {
     text-decoration-color: currentColor;
   }
 
