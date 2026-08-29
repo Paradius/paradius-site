@@ -1695,13 +1695,12 @@
     transition:
       border-color var(--transition-duration-base) ease,
       color var(--transition-duration-base) ease;
-    cursor: default;
   }
 
-  /* Talent catalog CTA is a real action: restore the pointer the grouped rule
-     above resets, and give it the same inversion as the other site CTAs. */
+  /* Every selector in the grouped rule above is used on a real anchor, so the
+     pointer stays with the UA default. This one adds the inversion the other
+     site CTAs use. */
   .talent-catalog-b__cta {
-    cursor: pointer;
     background-color: transparent;
     transition:
       background-color var(--transition-duration-base) ease,

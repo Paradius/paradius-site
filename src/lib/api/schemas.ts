@@ -60,6 +60,8 @@ export const caseStudySchema = z.object({
   outcome: z.string().min(1),
   metrics: z.array(caseMetricSchema).default([]),
   leftBehind: z.string().optional(),
+  engagementDuration: z.string().optional(),
+  engagementModel: z.string().optional(),
   published: z.boolean().default(false),
 });
 

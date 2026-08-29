@@ -2,81 +2,34 @@
   "items": [
     {
       "id": "case-001",
-      "title": "Store operations platform modernization",
+      "title": "The visual language of warehouse automation",
       "slug": "fortune-500-home-improvement-retailer",
-      "clientDescriptor": "Fortune 500 US home improvement retailer",
-      "problem": "Store associates relied on fragmented legacy tools for inventory lookups, task management, and customer assistance. Peak-season load caused frequent timeouts, and each new feature required months of coordination across siloed teams.",
-      "solution": "Paradius assembled a nearshore squad to design a unified associate mobile experience and event-driven inventory APIs. We introduced a modular Flutter client with offline-first patterns, backed by Go microservices on Kubernetes and a Kafka-based sync layer aligned to the client's existing identity provider.",
-      "stack": [
-        "flutter",
-        "go",
-        "kafka",
-        "kubernetes",
-        "ddd",
-        "ci-cd",
-        "terraform"
-      ],
-      "outcome": "Associate task completion time dropped 31% in pilot stores, inventory lookup p95 latency fell from 4.2s to under 800ms, and the client expanded the rollout from 40 to 220 locations within two quarters — without adding internal headcount.",
-      "metrics": [
-        { "value": "−31%", "label": "Task completion time" },
-        { "value": "4.2s → 800ms", "label": "Inventory lookup p95" },
-        { "value": "40 → 220", "label": "Store rollout" }
-      ],
-      "leftBehind": "A test suite covering 94% of business-critical paths, runbooks for on-call rotations, and an architecture decision log the client's team still references.",
+      "clientDescriptor": "A warehouse automation company acquired by a Fortune 500 home-improvement retailer",
+      "problem": "A warehouse floor is a negotiation between robots, storage systems, inventory, people and hundreds of services, each speaking its own dialect. At scale, nobody can see the whole conversation at once. The client, a warehouse automation company, needed its floor to be legible: one language that everything on it could speak.",
+      "solution": "We built that language. A visual system that translates what robots, goods-to-person storage, inventory and services are doing into one coherent, live picture, coordinating hundreds of services without asking any of them to change what they are. Architecture first: the language had to survive new robots, new services and new sites without being redesigned.",
+      "stack": [],
+      "outcome": "It survived the hardest test there is: acquisition. A Fortune 500 retailer bought the company after piloting the system in its own distribution network, and now runs it at network scale. The language did not stay a pilot. It became how the floor is read.",
+      "metrics": [],
+      "leftBehind": "The visual grammar itself: documented, extensible, and in daily use by teams that never met us.",
+      "engagementModel": "Start your team",
       "published": true
     },
     {
       "id": "case-002",
-      "title": "Real-time fraud detection pipeline",
-      "slug": "fintech-payments-scale-up",
-      "clientDescriptor": "Series B payments scale-up",
-      "problem": "A fast-growing payments company processed rising transaction volume on a rules engine that could not keep pace. False positives frustrated merchants while genuine fraud slipped through during promotional spikes.",
-      "solution": "We delivered a streaming fraud-scoring service in Go with feature stores fed by Kafka, plus a React operations console for analysts to tune rules without deployments. The architecture preserved the client's existing PCI boundaries and audit trails.",
-      "stack": [
-        "go",
-        "kafka",
-        "react",
-        "postgresql",
-        "redis",
-        "aws",
-        "event-driven"
-      ],
-      "outcome": "Fraud losses decreased 26% in the first production quarter while false-positive disputes dropped 19%, freeing the risk team to focus on new product launches instead of manual reviews.",
-      "metrics": [
-        { "value": "−26%", "label": "Fraud losses" },
-        { "value": "−19%", "label": "False-positive disputes" },
-        { "value": "0", "label": "Deployments for rule changes" }
-      ],
-      "leftBehind": "A self-service rules console with full audit trails, Grafana dashboards for real-time fraud signals, and documentation that passed PCI-DSS review without findings.",
+      "title": "Payments that stopped going missing",
+      "slug": "banking-infrastructure",
+      "clientDescriptor": "US banking software company serving regional and community banks",
+      "problem": "Regional banks run on core systems that predate the processes built on top of them. Between the core and the customer, work passes through hands, queues and integrations, and the worst failures are quiet: transfers that arrive late, records that disagree, transactions that dissolve into reconciliation. Trust erodes one missing payment at a time.",
+      "solution": "We worked inside the client's platform, the layer that orchestrates banking processes end to end on top of those cores, with one standard: delays become guarantees. Deterministic processing, reconciliation that closes instead of accumulating, and transaction security treated as architecture rather than as an audit checkbox.",
+      "stack": [],
+      "outcome": "Payments stopped going missing. Delays became guarantees. Those systems are still standing, years later, untouched by us. That last part is the signature: we build things that do not need us.",
+      "metrics": [],
+      "leftBehind": "Systems that run without us. No retainer, no dependency, no signature.",
+      "engagementModel": "Browse the registry",
       "published": true
-    },
-    {
-      "id": "case-003",
-      "title": "Clinical workflow digitization",
-      "slug": "regional-healthcare-network",
-      "clientDescriptor": "Regional healthcare network",
-      "problem": "Clinicians at a multi-site healthcare network still coordinated referrals and follow-ups through paper handoffs and shared spreadsheets, creating compliance risk and delayed patient care.",
-      "solution": "Paradius built a HIPAA-aligned referral workflow platform with a React clinician portal, Java integration services to the client's EHR, and role-based audit logging. We ran accessibility reviews with nursing staff before each release train.",
-      "stack": [
-        "react",
-        "java",
-        "spring-boot",
-        "postgresql",
-        "accessibility",
-        "ci-cd",
-        "aws"
-      ],
-      "outcome": "Average referral closure time improved from 11 days to 6 days across pilot clinics, and compliance audits reported zero critical findings related to the new workflow in the first year of operation.",
-      "metrics": [
-        { "value": "11 → 6 days", "label": "Referral closure time" },
-        { "value": "0", "label": "Critical compliance findings" },
-        { "value": "100%", "label": "WCAG 2.1 AA compliance" }
-      ],
-      "leftBehind": "An accessibility-first component library, EHR integration patterns reusable across sites, and training materials co-authored with nursing staff.",
-      "published": false
     }
   ],
   "page": 1,
   "perPage": 50,
-  "totalItems": 3
+  "totalItems": 2
 }
