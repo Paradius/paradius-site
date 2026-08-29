@@ -84,9 +84,16 @@ the lockup.
 CTAs: "Browse the registry" / "Start your team" (one label per intent,
 reused verbatim everywhere).
 
-**[NARRATIVE OPENER — first line of the ascent, center.]**
+Amendment 2 (2026-08-28): one line of facts sits under the lockup, above the
+CTAs. It is a ledger, not a commercial subtitle: static, small, no promise.
 
-> Nobody arrives at Paradius by accident.
+> Senior nearshore engineering. Managua hub, full US overlap.
+> Paradius LLC, Wyoming. US contracts, USD.
+
+**[NARRATIVE OPENER — REMOVED.]** Amendment 1 (owner decision 2026-08-28):
+the line "Nobody arrives at Paradius by accident" is dead, judged not useful
+and pretentious. The ascent now goes from the hero straight to the
+confession.
 
 **[THE CONFESSION — center, a full viewport of its own. Typographic peak 1.]**
 
@@ -116,7 +123,10 @@ will, never read as "worse but stubborn".)
 - LEFT (Power): *Then they go remote. And nothing degrades, because the
   discipline travels with them.*
 - RIGHT (Will): *Nobody here is disposable. Almost nobody leaves.*
-  [system footnote: `retention: ~100%`]
+
+Graft (amendment 4, plain register, one line, participates in the settle):
+*Pick engineers from the registry and run them yourself, or have us assemble
+and run the team.* Plus the link "Read how we work" to `/how-we-work`.
 
 **[THE PROOFS — branches. One Will line opens; two fruits in narrated system
 register. HINT the signature (things endure), NEVER state the "rescue"
@@ -131,6 +141,10 @@ No invented metrics, ever.]**
 - *Banking infrastructure: payments stopped going missing. Delays became
   guarantees. Those systems are still standing, years later, untouched by us.*
 
+Graft (amendment 4): each fruit ends in a link "Read the engagement" to its
+case page under `/work/[slug]`. The myth stays on the home, the substance
+lives one click away.
+
 **[THE CANOPY — the dawn. Both forces merge at center. Maximum light of the
 whole page. Typographic peak 2.]**
 
@@ -140,15 +154,71 @@ whole page. Typographic peak 2.]**
 > That is the whole story of Paradius, and it ends the same way every time:
 > we disappear into your success.
 
+Graft (amendment 4, centered, under the dawn): *We reply within 24 hours.
+Profiles within 48.* Plus the link "How we work".
+
 Registry teaser LEFT (Power: the codes), Work teaser RIGHT (Will: what was
 achieved). CTAs reuse the two labels from the hero.
 
+The cup carries the two models explicitly (amendment 4): the registry teaser
+states *You pick the engineers. You run them.*, and the section closes
+centered with *Prefer we assemble and run it?* plus "Start your team".
+
+**Header (amendment 3, 2026-08-28):** a sticky global header sits above every
+page: nav Registry, Work, How we work, About, Contact, plus the "Start your
+team" button. The home is no longer a page without exits.
+
+All four grafts are plain register, one line each, and they participate in
+the settle like any other block. They are the 15 second law made concrete:
+conventional exits that never depend on the animation finishing.
+
 ## Copy consistency debt
 
-- `/work` and `src/content/fixtures/cases.json` still tell the old version
-  with invented numbers (-31%, -26%) and a "fraud" outcome. They must be
-  rewritten to match the proofs above (missing payments / delays /
-  transaction security, adoption at scale). Owner approves all case copy.
+- RESOLVED 2026-08-28: `/work` and `src/content/fixtures/cases.json` were
+  rewritten to match the proofs above. The invented numbers (-31%, -26%) and
+  the "fraud" outcome are gone; no metric on the site is invented. The case
+  copy is still DRAFT and awaits the owner's final approval.
+
+## Site architecture laws (2026-08-28)
+
+These govern every page, not just the home. They outrank page level taste.
+
+- **L1. Policies and facts, never counts.** The site states what is true and
+  what we commit to. It never declares team size, client counts, years, or
+  volumes. `numberOfEmployees` and `priceRange` were removed from the JSON-LD
+  for the same reason.
+- **L2. Operative myth.** Every mythic line carries its operational
+  consequence beside it. A myth that explains nothing about the product goes
+  to `/careers` or stays unpublished. The four races are unpublished across
+  the entire site.
+- **L3. The 15 second law.** The conventional exit is never hostage to the
+  animation. Verifiable nouns (what we sell, where we are, how to reach us)
+  are readable before any scroll.
+- **L4. Strangeness on the surface, substance one click away.** The home
+  keeps the strangeness. Dense, literal text lives in `/how-we-work`,
+  `/work/[slug]` and `/faq`.
+- **L5. One register per surface.**
+  - `/` (home): mythic and operative.
+  - `/about`: narrative and personal, the ONLY first person on the site,
+    signed Gabriel Chorens.
+  - `/how-we-work`, `/faq`, `/talent`: plain register.
+  - `/careers`: mythic, free.
+  - `/404`: pure myth.
+  - Legal pages: plain register.
+- **L6. Anonymity is a process feature.** Code names are explained as a
+  policy, with its reason, wherever they appear. The anonymity never reaches
+  the founder: `/about` is signed.
+
+## What the 2026-08-28 architecture plan settled
+
+- `src/pages/mockups/engine.astro` was retired. Its job (explaining the
+  mechanics in plain language) now belongs to `/how-we-work`.
+- **D10 is formally dead.** There is no commercial subtitle under the lockup.
+  What sits there is the ledger of facts from amendment 2, which promises
+  nothing.
+- **D13 is narrowed to `/talent` and `/work`.** Mono is functional data only
+  (codes, tabular case data). It has no presence on the home, and none as
+  decoration anywhere.
 
 ## Animation law (validated 2026-08-27, do not regress)
 
@@ -177,3 +247,17 @@ dashboard cards in the hero; forcing text timing to background-tree SVG paths.
 - No invented numbers, no fake precision, no jargon strips
   ("sniping pipeline · network nodes") as content.
 - Every line must be something no other agency could sign.
+
+## Open product debts (2026-08-28)
+
+Known, deliberate, and waiting on a decision. Not bugs to be fixed silently.
+
+- **First paint of the home depends on Google Fonts.** The stylesheet is
+  render blocking on purpose: the lockup moment must not flash a fallback
+  face. The clean fix is self hosting the faces, which changes the asset
+  pipeline and needs the owner's call.
+- **Keyboard focus is invisible during the ascent.** Inherited behaviour: the
+  settle transforms hide the focus ring on blocks still being born. Fixing it
+  requires touching `src/scripts/home-v7.ts`, which is frozen.
+- **Self hosted fonts** are the candidate resolution for the first debt and
+  would also remove a third party request from every page load.
