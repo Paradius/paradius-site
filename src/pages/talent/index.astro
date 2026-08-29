@@ -48,10 +48,12 @@ const seo = buildTalentCatalogSeo(profiles);
           <a href="/contact" class="talent-catalog-b__cta">Start your team</a>
         </div>
       )}
-      <div class="talent-catalog-b__footer section-reveal">
-        <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
-        <a href="/contact" class="talent-catalog-b__cta">Build your team</a>
-      </div>
+      {profiles.length > 0 && (
+        <div class="talent-catalog-b__footer section-reveal">
+          <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
+          <a href="/contact" class="talent-catalog-b__cta">Build your team</a>
+        </div>
+      )}
     </section>
   </main>
   <Footer />
