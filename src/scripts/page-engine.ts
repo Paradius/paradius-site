@@ -174,45 +174,6 @@ function paginate(): void {
   maxScroll = Math.max(0, totalHeight - viewportH);
 }
 
-function applyPageLayout(): void {
-  const main = document.getElementById('main-content');
-  if (!main) return;
-
-  main.style.height = `${totalHeight}px`;
-  main.style.position = 'relative';
-  main.classList.remove('inverted-scroll');
-
-  sections.forEach((section) => {
-    section.el.style.position = 'absolute';
-    section.el.style.width = '100%';
-    section.el.style.left = '0';
-  });
-
-  let currentY = 0;
-  pages.forEach((page) => {
-    const section = sections.find((s) => s.id === page.sectionId);
-    if (!section) return;
-
-    const isFirstPageOfSection = pages.findIndex(
-      (p) => p.sectionId === page.sectionId
-    ) === page.index;
-
-    if (isFirstPageOfSection) {
-      section.el.style.top = `${currentY}px`;
-    }
-
-    const pageHeight = viewportH;
-    page.blocks.forEach((block, i) => {
-      const blockTop = currentY + navH + (i + 0.5) * (frameH / (page.blocks.length + 1));
-      block.el.style.position = 'absolute';
-      block.el.style.top = `${blockTop - currentY}px`;
-      block.el.dataset.pageIndex = String(page.index);
-    });
-
-    currentY += pageHeight;
-  });
-}
-
 function applyFlexLayout(): void {
   const main = document.getElementById('main-content');
   if (!main) return;
