@@ -23,20 +23,25 @@ const seo: PageSeo = {
       <h2>What we collect</h2>
       <p>
         The contact form asks for your name, email, company and message, plus any profile
-        codes you attach. That is everything this site collects about you.
+        codes you attach. When you submit it, our infrastructure also records your IP address,
+        which we use for rate limiting and abuse prevention, and a hidden anti spam field
+        travels with the form; humans leave it empty. That is everything this site collects
+        about you.
       </p>
 
       <h2>What we do with it</h2>
       <p>
-        We use it to reply to you. Your inquiry is delivered to our inbox and kept as the
-        record of the conversation. We do not sell it, share it, rent it, or add you to any
-        marketing list.
+        We use it to reply to you and to follow up on your inquiry. Your inquiry is delivered
+        to our inbox and stored in our systems, the same database that runs our sales
+        pipeline, so the conversation has a record. We do not sell it, share it, or rent it.
       </p>
 
       <h2>Where it lives</h2>
       <p>
         This site is static and served by Vercel. Form submissions are processed by our own
-        backend, hosted on Railway, and delivered to our inbox by email through Resend.
+        backend on Railway and delivered to our inbox through Resend. Fonts load from Google
+        Fonts, which, like any content delivery network, sees your IP address and browser
+        details. Nothing else leaves this site.
       </p>
 
       <h2>Cookies and analytics</h2>
