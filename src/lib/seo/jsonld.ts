@@ -37,11 +37,6 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
     email: ORG.email,
     sameAs: [ORG.linkedIn],
     knowsAbout: [...ORG_KNOWS_ABOUT],
-    numberOfEmployees: {
-      '@type': 'QuantitativeValue',
-      minValue: 1,
-      maxValue: 10,
-    },
     slogan: ORG.slogan,
   };
 }
@@ -71,7 +66,6 @@ export function buildProfessionalServiceJsonLd(): Record<string, unknown> {
     areaServed: ORG.areaServed,
     serviceType: [...SERVICE_TYPES],
     email: ORG.email,
-    priceRange: '$$$',
     sameAs: [ORG.linkedIn],
   };
 }
