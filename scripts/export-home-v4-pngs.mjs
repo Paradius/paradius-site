@@ -118,7 +118,6 @@ async function shotTreeLayer(page) {
   console.log('ok: 00-background-tree-viewport.png');
 
   // Tree at several scroll positions (content hidden, tree parallax simulated)
-  const tree = page.locator('[data-home-v4-tree]');
   await page.evaluate(() => {
     document.querySelector('.site-header')?.style.removeProperty('visibility');
     document.querySelector('.home-v4__main')?.style.removeProperty('visibility');

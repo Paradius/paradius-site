@@ -137,7 +137,7 @@ function paginate(): void {
   let pageIndex = 0;
 
   sections.forEach((section) => {
-    let budget = MAX_POINTS;
+    const budget = MAX_POINTS;
     let currentPage: Block[] = [];
     let currentSum = 0;
 
