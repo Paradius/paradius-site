@@ -1,5 +1,5 @@
 ---
-/** Minimal inline script: scroll reveal, header scroll state, mobile menu — mirrors the live landing. */
+/** Minimal inline script: scroll reveal, header scroll state, anchor scrolling. Mirrors the live landing. */
 ---
 
 <script is:inline>
@@ -48,24 +48,20 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
+    /* The toggle click bind lives in Header.astro so that pages without this
+       component still have a working menu. Here we only close it. */
     const menuToggle = document.querySelector('.site-header__menu-toggle');
     const nav = document.querySelector('.site-header__nav');
     const htmlEl = document.documentElement;
-    menuToggle.addEventListener('click', function () {
-      const isOpen = nav.classList.toggle('site-header__nav--open');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.classList.toggle('site-header__menu-toggle--active', isOpen);
-      htmlEl.classList.toggle('menu-open', isOpen);
-    });
 
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
       link.addEventListener('click', function (e) {
         const target = document.querySelector(this.getAttribute('href'));
         if (!target) return;
         e.preventDefault();
-        nav.classList.remove('site-header__nav--open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.classList.remove('site-header__menu-toggle--active');
+        nav?.classList.remove('site-header__nav--open');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        menuToggle?.classList.remove('site-header__menu-toggle--active');
         htmlEl.classList.remove('menu-open');
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
