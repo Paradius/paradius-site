@@ -18,7 +18,7 @@ const seo = buildTalentCatalogSeo(profiles);
   <main class="site-main" id="main-content">
     <TalentPageHero
       title="Browse our talent"
-      description="Senior nearshore engineers, vetted and ready to present within 48 hours. Filter by role, stack, seniority, and availability — then request the profiles that fit."
+      description="Senior nearshore engineers, vetted and presented within 48 hours. Filter by role, stack, seniority, and availability, then request the profiles that fit your team."
     />
     <aside class="talent-codes" aria-label="Why codes instead of names">
       <p>
@@ -51,7 +51,7 @@ const seo = buildTalentCatalogSeo(profiles);
       {profiles.length > 0 && (
         <div class="talent-catalog-b__footer section-reveal">
           <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
-          <a href="/contact" class="talent-catalog-b__cta">Build your team</a>
+          <a href="/contact" class="talent-catalog-b__cta">Start your team</a>
         </div>
       )}
     </section>
@@ -82,7 +82,8 @@ const seo = buildTalentCatalogSeo(profiles);
 
   .talent-codes a {
     color: var(--color-accent);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
     letter-spacing: var(--tracking-link);
     transition: color var(--transition-duration-fast) ease;
   }

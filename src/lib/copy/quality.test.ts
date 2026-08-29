@@ -50,6 +50,17 @@ const CANON_FILES = [
   'src/content/fixtures/cases.json',
   'src/pages/work/index.astro',
   'src/components/contact/ContactForm.astro',
+  'src/pages/talent/index.astro',
+  'src/pages/work/[slug].astro',
+  'src/pages/contact/index.astro',
+  'src/content/fixtures/profiles.json',
+  'src/lib/talent/formatters.ts',
+  'src/lib/seo/meta.ts',
+  'src/lib/seo/constants.ts',
+  'src/lib/seo/talent.ts',
+  'src/lib/seo/work.ts',
+  'src/lib/seo/contact.ts',
+  'src/lib/seo/jsonld.ts',
 ];
 
 describe('canon files carry no banned dashes', () => {

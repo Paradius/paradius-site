@@ -89,7 +89,7 @@ export function formatExperienceDate(isoDate: string): string {
 export function formatExperienceRange(entry: AnonymousExperienceEntry): string {
   const start = formatExperienceDate(entry.startDate);
   const end = entry.endDate ? formatExperienceDate(entry.endDate) : 'Present';
-  return `${start} — ${end}`;
+  return `${start} to ${end}`;
 }
 
 /** Top N stack tags for compact displays. */
