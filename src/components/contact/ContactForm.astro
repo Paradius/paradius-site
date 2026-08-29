@@ -14,8 +14,10 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     <p class="contact-mockup__eyebrow">Start a conversation</p>
     <h1 class="contact-mockup__title">Build your team</h1>
     <p class="contact-mockup__description">
-      Every engagement is scoped to your architecture. Tell us who you need — we reply within 
-      24 hours with matched profiles and a rate proposal.
+      Every engagement is scoped to your architecture. Tell us who you need. We
+      reply within 24 hours with matched profiles and a rate proposal. There is
+      no pricing on this site because requirements determine price: rates are
+      scoped in private conversation.
     </p>
   </div>
 
@@ -28,7 +30,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     <div class="contact-form__status contact-form__status--success" data-status="success" hidden role="status" aria-live="polite">
       <p class="contact-form__status-title">Inquiry sent</p>
       <p class="contact-form__status-text">
-        Thank you — we reply within 24 hours with vetted profiles that match your needs.
+        Thank you. We reply within 24 hours with vetted profiles that match your needs.
       </p>
     </div>
 
@@ -44,8 +46,8 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     {
       !apiConfigured && (
         <p class="contact-form__api-note" data-api-note>
-          Online submission is unavailable in this build — use the form to compose your message,
-          then send via email below.
+          Online submission is unavailable in this build. Use the form to compose your message,
+          then send it via email below.
         </p>
       )
     }
@@ -109,7 +111,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
         >
         </div>
         <p class="contact-mockup__hint" data-profile-hint>
-          Add profiles from the talent catalog — chips appear when you follow a profile link.
+          Add profiles from the talent catalog. Chips appear when you follow a profile link.
         </p>
       </div>
 
@@ -140,6 +142,10 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
       <button type="submit" class="contact-mockup__submit contact-form__submit" data-submit>
         Send inquiry
       </button>
+
+      <p class="contact-mockup__fallback">
+        Your data goes only where our <a href="/legal/privacy">privacy policy</a> says it goes.
+      </p>
 
       <p class="contact-mockup__fallback">
         Prefer email?

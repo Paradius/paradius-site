@@ -34,8 +34,7 @@ describe('findBannedDashes', () => {
 /**
  * Canon manifest: files rewritten or created under the 2026-08-28 site
  * architecture plan. Checked only once they exist, so tasks can land in
- * any order. Each task appends its entries once its files are clean;
- * Task 12 still owns ContactForm.astro, which carries banned dashes today.
+ * any order. Each task appends its entries once its files are clean.
  */
 const CANON_FILES = [
   'src/pages/legal/privacy.astro',
@@ -50,6 +49,7 @@ const CANON_FILES = [
   'src/components/Footer.astro',
   'src/content/fixtures/cases.json',
   'src/pages/work/index.astro',
+  'src/components/contact/ContactForm.astro',
 ];
 
 describe('canon files carry no banned dashes', () => {

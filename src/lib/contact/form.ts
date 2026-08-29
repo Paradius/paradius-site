@@ -166,7 +166,7 @@ export function mapSubmitHttpError(
   if (status === 429 && body?.code === 'rate_limited') {
     return {
       kind: 'rate_limited',
-      message: 'Too many requests — please try again in a minute.',
+      message: 'Too many requests. Please try again in a minute.',
     };
   }
 
@@ -183,7 +183,7 @@ export function buildMailtoUrl(
 ): string {
   const profilePart =
     interestedProfiles.length > 0
-      ? ` — Requisition: ${interestedProfiles.join(', ')}`
+      ? `, Requisition: ${interestedProfiles.join(', ')}`
       : '';
 
   const subject = encodeURIComponent(`Team inquiry from ${fields.name.trim()}${profilePart}`);

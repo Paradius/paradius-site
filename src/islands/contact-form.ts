@@ -131,8 +131,8 @@ function updateProfileHint(root: HTMLElement, count: number): void {
 
   hint.textContent =
     count > 0
-      ? 'Pre-filled from catalog — remove chips you no longer need.'
-      : 'Add profiles from the talent catalog — chips appear when you follow a profile link.';
+      ? 'Pre-filled from catalog. Remove chips you no longer need.'
+      : 'Add profiles from the talent catalog. Chips appear when you follow a profile link.';
 }
 
 function updateMailtoLinks(root: HTMLElement, form: HTMLFormElement, profiles: string[]): void {
