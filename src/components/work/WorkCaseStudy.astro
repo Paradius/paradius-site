@@ -28,7 +28,7 @@ const hasFacts =
     <p class="work-case__client">{caseStudy.clientDescriptor}</p>
 
     {hasFacts && (
-      <dl class="work-case__facts">
+      <dl class="work-case__facts" aria-label="Engagement facts">
         {caseStudy.stack.length > 0 && (
           <div class="work-case__fact">
             <dt>Stack</dt>
@@ -114,14 +114,6 @@ const hasFacts =
     font-size: 0.9375rem;
     color: var(--color-text-primary);
     margin: 0;
-  }
-
-  .work-case__mirror {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
   }
 
   .work-case__mirror-text {

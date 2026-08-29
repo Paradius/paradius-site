@@ -11,7 +11,6 @@
       "outcome": "It survived the hardest test there is: acquisition. A Fortune 500 retailer bought the company after piloting the system in its own distribution network, and now runs it at network scale. The language did not stay a pilot. It became how the floor is read.",
       "metrics": [],
       "leftBehind": "The visual grammar itself: documented, extensible, and in daily use by teams that never met us.",
-      "engagementModel": "Start your team",
       "published": true
     },
     {
@@ -25,7 +24,6 @@
       "outcome": "Payments stopped going missing. Delays became guarantees. Those systems are still standing, years later, untouched by us. That last part is the signature: we build things that do not need us.",
       "metrics": [],
       "leftBehind": "Systems that run without us. No retainer, no dependency, no signature.",
-      "engagementModel": "Browse the registry",
       "published": true
     }
   ],
