@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Page Not Found | Paradius',
+  description: 'Not every path leads to the dawn.',
+  canonical: `${SITE_URL}/404/`,
+  robots: 'noindex, follow',
+  webPageName: 'Page not found',
+  webPageDescription: '404 page for paradius.dev.',
+};
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <!-- The wrap owns its own vertical rhythm: .site-main ships a fixed top padding
+       meant for pages that scroll, and this one has to fill exactly one viewport. -->
+  <main class="site-main not-found-main" id="main-content">
+    <div class="not-found">
+      <!-- Pure mythic register, the only page where the serif line is the whole
+           page. Nothing operative follows it, so it carries the full scale. -->
+      <h1 class="not-found__title">Not every path leads to the dawn.</h1>
+
+      <p class="not-found__lede">This page does not exist. These do.</p>
+
+      <div class="not-found__actions">
+        <a href="/talent" class="not-found__cta">Browse the registry</a>
+        <a href="/contact" class="not-found__cta not-found__cta--secondary">
+          Start your team
+        </a>
+      </div>
+
+      <a href="/" class="not-found__roots">Or begin at the roots</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Reclaim the scroll padding of .site-main so the panel below can measure a
+     clean viewport minus the fixed header. Unlayered, so it beats @layer components. */
+  .not-found-main {
+    padding-top: var(--site-header-height);
+    min-height: 0;
+  }
+
+  .not-found {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+    min-height: calc(100vh - var(--site-header-height));
+    min-height: calc(100svh - var(--site-header-height));
+    max-width: var(--width-prose);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+    padding-block: var(--spacing-2xl);
+  }
+
+  /* Typographic peak of the site: nothing else competes with it in the frame. */
+  .not-found__title {
+    font-family: var(--font-brand);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text-primary);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .not-found__lede {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin: var(--spacing-lg) 0 0;
+    text-wrap: balance;
+  }
+
+  /* Closing actions: same scoped copy of the hero CTA styling used on
+     /how-we-work, /about and /faq, centered here instead of left aligned. */
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-block-start: var(--spacing-xl);
+  }
+
+  .not-found__actions .not-found__cta {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
+  }
+
+  .not-found__actions .not-found__cta:hover,
+  .not-found__actions .not-found__cta:focus-visible {
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .not-found__actions .not-found__cta--secondary {
+    color: var(--color-text-primary);
+    background-color: transparent;
+  }
+
+  .not-found__actions .not-found__cta--secondary:hover,
+  .not-found__actions .not-found__cta--secondary:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg);
+  }
+
+  /* Third way out, deliberately quieter than the two intent CTAs. */
+  .not-found__roots {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    margin-block-start: var(--spacing-lg);
+    transition: color var(--transition-duration-base) ease;
+  }
+
+  .not-found__roots:hover,
+  .not-found__roots:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .not-found__actions .not-found__cta {
+      padding: 0.875rem 1.5rem;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+</style>
