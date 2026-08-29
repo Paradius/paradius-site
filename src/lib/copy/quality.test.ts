@@ -1,7 +1,11 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { findBannedDashes } from './quality';
+
+/** Anchored to this file, not to cwd: a different cwd must not silently skip the manifest. */
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 
 describe('findBannedDashes', () => {
   it('returns empty for clean text', () => {
@@ -48,9 +52,12 @@ const CANON_FILES = [
 
 describe('canon files carry no banned dashes', () => {
   for (const relPath of CANON_FILES) {
-    it(relPath, () => {
-      const absPath = resolve(process.cwd(), relPath);
-      if (!existsSync(absPath)) return; // not yet created by its task
+    it(relPath, (ctx) => {
+      const absPath = resolve(REPO_ROOT, relPath);
+      if (!existsSync(absPath)) {
+        ctx.skip(); // not yet created by its task, reported as skipped and not as passed
+        return;
+      }
       const hits = findBannedDashes(readFileSync(absPath, 'utf8'));
       expect(hits, `${relPath} -> ${JSON.stringify(hits)}`).toEqual([]);
     });
