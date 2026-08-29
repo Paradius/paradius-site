@@ -130,3 +130,36 @@ export function buildAllJsonLd(page: PageSeo): readonly Record<string, unknown>[
     buildWebPageJsonLd(page),
   ] as const;
 }
+
+/** FAQPage: one Question entity per item, answers verbatim. */
+export function buildFaqPageJsonLd(
+  items: readonly { question: string; answer: string }[],
+  canonical: string,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': canonical,
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}
+
+/** BreadcrumbList: 1-based positions, in the order given. */
+export function buildBreadcrumbJsonLd(
+  crumbs: readonly { name: string; url: string }[],
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
+  };
+}
