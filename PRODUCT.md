@@ -79,7 +79,8 @@ experiment (five fonts tried and rejected 2026-08-27).
 Staging notes in brackets. This copy replaces all current home copy except
 the lockup.
 
-**[ROOTS — landing. Near-total darkness. Lockup + CTAs, nothing else. No subtitle.]**
+**[ROOTS — landing. Near-total darkness. Lockup, the ledger line of facts,
+CTAs. Nothing else. No commercial subtitle.]**
 
 CTAs: "Browse the registry" / "Start your team" (one label per intent,
 reused verbatim everywhere).
@@ -164,19 +165,25 @@ The cup carries the two models explicitly (amendment 4): the registry teaser
 states *You pick the engineers. You run them.*, and the section closes
 centered with *Prefer we assemble and run it?* plus "Start your team".
 
-**Header (amendment 3, 2026-08-28):** a sticky global header sits above every
-page: nav Registry, Work, How we work, About, Contact, plus the "Start your
-team" button. The home is no longer a page without exits.
+**Header (amendment 3, 2026-08-28):** a fixed global header (CSS
+`position: fixed`) sits above every page: nav Registry, Work, How we work,
+About, Contact, plus the "Start your team" button. The home is no longer a
+page without exits.
 
-All four grafts are plain register, one line each, and they participate in
-the settle like any other block. They are the 15 second law made concrete:
+Every graft is plain register and participates in the settle like any other
+block. Their shapes differ: ENGINE and CANOPY are one line each; in PROOFS
+the graft is a link per fruit, not a line of its own; the cup carries two
+lines in two places, the model line inside the registry teaser and the
+centered close under the grid. They are the 15 second law made concrete:
 conventional exits that never depend on the animation finishing.
 
 ## Copy consistency debt
 
 - RESOLVED 2026-08-28: `/work` and `src/content/fixtures/cases.json` were
   rewritten to match the proofs above. The invented numbers (-31%, -26%) and
-  the "fraud" outcome are gone; no metric on the site is invented. The case
+  the "fraud" outcome are gone; no metric on any production page is
+  invented. The noindex mockups under `/mockups` keep their historic copy on
+  purpose and are not a source of truth. The case
   copy is still DRAFT and awaits the owner's final approval.
 
 ## Site architecture laws (2026-08-28)
@@ -184,13 +191,15 @@ conventional exits that never depend on the animation finishing.
 These govern every page, not just the home. They outrank page level taste.
 
 - **L1. Policies and facts, never counts.** The site states what is true and
-  what we commit to. It never declares team size, client counts, years, or
-  volumes. `numberOfEmployees` and `priceRange` were removed from the JSON-LD
-  for the same reason.
-- **L2. Operative myth.** Every mythic line carries its operational
-  consequence beside it. A myth that explains nothing about the product goes
-  to `/careers` or stays unpublished. The four races are unpublished across
-  the entire site.
+  what we commit to. It never declares team size, client counts, years in
+  business, or volumes. Durations lived are not counts: "still standing,
+  years later" narrates what happened to a system, it does not claim a
+  falsifiable figure. `numberOfEmployees` and `priceRange` were removed from
+  the JSON-LD for the same reason.
+- **L2. Operative myth.** Every mythic line ON COMMERCIAL SURFACES carries
+  its operational consequence beside it. A myth that explains nothing about
+  the product goes to `/careers` or stays unpublished. The four races are
+  unpublished across the entire site.
 - **L3. The 15 second law.** The conventional exit is never hostage to the
   animation. Verifiable nouns (what we sell, where we are, how to reach us)
   are readable before any scroll.
@@ -201,24 +210,30 @@ These govern every page, not just the home. They outrank page level taste.
   - `/` (home): mythic and operative.
   - `/about`: narrative and personal, the ONLY first person on the site,
     signed Gabriel Chorens.
+  - `/work` and the case pages: dense professional narrative, zero myth.
   - `/how-we-work`, `/faq`, `/talent`: plain register.
   - `/careers`: mythic, free.
   - `/404`: pure myth.
   - Legal pages: plain register.
-- **L6. Anonymity is a process feature.** Code names are explained as a
-  policy, with its reason, wherever they appear. The anonymity never reaches
-  the founder: `/about` is signed.
+- **L6. Anonymity is a process feature.** Code names are explained wherever
+  they appear as a deliberate policy with concrete mechanics: why they exist,
+  when the identity is revealed (later in the deal, off platform, once the
+  engagement is real), and what the buyer can verify before that point
+  (seniority, stack, the selection process, the replacement policy). The
+  anonymity never reaches the founder: `/about` is signed.
 
 ## What the 2026-08-28 architecture plan settled
 
 - `src/pages/mockups/engine.astro` was retired. Its job (explaining the
   mechanics in plain language) now belongs to `/how-we-work`.
-- **D10 is formally dead.** There is no commercial subtitle under the lockup.
-  What sits there is the ledger of facts from amendment 2, which promises
-  nothing.
-- **D13 is narrowed to `/talent` and `/work`.** Mono is functional data only
-  (codes, tabular case data). It has no presence on the home, and none as
-  decoration anywhere.
+- **The commercial hero-subtitle clause of D10 is dead.** There is no
+  benefit-driven subtitle under the lockup. What sits there is the ledger of
+  facts from amendment 2, which promises nothing. The rest of D10 stands:
+  `/talent` and `/work` remain directly commercial, and no page shows prices.
+- **The mono system-voice clause of D13 is narrowed to `/talent` and
+  `/work`.** Mono is functional data only there (codes, tabular case data).
+  It has no presence on the home and none as decoration anywhere. The rest of
+  Brand System v2 stands as recorded in the decision log.
 
 ## Animation law (validated 2026-08-27, do not regress)
 
