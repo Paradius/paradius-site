@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Terms of Use | Paradius LLC',
+  description:
+    'The terms that govern paradius.dev: what the site is, what belongs to us, and where the commercial terms actually live.',
+  canonical: `${SITE_URL}/legal/terms/`,
+  webPageName: 'Terms of Use',
+  webPageDescription: 'Terms of use for paradius.dev.',
+};
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main" id="main-content">
+    <div class="mockup-page-wrap mockup-page-wrap--narrow legal-page">
+      <h1>Terms of use</h1>
+
+      <h2>What this site is</h2>
+      <p>
+        paradius.dev is operated by Paradius LLC, a Wyoming company. The content is
+        informational: it describes our services and lets you contact us. It is not an offer.
+        Engagements are governed by the contracts we sign, not by this website.
+      </p>
+
+      <h2>Our content</h2>
+      <p>
+        The Paradius name, the lockup and the content of this site belong to Paradius LLC. Do
+        not scrape, republish or impersonate them.
+      </p>
+
+      <h2>The registry</h2>
+      <p>
+        Profiles in the registry are anonymized deliberately. Attempting to deanonymize our
+        engineers is a violation of these terms.
+      </p>
+
+      <h2>No warranties</h2>
+      <p>The site is provided as is and may change at any time.</p>
+
+      <h2>The paper that matters</h2>
+      <p>
+        Contracts, jurisdiction and every commercial term live in the agreements we sign:
+        Paradius LLC, US jurisdiction, USD.
+      </p>
+
+      <h2>Questions</h2>
+      <p><a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.</p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .legal-page h1 {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 400;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text-primary);
+    margin-block-end: var(--spacing-md);
+  }
+
+  .legal-page h2 {
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-block: var(--spacing-md) var(--spacing-xs);
+  }
+
+  .legal-page p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-block-end: 0.75rem;
+  }
+
+  .legal-page a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .legal-page a:hover,
+  .legal-page a:focus-visible {
+    color: var(--color-text-primary);
+  }
+</style>
