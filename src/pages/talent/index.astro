@@ -20,11 +20,34 @@ const seo = buildTalentCatalogSeo(profiles);
       title="Browse our talent"
       description="Senior nearshore engineers, vetted and ready to present within 48 hours. Filter by role, stack, seniority, and availability — then request the profiles that fit."
     />
-    <TalentFilterBar profiles={profiles} />
+    <aside class="talent-codes" aria-label="Why codes instead of names">
+      <p>
+        Engineers here carry codes instead of names. That is policy, not evasion:
+        anonymity protects them and keeps your systems free of our signature.
+        Everything else is verifiable now: stack, years, experience, languages.
+        Full identity is disclosed later in the deal, off platform.
+      </p>
+      <p>
+        Every code is a real person, interviewed by the principal.
+        <a href="/faq">More in the FAQ</a>.
+      </p>
+    </aside>
+    {profiles.length > 0 && <TalentFilterBar profiles={profiles} />}
     <section id="talent-catalog" class="talent-catalog-b" aria-label="Talent catalog">
-      <div class="talent-catalog-b__grid">
-        {profiles.map((profile) => <TalentCard profile={profile} />)}
-      </div>
+      {profiles.length > 0 ? (
+        <div class="talent-catalog-b__grid">
+          {profiles.map((profile) => <TalentCard profile={profile} />)}
+        </div>
+      ) : (
+        <div class="talent-catalog-b__empty">
+          <p>No profiles are published right now.</p>
+          <p>
+            The registry is only one of two ways to buy. Describe who you need and
+            we assemble the team: we reply within 24 hours.
+          </p>
+          <a href="/contact" class="talent-catalog-b__cta">Start your team</a>
+        </div>
+      )}
       <div class="talent-catalog-b__footer section-reveal">
         <p class="talent-catalog-b__cta-text">Assembling a cross-functional team?</p>
         <a href="/contact" class="talent-catalog-b__cta">Build your team</a>
@@ -35,3 +58,60 @@ const seo = buildTalentCatalogSeo(profiles);
   <ScrollBehavior />
   <script src="../../islands/talent-filters.ts"></script>
 </BaseLayout>
+
+<style>
+  .talent-codes {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: 0 var(--spacing-gutter) var(--spacing-lg);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .talent-codes p {
+    max-width: 44rem;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .talent-codes p:last-child {
+    margin-bottom: 0;
+  }
+
+  .talent-codes a {
+    color: var(--color-accent);
+    text-decoration: none;
+    letter-spacing: var(--tracking-link);
+    transition: color var(--transition-duration-fast) ease;
+  }
+
+  .talent-codes a:hover,
+  .talent-codes a:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  .talent-catalog-b__empty {
+    max-width: 40rem;
+    margin-inline: auto;
+    padding: var(--spacing-xl) var(--spacing-gutter);
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .talent-catalog-b__empty p {
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .talent-catalog-b__empty p:first-child {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+  }
+
+  .talent-catalog-b__empty .talent-catalog-b__cta {
+    margin-top: var(--spacing-md);
+  }
+</style>
