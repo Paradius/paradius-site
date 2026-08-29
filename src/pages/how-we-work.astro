@@ -1,0 +1,266 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_URL, type PageSeo } from '../lib/seo';
+
+const seo: PageSeo = {
+  title: 'How We Work | Paradius LLC',
+  description:
+    'Two ways to buy, a reply within 24 hours, profiles within 48, and what happens when something goes wrong. Staff augmentation without the agency theater.',
+  canonical: `${SITE_URL}/how-we-work/`,
+  webPageName: 'How we work',
+  webPageDescription:
+    'The Paradius operating model for buyers: engagement models, timeline, continuity, replacement, IP and jurisdiction.',
+};
+---
+
+<BaseLayout seo={seo}>
+  <Header />
+  <main class="site-main" id="main-content">
+    <div class="mockup-page-wrap mockup-page-wrap--narrow how-we-work">
+      <h1>How we work</h1>
+
+      <p class="how-we-work__lede">
+        Every engineer we send was interviewed by the person who signs your contract. This
+        page explains what that means in practice: what you are buying, how fast it starts,
+        and what happens when something goes wrong.
+      </p>
+
+      <section class="how-we-work__section">
+        <h2>Two ways to buy</h2>
+        <p>
+          Browse the registry. You pick engineers from our registry, interview them, and run
+          them inside your team. You manage the day to day; we stay responsible for quality,
+          continuity and replacement.
+        </p>
+        <p>
+          Start your team. You describe the outcome. We assemble the team, run the day to day,
+          and answer for delivery. You set goals and review progress.
+        </p>
+        <p>There is no third model. We do not sell fixed bid projects.</p>
+      </section>
+
+      <section class="how-we-work__section">
+        <h2>The process, with times</h2>
+        <ol class="how-we-work__steps">
+          <li>
+            You write. Tell us who or what you need: the contact form, or
+            <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
+          </li>
+          <li>
+            We reply within 24 hours. A real reply from the principal, with matched profiles
+            or precise questions. Never an autoresponder.
+          </li>
+          <li>
+            Profiles within 48 hours. Anonymized, and verifiable in one call: stack, years,
+            experience, languages. Full identity is disclosed later in the deal, off platform.
+          </li>
+          <li>
+            The engagement starts. Every engineer begins under our hub discipline: a senior
+            mentor at the next desk, standards enforced from day one. Then they go remote, and
+            nothing degrades, because the discipline travels with them.
+          </li>
+        </ol>
+      </section>
+
+      <section class="how-we-work__section">
+        <h2>How we select</h2>
+        <p>
+          No algorithmic screening. No credential theater. We examine the systems an engineer
+          has built, not their resume. Then we talk: what they refuse to ship tells us more
+          than what they list. The last filter is always the person who signs your contract.
+        </p>
+      </section>
+
+      <section class="how-we-work__section">
+        <h2>Continuity and replacement</h2>
+        <p>
+          Every engineer passes a three month proving period with us before they ever reach a
+          client, so a bad fit is rare. When it happens, say so: we transition to another
+          engineer quickly, because context is documented and shared from day one. Context
+          never lives in one head.
+        </p>
+        <p>
+          And the question you are too polite to ask: what if Paradius disappears tomorrow?
+          Nothing happens to you. Every system we build ships with documentation, repositories
+          and credentials in your accounts. Your team keeps shipping. That is written into how
+          we work, and it is why our clients' systems are still standing years after we left
+          them.
+        </p>
+      </section>
+
+      <section class="how-we-work__section">
+        <h2>The paper</h2>
+        <p>
+          Contracts are with Paradius LLC, registered in Wyoming, under US jurisdiction,
+          billed in USD. The IP is yours from day one. NDAs are signed by default. Your
+          systems carry no signature of ours.
+        </p>
+      </section>
+
+      <section class="how-we-work__section">
+        <h2>Pricing</h2>
+        <p>
+          There is no pricing on this site because requirements determine price. A senior
+          engineer embedded in a regulated bank is not a line on a rate card. Tell us what you
+          need and we scope rates against your actual architecture, in private, within 24
+          hours.
+        </p>
+      </section>
+
+      <div class="how-we-work__actions">
+        <a href="/talent" class="how-we-work__cta">Browse the registry</a>
+        <a href="/contact" class="how-we-work__cta how-we-work__cta--secondary">
+          Start your team
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Registro plano funcional: Inter de punta a punta, sin voz serif. */
+  .how-we-work h1 {
+    font-family: var(--font-sans);
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    color: var(--color-text-primary);
+    margin-block-end: var(--spacing-md);
+  }
+
+  .how-we-work__lede {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    max-width: 38rem;
+  }
+
+  .how-we-work__section {
+    margin-block-start: var(--spacing-xl);
+  }
+
+  .how-we-work h2 {
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--color-text-primary);
+    margin-block-end: var(--spacing-sm);
+    padding-block-end: var(--spacing-xs);
+    border-block-end: 1px solid var(--color-accent-dim);
+  }
+
+  .how-we-work p {
+    font-family: var(--font-sans);
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    margin-block-end: 0.9rem;
+  }
+
+  .how-we-work p:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Lista ordenada real; los numerales son parte del diseño, no bullets. */
+  .how-we-work__steps {
+    list-style: none;
+    counter-reset: how-we-work-step;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .how-we-work__steps li {
+    counter-increment: how-we-work-step;
+    position: relative;
+    padding-inline-start: 2.75rem;
+    font-family: var(--font-sans);
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .how-we-work__steps li::before {
+    content: counter(how-we-work-step);
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    width: 1.75rem;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.75rem;
+    text-align: center;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-accent-dim);
+  }
+
+  .how-we-work a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .how-we-work a:hover,
+  .how-we-work a:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  /* Cierre. Estilo visual copiado de .hero__cta / .hero__cta--secondary,
+     scoped para no depender del Hero, que sale del sitio en el port del home. */
+  .how-we-work__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-block-start: var(--spacing-xl);
+    padding-block-start: var(--spacing-lg);
+    border-block-start: 1px solid var(--color-accent-dim);
+  }
+
+  .how-we-work__actions .how-we-work__cta {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
+  }
+
+  .how-we-work__actions .how-we-work__cta:hover,
+  .how-we-work__actions .how-we-work__cta:focus-visible {
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .how-we-work__actions .how-we-work__cta--secondary {
+    color: var(--color-text-primary);
+    background-color: transparent;
+  }
+
+  .how-we-work__actions .how-we-work__cta--secondary:hover,
+  .how-we-work__actions .how-we-work__cta--secondary:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 640px) {
+    .how-we-work__actions .how-we-work__cta {
+      padding: 0.875rem 1.5rem;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+</style>
