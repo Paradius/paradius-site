@@ -7,8 +7,9 @@ import { SITE_URL, type PageSeo } from '../lib/seo';
 const seo: PageSeo = {
   title: 'Page Not Found | Paradius',
   description: 'Not every path leads to the dawn.',
-  // /404/ is not a servable route, so the canonical points at the site root.
-  canonical: `${SITE_URL}/`,
+  // Self-referencing canonical: with noindex below, it keeps the 404 from
+  // consolidating any signal onto another URL.
+  canonical: `${SITE_URL}/404/`,
   robots: 'noindex, follow',
   webPageName: 'Page not found',
   webPageDescription: '404 page for paradius.dev.',

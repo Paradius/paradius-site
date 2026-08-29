@@ -13,7 +13,7 @@ export function buildWorkCatalogSeo(cases: readonly CaseStudy[]): PageSeo {
     canonical: WORK_CANONICAL,
     ogTitle: 'Case Studies',
     ogDescription:
-      'How Paradius engineers work: architecture first, systems that endure adoption at scale and outlive the engagement.',
+      'How Paradius engineers work: architecture first, systems that survive adoption at scale and outlive the engagement.',
     twitterDescription:
       'Paradius case studies: anonymized accounts of staff augmentation work that kept running after we left.',
     webPageName: 'Case Studies',
@@ -73,6 +73,10 @@ export function buildWorkCaseArticleJsonLd(
   caseStudy: CaseStudy,
   canonical: string,
 ): Record<string, unknown> {
+  // A case with no stack tags must omit the key entirely: an empty `keywords`
+  // string is a published non-fact.
+  const keywords = caseStudy.stack.map((tag) => tag.replace(/-/g, ' ')).join(', ');
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -84,6 +88,6 @@ export function buildWorkCaseArticleJsonLd(
       name: caseStudy.clientDescriptor,
       description: caseStudy.problem,
     },
-    keywords: caseStudy.stack.map((tag) => tag.replace(/-/g, ' ')).join(', '),
+    ...(keywords ? { keywords } : {}),
   };
 }
