@@ -1698,6 +1698,24 @@
     cursor: default;
   }
 
+  /* Talent catalog CTA is a real action: restore the pointer the grouped rule
+     above resets, and give it the same inversion as the other site CTAs. */
+  .talent-catalog-b__cta {
+    cursor: pointer;
+    background-color: transparent;
+    transition:
+      background-color var(--transition-duration-base) ease,
+      border-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
+  }
+
+  .talent-catalog-b__cta:hover,
+  .talent-catalog-b__cta:focus-visible {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg);
+  }
+
   .talent-catalog-a__footer,
   .talent-catalog-b__footer {
     max-width: var(--width-content);
