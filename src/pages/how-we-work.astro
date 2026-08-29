@@ -30,20 +30,20 @@ const seo: PageSeo = {
       <section class="how-we-work__section">
         <h2>Two ways to buy</h2>
         <p>
-          Browse the registry. You pick engineers from our registry, interview them, and run
-          them inside your team. You manage the day to day; we stay responsible for quality,
-          continuity and replacement.
+          <strong>Browse the registry.</strong> You pick engineers from our registry, interview
+          them, and run them inside your team. You manage the day to day; we stay responsible
+          for quality, continuity and replacement.
         </p>
         <p>
-          Start your team. You describe the outcome. We assemble the team, run the day to day,
-          and answer for delivery. You set goals and review progress.
+          <strong>Start your team.</strong> You describe the outcome. We assemble the team, run
+          the day to day, and answer for delivery. You set goals and review progress.
         </p>
         <p>There is no third model. We do not sell fixed bid projects.</p>
       </section>
 
       <section class="how-we-work__section">
         <h2>The process, with times</h2>
-        <ol class="how-we-work__steps">
+        <ol class="how-we-work__steps" role="list">
           <li>
             You write. Tell us who or what you need: the contact form, or
             <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
@@ -121,7 +121,7 @@ const seo: PageSeo = {
 </BaseLayout>
 
 <style>
-  /* Registro plano funcional: Inter de punta a punta, sin voz serif. */
+  /* Flat functional register: Inter end to end, no serif voice on this page. */
   .how-we-work h1 {
     font-family: var(--font-sans);
     font-size: clamp(1.875rem, 4vw, 2.5rem);
@@ -137,7 +137,6 @@ const seo: PageSeo = {
     font-size: 1.0625rem;
     color: var(--color-text-secondary);
     line-height: 1.75;
-    max-width: 38rem;
   }
 
   .how-we-work__section {
@@ -166,7 +165,15 @@ const seo: PageSeo = {
     margin-block-end: 0;
   }
 
-  /* Lista ordenada real; los numerales son parte del diseño, no bullets. */
+  /* Opening phrases of the two engagement models: scan anchors, not emphasis. */
+  .how-we-work strong {
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  /* A real ordered list. The numerals are part of the design, not browser bullets.
+     role="list" on the element keeps the list semantics that list-style: none
+     strips in WebKit. */
   .how-we-work__steps {
     list-style: none;
     counter-reset: how-we-work-step;
@@ -211,8 +218,9 @@ const seo: PageSeo = {
     color: var(--color-text-primary);
   }
 
-  /* Cierre. Estilo visual copiado de .hero__cta / .hero__cta--secondary,
-     scoped para no depender del Hero, que sale del sitio en el port del home. */
+  /* Closing actions. Visual style copied from .hero__cta and .hero__cta--secondary,
+     kept scoped so this page does not depend on the Hero component, which the home
+     port removes from the site. */
   .how-we-work__actions {
     display: flex;
     flex-wrap: wrap;
