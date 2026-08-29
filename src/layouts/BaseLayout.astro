@@ -17,7 +17,14 @@ const jsonLdBlocks = [
   ...(seo.additionalJsonLd ?? []),
 ];
 
-const GOOGLE_FONTS_URL =
+/**
+ * Exported so a page can opt into a BLOCKING copy of the same stylesheet.
+ * The home needs it: its settle model measures the landing after
+ * `document.fonts.ready`, and the non-blocking media=print load lets that
+ * promise resolve before the brand faces swap in, freezing a layout that is
+ * ~104px too tall.
+ */
+export const GOOGLE_FONTS_URL =
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap';
 
 const FAVICON_DATA_URI =

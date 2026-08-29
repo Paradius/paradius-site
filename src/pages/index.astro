@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout, { GOOGLE_FONTS_URL } from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { HOME_SEO } from '../lib/seo';
@@ -15,6 +15,15 @@ import { HOME_SEO } from '../lib/seo';
     href="/assets/architecting_the_dawn_from_within.svg"
     as="image"
   />
+  {/*
+    BLOCKING copy of the brand stylesheet, on purpose. The settle model freezes
+    the landing offset right after `document.fonts.ready`; with only the layout's
+    non-blocking (media=print) load, that promise can resolve before Inter and
+    Cormorant swap in, and the hero is measured against a layout ~104px too tall.
+    Loading here starts the faces before the script runs, so fonts.ready waits
+    for them. Same URL as the layout: the browser dedupes the request.
+  */}
+  <link slot="head" rel="stylesheet" href={GOOGLE_FONTS_URL} />
 
   <Header />
 
@@ -297,9 +306,11 @@ import { HOME_SEO } from '../lib/seo';
             <a href="/work" class="home-v7__teaser-cta">View case studies</a>
           </article>
         </div>
-        <p class="home-v7__graft home-v7__graft--cup">
-          Prefer we assemble and run it? <a href="/contact">Start your team</a>
-        </p>
+        <div class="home-v7__clip home-v7__clip--center">
+          <p class="home-v7__graft home-v7__graft--cup">
+            Prefer we assemble and run it? <a href="/contact">Start your team</a>
+          </p>
+        </div>
       </section>
     </main>
   </div>
@@ -688,10 +699,14 @@ import { HOME_SEO } from '../lib/seo';
     line-height: 1.75;
   }
 
+  /* Permanent underline: color alone is roughly 1.5:1 against the graft text,
+     which is not enough to mark a link on its own. */
   .home-v7__graft a,
   .home-v7__graft-link {
     color: #c0c8d4;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
     transition: color var(--transition-duration-base) ease;
   }
 
@@ -699,8 +714,7 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__graft a:focus-visible,
   .home-v7__graft-link:hover,
   .home-v7__graft-link:focus-visible {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    color: var(--color-text-primary);
   }
 
   /* Center rows share the full-bleed wrap */
