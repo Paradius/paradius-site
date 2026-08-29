@@ -7,18 +7,18 @@ const WORK_CANONICAL = `${SITE_URL}/work/` as const;
 /** SEO config for the case studies catalog page. */
 export function buildWorkCatalogSeo(cases: readonly CaseStudy[]): PageSeo {
   return {
-    title: 'Case Studies — Paradius LLC',
+    title: 'Case Studies | Paradius LLC',
     description:
-      'Anonymized case studies from Paradius staff augmentation engagements — enterprise delivery across mobile, backend, and platform engineering. Assemble your nearshore team and present profiles within 48 hours.',
+      'Anonymized case studies from Paradius staff augmentation engagements: systems built by senior nearshore engineers, adopted at scale and still running after we left. Profiles within 48 hours.',
     canonical: WORK_CANONICAL,
     ogTitle: 'Case Studies',
     ogDescription:
-      'See how Paradius nearshore squads deliver for enterprise teams — architecture-first engagements with measurable outcomes.',
+      'How Paradius engineers work: architecture first, systems that endure adoption at scale and outlive the engagement.',
     twitterDescription:
-      'Paradius case studies — anonymized proof of staff augmentation delivery for Fortune 500 and scale-up teams.',
+      'Paradius case studies: anonymized accounts of staff augmentation work that kept running after we left.',
     webPageName: 'Case Studies',
     webPageDescription:
-      'Paradius anonymized case studies — staff augmentation engagements with problem, solution, and outcome.',
+      'Paradius anonymized case studies: staff augmentation engagements with the problem, the system, and what remained.',
     additionalJsonLd: [buildWorkCollectionJsonLd(cases)],
   };
 }
@@ -28,7 +28,7 @@ export function buildWorkCaseSeo(caseStudy: CaseStudy): PageSeo {
   const canonical = `${SITE_URL}/work/${caseStudy.slug}/`;
 
   return {
-    title: `${caseStudy.title} — Paradius LLC`,
+    title: `${caseStudy.title} | Paradius LLC`,
     description: caseStudy.outcome,
     canonical,
     ogTitle: caseStudy.title,
@@ -56,7 +56,7 @@ export function buildWorkCollectionJsonLd(
     '@type': 'CollectionPage',
     name: 'Paradius Case Studies',
     description:
-      'Anonymized case studies from Paradius staff augmentation engagements for enterprise and scale-up teams.',
+      'Anonymized case studies from Paradius staff augmentation engagements with senior nearshore engineers.',
     url: WORK_CANONICAL,
     numberOfItems: cases.length,
     mainEntity: {

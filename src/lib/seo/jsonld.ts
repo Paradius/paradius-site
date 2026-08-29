@@ -8,7 +8,7 @@ import {
 } from './constants';
 import type { PageSeo } from './types';
 
-/** Organization — primary entity (exact data from landing_page/index.html). */
+/** Organization: primary entity for the site. */
 export function buildOrganizationJsonLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
@@ -46,7 +46,7 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
   };
 }
 
-/** ProfessionalService — for Google local/service results. */
+/** ProfessionalService: for Google local and service results. */
 export function buildProfessionalServiceJsonLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
@@ -76,7 +76,7 @@ export function buildProfessionalServiceJsonLd(): Record<string, unknown> {
   };
 }
 
-/** WebSite — helps Google understand site identity. */
+/** WebSite: helps Google understand site identity. */
 export function buildWebSiteJsonLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
@@ -92,7 +92,7 @@ export function buildWebSiteJsonLd(): Record<string, unknown> {
   };
 }
 
-/** WebPage — parameterized per route. */
+/** WebPage: parameterized per route. */
 export function buildWebPageJsonLd(page: PageSeo): Record<string, unknown> {
   const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',

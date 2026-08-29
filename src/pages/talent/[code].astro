@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import ScrollBehavior from '../../components/ScrollBehavior.astro';
 import ProfileDossier from '../../components/talent/ProfileDossier.astro';
 import { getProfiles } from '../../lib/api';
-import { buildTalentProfileSeo } from '../../lib/seo';
+import { buildTalentProfileSeo, buildBreadcrumbJsonLd, SITE_URL } from '../../lib/seo';
 import type { AnonymousProfile } from '../../lib/api';
 
 export async function getStaticPaths() {
@@ -21,7 +21,18 @@ interface Props {
 }
 
 const { profile } = Astro.props;
-const seo = buildTalentProfileSeo(profile);
+const baseSeo = buildTalentProfileSeo(profile);
+const seo = {
+  ...baseSeo,
+  additionalJsonLd: [
+    ...(baseSeo.additionalJsonLd ?? []),
+    buildBreadcrumbJsonLd([
+      { name: 'Home', url: `${SITE_URL}/` },
+      { name: 'Registry', url: `${SITE_URL}/talent/` },
+      { name: profile.code, url: baseSeo.canonical },
+    ]),
+  ],
+};
 ---
 
 <BaseLayout seo={seo}>

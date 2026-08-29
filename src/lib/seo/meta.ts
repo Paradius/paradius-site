@@ -24,9 +24,9 @@ export interface ResolvedPageMeta {
 
 /** Resolve meta/OG/Twitter/canonical tags for a page. */
 export function resolvePageMeta(page: PageSeo): ResolvedPageMeta {
-  const ogTitle =
-    page.ogTitle ??
-    page.title.replace(' — Paradius LLC', '').replace(' | High-End Software Engineering Consultancy — Paradius LLC', ' | High-End Software Engineering Consultancy');
+  // Site-wide title convention is `<page> | Paradius LLC`; social titles drop
+  // the legal suffix and keep whatever precedes it.
+  const ogTitle = page.ogTitle ?? page.title.replace(' | Paradius LLC', '');
 
   return {
     title: page.title,
@@ -42,31 +42,32 @@ export function resolvePageMeta(page: PageSeo): ResolvedPageMeta {
     ogTitle,
     ogDescription:
       page.ogDescription ??
-      'Paradius LLC is a software engineering consultancy that puts architecture first and engineers first. System design, cross-platform development, and technical integrity. Based in Sheridan, Wyoming.',
+      'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full overlap with US business hours from our Managua hub.',
     ogSiteName: 'Paradius',
     ogLocale: 'en_US',
     twitterCard: 'summary',
     twitterTitle: ogTitle,
     twitterDescription:
       page.twitterDescription ??
-      'Paradius LLC — architecture-first software engineering. System design, cross-platform development, technical integrity. Sheridan, Wyoming.',
+      'Paradius LLC: senior nearshore engineers under anonymous codes. US contracts, full US overlap, architecture first. We build systems that endure.',
     twitterSite: '@paradius_dev',
   };
 }
 
-/** Home page SEO — exact meta values from landing_page/index.html. */
+/** Home page SEO: metadata for the `/` route. */
 export const HOME_SEO: PageSeo = {
-  title: 'Paradius | High-End Software Engineering Consultancy — Paradius LLC',
+  title: 'Paradius | High-End Software Engineering Consultancy | Paradius LLC',
   description:
-    'Paradius is a high-end software engineering consultancy registered in Wyoming, USA. Paradius LLC specializes in system architecture, scalable back-end systems, cross-platform development, and technical consulting. Architecture-first. Engineer-first.',
+    'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full US overlap from our Managua hub. We build systems that endure, and we disappear into your success.',
   canonical: 'https://paradius.dev/',
   ogTitle: 'Paradius | High-End Software Engineering Consultancy',
   ogDescription:
-    'Paradius LLC is a software engineering consultancy that puts architecture first and engineers first. System design, cross-platform development, and technical integrity. Based in Sheridan, Wyoming.',
+    'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full overlap with US business hours from our hub in Managua, Nicaragua.',
   twitterDescription:
-    'Paradius LLC — architecture-first software engineering. System design, cross-platform development, technical integrity. Sheridan, Wyoming.',
-  webPageName: 'Paradius — High-End Software Engineering Consultancy',
+    'Paradius LLC: senior nearshore engineers under anonymous codes. US contracts, full US overlap, architecture first. We build systems that endure.',
+  webPageName: 'Paradius: High-End Software Engineering Consultancy',
   webPageDescription:
-    'Paradius LLC is a software engineering consultancy specializing in system architecture, cross-platform development, and technical integrity. Based in Sheridan, Wyoming.',
-  speakableSelectors: ['#hero-heading', '#philosophy-heading', '#expertise-heading'],
+    'Paradius LLC is a staff augmentation consultancy. Senior nearshore engineers under anonymous codes, US contracts in USD, full overlap with US business hours from our Managua hub.',
+  // Both ids live in the home v7 markup: the sr-only h1 and the confession line.
+  speakableSelectors: ['#hero-heading', '#confession'],
 };

@@ -1,4 +1,4 @@
-/** Canonical site origin — must match astro.config `site`. */
+/** Canonical site origin: must match astro.config `site`. */
 export const SITE_URL = 'https://paradius.dev' as const;
 
 /** Shared Organization / ProfessionalService fields from the live landing. */
@@ -30,7 +30,7 @@ export const ORG = {
 } as const;
 
 export const ORG_DESCRIPTION =
-  'Paradius is a high-end software engineering consultancy. We specialize in system architecture, cross-platform development, scalable back-end systems, and technical consulting. Architecture-first, engineer-first.';
+  'Paradius is a staff augmentation consultancy. Senior nearshore engineers under anonymous codes, activated per contract: system architecture, cross-platform development, scalable back-end systems. The client keeps the IP, the credit and the morning.';
 
 export const ORG_KNOWS_ABOUT = [
   'Software Architecture',
@@ -55,8 +55,8 @@ export const SERVICE_TYPES = [
 ] as const;
 
 export const PROFESSIONAL_SERVICE_DESCRIPTION =
-  'Paradius LLC provides high-end software engineering consulting services including system architecture design, cross-platform engineering, scalable back-end systems, and technical integrity audits.';
+  'Paradius LLC provides staff augmentation and dedicated engineering teams: senior nearshore engineers, US contracts in USD, full US timezone overlap, architecture-first delivery.';
 
 /** Default meta keywords from the live landing home page. */
 export const DEFAULT_KEYWORDS =
-  'Paradius, Paradius LLC, Paradius software, Paradius engineering, Paradius consultancy, Paradius dev, paradius.dev, software engineering consultancy, system architecture, cross-platform development, technical consulting, Wyoming software company, high-end software engineering';
+  'Paradius, Paradius LLC, Paradius software, Paradius engineering, Paradius consultancy, Paradius dev, paradius.dev, software engineering consultancy, system architecture, cross-platform development, technical consulting, Wyoming software company, high-end software engineering, staff augmentation, nearshore software engineers, senior engineers, dedicated teams';

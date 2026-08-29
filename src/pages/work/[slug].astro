@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import ScrollBehavior from '../../components/ScrollBehavior.astro';
 import WorkCaseStudy from '../../components/work/WorkCaseStudy.astro';
 import { getCases } from '../../lib/api';
-import { buildWorkCaseSeo } from '../../lib/seo';
+import { buildWorkCaseSeo, buildBreadcrumbJsonLd, SITE_URL } from '../../lib/seo';
 import type { CaseStudy } from '../../lib/api';
 
 export async function getStaticPaths() {
@@ -21,7 +21,18 @@ interface Props {
 }
 
 const { caseStudy } = Astro.props;
-const seo = buildWorkCaseSeo(caseStudy);
+const baseSeo = buildWorkCaseSeo(caseStudy);
+const seo = {
+  ...baseSeo,
+  additionalJsonLd: [
+    ...(baseSeo.additionalJsonLd ?? []),
+    buildBreadcrumbJsonLd([
+      { name: 'Home', url: `${SITE_URL}/` },
+      { name: 'Work', url: `${SITE_URL}/work/` },
+      { name: caseStudy.title, url: baseSeo.canonical },
+    ]),
+  ],
+};
 const cases = await getCases();
 const caseIndex = cases.findIndex((entry) => entry.slug === caseStudy.slug) + 1;
 ---

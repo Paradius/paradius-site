@@ -7,18 +7,18 @@ const TALENT_CANONICAL = `${SITE_URL}/talent/` as const;
 /** SEO config for the talent catalog page. */
 export function buildTalentCatalogSeo(profiles: readonly AnonymousProfile[]): PageSeo {
   return {
-    title: 'Browse Our Talent — Paradius LLC',
+    title: 'Browse Our Talent | Paradius LLC',
     description:
-      'Senior nearshore engineers, vetted and ready to present within 48 hours. Filter by role, stack, seniority, and availability — then request the profiles that fit your team.',
+      'Senior nearshore engineers, vetted and presented within 48 hours. Filter by role, stack, seniority, and availability, then request the profiles that fit your team.',
     canonical: TALENT_CANONICAL,
     ogTitle: 'Browse Our Talent',
     ogDescription:
-      'Staff augmentation from Paradius — senior nearshore engineers across mobile, backend, frontend, and DevOps. Profiles presented within 48 hours.',
+      'Staff augmentation from Paradius: senior nearshore engineers across mobile, backend, frontend, and DevOps. Profiles within 48 hours.',
     twitterDescription:
       'Browse vetted senior engineers from Paradius. Filter by stack and availability, request profiles within 48 hours.',
     webPageName: 'Browse Our Talent',
     webPageDescription:
-      'Paradius talent catalog — anonymous senior engineer profiles available for staff augmentation engagements.',
+      'Paradius talent catalog: anonymous senior engineer profiles available for staff augmentation engagements.',
     additionalJsonLd: [buildTalentCollectionJsonLd(profiles.length, profiles)],
   };
 }
@@ -26,16 +26,16 @@ export function buildTalentCatalogSeo(profiles: readonly AnonymousProfile[]): Pa
 /** SEO config for an individual talent profile page. */
 export function buildTalentProfileSeo(profile: AnonymousProfile): PageSeo {
   const canonical = `${SITE_URL}/talent/${profile.code}/`;
-  const title = `${profile.code} — ${profile.headline} — Paradius LLC`;
+  const title = `${profile.code} | ${profile.headline} | Paradius LLC`;
 
   return {
     title,
     description: profile.summary,
     canonical,
-    ogTitle: `${profile.code} — ${profile.headline}`,
+    ogTitle: `${profile.code} | ${profile.headline}`,
     ogDescription: profile.summary,
     twitterDescription: profile.summary,
-    webPageName: `${profile.code} — ${profile.headline}`,
+    webPageName: `${profile.code} | ${profile.headline}`,
     webPageDescription: profile.summary,
     additionalJsonLd: [buildTalentProfileItemPageJsonLd(profile, canonical)],
   };
@@ -78,7 +78,7 @@ export function buildTalentProfileItemPageJsonLd(
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemPage',
-    name: `${profile.code} — ${profile.headline}`,
+    name: `${profile.code} | ${profile.headline}`,
     description: profile.summary,
     url: canonical,
     about: {
