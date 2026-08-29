@@ -76,7 +76,7 @@ function getSide(el: HTMLElement): Side {
 
 function measureFrame(): void {
   const header = document.getElementById('header');
-  const footer = document.querySelector('.footer-minimal');
+  const footer = document.querySelector('.footer-ledger');
   navH = header?.offsetHeight ?? 0;
   footH = footer instanceof HTMLElement ? footer.offsetHeight : 0;
   viewportH = window.innerHeight;

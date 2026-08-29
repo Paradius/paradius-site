@@ -103,7 +103,7 @@ async function shotTreeLayer(page) {
     };
     hide('.site-header');
     hide('.home-v4__main');
-    hide('.footer-minimal');
+    hide('.footer-ledger');
     const tree = document.querySelector('[data-home-v4-tree]');
     if (tree) {
       tree.style.opacity = '0.38';
@@ -121,7 +121,7 @@ async function shotTreeLayer(page) {
   await page.evaluate(() => {
     document.querySelector('.site-header')?.style.removeProperty('visibility');
     document.querySelector('.home-v4__main')?.style.removeProperty('visibility');
-    document.querySelector('.footer-minimal')?.style.removeProperty('visibility');
+    document.querySelector('.footer-ledger')?.style.removeProperty('visibility');
   });
 
   const maxScroll = await page.evaluate(() =>
@@ -187,7 +187,7 @@ async function main() {
 
   // Reset visibility for component shots
   await page.evaluate(() => {
-    document.querySelectorAll('.site-header, .home-v4__main, .footer-minimal').forEach((el) => {
+    document.querySelectorAll('.site-header, .home-v4__main, .footer-ledger').forEach((el) => {
       el.style.removeProperty('visibility');
     });
     const tree = document.querySelector('[data-home-v4-tree]');
@@ -198,7 +198,7 @@ async function main() {
 
   // Header & footer
   await shotElement(page, '.site-header', 'chrome-header.png', { pad: 0, fullElement: true });
-  await shotElement(page, '.footer-minimal', 'chrome-footer.png', { fullElement: true });
+  await shotElement(page, '.footer-ledger', 'chrome-footer.png', { fullElement: true });
 
   // Hero parts
   await shotElement(page, '.home-v4__tagline', 'hero-tagline.png');
