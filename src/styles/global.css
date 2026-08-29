@@ -347,6 +347,7 @@
     font-weight: 500;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
+    white-space: nowrap;
     color: var(--color-text-secondary);
     text-decoration: none;
     transition: color var(--transition-duration-fast) ease;
@@ -365,8 +366,9 @@
     font-family: var(--font-brand);
     font-size: 0.85rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
+    white-space: nowrap;
     text-decoration: none;
     transition:
       background-color var(--transition-duration-fast) ease,
@@ -2266,6 +2268,56 @@
   .talent-catalog-b__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* Collapsed nav: the six item bar needs ~950px to sit on one line, so the
+     hamburger takes over below 1024px instead of below 768px. */
+  .site-header__menu-toggle {
+    display: flex;
+  }
+
+  .site-header__nav {
+    /* Anchored to the header, not to the viewport: the backdrop-filter on
+       .site-header makes it the containing block for fixed descendants. The
+       header sits at the viewport top-left, so viewport units still give a
+       full screen overlay. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--transition-duration-base) ease,
+      visibility var(--transition-duration-base) ease;
+  }
+
+  .site-header__nav--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-header__nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xl);
+  }
+
+  .site-header__nav-link {
+    font-size: 1.25rem;
+    letter-spacing: var(--tracking-caps-wide);
+  }
+
+  .site-header__cta {
+    font-size: 1.125rem;
+    padding: 0.6rem 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -2313,46 +2365,6 @@
   .footer-minimal__copy {
     flex: none;
     text-align: center;
-  }
-
-  .site-header__menu-toggle {
-    display: flex;
-  }
-
-  .site-header__nav {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-bg);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity var(--transition-duration-base) ease,
-      visibility var(--transition-duration-base) ease;
-  }
-
-  .site-header__nav--open {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .site-header__nav-list {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xl);
-  }
-
-  .site-header__nav-link {
-    font-size: 1.25rem;
-    letter-spacing: var(--tracking-caps-wide);
-  }
-
-  .site-header__cta {
-    font-size: 1.125rem;
-    padding: 0.6rem 1.5rem;
   }
 
   .mockup-main {
