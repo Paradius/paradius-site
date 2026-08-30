@@ -1014,11 +1014,11 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__force-label {
     /* Inscription jurisdiction: caps, spaced. Marcellus baseline. */
     display: block;
-    font-family: var(--font-voice);
+    font-family: var(--font-tech);
     font-size: clamp(0.95rem, 1.3vw, 1.15rem);
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-text-primary);
     margin-bottom: var(--spacing-sm);
   }
 
@@ -1026,7 +1026,7 @@ import { HOME_SEO } from '../lib/seo';
      Power defaults to the sans voice, Will to the heading voice. */
   .home-v7__force-text {
     font-family: var(--font-tech);
-    font-size: clamp(1.65rem, 2.7vw, 2.25rem);
+    font-size: clamp(calc(1.65rem - 2px), calc(2.7vw - 2px), calc(2.25rem - 2px));
     line-height: 1.45;
     color: var(--color-text-secondary);
     margin: 0;
