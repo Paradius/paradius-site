@@ -55,7 +55,7 @@ const BRANCH_SCALE_PULL = 0.06;
    resting frame stays whole. */
 const FUNNEL_EXIT_START = 0.6;
 const FUNNEL_EXIT_END = 0.82;
-const FUNNEL_EXIT_PULL_Y_VH = 0.3;
+const FUNNEL_EXIT_PULL_Y_VH = 0.16;
 const FUNNEL_CANOPY_HOLD = 0.35;
 
 function branchSign(side: RevealSide): number {
