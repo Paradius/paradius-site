@@ -125,7 +125,9 @@ import { HOME_SEO } from '../lib/seo';
               Every system that endures needs both.
             </p>
             <p class="home-v7__peak home-v7__peak--confession">
-              Most companies sell you one and call it engineering.
+              We seal them together in a creational force<span
+                class="home-v7__caret"
+                aria-hidden="true">_</span>
             </p>
           </div>
         </div>
@@ -1009,6 +1011,17 @@ import { HOME_SEO } from '../lib/seo';
     margin-block-start: clamp(13rem, 24vh, 18rem);
   }
 
+  /* The trailing underscore is a live cursor: the work never stops */
+  .home-v7__caret {
+    animation: home-v7-caret 1.15s steps(1) infinite;
+  }
+
+  @keyframes home-v7-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
   .home-v7__voice {
     font-family: var(--font-heading);
     font-size: clamp(1.65rem, 2.7vw, 2.25rem);
@@ -1225,6 +1238,10 @@ import { HOME_SEO } from '../lib/seo';
     .home-v7__tree-shimmer {
       animation: none;
       opacity: 0;
+    }
+
+    .home-v7__caret {
+      animation: none;
     }
   }
 </style>
