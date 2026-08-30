@@ -401,12 +401,16 @@ import { HOME_SEO } from '../lib/seo';
       linear-gradient(
         to top,
         transparent 0%,
-        transparent 34%,
-        rgb(255 255 255 / 0.2) 40%,
-        rgb(255 255 255 / 0.95) 47%,
-        rgb(255 255 255 / 0.95) 53%,
-        rgb(255 255 255 / 0.2) 60%,
+        transparent 12%,
+        rgb(255 255 255 / 0.35) 18%,
+        transparent 24%,
+        transparent 36%,
+        rgb(255 255 255 / 0.9) 44%,
+        rgb(255 255 255 / 0.9) 48%,
+        transparent 56%,
         transparent 66%,
+        rgb(255 255 255 / 0.5) 72%,
+        transparent 78%,
         transparent 100%
       );
     -webkit-mask-size: 100% 86%, 100% 350%;
@@ -418,31 +422,33 @@ import { HOME_SEO } from '../lib/seo';
       linear-gradient(
         to top,
         transparent 0%,
-        transparent 34%,
-        rgb(255 255 255 / 0.2) 40%,
-        rgb(255 255 255 / 0.95) 47%,
-        rgb(255 255 255 / 0.95) 53%,
-        rgb(255 255 255 / 0.2) 60%,
+        transparent 12%,
+        rgb(255 255 255 / 0.35) 18%,
+        transparent 24%,
+        transparent 36%,
+        rgb(255 255 255 / 0.9) 44%,
+        rgb(255 255 255 / 0.9) 48%,
+        transparent 56%,
         transparent 66%,
+        rgb(255 255 255 / 0.5) 72%,
+        transparent 78%,
         transparent 100%
       );
     mask-size: 100% 86%, 100% 350%;
     mask-repeat: no-repeat, no-repeat;
     mask-position: center center, center 280%;
     mask-composite: intersect;
-    animation: home-v7-tree-pulse 6.5s ease-in-out infinite;
+    animation: home-v7-tree-pulse 12s linear infinite;
   }
 
   @keyframes home-v7-tree-pulse {
-    0%,
-    30% {
-      -webkit-mask-position: center center, center 280%;
-      mask-position: center center, center 280%;
-    }
-    80%,
-    100% {
+    0% {
       -webkit-mask-position: center center, center -180%;
       mask-position: center center, center -180%;
+    }
+    100% {
+      -webkit-mask-position: center center, center 280%;
+      mask-position: center center, center 280%;
     }
   }
 
