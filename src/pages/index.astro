@@ -121,7 +121,7 @@ import { HOME_SEO } from '../lib/seo';
       <section class="home-v7__row home-v7__row--thesis-close" data-home-v7-node aria-label="Both forces">
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__peak-lead">
+            <p class="home-v7__peak home-v7__peak--confession home-v7__peak--dim">
               Every system that endures needs both.
             </p>
             <p class="home-v7__peak home-v7__peak--confession">
@@ -1006,7 +1006,11 @@ import { HOME_SEO } from '../lib/seo';
 
   /* The thesis close: near the forces but with clearance from WILL's climb */
   .home-v7__row--thesis-close {
-    margin-block-start: clamp(13rem, 24vh, 18rem);
+    margin-block-start: clamp(18rem, 32vh, 25rem);
+  }
+
+  .home-v7__peak--dim {
+    color: var(--color-text-secondary);
   }
 
   .home-v7__voice {
