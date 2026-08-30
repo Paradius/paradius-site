@@ -569,19 +569,14 @@ import { HOME_SEO } from '../lib/seo';
     /* empty: perception only */
   }
 
-  /* The forces do not sit side by side: WILL rides high right, POWER lands
-     lower left, both pushed away from the spine (owner sketch, 2026-08-30). */
-  .home-v7__row--split .home-v7__spine {
-    grid-template-columns: minmax(0, 1fr) clamp(4rem, 13vw, 15rem) minmax(0, 1fr);
-  }
-
+  /* The forces stagger (WILL high, POWER lower) but hug the spine; their
+     text runs longer than the default measure (owner call, 2026-08-30). */
   .home-v7__row--split .home-v7__col--left {
     margin-top: clamp(5rem, 12vh, 9rem);
-    padding-right: clamp(0rem, 2vw, 2.5rem);
   }
 
-  .home-v7__row--split .home-v7__col--right {
-    padding-left: clamp(0rem, 2vw, 2.5rem);
+  .home-v7__row--split .home-v7__content {
+    --content-span: 58ch;
   }
 
   .home-v7__col--left {
@@ -1108,11 +1103,6 @@ import { HOME_SEO } from '../lib/seo';
 
     .home-v7__row--split .home-v7__col--left {
       margin-top: var(--spacing-md);
-      padding-right: 0;
-    }
-
-    .home-v7__row--split .home-v7__col--right {
-      padding-left: 0;
     }
 
     .home-v7__col--empty {
