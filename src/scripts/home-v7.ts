@@ -48,6 +48,16 @@ const BRANCH_PULL_Y_VH = 0.85;
  */
 const BRANCH_SCALE_PULL = 0.06;
 
+/* Funnel exit (owner-approved model evolution, 2026-08-30): blocks do not
+   stay parked once built. Past the reading zone they keep travelling and
+   fade out, so the viewport always holds things in transit and settled
+   text never piles up. Exit is disabled near the canopy so the final
+   resting frame stays whole. */
+const FUNNEL_EXIT_START = 0.8;
+const FUNNEL_EXIT_END = 1.06;
+const FUNNEL_EXIT_PULL_Y_VH = 0.3;
+const FUNNEL_CANOPY_HOLD = 0.35;
+
 function branchSign(side: RevealSide): number {
   return side === 'left' ? 1 : -1;
 }
@@ -77,14 +87,19 @@ function readVisualRect(el: HTMLElement): DOMRect {
 }
 
 /** Whole block slides on an ascending diagonal; no rotate (bottom-hinge was horizontal). */
-function applyBranchTransform(el: HTMLElement, side: RevealSide, rest: number): void {
-  if (rest <= 0) {
+function applyBranchTransform(
+  el: HTMLElement,
+  side: RevealSide,
+  rest: number,
+  exitY = 0,
+): void {
+  if (rest <= 0 && exitY === 0) {
     el.style.transform = 'none';
     clearInnerTransform(el);
     return;
   }
 
-  const y = rest * viewportH * BRANCH_PULL_Y_VH;
+  const y = rest * viewportH * BRANCH_PULL_Y_VH + exitY;
   const scale = 1 - rest * BRANCH_SCALE_PULL;
 
   if (side === 'center') {
@@ -237,6 +252,15 @@ function settleProgress(rect: DOMRect, phasePx: number): number {
   return clamp(t, 0, 1);
 }
 
+function exitProgress(rect: DOMRect): number {
+  if (!hijack) return 0;
+  // The canopy is the destination: nothing exits while resting at the top.
+  if (current <= viewportH * FUNNEL_CANOPY_HOLD) return 0;
+  const start = viewportH * FUNNEL_EXIT_START;
+  const end = viewportH * FUNNEL_EXIT_END;
+  return smoothstep((rect.top - start) / (end - start));
+}
+
 function applyHidden(el: HTMLElement, side: RevealSide): void {
   el.style.opacity = '0';
   applyBranchTransform(el, side, 1);
@@ -244,7 +268,7 @@ function applyHidden(el: HTMLElement, side: RevealSide): void {
   el.style.setProperty('--settle', '0');
 }
 
-function applySettle(item: RevealTarget, t: number): void {
+function applySettle(item: RevealTarget, t: number, exit = 0): void {
   const { el, side } = item;
   const build = clamp(t, 0, 1);
   if (build <= 0) {
@@ -253,11 +277,12 @@ function applySettle(item: RevealTarget, t: number): void {
   }
 
   const rest = 1 - build;
-  applyBranchTransform(el, side, rest);
-  const fade = fadeOpacity(build);
+  const exitY = exit * viewportH * FUNNEL_EXIT_PULL_Y_VH;
+  applyBranchTransform(el, side, rest, exitY);
+  const fade = fadeOpacity(build) * (1 - exit);
   el.style.opacity = String(fade);
   el.style.filter = `brightness(${0.5 + 0.5 * fade})`;
-  el.style.setProperty('--settle', String(build));
+  el.style.setProperty('--settle', String(build * (1 - exit)));
 }
 
 function clearSettle(el: HTMLElement): void {
@@ -275,7 +300,7 @@ function updateReveals(): void {
   for (const item of reveals) {
     const rect = readVisualRect(item.el);
     const t = settleProgress(rect, item.phasePx);
-    applySettle(item, t);
+    applySettle(item, t, exitProgress(rect));
   }
 }
 
