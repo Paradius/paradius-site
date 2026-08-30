@@ -29,6 +29,7 @@ import { HOME_SEO } from '../lib/seo';
 
   <div class="home-v7">
     <div class="home-v7__tree" data-home-v7-tree aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer" data-home-v7-tree-shimmer aria-hidden="true"></div>
 
     <main id="main-content" class="home-v7__main">
       <!-- HERO: roots, centered -->
@@ -313,6 +314,33 @@ import { HOME_SEO } from '../lib/seo';
 
   <Footer />
   <script src="../scripts/home-v7.ts"></script>
+  <script is:inline>
+    /* EXPERIMENT: shimmer twin follows the engine-driven tree (transform and
+       opacity are inline-written by home-v7.ts, which stays untouched), and
+       clicking the page steps the tree's light through the accent family. */
+    (function () {
+      var tree = document.querySelector('[data-home-v7-tree]');
+      var shimmer = document.querySelector('[data-home-v7-tree-shimmer]');
+      if (!tree || !shimmer) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduced) {
+        (function follow() {
+          if (tree.style.transform) shimmer.style.transform = tree.style.transform;
+          var o = parseFloat(tree.style.opacity || '0.04');
+          shimmer.style.opacity = String(Math.min(0.14, o * 2.5));
+          requestAnimationFrame(follow);
+        })();
+      }
+      var tints = ['#ffffff', '#c0c8d4', '#8fa3c0', '#e5e7eb'];
+      var step = 0;
+      document.addEventListener('click', function (ev) {
+        if (ev.target && ev.target.closest && ev.target.closest('a, button')) return;
+        step = (step + 1) % tints.length;
+        tree.style.backgroundColor = tints[step];
+        shimmer.style.backgroundColor = tints[step];
+      });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -334,7 +362,8 @@ import { HOME_SEO } from '../lib/seo';
     top: 0;
     left: 50%;
     z-index: 0;
-    width: min(96vw, 88rem);
+    /* EXPERIMENT: expanded like the original landing tree (was min(96vw, 88rem)) */
+    width: 165vw;
     height: 220dvh;
     pointer-events: none;
     transform: translateX(-50%) translateY(-50vh);
@@ -349,6 +378,68 @@ import { HOME_SEO } from '../lib/seo';
     mask-position: center top;
     mask-size: 100% 100%;
     will-change: transform, opacity;
+  }
+
+  /* EXPERIMENT: heartbeat sweep from the original landing (tree shape
+     intersected with a vertical glow band, slowly rising). Sibling of the
+     tree because the engine drives the tree's inline opacity each frame. */
+  .home-v7__tree-shimmer {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: 165vw;
+    height: 220dvh;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-50vh);
+    opacity: 0.1;
+    background-color: #fff;
+    contain: strict;
+    will-change: transform;
+    -webkit-mask-image:
+      url('/assets/circuit_tree_full.svg'),
+      linear-gradient(
+        to top,
+        transparent 0%,
+        rgb(255 255 255 / 0.15) 30%,
+        rgb(255 255 255 / 0.4) 45%,
+        rgb(255 255 255 / 0.4) 55%,
+        rgb(255 255 255 / 0.15) 70%,
+        transparent 100%
+      );
+    -webkit-mask-size: 100% 100%, 100% 350%;
+    -webkit-mask-repeat: no-repeat, no-repeat;
+    -webkit-mask-position: center top, center 280%;
+    -webkit-mask-composite: source-in;
+    mask-image:
+      url('/assets/circuit_tree_full.svg'),
+      linear-gradient(
+        to top,
+        transparent 0%,
+        rgb(255 255 255 / 0.15) 30%,
+        rgb(255 255 255 / 0.4) 45%,
+        rgb(255 255 255 / 0.4) 55%,
+        rgb(255 255 255 / 0.15) 70%,
+        transparent 100%
+      );
+    mask-size: 100% 100%, 100% 350%;
+    mask-repeat: no-repeat, no-repeat;
+    mask-position: center top, center 280%;
+    mask-composite: intersect;
+    animation: home-v7-tree-pulse 18s ease-in-out infinite;
+  }
+
+  @keyframes home-v7-tree-pulse {
+    0%,
+    30% {
+      -webkit-mask-position: center top, center 280%;
+      mask-position: center top, center 280%;
+    }
+    80%,
+    100% {
+      -webkit-mask-position: center top, center -180%;
+      mask-position: center top, center -180%;
+    }
   }
 
   .home-v7__main {
@@ -955,6 +1046,11 @@ import { HOME_SEO } from '../lib/seo';
     .home-v7__tree {
       opacity: 0.17;
       transform: translateX(-50%) translateY(-25vh);
+    }
+
+    .home-v7__tree-shimmer {
+      animation: none;
+      opacity: 0;
     }
   }
 </style>
