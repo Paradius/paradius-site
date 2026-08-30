@@ -88,6 +88,13 @@ const DIRECTIONS = [
   },
 ] as const;
 
+const cleanName = (stack: string) => stack.split(',')[0].replace(/['"]/g, '');
+const RENDER = DIRECTIONS.map((d) => ({
+  ...d,
+  melodyName: cleanName(d.melody),
+  voiceName: cleanName(d.voice),
+}));
+
 const LAB_FONTS =
   'https://fonts.googleapis.com/css2?' +
   [
@@ -122,7 +129,7 @@ const LAB_FONTS =
     </header>
 
     {
-      DIRECTIONS.map((d) => (
+      RENDER.map((d) => (
         <section
           class="dir"
           id={`dir-${d.id}`}
@@ -134,12 +141,13 @@ const LAB_FONTS =
               <h2 class="dir__name">{d.name}</h2>
               <p class="dir__referent">{d.referent}</p>
               <p class="dir__faces">
-                melodia: {d.melody.split(',')[0]} · voz: {d.voice.split(',')[0]}
+                Dos familias exactas por bloque: lo que varia adentro es peso, caja e italica.
               </p>
             </div>
           </div>
 
           <div class="spec">
+            <span class="tag">chrome: {d.voiceName} 500, caps</span>
             <div class={d.caps ? 'spec__chrome spec__chrome--caps' : 'spec__chrome'}>
               <span class="spec__nav">
                 <span>Registry</span>
@@ -151,11 +159,15 @@ const LAB_FONTS =
               <span class="spec__navbtn">Start your team</span>
             </div>
 
+            <span class="tag">hechos: {d.voiceName} 400</span>
             <p class="spec__facts">
               Senior nearshore engineering. Managua hub, full US overlap. Paradius LLC, Wyoming.
               US contracts, USD.
             </p>
 
+            <span class="tag">
+              pico: {d.melodyName} {d.melodyWeight}{d.caps ? ', caps' : ''} · el enfasis es italica de la misma familia
+            </span>
             <p class="spec__peak">
               You can find ten thousand agencies with better rankings, better funding, better
               manners. <em>You will not find one that refuses to quit the way we do.</em>
@@ -163,25 +175,30 @@ const LAB_FONTS =
 
             <div class="spec__thesis">
               <div class="spec__force spec__force--power">
+                <span class="tag">label: {d.voiceName} caps · texto: {d.voiceName} 400</span>
                 <span class="spec__label">Power</span>
                 <p>The architecture, the guardrails, the discipline that keeps systems from rotting.</p>
               </div>
               <div class="spec__force spec__force--will">
+                <span class="tag">label: {d.voiceName} caps · texto: {d.melodyName} {d.melodyWeight}</span>
                 <span class="spec__label">Will</span>
                 <p>The spark. People who cannot leave things worse than they found them.</p>
               </div>
             </div>
 
+            <span class="tag">voz display: {d.voiceName} 400</span>
             <p class="spec__voiceline">
               Then they go remote. And nothing degrades. 0123456789, PRD-001, 48 hours.
             </p>
 
+            <span class="tag">cuerpo: {d.voiceName} 400</span>
             <p class="spec__body">
               We do not hire headcount. We find the ones with the spark and push them further
               than they believed they could go. Every engagement begins in one room: our hub, a
               senior mentor at the next desk, standards enforced from day one.
             </p>
 
+            <span class="tag">CTAs: {d.voiceName} 500, caps</span>
             <div class="spec__ctas">
               <span class="spec__cta spec__cta--primary">Browse the registry</span>
               <span class="spec__cta">Start your team</span>
@@ -260,6 +277,16 @@ const LAB_FONTS =
 
   .spec {
     max-width: 62rem;
+  }
+
+  .tag {
+    display: block;
+    font-family: system-ui, sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 0.4rem;
   }
 
   .spec__chrome {
