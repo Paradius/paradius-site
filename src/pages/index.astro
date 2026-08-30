@@ -118,10 +118,10 @@ import { HOME_SEO } from '../lib/seo';
         </div>
       </section>
 
-      <section class="home-v7__row" data-home-v7-node aria-label="Both forces">
+      <section class="home-v7__row home-v7__row--thesis-close" data-home-v7-node aria-label="Both forces">
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__voice home-v7__voice--center">
+            <p class="home-v7__voice home-v7__voice--center home-v7__voice--full">
               Every system that endures needs both. Most companies sell you one and call it
               engineering.
             </p>
@@ -1000,6 +1000,16 @@ import { HOME_SEO } from '../lib/seo';
     font-weight: 500;
     font-style: italic;
     color: var(--color-accent);
+  }
+
+  /* The thesis close rides close to the forces and speaks full voice */
+  .home-v7__row--thesis-close {
+    margin-block-start: clamp(1rem, 3vh, 2.5rem);
+  }
+
+  .home-v7__voice--full {
+    font-family: var(--font-voice);
+    font-weight: 300;
   }
 
   .home-v7__voice {
