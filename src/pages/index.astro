@@ -384,7 +384,8 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__tree {
     position: fixed;
     top: 0;
-    left: 50%;
+    /* Owner calibration: the trunk reads left of center, nudge right */
+    left: calc(50% + 1.5vw);
     z-index: 0;
     /* EXPERIMENT: expanded like the original landing tree (was min(96vw, 88rem)) */
     width: 165vw;
@@ -410,7 +411,8 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__tree-shimmer {
     position: fixed;
     top: 0;
-    left: 50%;
+    /* Owner calibration: the trunk reads left of center, nudge right */
+    left: calc(50% + 1.5vw);
     z-index: 0;
     width: 165vw;
     height: 220dvh;
@@ -966,8 +968,6 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__peak-lead--after-peak {
     margin-block-start: var(--spacing-lg);
-    /* A parenthesis, almost an aside: smaller than the lead register */
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
   }
 
   .home-v7__peak--confession {
