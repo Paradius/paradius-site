@@ -573,10 +573,15 @@ import { HOME_SEO } from '../lib/seo';
      text runs longer than the default measure (owner call, 2026-08-30). */
   .home-v7__row--split .home-v7__col--left {
     margin-top: clamp(5rem, 12vh, 9rem);
+    padding-right: clamp(0.5rem, 1vw, 1.25rem);
   }
 
   .home-v7__row--split .home-v7__col--right {
-    margin-top: clamp(-5rem, -7vh, -2.5rem);
+    padding-left: clamp(0.5rem, 1vw, 1.25rem);
+  }
+
+  .home-v7__row--split .home-v7__col--right {
+    margin-top: clamp(-6.5rem, -9vh, -3.5rem);
   }
 
   .home-v7__col--left {
@@ -649,7 +654,7 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__row--split .home-v7__content--depth-1 {
     --branch-push: clamp(0rem, 3vw, 2rem);
-    --content-span: 64ch;
+    --content-span: 54ch;
   }
 
   /* Row rhythm: sparse libreto. Every line earns its air, and consecutive
