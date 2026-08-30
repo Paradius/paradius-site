@@ -1162,8 +1162,12 @@
   .footer-ledger {
     position: relative;
     z-index: 1;
-    border-top: 1px solid var(--color-divider);
-    background-color: var(--color-surface);
+    /* Same glass treatment as .site-header: translucent band, no hard border */
+    border-top: none;
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.48) 0%, rgb(0 0 0 / 0.48) 100%);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
     padding-block: var(--spacing-md);
     font-family: var(--font-body);
     font-size: 0.8rem;
