@@ -3,8 +3,8 @@
  * Same motion that felt good — progress inverted so construction = emerge from spine.
  */
 
-const LERP = 0.12;
-const SCROLL_SPEED = 1.0;
+const LERP = 0.07;
+const SCROLL_SPEED = 0.55;
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
 const TREE_MOBILE_FACTOR = 0.55;
