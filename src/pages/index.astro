@@ -319,20 +319,20 @@ import { HOME_SEO } from '../lib/seo';
        opacity are inline-written by home-v7.ts, which stays untouched), and
        clicking the page steps the tree's light through the accent family. */
     (function () {
-      var tree = document.querySelector('[data-home-v7-tree]');
-      var shimmer = document.querySelector('[data-home-v7-tree-shimmer]');
+      const tree = document.querySelector('[data-home-v7-tree]');
+      const shimmer = document.querySelector('[data-home-v7-tree-shimmer]');
       if (!tree || !shimmer) return;
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduced) {
         (function follow() {
           if (tree.style.transform) shimmer.style.transform = tree.style.transform;
-          var o = parseFloat(tree.style.opacity || '0.04');
+          const o = parseFloat(tree.style.opacity || '0.04');
           shimmer.style.opacity = String(Math.min(0.14, o * 2.5));
           requestAnimationFrame(follow);
         })();
       }
-      var tints = ['#ffffff', '#c0c8d4', '#8fa3c0', '#e5e7eb'];
-      var step = 0;
+      const tints = ['#ffffff', '#c0c8d4', '#8fa3c0', '#e5e7eb'];
+      let step = 0;
       document.addEventListener('click', function (ev) {
         if (ev.target && ev.target.closest && ev.target.closest('a, button')) return;
         step = (step + 1) % tints.length;
