@@ -29,7 +29,10 @@ import { HOME_SEO } from '../lib/seo';
 
   <div class="home-v7">
     <div class="home-v7__tree" data-home-v7-tree aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer" data-home-v7-tree-shimmer aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s1" data-home-v7-tree-shimmer aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s2" data-home-v7-tree-shimmer aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s3" data-home-v7-tree-shimmer aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s4" data-home-v7-tree-shimmer aria-hidden="true"></div>
 
     <main id="main-content" class="home-v7__main">
       <!-- HERO: roots, centered -->
@@ -320,14 +323,18 @@ import { HOME_SEO } from '../lib/seo';
        clicking the page steps the tree's light through the accent family. */
     (function () {
       const tree = document.querySelector('[data-home-v7-tree]');
-      const shimmer = document.querySelector('[data-home-v7-tree-shimmer]');
-      if (!tree || !shimmer) return;
+      const shimmers = Array.from(document.querySelectorAll('[data-home-v7-tree-shimmer]'));
+      if (!tree || shimmers.length === 0) return;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduced) {
         (function follow() {
-          if (tree.style.transform) shimmer.style.transform = tree.style.transform;
+          const t = tree.style.transform;
           const o = parseFloat(tree.style.opacity || '0.04');
-          shimmer.style.opacity = String(Math.min(0.3, o * 4));
+          const target = String(Math.min(0.3, o * 4));
+          for (const el of shimmers) {
+            if (t) el.style.transform = t;
+            el.style.opacity = target;
+          }
           requestAnimationFrame(follow);
         })();
       }
@@ -337,7 +344,7 @@ import { HOME_SEO } from '../lib/seo';
         if (ev.target && ev.target.closest && ev.target.closest('a, button')) return;
         step = (step + 1) % tints.length;
         tree.style.backgroundColor = tints[step];
-        shimmer.style.backgroundColor = tints[step];
+        for (const el of shimmers) el.style.backgroundColor = tints[step];
       });
     })();
   </script>
@@ -412,10 +419,19 @@ import { HOME_SEO } from '../lib/seo';
         rgb(255 255 255 / 0.5) 72%,
         transparent 78%,
         transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent var(--seg-top),
+        #fff calc(var(--seg-top) + 6%),
+        #fff calc(var(--seg-bottom) - 6%),
+        transparent var(--seg-bottom),
+        transparent 100%
       );
-    -webkit-mask-size: 100% 86%, 100% 350%;
+    -webkit-mask-size: 100% 86%, 100% 350%, 100% 100%;
     -webkit-mask-repeat: no-repeat, no-repeat;
-    -webkit-mask-position: center center, center 280%;
+    -webkit-mask-position: center center, center 280%, center center;
     -webkit-mask-composite: source-in;
     mask-image:
       url('/assets/circuit_tree_full.svg'),
@@ -433,22 +449,55 @@ import { HOME_SEO } from '../lib/seo';
         rgb(255 255 255 / 0.5) 72%,
         transparent 78%,
         transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent var(--seg-top),
+        #fff calc(var(--seg-top) + 6%),
+        #fff calc(var(--seg-bottom) - 6%),
+        transparent var(--seg-bottom),
+        transparent 100%
       );
-    mask-size: 100% 86%, 100% 350%;
+    mask-size: 100% 86%, 100% 350%, 100% 100%;
     mask-repeat: no-repeat, no-repeat;
-    mask-position: center center, center 280%;
+    mask-position: center center, center 280%, center center;
     mask-composite: intersect;
     animation: home-v7-tree-pulse 12s linear infinite;
   }
 
+  .home-v7__tree-shimmer--s1 {
+    --seg-top: 58%;
+    --seg-bottom: 100%;
+    animation-delay: 0s;
+  }
+
+  .home-v7__tree-shimmer--s2 {
+    --seg-top: 40%;
+    --seg-bottom: 68%;
+    animation-delay: 1.4s;
+  }
+
+  .home-v7__tree-shimmer--s3 {
+    --seg-top: 22%;
+    --seg-bottom: 50%;
+    animation-delay: 2.8s;
+  }
+
+  .home-v7__tree-shimmer--s4 {
+    --seg-top: 0%;
+    --seg-bottom: 32%;
+    animation-delay: 4.2s;
+  }
+
   @keyframes home-v7-tree-pulse {
     0% {
-      -webkit-mask-position: center center, center -180%;
-      mask-position: center center, center -180%;
+      -webkit-mask-position: center center, center -180%, center center;
+      mask-position: center center, center -180%, center center;
     }
     100% {
-      -webkit-mask-position: center center, center 280%;
-      mask-position: center center, center 280%;
+      -webkit-mask-position: center center, center 280%, center center;
+      mask-position: center center, center 280%, center center;
     }
   }
 
@@ -660,7 +709,7 @@ import { HOME_SEO } from '../lib/seo';
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     color: var(--color-text-primary);
-    background-color: transparent;
+    background-color: var(--color-bg);
     border: 1px solid var(--color-text-primary);
     text-decoration: none;
     transition:
