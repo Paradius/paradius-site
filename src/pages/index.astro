@@ -435,10 +435,18 @@ import { HOME_SEO } from '../lib/seo';
         #fff calc(var(--seg-b) - 5%),
         transparent var(--seg-b),
         transparent 100%
+      ),
+      linear-gradient(
+        to top,
+        rgb(255 255 255 / 0.3) 0%,
+        rgb(255 255 255 / 0.45) 30%,
+        rgb(255 255 255 / 0.75) 60%,
+        #fff 85%,
+        #fff 100%
       );
-    -webkit-mask-size: 100% 86%, 100% 350%, 100% 100%;
+    -webkit-mask-size: 100% 86%, 100% 350%, 100% 100%, 100% 100%;
     -webkit-mask-repeat: no-repeat, no-repeat;
-    -webkit-mask-position: center center, center 280%, center center;
+    -webkit-mask-position: center center, center 280%, center center, center center;
     -webkit-mask-composite: source-in;
     mask-image:
       url('/assets/circuit_tree_full.svg'),
@@ -465,10 +473,18 @@ import { HOME_SEO } from '../lib/seo';
         #fff calc(var(--seg-b) - 5%),
         transparent var(--seg-b),
         transparent 100%
+      ),
+      linear-gradient(
+        to top,
+        rgb(255 255 255 / 0.3) 0%,
+        rgb(255 255 255 / 0.45) 30%,
+        rgb(255 255 255 / 0.75) 60%,
+        #fff 85%,
+        #fff 100%
       );
-    mask-size: 100% 86%, 100% 350%, 100% 100%;
+    mask-size: 100% 86%, 100% 350%, 100% 100%, 100% 100%;
     mask-repeat: no-repeat, no-repeat;
-    mask-position: center center, center 280%, center center;
+    mask-position: center center, center 280%, center center, center center;
     mask-composite: intersect;
     clip-path: inset(
       0
@@ -511,12 +527,12 @@ import { HOME_SEO } from '../lib/seo';
 
   @keyframes home-v7-tree-pulse {
     0% {
-      -webkit-mask-position: center center, center -180%, center center;
-      mask-position: center center, center -180%, center center;
+      -webkit-mask-position: center center, center -180%, center center, center center;
+      mask-position: center center, center -180%, center center, center center;
     }
     100% {
-      -webkit-mask-position: center center, center 280%, center center;
-      mask-position: center center, center 280%, center center;
+      -webkit-mask-position: center center, center 280%, center center, center center;
+      mask-position: center center, center 280%, center center, center center;
     }
   }
 
