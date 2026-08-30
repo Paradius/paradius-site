@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_URL, type PageSeo } from '../../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Type Lab 2, Paradius',
+  description: 'Internal specimen lab: candidate type systems for the site voice.',
+  canonical: `${SITE_URL}/mockups/type-lab-2/`,
+  robots: 'noindex, nofollow',
+  webPageName: 'Type Lab 2',
+  webPageDescription: 'Internal typography direction lab.',
+};
+
+/* Each direction: melody (Will, narrative) + voice (Power, plumbing/chrome).
+   Referents are real-world objects, per the departure-mode rule. */
+const DIRECTIONS = [
+  {
+    id: 'A',
+    name: 'El monumento romano',
+    referent: 'Una inscripcion capital tallada en el portico de un banco neoclasico, leida de noche.',
+    melody: "'Cinzel', serif",
+    voice: "'Manrope', sans-serif",
+    melodyWeight: 600,
+    caps: true,
+  },
+  {
+    id: 'B',
+    name: 'El fantasma Marcellus',
+    referent: 'La lapida del soberano de las sombras. Esta fuente ya rondaba el codigo como declaracion muerta.',
+    melody: "'Marcellus', serif",
+    voice: "'Sora', sans-serif",
+    melodyWeight: 400,
+    caps: false,
+  },
+  {
+    id: 'C',
+    name: 'La opera nocturna',
+    referent: 'Programa de mano de una opera: papel negro, tinta de plata, contraste extremo.',
+    melody: "'Playfair Display', serif",
+    voice: "'Instrument Sans', sans-serif",
+    melodyWeight: 500,
+    caps: false,
+  },
+  {
+    id: 'D',
+    name: 'La chispa',
+    referent: 'El ex libris de un taller tipografico que trabaja de madrugada: serif calida con filo.',
+    melody: "'Fraunces', serif",
+    voice: "'Space Grotesk', sans-serif",
+    melodyWeight: 500,
+    caps: false,
+  },
+  {
+    id: 'E',
+    name: 'La vanguardia',
+    referent: 'Un cartel de teatro constructivista recompuesto en 2026. La opcion mas "al menos diferente".',
+    melody: "'Syne', sans-serif",
+    voice: "'Albert Sans', sans-serif",
+    melodyWeight: 700,
+    caps: false,
+  },
+  {
+    id: 'F',
+    name: 'Plomeria absoluta',
+    referent: 'El rotulo de un plano aeroespacial: una sola familia, nada firma, todo mide. La identidad queda entera en el lockup.',
+    melody: "'Space Grotesk', sans-serif",
+    voice: "'Space Grotesk', sans-serif",
+    melodyWeight: 300,
+    caps: false,
+  },
+  {
+    id: 'G',
+    name: 'La edicion critica',
+    referent: 'Una edicion anotada impresa en frio: serif de pantalla, seca, sin romanticismo.',
+    melody: "'Spectral', serif",
+    voice: "'Archivo', sans-serif",
+    melodyWeight: 300,
+    caps: false,
+  },
+  {
+    id: 'H',
+    name: 'El titular brutal',
+    referent: 'La primera plana de un diario financiero impreso en negro: grotesca con caracter, cero serif.',
+    melody: "'Bricolage Grotesque', sans-serif",
+    voice: "'Figtree', sans-serif",
+    melodyWeight: 600,
+    caps: false,
+  },
+] as const;
+
+const LAB_FONTS =
+  'https://fonts.googleapis.com/css2?' +
+  [
+    'family=Cinzel:wght@500;600',
+    'family=Manrope:wght@400;500',
+    'family=Marcellus',
+    'family=Sora:wght@300;400;500',
+    'family=Playfair+Display:ital,wght@0,500;0,600;1,500',
+    'family=Instrument+Sans:wght@400;500',
+    'family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400',
+    'family=Space+Grotesk:wght@300;400;500;700',
+    'family=Syne:wght@600;700',
+    'family=Albert+Sans:wght@400;500',
+    'family=Spectral:ital,wght@0,300;0,400;1,300',
+    'family=Archivo:wght@400;500',
+    'family=Bricolage+Grotesque:wght@500;600',
+    'family=Figtree:wght@400;500',
+  ].join('&') +
+  '&display=swap';
+---
+
+<BaseLayout seo={seo}>
+  <link slot="head" rel="stylesheet" href={LAB_FONTS} />
+  <main id="main-content" class="lab">
+    <header class="lab__intro">
+      <h1>Type Lab 2</h1>
+      <p>
+        Ocho sistemas candidatos, mismo copy real del home. Cada seccion: chrome de interfaz,
+        linea de hechos, pico tipografico (la confesion), la tesis Power sobre Will, mecanica
+        del engine y CTAs. Inter y Cormorant no participan. Decidi por letra.
+      </p>
+    </header>
+
+    {
+      DIRECTIONS.map((d) => (
+        <section
+          class="dir"
+          id={`dir-${d.id}`}
+          style={`--melody:${d.melody};--voice:${d.voice};--melody-weight:${d.melodyWeight};`}
+        >
+          <div class="dir__head">
+            <span class="dir__letter">{d.id}</span>
+            <div>
+              <h2 class="dir__name">{d.name}</h2>
+              <p class="dir__referent">{d.referent}</p>
+              <p class="dir__faces">
+                melodia: {d.melody.split(',')[0].replace(/'/g, '')} · voz:{' '}
+                {d.voice.split(',')[0].replace(/'/g, '')}
+              </p>
+            </div>
+          </div>
+
+          <div class="spec">
+            <div class="spec__chrome" class:list={[{ 'spec__chrome--caps': d.caps }]}>
+              <span class="spec__nav">
+                <span>Registry</span>
+                <span>Work</span>
+                <span>How we work</span>
+                <span>About</span>
+                <span>Contact</span>
+              </span>
+              <span class="spec__navbtn">Start your team</span>
+            </div>
+
+            <p class="spec__facts">
+              Senior nearshore engineering. Managua hub, full US overlap. Paradius LLC, Wyoming.
+              US contracts, USD.
+            </p>
+
+            <p class="spec__peak">
+              You can find ten thousand agencies with better rankings, better funding, better
+              manners. <em>You will not find one that refuses to quit the way we do.</em>
+            </p>
+
+            <div class="spec__thesis">
+              <div class="spec__force spec__force--power">
+                <span class="spec__label">Power</span>
+                <p>The architecture, the guardrails, the discipline that keeps systems from rotting.</p>
+              </div>
+              <div class="spec__force spec__force--will">
+                <span class="spec__label">Will</span>
+                <p>The spark. People who cannot leave things worse than they found them.</p>
+              </div>
+            </div>
+
+            <p class="spec__body">
+              We do not hire headcount. We find the ones with the spark and push them further
+              than they believed they could go. Every engagement begins in one room: our hub, a
+              senior mentor at the next desk, standards enforced from day one.
+            </p>
+
+            <div class="spec__ctas">
+              <span class="spec__cta spec__cta--primary">Browse the registry</span>
+              <span class="spec__cta">Start your team</span>
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </main>
+</BaseLayout>
+
+<style>
+  .lab {
+    background: #000;
+    color: #9ca3af;
+    padding: 7rem clamp(1.5rem, 5vw, 4rem) 6rem;
+  }
+
+  .lab__intro {
+    max-width: 46rem;
+    margin-bottom: 5rem;
+  }
+
+  .lab__intro h1 {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .lab__intro p {
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .dir {
+    border-top: 1px solid #1a1a1a;
+    padding: 3.5rem 0 4.5rem;
+  }
+
+  .dir__head {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+  }
+
+  .dir__letter {
+    font-size: 2.5rem;
+    line-height: 1;
+    color: #c0c8d4;
+    font-weight: 600;
+    min-width: 2.5rem;
+  }
+
+  .dir__name {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .dir__referent {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    max-width: 40rem;
+  }
+
+  .dir__faces {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.35rem;
+  }
+
+  /* ===== specimen, everything below speaks the direction's faces ===== */
+
+  .spec {
+    max-width: 62rem;
+  }
+
+  .spec__chrome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-family: var(--voice);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+
+  .spec__nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .spec__navbtn {
+    border: 1px solid #c0c8d4;
+    color: #c0c8d4;
+    padding: 0.4rem 1rem;
+  }
+
+  .spec__facts {
+    font-family: var(--voice);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 3rem;
+  }
+
+  .spec__peak {
+    font-family: var(--melody);
+    font-weight: var(--melody-weight);
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    line-height: 1.35;
+    color: #fff;
+    max-width: 58rem;
+    margin-bottom: 3rem;
+    text-wrap: balance;
+  }
+
+  .spec__peak em {
+    color: #c0c8d4;
+  }
+
+  .spec__thesis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .spec__label {
+    display: block;
+    font-family: var(--voice);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c0c8d4;
+    margin-bottom: 0.6rem;
+  }
+
+  .spec__force--power p {
+    font-family: var(--voice);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .spec__force--will p {
+    font-family: var(--melody);
+    font-weight: var(--melody-weight);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #d1d5db;
+  }
+
+  .spec__body {
+    font-family: var(--voice);
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 42rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .spec__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .spec__cta {
+    font-family: var(--voice);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 2.25rem;
+    border: 1px solid #c0c8d4;
+    color: #c0c8d4;
+  }
+
+  .spec__cta--primary {
+    background: #fff;
+    border-color: #fff;
+    color: #000;
+  }
+
+  @media (max-width: 700px) {
+    .spec__thesis {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
