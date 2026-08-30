@@ -53,8 +53,8 @@ const BRANCH_SCALE_PULL = 0.06;
    fade out, so the viewport always holds things in transit and settled
    text never piles up. Exit is disabled near the canopy so the final
    resting frame stays whole. */
-const FUNNEL_EXIT_START = 0.72;
-const FUNNEL_EXIT_END = 0.97;
+const FUNNEL_EXIT_START = 0.6;
+const FUNNEL_EXIT_END = 0.82;
 const FUNNEL_EXIT_PULL_Y_VH = 0.3;
 const FUNNEL_CANOPY_HOLD = 0.35;
 
