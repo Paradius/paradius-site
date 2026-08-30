@@ -327,7 +327,7 @@ import { HOME_SEO } from '../lib/seo';
         (function follow() {
           if (tree.style.transform) shimmer.style.transform = tree.style.transform;
           const o = parseFloat(tree.style.opacity || '0.04');
-          shimmer.style.opacity = String(Math.min(0.14, o * 2.5));
+          shimmer.style.opacity = String(Math.min(0.3, o * 4));
           requestAnimationFrame(follow);
         })();
       }
@@ -392,7 +392,7 @@ import { HOME_SEO } from '../lib/seo';
     height: 220dvh;
     pointer-events: none;
     transform: translateX(-50%) translateY(-50vh);
-    opacity: 0.1;
+    opacity: 0.12;
     background-color: #fff;
     contain: strict;
     will-change: transform;
@@ -401,10 +401,12 @@ import { HOME_SEO } from '../lib/seo';
       linear-gradient(
         to top,
         transparent 0%,
-        rgb(255 255 255 / 0.15) 30%,
-        rgb(255 255 255 / 0.4) 45%,
-        rgb(255 255 255 / 0.4) 55%,
-        rgb(255 255 255 / 0.15) 70%,
+        transparent 34%,
+        rgb(255 255 255 / 0.2) 40%,
+        rgb(255 255 255 / 0.95) 47%,
+        rgb(255 255 255 / 0.95) 53%,
+        rgb(255 255 255 / 0.2) 60%,
+        transparent 66%,
         transparent 100%
       );
     -webkit-mask-size: 100% 86%, 100% 350%;
@@ -416,17 +418,19 @@ import { HOME_SEO } from '../lib/seo';
       linear-gradient(
         to top,
         transparent 0%,
-        rgb(255 255 255 / 0.15) 30%,
-        rgb(255 255 255 / 0.4) 45%,
-        rgb(255 255 255 / 0.4) 55%,
-        rgb(255 255 255 / 0.15) 70%,
+        transparent 34%,
+        rgb(255 255 255 / 0.2) 40%,
+        rgb(255 255 255 / 0.95) 47%,
+        rgb(255 255 255 / 0.95) 53%,
+        rgb(255 255 255 / 0.2) 60%,
+        transparent 66%,
         transparent 100%
       );
     mask-size: 100% 86%, 100% 350%;
     mask-repeat: no-repeat, no-repeat;
     mask-position: center center, center 280%;
     mask-composite: intersect;
-    animation: home-v7-tree-pulse 18s ease-in-out infinite;
+    animation: home-v7-tree-pulse 6.5s ease-in-out infinite;
   }
 
   @keyframes home-v7-tree-pulse {
