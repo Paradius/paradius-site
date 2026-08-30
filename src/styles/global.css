@@ -44,6 +44,9 @@
   --font-heading: 'Space Grotesk', 'Trebuchet MS', sans-serif;
   --font-brand: 'Space Grotesk', 'Trebuchet MS', sans-serif;
   --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Owner naming (2026-08-30): voice = the myth speaks; tech = the machine speaks */
+  --font-voice: 'Zilla Slab', 'Georgia', serif;
+  --font-tech: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: var(--font-sans);
   --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace;
 

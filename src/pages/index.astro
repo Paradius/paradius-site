@@ -1014,7 +1014,7 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__force-label {
     /* Inscription jurisdiction: caps, spaced. Marcellus baseline. */
     display: block;
-    font-family: var(--font-heading);
+    font-family: var(--font-voice);
     font-size: clamp(0.95rem, 1.3vw, 1.15rem);
     letter-spacing: 0.24em;
     text-transform: uppercase;
@@ -1025,18 +1025,19 @@ import { HOME_SEO } from '../lib/seo';
   /* The two forces share ONE hierarchy: same scale, different timbre.
      Power defaults to the sans voice, Will to the heading voice. */
   .home-v7__force-text {
+    font-family: var(--font-tech);
     font-size: clamp(1.65rem, 2.7vw, 2.25rem);
     line-height: 1.45;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
   .home-v7__force-text--power {
-    font-family: var(--font-sans);
+    font-family: var(--font-tech);
   }
 
   .home-v7__force-text--will {
-    font-family: var(--font-heading);
+    font-family: var(--font-tech);
   }
 
   .home-v7__row--dawn {
