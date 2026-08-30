@@ -1224,8 +1224,6 @@
     text-underline-offset: 0.2em;
   }
 
-  .footer-ledger__facts a:hover,
-  .footer-ledger__facts a:focus-visible,
   .footer-ledger__legal a:hover,
   .footer-ledger__legal a:focus-visible {
     text-decoration-color: currentColor;
