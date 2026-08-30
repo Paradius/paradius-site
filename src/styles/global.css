@@ -41,8 +41,8 @@
      Monumento = lockup SVG only;
      Voz (--font-brand / --font-heading) = manifesto, quotes, bridge lines;
      Sistema (--font-mono) = operative headings, eyebrows, data, buttons, footer. */
-  --font-heading: 'Tomorrow', 'Trebuchet MS', sans-serif;
-  --font-brand: 'Tomorrow', 'Trebuchet MS', sans-serif;
+  --font-heading: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+  --font-brand: 'Space Grotesk', 'Trebuchet MS', sans-serif;
   --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: var(--font-sans);
   --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace;
