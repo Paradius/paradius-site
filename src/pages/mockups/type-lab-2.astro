@@ -4,87 +4,80 @@ import { SITE_URL, type PageSeo } from '../../lib/seo';
 
 const seo: PageSeo = {
   title: 'Type Lab 2, Paradius',
-  description: 'Internal specimen lab: candidate type systems for the site voice.',
+  description: 'Internal specimen lab: candidate type systems judged against the lockup.',
   canonical: `${SITE_URL}/mockups/type-lab-2/`,
   robots: 'noindex, nofollow',
   webPageName: 'Type Lab 2',
   webPageDescription: 'Internal typography direction lab.',
 };
 
-/* Each direction: melody (Will, narrative) + voice (Power, plumbing/chrome).
-   Referents are real-world objects, per the departure-mode rule. */
+/* Round 2. The tuning fork is the lockup: stencil circuit letterforms, geometric,
+   angular, technical. Candidates must rhyme with it (share its skeleton) without
+   being stencil (closed experiment). Every specimen renders the real lockup on top
+   so synergy is judged, not imagined. peakSize compensates very wide faces. */
 const DIRECTIONS = [
   {
     id: 'A',
-    name: 'El monumento romano',
-    referent: 'Una inscripcion capital tallada en el portico de un banco neoclasico, leida de noche.',
-    melody: "'Cinzel', serif",
-    voice: "'Jost', sans-serif",
-    melodyWeight: 600,
-    caps: true,
+    name: 'El eco del circuito',
+    referent: 'La familia cuadrada y tecnica mas cercana al esqueleto del lockup sin ser stencil.',
+    melody: "'Chakra Petch', sans-serif",
+    voice: "'Saira', sans-serif",
+    melodyWeight: 300,
+    peakSize: 'clamp(1.7rem, 3.4vw, 2.6rem)',
   },
   {
     id: 'B',
-    name: 'El fantasma Marcellus',
-    referent: 'La lapida del soberano de las sombras. Esta fuente ya rondaba el codigo como declaracion muerta.',
-    melody: "'Marcellus', serif",
-    voice: "'IBM Plex Sans', sans-serif",
-    melodyWeight: 400,
-    caps: false,
+    name: 'El futurista',
+    referent: 'Cortes rectos y esquinas achaflanadas, como pistas de circuito dobladas en texto.',
+    melody: "'Tomorrow', sans-serif",
+    voice: "'Space Grotesk', sans-serif",
+    melodyWeight: 300,
+    peakSize: 'clamp(1.7rem, 3.4vw, 2.6rem)',
   },
   {
     id: 'C',
-    name: 'La opera nocturna',
-    referent: 'Programa de mano de una opera: papel negro, tinta de plata, contraste extremo.',
-    melody: "'Playfair Display', serif",
-    voice: "'Chivo', sans-serif",
-    melodyWeight: 500,
-    caps: false,
+    name: 'La pantalla ancha',
+    referent: 'Rotulo de consola de nave: ancho, plano, hermano directo del trazo del monolito.',
+    melody: "'Michroma', sans-serif",
+    voice: "'IBM Plex Sans', sans-serif",
+    melodyWeight: 400,
+    peakSize: 'clamp(1.25rem, 2.5vw, 1.9rem)',
   },
   {
     id: 'D',
-    name: 'La chispa',
-    referent: 'El ex libris de un taller tipografico que trabaja de madrugada: serif calida con filo.',
-    melody: "'Fraunces', serif",
-    voice: "'Space Grotesk', sans-serif",
-    melodyWeight: 500,
-    caps: false,
+    name: 'El slab tecnico',
+    referent: 'Serif de maquina: los remates son vigas, no caligrafia. Calidez sin abandonar la ingenieria.',
+    melody: "'Zilla Slab', serif",
+    voice: "'Chakra Petch', sans-serif",
+    melodyWeight: 300,
+    peakSize: 'clamp(1.8rem, 3.6vw, 2.8rem)',
   },
   {
     id: 'E',
-    name: 'La vanguardia',
-    referent: 'Un cartel de teatro constructivista recompuesto en 2026. La opcion mas "al menos diferente".',
-    melody: "'Syne', sans-serif",
-    voice: "'Archivo Narrow', sans-serif",
-    melodyWeight: 700,
-    caps: false,
+    name: 'El militar',
+    referent: 'Placa de identificacion de hardware: angulos duros, disciplina, cero adorno.',
+    melody: "'Quantico', sans-serif",
+    voice: "'Exo 2', sans-serif",
+    melodyWeight: 400,
+    peakSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
   },
   {
     id: 'F',
     name: 'Plomeria absoluta',
-    referent: 'El rotulo de un plano aeroespacial: una sola familia, nada firma, todo mide. La identidad queda entera en el lockup.',
+    referent: 'Una sola familia en tres pesos: nada firma, todo mide. La identidad queda entera en el lockup.',
     melody: "'Space Grotesk', sans-serif",
     voice: "'Space Grotesk', sans-serif",
     melodyWeight: 300,
-    caps: false,
+    peakSize: 'clamp(1.7rem, 3.4vw, 2.6rem)',
   },
   {
     id: 'G',
-    name: 'La edicion critica',
-    referent: 'Una edicion anotada impresa en frio: serif de pantalla, seca, sin romanticismo.',
-    melody: "'Spectral', serif",
-    voice: "'Alegreya Sans', sans-serif",
+    name: 'El panel de mando',
+    referent: 'Instrumental de cabina: condensada, tecnica, con ritmo vertical de circuito.',
+    melody: "'Oxanium', sans-serif",
+    voice: "'Rajdhani', sans-serif",
     melodyWeight: 300,
-    caps: false,
-  },
-  {
-    id: 'H',
-    name: 'El titular brutal',
-    referent: 'La primera plana de un diario financiero impreso en negro: grotesca con caracter, cero serif.',
-    melody: "'Bricolage Grotesque', sans-serif",
-    voice: "'Libre Franklin', sans-serif",
-    melodyWeight: 600,
-    caps: false,
+    peakSize: 'clamp(1.8rem, 3.6vw, 2.7rem)',
   },
 ] as const;
 
@@ -98,20 +91,17 @@ const RENDER = DIRECTIONS.map((d) => ({
 const LAB_FONTS =
   'https://fonts.googleapis.com/css2?' +
   [
-    'family=Cinzel:wght@500;600',
-    'family=Jost:wght@400;500',
-    'family=Marcellus',
-    'family=IBM+Plex+Sans:wght@400;500',
-    'family=Playfair+Display:ital,wght@0,500;0,600;1,500',
-    'family=Chivo:wght@400;500',
-    'family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400',
+    'family=Chakra+Petch:ital,wght@0,300;0,400;0,500;1,300',
+    'family=Saira:wght@400;500',
+    'family=Tomorrow:ital,wght@0,300;0,400;0,500;1,300',
     'family=Space+Grotesk:wght@300;400;500;700',
-    'family=Syne:wght@600;700',
-    'family=Archivo+Narrow:wght@400;500',
-    'family=Spectral:ital,wght@0,300;0,400;1,300',
-    'family=Alegreya+Sans:wght@400;500',
-    'family=Bricolage+Grotesque:wght@500;600',
-    'family=Libre+Franklin:wght@400;500',
+    'family=Michroma',
+    'family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400',
+    'family=Zilla+Slab:ital,wght@0,300;0,400;0,500;1,300',
+    'family=Quantico:ital,wght@0,400;0,700;1,400',
+    'family=Exo+2:ital,wght@0,300;0,400;0,500;1,300',
+    'family=Oxanium:wght@300;400;500',
+    'family=Rajdhani:wght@400;500',
   ].join('&') +
   '&display=swap';
 ---
@@ -120,11 +110,12 @@ const LAB_FONTS =
   <link slot="head" rel="stylesheet" href={LAB_FONTS} />
   <main id="main-content" class="lab">
     <header class="lab__intro">
-      <h1>Type Lab 2</h1>
+      <h1>Type Lab 2, ronda 2: sinergia con el monolito</h1>
       <p>
-        Ocho sistemas candidatos, mismo copy real del home. Cada seccion: chrome de interfaz,
-        linea de hechos, pico tipografico (la confesion), la tesis Power sobre Will, mecanica
-        del engine y CTAs. Inter y Cormorant no participan. Decidi por letra.
+        Regla nueva: cada especimen rinde cuentas ante el lockup, presente arriba de cada
+        bloque. Las direcciones salen del ADN formal de ARCHITECTING (geometria, cortes,
+        ritmo tecnico), no del catalogo de lujo clasico. Dos familias exactas por bloque;
+        lo que varia adentro es peso, caja e italica. Decidi por letra.
       </p>
     </header>
 
@@ -133,40 +124,28 @@ const LAB_FONTS =
         <section
           class="dir"
           id={`dir-${d.id}`}
-          style={`--melody:${d.melody};--voice:${d.voice};--melody-weight:${d.melodyWeight};`}
+          style={`--melody:${d.melody};--voice:${d.voice};--melody-weight:${d.melodyWeight};--peak-size:${d.peakSize};`}
         >
           <div class="dir__head">
             <span class="dir__letter">{d.id}</span>
             <div>
               <h2 class="dir__name">{d.name}</h2>
               <p class="dir__referent">{d.referent}</p>
-              <p class="dir__faces">
-                Dos familias exactas por bloque: lo que varia adentro es peso, caja e italica.
-              </p>
+              <p class="dir__faces">melodia: {d.melodyName} · voz: {d.voiceName}</p>
             </div>
           </div>
 
           <div class="spec">
-            <span class="tag">chrome: {d.voiceName} 500, caps</span>
-            <div class={d.caps ? 'spec__chrome spec__chrome--caps' : 'spec__chrome'}>
-              <span class="spec__nav">
-                <span>Registry</span>
-                <span>Work</span>
-                <span>How we work</span>
-                <span>About</span>
-                <span>Contact</span>
-              </span>
-              <span class="spec__navbtn">Start your team</span>
-            </div>
-
-            <span class="tag">hechos: {d.voiceName} 400</span>
-            <p class="spec__facts">
-              Senior nearshore engineering. Managua hub, full US overlap. Paradius LLC, Wyoming.
-              US contracts, USD.
-            </p>
+            <span class="tag">el monolito (SVG, intocable): el diapason contra el que se juzga</span>
+            <img
+              class="spec__lockup"
+              src="/assets/architecting_the_dawn_from_within.svg"
+              alt="Architecting the Dawn from Within"
+              loading="lazy"
+            />
 
             <span class="tag">
-              pico: {d.melodyName} {d.melodyWeight}{d.caps ? ', caps' : ''} · el enfasis es italica de la misma familia
+              pico: {d.melodyName} {d.melodyWeight} · el enfasis es italica de la misma familia
             </span>
             <p class="spec__peak">
               You can find ten thousand agencies with better rankings, better funding, better
@@ -198,7 +177,11 @@ const LAB_FONTS =
               senior mentor at the next desk, standards enforced from day one.
             </p>
 
-            <span class="tag">CTAs: {d.voiceName} 500, caps</span>
+            <span class="tag">hechos: {d.voiceName} 400 · CTAs: {d.voiceName} 500, caps</span>
+            <p class="spec__facts">
+              Senior nearshore engineering. Managua hub, full US overlap. Paradius LLC, Wyoming.
+              US contracts, USD.
+            </p>
             <div class="spec__ctas">
               <span class="spec__cta spec__cta--primary">Browse the registry</span>
               <span class="spec__cta">Start your team</span>
@@ -273,12 +256,6 @@ const LAB_FONTS =
     margin-top: 0.35rem;
   }
 
-  /* ===== specimen, everything below speaks the direction's faces ===== */
-
-  .spec {
-    max-width: 62rem;
-  }
-
   .tag {
     display: block;
     font-family: system-ui, sans-serif;
@@ -289,47 +266,24 @@ const LAB_FONTS =
     margin-bottom: 0.4rem;
   }
 
-  .spec__chrome {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    font-family: var(--voice);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #9ca3af;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid #1a1a1a;
-    margin-bottom: 1.5rem;
+  /* ===== specimen ===== */
+
+  .spec {
+    max-width: 62rem;
   }
 
-  .spec__nav {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .spec__navbtn {
-    border: 1px solid #c0c8d4;
-    color: #c0c8d4;
-    padding: 0.4rem 1rem;
-  }
-
-  .spec__facts {
-    font-family: var(--voice);
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
+  .spec__lockup {
+    display: block;
+    width: min(34rem, 80%);
     margin-bottom: 3rem;
+    filter: brightness(0) invert(1);
   }
 
   .spec__peak {
     font-family: var(--melody);
     font-weight: var(--melody-weight);
-    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
-    line-height: 1.35;
+    font-size: var(--peak-size);
+    line-height: 1.4;
     color: #fff;
     max-width: 58rem;
     margin-bottom: 3rem;
@@ -386,6 +340,13 @@ const LAB_FONTS =
     line-height: 1.75;
     max-width: 42rem;
     margin-bottom: 2.5rem;
+  }
+
+  .spec__facts {
+    font-family: var(--voice);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
   }
 
   .spec__ctas {
