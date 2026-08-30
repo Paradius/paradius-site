@@ -83,11 +83,11 @@ import { HOME_SEO } from '../lib/seo';
       <section class="home-v7__row" data-home-v7-node id="thesis" aria-label="The thesis">
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__peak home-v7__peak--confession">
+            <p class="home-v7__peak home-v7__peak--thesis">
               Everything begins as the union of two fundamental forces: the capacity to
               create, and the desire to make it real.
             </p>
-            <p class="home-v7__peak-lead home-v7__peak-lead--after-peak">
+            <p class="home-v7__peak-lead home-v7__peak-lead--after-peak home-v7__peak-lead--slab">
               Missing either, a dream stays a blueprint.
             </p>
           </div>
@@ -569,6 +569,21 @@ import { HOME_SEO } from '../lib/seo';
     /* empty: perception only */
   }
 
+  /* The forces do not sit side by side: WILL rides high right, POWER lands
+     lower left, both pushed away from the spine (owner sketch, 2026-08-30). */
+  .home-v7__row--split .home-v7__spine {
+    grid-template-columns: minmax(0, 1fr) clamp(4rem, 13vw, 15rem) minmax(0, 1fr);
+  }
+
+  .home-v7__row--split .home-v7__col--left {
+    margin-top: clamp(5rem, 12vh, 9rem);
+    padding-right: clamp(0rem, 2vw, 2.5rem);
+  }
+
+  .home-v7__row--split .home-v7__col--right {
+    padding-left: clamp(0rem, 2vw, 2.5rem);
+  }
+
   .home-v7__col--left {
     text-align: right;
     display: flex;
@@ -970,6 +985,18 @@ import { HOME_SEO } from '../lib/seo';
     margin-block-start: var(--spacing-lg);
   }
 
+  /* Thesis peak: confession scale but the plumbing face (fonts swapped
+     with its blueprint aside, owner call) */
+  .home-v7__peak--thesis {
+    font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+    max-width: 30ch;
+  }
+
+  .home-v7__peak-lead--slab {
+    font-family: 'Zilla Slab', var(--font-heading);
+    font-weight: 300;
+  }
+
   .home-v7__peak--confession {
     /* EXPERIMENT: Zilla Slab 300 for the citable line (lab direction D) */
     font-family: 'Zilla Slab', var(--font-heading);
@@ -1089,6 +1116,15 @@ import { HOME_SEO } from '../lib/seo';
     .home-v7__col--right {
       text-align: left;
       align-items: flex-start;
+    }
+
+    .home-v7__row--split .home-v7__col--left {
+      margin-top: var(--spacing-md);
+      padding-right: 0;
+    }
+
+    .home-v7__row--split .home-v7__col--right {
+      padding-left: 0;
     }
 
     .home-v7__col--empty {
