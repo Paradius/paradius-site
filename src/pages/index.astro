@@ -46,10 +46,6 @@ import { HOME_SEO } from '../lib/seo';
             fetchpriority="high"
             decoding="async"
           />
-          <p class="home-v7__facts">
-            Senior nearshore engineering. Managua hub, full US overlap.
-            Paradius LLC, Wyoming. US contracts, USD.
-          </p>
           <div class="home-v7__actions">
             <a href="/talent" class="home-v7__cta">Browse the registry</a>
             <a href="/contact" class="home-v7__cta home-v7__cta--secondary">Start your team</a>
@@ -586,8 +582,9 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__cta:hover,
   .home-v7__cta:focus-visible {
-    background-color: transparent;
-    color: var(--color-text-primary);
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
     transform: translateY(-1px);
   }
 
@@ -598,8 +595,9 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__cta--secondary:hover,
   .home-v7__cta--secondary:focus-visible {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg);
+    background-color: rgb(255 255 255 / 0.08);
+    border-color: var(--color-text-secondary);
+    color: var(--color-text-primary);
   }
 
   /* Typography */
@@ -968,7 +966,6 @@ import { HOME_SEO } from '../lib/seo';
 
     /* Text and buttons only lose the rise. The tagline filter is for the SVG:
        applying it here would flatten the CTAs into solid white blocks. */
-    .home-v7__facts,
     .home-v7__actions {
       animation: none;
       opacity: 1;
