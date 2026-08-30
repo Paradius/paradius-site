@@ -134,14 +134,13 @@ const LAB_FONTS =
               <h2 class="dir__name">{d.name}</h2>
               <p class="dir__referent">{d.referent}</p>
               <p class="dir__faces">
-                melodia: {d.melody.split(',')[0].replace(/'/g, '')} · voz:{' '}
-                {d.voice.split(',')[0].replace(/'/g, '')}
+                melodia: {d.melody.split(',')[0]} · voz: {d.voice.split(',')[0]}
               </p>
             </div>
           </div>
 
           <div class="spec">
-            <div class={`spec__chrome${d.caps ? ' spec__chrome--caps' : ''}`}>
+            <div class={d.caps ? 'spec__chrome spec__chrome--caps' : 'spec__chrome'}>
               <span class="spec__nav">
                 <span>Registry</span>
                 <span>Work</span>
