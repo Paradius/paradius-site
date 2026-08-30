@@ -19,7 +19,7 @@ const DIRECTIONS = [
     name: 'El monumento romano',
     referent: 'Una inscripcion capital tallada en el portico de un banco neoclasico, leida de noche.',
     melody: "'Cinzel', serif",
-    voice: "'Manrope', sans-serif",
+    voice: "'Jost', sans-serif",
     melodyWeight: 600,
     caps: true,
   },
@@ -28,7 +28,7 @@ const DIRECTIONS = [
     name: 'El fantasma Marcellus',
     referent: 'La lapida del soberano de las sombras. Esta fuente ya rondaba el codigo como declaracion muerta.',
     melody: "'Marcellus', serif",
-    voice: "'Sora', sans-serif",
+    voice: "'IBM Plex Sans', sans-serif",
     melodyWeight: 400,
     caps: false,
   },
@@ -37,7 +37,7 @@ const DIRECTIONS = [
     name: 'La opera nocturna',
     referent: 'Programa de mano de una opera: papel negro, tinta de plata, contraste extremo.',
     melody: "'Playfair Display', serif",
-    voice: "'Instrument Sans', sans-serif",
+    voice: "'Chivo', sans-serif",
     melodyWeight: 500,
     caps: false,
   },
@@ -55,7 +55,7 @@ const DIRECTIONS = [
     name: 'La vanguardia',
     referent: 'Un cartel de teatro constructivista recompuesto en 2026. La opcion mas "al menos diferente".',
     melody: "'Syne', sans-serif",
-    voice: "'Albert Sans', sans-serif",
+    voice: "'Archivo Narrow', sans-serif",
     melodyWeight: 700,
     caps: false,
   },
@@ -73,7 +73,7 @@ const DIRECTIONS = [
     name: 'La edicion critica',
     referent: 'Una edicion anotada impresa en frio: serif de pantalla, seca, sin romanticismo.',
     melody: "'Spectral', serif",
-    voice: "'Archivo', sans-serif",
+    voice: "'Alegreya Sans', sans-serif",
     melodyWeight: 300,
     caps: false,
   },
@@ -82,7 +82,7 @@ const DIRECTIONS = [
     name: 'El titular brutal',
     referent: 'La primera plana de un diario financiero impreso en negro: grotesca con caracter, cero serif.',
     melody: "'Bricolage Grotesque', sans-serif",
-    voice: "'Figtree', sans-serif",
+    voice: "'Libre Franklin', sans-serif",
     melodyWeight: 600,
     caps: false,
   },
@@ -92,19 +92,19 @@ const LAB_FONTS =
   'https://fonts.googleapis.com/css2?' +
   [
     'family=Cinzel:wght@500;600',
-    'family=Manrope:wght@400;500',
+    'family=Jost:wght@400;500',
     'family=Marcellus',
-    'family=Sora:wght@300;400;500',
+    'family=IBM+Plex+Sans:wght@400;500',
     'family=Playfair+Display:ital,wght@0,500;0,600;1,500',
-    'family=Instrument+Sans:wght@400;500',
+    'family=Chivo:wght@400;500',
     'family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400',
     'family=Space+Grotesk:wght@300;400;500;700',
     'family=Syne:wght@600;700',
-    'family=Albert+Sans:wght@400;500',
+    'family=Archivo+Narrow:wght@400;500',
     'family=Spectral:ital,wght@0,300;0,400;1,300',
-    'family=Archivo:wght@400;500',
+    'family=Alegreya+Sans:wght@400;500',
     'family=Bricolage+Grotesque:wght@500;600',
-    'family=Figtree:wght@400;500',
+    'family=Libre+Franklin:wght@400;500',
   ].join('&') +
   '&display=swap';
 ---
@@ -171,6 +171,10 @@ const LAB_FONTS =
                 <p>The spark. People who cannot leave things worse than they found them.</p>
               </div>
             </div>
+
+            <p class="spec__voiceline">
+              Then they go remote. And nothing degrades. 0123456789, PRD-001, 48 hours.
+            </p>
 
             <p class="spec__body">
               We do not hire headcount. We find the ones with the spark and push them further
@@ -338,6 +342,15 @@ const LAB_FONTS =
     font-size: 1.15rem;
     line-height: 1.6;
     color: #d1d5db;
+  }
+
+  .spec__voiceline {
+    font-family: var(--voice);
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #e5e7eb;
+    margin-bottom: 1.25rem;
   }
 
   .spec__body {
