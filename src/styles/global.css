@@ -1210,24 +1210,14 @@
     min-height: 24px;
   }
 
-  /* Zone 2: company facts, centered and compact */
+  /* Zone 2: the one company fact, centered */
   .footer-ledger__facts {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
-    gap: 0.35rem;
-  }
-
-  .footer-ledger__facts span {
-    display: block;
-    max-width: 60ch;
-    text-wrap: pretty;
+    font-size: 0.75rem;
   }
 
   /* Underlines carry the same contrast as the text they belong to: these links
      sit among plain text, so color alone must not be what marks them. */
-  .footer-ledger__facts a,
   .footer-ledger__legal a {
     text-decoration: underline;
     text-decoration-color: var(--color-text-secondary);
