@@ -331,7 +331,7 @@ import { HOME_SEO } from '../lib/seo';
         (function follow() {
           const t = tree.style.transform;
           const o = parseFloat(tree.style.opacity || '0.04');
-          const target = String(Math.min(0.18, o * 3));
+          const target = String(Math.min(0.22, o * 3.4));
           for (const el of shimmers) {
             if (t) el.style.transform = t;
             el.style.opacity = target;
@@ -411,8 +411,8 @@ import { HOME_SEO } from '../lib/seo';
         transparent 0%,
         transparent 30%,
         rgb(255 255 255 / 0.15) 38%,
-        rgb(255 255 255 / 0.55) 47%,
-        rgb(255 255 255 / 0.55) 53%,
+        rgb(255 255 255 / 0.7) 47%,
+        rgb(255 255 255 / 0.7) 53%,
         rgb(255 255 255 / 0.15) 62%,
         transparent 70%,
         transparent 100%
@@ -437,8 +437,8 @@ import { HOME_SEO } from '../lib/seo';
         transparent 0%,
         transparent 30%,
         rgb(255 255 255 / 0.15) 38%,
-        rgb(255 255 255 / 0.55) 47%,
-        rgb(255 255 255 / 0.55) 53%,
+        rgb(255 255 255 / 0.7) 47%,
+        rgb(255 255 255 / 0.7) 53%,
         rgb(255 255 255 / 0.15) 62%,
         transparent 70%,
         transparent 100%
@@ -456,7 +456,7 @@ import { HOME_SEO } from '../lib/seo';
     mask-repeat: no-repeat, no-repeat;
     mask-position: center center, center 280%, center center;
     mask-composite: intersect;
-    animation: home-v7-tree-pulse 20s linear infinite;
+    animation: home-v7-tree-pulse 14s linear infinite;
   }
 
   .home-v7__tree-shimmer--s1 {
