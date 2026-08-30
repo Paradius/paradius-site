@@ -327,14 +327,20 @@ import { HOME_SEO } from '../lib/seo';
       const shimmers = Array.from(document.querySelectorAll('[data-home-v7-tree-shimmer]'));
       if (!tree || shimmers.length === 0) return;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let lastT = '';
+      let lastO = '';
       if (!reduced) {
         (function follow() {
           const t = tree.style.transform;
-          const o = parseFloat(tree.style.opacity || '0.04');
-          const target = String(Math.min(0.3, o * 4));
-          for (const el of shimmers) {
-            if (t) el.style.transform = t;
-            el.style.opacity = target;
+          const o = tree.style.opacity || '0.04';
+          if (t !== lastT || o !== lastO) {
+            lastT = t;
+            lastO = o;
+            const target = String(Math.min(0.3, parseFloat(o) * 4));
+            for (const el of shimmers) {
+              if (t) el.style.transform = t;
+              el.style.opacity = target;
+            }
           }
           requestAnimationFrame(follow);
         })();
@@ -464,7 +470,13 @@ import { HOME_SEO } from '../lib/seo';
     mask-repeat: no-repeat, no-repeat;
     mask-position: center center, center 280%, center center;
     mask-composite: intersect;
-    animation: home-v7-tree-pulse 12s linear infinite;
+    clip-path: inset(
+      0
+      max(0%, calc(98% - var(--seg-b)))
+      0
+      max(0%, calc(var(--seg-a) - 2%))
+    );
+    animation: home-v7-tree-pulse 16s linear infinite;
   }
 
   .home-v7__tree-shimmer--s1 {
