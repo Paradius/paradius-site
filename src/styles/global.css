@@ -341,32 +341,27 @@
     padding: 0;
   }
 
-  /* Same recipe as the hero's secondary CTA (.home-v7__cta--secondary):
-     same face, size, tracking, padding and gray-family hover. */
   .site-header__cta {
     display: inline-block;
-    padding: 0.875rem 2.5rem;
+    padding: 0.45rem 1.1rem;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
     font-family: var(--font-sans);
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--color-text-primary);
-    background-color: transparent;
-    border: 1px solid var(--color-text-primary);
     text-decoration: none;
     transition:
       background-color var(--transition-duration-base) ease,
-      border-color var(--transition-duration-base) ease,
       color var(--transition-duration-base) ease;
   }
 
   .site-header__cta:hover,
   .site-header__cta:focus-visible {
-    background-color: rgb(255 255 255 / 0.08);
-    border-color: var(--color-text-secondary);
-    color: var(--color-text-primary);
+    background-color: var(--color-accent);
+    color: #000;
   }
 
   .site-header__nav-link {
