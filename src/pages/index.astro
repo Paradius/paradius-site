@@ -67,9 +67,13 @@ import { HOME_SEO } from '../lib/seo';
       >
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__peak" id="confession">
-              You can find ten thousand agencies with better rankings, better funding, better
-              manners. <em>You will not find one that refuses to quit the way we do.</em>
+            <p class="home-v7__peak-lead">
+              We are the ones who see the world not as it is, but as it ought to be. The ones
+              who do not halt at impossible, for impossible is only ground no one has broken
+              yet.
+            </p>
+            <p class="home-v7__peak home-v7__peak--confession" id="confession">
+              Theirs is the glory. Ours is the road.
             </p>
           </div>
         </div>
@@ -930,6 +934,18 @@ import { HOME_SEO } from '../lib/seo';
     min-height: 78vh;
   }
 
+  .home-v7__peak-lead {
+    font-family: var(--font-heading);
+    font-weight: 300;
+    font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+    line-height: 1.6;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 52ch;
+    margin: 0 auto var(--spacing-md);
+  }
+
   .home-v7__peak {
     font-weight: 300;
     font-family: var(--font-heading);
@@ -940,6 +956,11 @@ import { HOME_SEO } from '../lib/seo';
     text-align: center;
     max-width: 26ch;
     margin: 0 auto;
+  }
+
+  .home-v7__peak--confession {
+    font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+    max-width: 30ch;
   }
 
   .home-v7__peak em {
