@@ -19,7 +19,7 @@ const REDUCED_OPACITY = 0.17;
  */
 const SETTLE_ENTRY_START = 0;
 /** Fully emerged when the leading (bottom) edge reaches this fraction of viewport. */
-const SETTLE_ENTRY_END = 0.45;
+const SETTLE_ENTRY_END = 0.68;
 /**
  * No artificial side phase: with leading-edge anchoring, geometry orders the
  * births naturally — whichever block hangs lower enters (and is born) first.
@@ -39,7 +39,7 @@ const OPACITY_DELAY = 0.55;
  * net upward motion on screen while it is born (corner-to-corner steep diagonal).
  */
 const BRANCH_PULL_X_VH = 0.06;
-const BRANCH_PULL_Y_VH = 0.55;
+const BRANCH_PULL_Y_VH = 0.85;
 /**
  * Subtle uniform scale anchored at the spine-bottom corner (transform-origin in CSS).
  * Every point's motion vector then radiates from bottom-inner toward top-outer,
