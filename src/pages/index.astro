@@ -33,6 +33,7 @@ import { HOME_SEO } from '../lib/seo';
     <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s2" data-home-v7-tree-shimmer aria-hidden="true"></div>
     <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s3" data-home-v7-tree-shimmer aria-hidden="true"></div>
     <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s4" data-home-v7-tree-shimmer aria-hidden="true"></div>
+    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s5" data-home-v7-tree-shimmer aria-hidden="true"></div>
 
     <main id="main-content" class="home-v7__main">
       <!-- HERO: roots, centered -->
@@ -421,12 +422,12 @@ import { HOME_SEO } from '../lib/seo';
         transparent 100%
       ),
       linear-gradient(
-        to bottom,
+        to right,
         transparent 0%,
-        transparent var(--seg-top),
-        #fff calc(var(--seg-top) + 6%),
-        #fff calc(var(--seg-bottom) - 6%),
-        transparent var(--seg-bottom),
+        transparent var(--seg-a),
+        #fff calc(var(--seg-a) + 5%),
+        #fff calc(var(--seg-b) - 5%),
+        transparent var(--seg-b),
         transparent 100%
       );
     -webkit-mask-size: 100% 86%, 100% 350%, 100% 100%;
@@ -451,12 +452,12 @@ import { HOME_SEO } from '../lib/seo';
         transparent 100%
       ),
       linear-gradient(
-        to bottom,
+        to right,
         transparent 0%,
-        transparent var(--seg-top),
-        #fff calc(var(--seg-top) + 6%),
-        #fff calc(var(--seg-bottom) - 6%),
-        transparent var(--seg-bottom),
+        transparent var(--seg-a),
+        #fff calc(var(--seg-a) + 5%),
+        #fff calc(var(--seg-b) - 5%),
+        transparent var(--seg-b),
         transparent 100%
       );
     mask-size: 100% 86%, 100% 350%, 100% 100%;
@@ -467,27 +468,33 @@ import { HOME_SEO } from '../lib/seo';
   }
 
   .home-v7__tree-shimmer--s1 {
-    --seg-top: 58%;
-    --seg-bottom: 100%;
+    --seg-a: 36%;
+    --seg-b: 64%;
     animation-delay: 0s;
   }
 
   .home-v7__tree-shimmer--s2 {
-    --seg-top: 40%;
-    --seg-bottom: 68%;
-    animation-delay: 1.4s;
+    --seg-a: 16%;
+    --seg-b: 42%;
+    animation-delay: 1.1s;
   }
 
   .home-v7__tree-shimmer--s3 {
-    --seg-top: 22%;
-    --seg-bottom: 50%;
-    animation-delay: 2.8s;
+    --seg-a: 58%;
+    --seg-b: 84%;
+    animation-delay: 1.7s;
   }
 
   .home-v7__tree-shimmer--s4 {
-    --seg-top: 0%;
-    --seg-bottom: 32%;
-    animation-delay: 4.2s;
+    --seg-a: 0%;
+    --seg-b: 22%;
+    animation-delay: 2.6s;
+  }
+
+  .home-v7__tree-shimmer--s5 {
+    --seg-a: 78%;
+    --seg-b: 100%;
+    animation-delay: 3.1s;
   }
 
   @keyframes home-v7-tree-pulse {
