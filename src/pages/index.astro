@@ -121,13 +121,11 @@ import { HOME_SEO } from '../lib/seo';
       <section class="home-v7__row home-v7__row--thesis-close" data-home-v7-node aria-label="Both forces">
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__peak home-v7__peak--confession">
+            <p class="home-v7__peak-lead">
               Every system that endures needs both.
             </p>
             <p class="home-v7__peak home-v7__peak--confession">
-              We seal them together in a creational force<span
-                class="home-v7__caret"
-                aria-hidden="true">_</span>
+              We seal them together in a creational force.
             </p>
           </div>
         </div>
@@ -1011,17 +1009,6 @@ import { HOME_SEO } from '../lib/seo';
     margin-block-start: clamp(13rem, 24vh, 18rem);
   }
 
-  /* The trailing underscore is a live cursor: the work never stops */
-  .home-v7__caret {
-    animation: home-v7-caret 1.15s steps(1) infinite;
-  }
-
-  @keyframes home-v7-caret {
-    50% {
-      opacity: 0;
-    }
-  }
-
   .home-v7__voice {
     font-family: var(--font-heading);
     font-size: clamp(1.65rem, 2.7vw, 2.25rem);
@@ -1240,8 +1227,5 @@ import { HOME_SEO } from '../lib/seo';
       opacity: 0;
     }
 
-    .home-v7__caret {
-      animation: none;
-    }
   }
 </style>
