@@ -83,11 +83,13 @@ import { HOME_SEO } from '../lib/seo';
       <section class="home-v7__row" data-home-v7-node id="thesis" aria-label="The thesis">
         <div class="home-v7__injerto-wrap">
           <div class="home-v7__clip home-v7__clip--center">
-            <p class="home-v7__peak-lead">
+            <p class="home-v7__peak-lead home-v7__peak-lead--slab">
               Everything begins as the union of two fundamental forces: the capacity to
               create, and the desire to make it real.
             </p>
-            <p class="home-v7__peak-lead">Missing either, a dream stays a blueprint.</p>
+            <p class="home-v7__peak-lead home-v7__peak-lead--slab">
+              Missing either, a dream stays a blueprint.
+            </p>
           </div>
         </div>
       </section>
@@ -960,6 +962,12 @@ import { HOME_SEO } from '../lib/seo';
     text-align: center;
     max-width: 26ch;
     margin: 0 auto;
+  }
+
+  /* EXPERIMENT: thesis intro in the citable line's face (Zilla Slab) */
+  .home-v7__peak-lead--slab {
+    font-family: 'Zilla Slab', var(--font-heading);
+    font-weight: 300;
   }
 
   .home-v7__peak--confession {
