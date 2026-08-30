@@ -141,7 +141,7 @@ const LAB_FONTS =
           </div>
 
           <div class="spec">
-            <div class="spec__chrome" class:list={[{ 'spec__chrome--caps': d.caps }]}>
+            <div class={`spec__chrome${d.caps ? ' spec__chrome--caps' : ''}`}>
               <span class="spec__nav">
                 <span>Registry</span>
                 <span>Work</span>
