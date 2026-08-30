@@ -1194,22 +1194,13 @@
     color: var(--color-text-primary);
   }
 
-  /* Standalone links (map and legal rows) carry a 24px minimum tap target.
+  /* Standalone links (legal row) carry a 24px minimum tap target.
      Facts links are inline inside sentences, where WCAG 2.5.8 exempts them
      and where growing the box would break the line rhythm. */
-  .footer-ledger__map a,
   .footer-ledger__legal a {
     display: inline-flex;
     align-items: center;
     min-height: 24px;
-  }
-
-  /* Zone 1: site map */
-  .footer-ledger__map {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--spacing-xs) var(--spacing-md);
   }
 
   /* Zone 2: company facts, one short line per row */
@@ -2428,10 +2419,6 @@
 
   .footer-ledger__inner {
     gap: var(--spacing-sm);
-  }
-
-  .footer-ledger__map {
-    gap: var(--spacing-xs) var(--spacing-sm);
   }
 
   .footer-ledger__legal {
