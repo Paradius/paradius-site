@@ -23,7 +23,6 @@ const SCROLL_SPEED = 0.55;
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
 const TREE_MOBILE_FACTOR = 0.55;
-const REDUCED_OPACITY = 0.17;
 
 /* Appearance (pull distances, fades, scale) lives ENTIRELY in CSS: see the
    "Motion contract" section of the home style block. This file only writes
@@ -106,17 +105,29 @@ function setInverted(enabled: boolean): void {
   getMain()?.classList.toggle('inverted-scroll', enabled);
 }
 
+let lastTreeShift = '';
+let lastTreeFade = '';
+
+/** Contract: the engine writes --tree-shift/--tree-fade on the home root;
+ *  CSS applies them to the tree AND its shimmer twins (no mirror JS loop). */
 function setTreeProgress(scrollY: number): void {
-  if (!tree || maxScroll <= 0) return;
+  if (!homeRoot || maxScroll <= 0) return;
 
   const progress = hijack ? 1 - scrollY / maxScroll : scrollY / maxScroll;
   const mobileFactor = mobileLayout ? TREE_MOBILE_FACTOR : 1;
   const opacity =
     (TREE_MIN_OPACITY + (TREE_MAX_OPACITY - TREE_MIN_OPACITY) * progress) * mobileFactor;
-  const translateY = -treeMaxOffset * (1 - progress);
+  const shift = `${Math.round(-treeMaxOffset * (1 - progress))}px`;
+  const fade = String(quantize(opacity, 1000));
 
-  tree.style.transform = `translateX(-50%) translateY(${translateY}px)`;
-  tree.style.opacity = String(opacity);
+  if (shift !== lastTreeShift) {
+    lastTreeShift = shift;
+    homeRoot.style.setProperty('--tree-shift', shift);
+  }
+  if (fade !== lastTreeFade) {
+    lastTreeFade = fade;
+    homeRoot.style.setProperty('--tree-fade', fade);
+  }
 }
 
 function collectReveals(): void {
@@ -400,11 +411,7 @@ async function init(): Promise<void> {
   setupMode();
 
   if (reducedMotion) {
-    const reducedTree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
-    if (reducedTree) {
-      reducedTree.style.opacity = String(REDUCED_OPACITY);
-      reducedTree.style.transform = 'translateX(-50%) translateY(-25vh)';
-    }
+    // Tree resting pose comes from the prefers-reduced-motion CSS block.
     revealAll();
     return;
   }

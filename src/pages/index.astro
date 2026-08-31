@@ -346,39 +346,18 @@ import { HOME_SEO } from '../lib/seo';
   <Footer />
   <script src="../scripts/home-v7.ts"></script>
   <script is:inline>
-    /* EXPERIMENT: shimmer twin follows the engine-driven tree (transform and
-       opacity are inline-written by home-v7.ts, which stays untouched), and
-       clicking the page steps the tree's light through the accent family. */
+    /* Clicking the page steps the tree's light through the accent family.
+       (The shimmer twins follow the trunk via CSS vars written by the
+       engine; the old mirror rAF loop is gone.) */
     (function () {
-      const tree = document.querySelector('[data-home-v7-tree]');
-      const shimmers = Array.from(document.querySelectorAll('[data-home-v7-tree-shimmer]'));
-      if (!tree || shimmers.length === 0) return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let lastT = '';
-      let lastO = '';
-      if (!reduced) {
-        (function follow() {
-          const t = tree.style.transform;
-          const o = tree.style.opacity || '0.04';
-          if (t !== lastT || o !== lastO) {
-            lastT = t;
-            lastO = o;
-            const target = String(Math.min(0.3, parseFloat(o) * 4));
-            for (const el of shimmers) {
-              if (t) el.style.transform = t;
-              el.style.opacity = target;
-            }
-          }
-          requestAnimationFrame(follow);
-        })();
-      }
+      const root = document.querySelector('.home-v7');
+      if (!root) return;
       const tints = ['#ffffff', '#c0c8d4', '#8fa3c0', '#e5e7eb'];
       let step = 0;
       document.addEventListener('click', function (ev) {
         if (ev.target && ev.target.closest && ev.target.closest('a, button')) return;
         step = (step + 1) % tints.length;
-        tree.style.backgroundColor = tints[step];
-        for (const el of shimmers) el.style.backgroundColor = tints[step];
+        root.style.setProperty('--tree-tint', tints[step]);
       });
     })();
   </script>
@@ -398,7 +377,11 @@ import { HOME_SEO } from '../lib/seo';
     isolation: isolate;
   }
 
-  .home-v7__tree {
+  /* Tree layers share one geometry; the engine drives them through TWO
+     variables (--tree-shift, --tree-fade) written on .home-v7, so the
+     shimmer twins follow the trunk with no mirror JS loop. */
+  .home-v7__tree,
+  .home-v7__tree-shimmer {
     position: fixed;
     top: 0;
     /* Owner calibration: the trunk reads left of center, nudge right */
@@ -408,9 +391,12 @@ import { HOME_SEO } from '../lib/seo';
     width: 165vw;
     height: 220dvh;
     pointer-events: none;
-    transform: translateX(-50%) translateY(-50vh);
-    opacity: 0.04;
-    background-color: #fff;
+    transform: translateX(-50%) translateY(var(--tree-shift, -50vh));
+    background-color: var(--tree-tint, #fff);
+  }
+
+  .home-v7__tree {
+    opacity: var(--tree-fade, 0.04);
     -webkit-mask-image: url('/assets/circuit_tree_full.svg');
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
@@ -426,17 +412,8 @@ import { HOME_SEO } from '../lib/seo';
      intersected with a vertical glow band, slowly rising). Sibling of the
      tree because the engine drives the tree's inline opacity each frame. */
   .home-v7__tree-shimmer {
-    position: fixed;
-    top: 0;
-    /* Owner calibration: the trunk reads left of center, nudge right */
-    left: calc(50% + 1.2vw);
-    z-index: 0;
-    width: 165vw;
-    height: 220dvh;
-    pointer-events: none;
-    transform: translateX(-50%) translateY(-50vh);
-    opacity: 0.12;
-    background-color: #fff;
+    /* Shimmer brightness rides the trunk's fade, amplified and capped. */
+    opacity: min(0.3, calc(var(--tree-fade, 0.04) * 4));
     contain: strict;
     will-change: transform;
     /* One source for the 4-layer mask (tree shape intersected with the
@@ -551,7 +528,7 @@ import { HOME_SEO } from '../lib/seo';
     width: 100%;
     max-width: none;
     margin-inline: 0;
-    padding-inline: clamp(1rem, 5vw, 5rem);
+    padding-inline: var(--bleed-pad);
     align-items: start;
   }
 
@@ -564,13 +541,13 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__row--split .home-v7__col--left {
     margin-top: clamp(5rem, 12vh, 9rem);
     padding-right: clamp(0.5rem, 1vw, 1.25rem);
+    align-self: start;
+    padding-top: 0;
   }
 
   .home-v7__row--split .home-v7__col--right {
     padding-left: clamp(0.5rem, 1vw, 1.25rem);
-  }
-
-  .home-v7__row--split .home-v7__col--right {
+    /* WILL climbs above POWER (owner call) */
     margin-top: clamp(-6.5rem, -9vh, -3.5rem);
   }
 
@@ -629,11 +606,6 @@ import { HOME_SEO } from '../lib/seo';
   }
 
   /* Dual-branch row */
-  .home-v7__row--split .home-v7__col--left {
-    align-self: start;
-    padding-top: 0;
-  }
-
   .home-v7__row--split .home-v7__col--hang {
     align-self: start;
     padding-top: clamp(0.75rem, 2.5vh, 1.5rem);
@@ -775,16 +747,19 @@ import { HOME_SEO } from '../lib/seo';
     }
   }
 
-  .home-v7__cta {
+  /* One CTA skeleton, two skins: --cta-fg/--cta-bg pick the polarity.
+     Hero CTAs run dark (bg ground, white text); teaser CTAs inverted. */
+  .home-v7__cta,
+  .home-v7__teaser-cta {
     display: inline-block;
-    padding: 0.875rem 2.5rem;
+    padding: var(--cta-pad, 0.875rem 2.5rem);
     font-family: var(--font-body);
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
-    color: var(--color-text-primary);
-    background-color: var(--color-bg);
+    color: var(--cta-fg, var(--color-text-primary));
+    background-color: var(--cta-bg, var(--color-bg));
     border: 1px solid var(--color-text-primary);
     text-decoration: none;
     transition:
@@ -794,9 +769,21 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__cta:hover,
   .home-v7__cta:focus-visible {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg);
+    --cta-fg: var(--color-bg);
+    --cta-bg: var(--color-text-primary);
+  }
+
+  .home-v7__teaser-cta {
+    --cta-fg: var(--color-bg);
+    --cta-bg: var(--color-text-primary);
+    --cta-pad: 0.75rem 2rem;
+    margin-top: var(--spacing-md);
+  }
+
+  .home-v7__teaser-cta:hover,
+  .home-v7__teaser-cta:focus-visible {
+    --cta-fg: var(--color-text-primary);
+    --cta-bg: transparent;
   }
 
   /* Typography */
@@ -878,7 +865,7 @@ import { HOME_SEO } from '../lib/seo';
     /* Caption size, page-wide: matches the ops-title (fruit labels). */
     font-size: var(--fs-caption);
     line-height: 1.75;
-    color: #9ca3af;
+    color: var(--color-text-secondary);
     margin: var(--spacing-sm) 0 0;
   }
 
@@ -901,7 +888,7 @@ import { HOME_SEO } from '../lib/seo';
      which is not enough to mark a link on its own. */
   .home-v7__graft a,
   .home-v7__graft-link {
-    color: #c0c8d4;
+    color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 0.25em;
     text-decoration-thickness: 1px;
@@ -920,7 +907,7 @@ import { HOME_SEO } from '../lib/seo';
     width: 100%;
     max-width: none;
     margin-inline: 0;
-    padding-inline: clamp(1rem, 5vw, 5rem);
+    padding-inline: var(--bleed-pad);
   }
 
   /* Copa */
@@ -956,30 +943,6 @@ import { HOME_SEO } from '../lib/seo';
       inset 0 -1px 0 rgb(0 0 0 / 0.45),
       inset -1px 0 0 rgb(0 0 0 / 0.3),
       inset 0 0 24px rgb(255 255 255 / 0.03);
-  }
-
-  .home-v7__teaser-cta {
-    display: inline-block;
-    margin-top: var(--spacing-md);
-    padding: 0.75rem 2rem;
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background-color: var(--color-text-primary);
-    border: 1px solid var(--color-text-primary);
-    text-decoration: none;
-    transition:
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
-  }
-
-  .home-v7__teaser-cta:hover,
-  .home-v7__teaser-cta:focus-visible {
-    background-color: transparent;
-    color: var(--color-text-primary);
   }
 
   /* Libreto voices (PRODUCT.md): peaks, voice lines, force labels */
@@ -1072,6 +1035,7 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__peak-lead--oneline {
     position: relative;
     isolation: isolate;
+    margin-block-start: clamp(0.75rem, 2vh, 1.5rem);
   }
 
   .home-v7__peak-lead--oneline::before {
@@ -1097,9 +1061,6 @@ import { HOME_SEO } from '../lib/seo';
     pointer-events: none;
   }
 
-  .home-v7__peak-lead--oneline {
-    margin-block-start: clamp(0.75rem, 2vh, 1.5rem);
-  }
 
   .home-v7__voice {
     font-family: var(--font-heading);
@@ -1207,6 +1168,8 @@ import { HOME_SEO } from '../lib/seo';
     /* Type scale tokens: one definition per recurring size. */
     --fs-lead: clamp(calc(1.1rem + 2px), calc(1.9vw + 2px), calc(1.45rem + 2px));
     --fs-caption: calc(0.9375rem + 2px);
+    /* Full-bleed gutter shared by the spine grid and edge-running rows. */
+    --bleed-pad: clamp(1rem, 5vw, 5rem);
     --pull-x: 6vh;
     --pull-y: 85vh;
     --exit-pull: 16vh;
@@ -1407,7 +1370,7 @@ import { HOME_SEO } from '../lib/seo';
     }
 
     .home-v7__cta {
-      padding: 0.75rem 2rem;
+      --cta-pad: 0.75rem 2rem;
     }
   }
 
