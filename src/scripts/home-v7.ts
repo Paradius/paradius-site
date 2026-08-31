@@ -1,7 +1,23 @@
 /**
  * Home v7 — Diagonal axis settle + inverted scroll.
- * Same motion that felt good — progress inverted so construction = emerge from spine.
+ *
+ * Responsibilities are split for performance:
+ *  - home-v7-math.ts: pure lifecycle math (unit-tested).
+ *  - this file: DOM ownership. Geometry is measured ONCE per layout epoch
+ *    (init / resize / mode change) and derived arithmetically per frame, so
+ *    the frame path performs zero layout reads. Style writes are quantized
+ *    and dirty-checked so untouched elements cost nothing.
  */
+
+import {
+  type LifecycleEnv,
+  clamp,
+  exitProgress,
+  fadeOpacity,
+  journeyOf,
+  quantize,
+  settleProgress,
+} from './home-v7-math';
 
 const LERP = 0.07;
 const SCROLL_SPEED = 0.55;
@@ -10,24 +26,6 @@ const TREE_MAX_OPACITY = 0.3;
 const TREE_MOBILE_FACTOR = 0.55;
 const REDUCED_OPACITY = 0.17;
 
-/**
- * Inverted scroll: blocks enter from the TOP and descend into the reading zone.
- * The LEADING edge is the block's visual BOTTOM — progress anchors there, so a
- * block starts emerging the instant its first pixel enters, regardless of height.
- * (Anchoring on rect.top made tall blocks sit mostly on-screen, still invisible,
- * until their top edge finally entered — the "appears too late" bug.)
- */
-const SETTLE_ENTRY_START = 0;
-/** Fully emerged when the leading (bottom) edge reaches this fraction of viewport. */
-const SETTLE_ENTRY_END = 0.5;
-/**
- * No artificial side phase: with leading-edge anchoring, geometry orders the
- * births naturally — whichever block hangs lower enters (and is born) first.
- */
-const SETTLE_SIDE_NUDGE = 0;
-/** Opacity stays at 0 until this fraction of the emerge (0–1). Late enough
- * that a nascent block has cleared the previous same-side block below it. */
-const OPACITY_DELAY = 0.55;
 /**
  * Ascending diagonal from spine: Y must dominate X or it reads as a horizontal wipe.
  * Collapsed = toward spine + below rest → settles up and out (branch growth).
@@ -40,97 +38,31 @@ const OPACITY_DELAY = 0.55;
  */
 const BRANCH_PULL_X_VH = 0.06;
 const BRANCH_PULL_Y_VH = 0.85;
-/**
- * Subtle uniform scale anchored at the spine-bottom corner (transform-origin in CSS).
- * Every point's motion vector then radiates from bottom-inner toward top-outer,
- * so the reveal reads as an ASCENDING diagonal (bottom-spine → center → top-outer),
- * not a top-left-down sweep. Uniform and small: no text deformation at rest.
- */
+/** Subtle uniform scale anchored at the spine-bottom corner (transform-origin in CSS). */
 const BRANCH_SCALE_PULL = 0.06;
-
-/* Funnel exit (owner-approved model evolution, 2026-08-30): blocks do not
-   stay parked once built. Past the reading zone they keep travelling and
-   fade out, so the viewport always holds things in transit and settled
-   text never piles up. Exit is disabled near the canopy so the final
-   resting frame stays whole. */
-const FUNNEL_EXIT_START = 0.6;
-const FUNNEL_EXIT_END = 0.82;
 const FUNNEL_EXIT_PULL_Y_VH = 0.16;
-const FUNNEL_CANOPY_HOLD = 0.35;
-
-function branchSign(side: RevealSide): number {
-  return side === 'left' ? 1 : -1;
-}
-
-function clearInnerTransform(el: HTMLElement): void {
-  el.querySelector<HTMLElement>(':scope > .home-v7__clip-inner')?.style.removeProperty('transform');
-}
-
-/**
- * Visual rect with settle transforms cleared.
- * Keeps inverted-scroll ON — that flip is the real viewport geometry.
- */
-function readVisualRect(el: HTMLElement): DOMRect {
-  const prev = el.style.transform;
-  const inner = el.querySelector<HTMLElement>(':scope > .home-v7__clip-inner');
-  const prevInner = inner?.style.transform ?? '';
-
-  el.style.transform = 'none';
-  if (inner) inner.style.transform = '';
-
-  const rect = el.getBoundingClientRect();
-
-  el.style.transform = prev;
-  if (inner) inner.style.transform = prevInner;
-
-  return rect;
-}
-
-/** Whole block slides on an ascending diagonal; no rotate (bottom-hinge was horizontal). */
-function applyBranchTransform(
-  el: HTMLElement,
-  side: RevealSide,
-  rest: number,
-  exitY = 0,
-): void {
-  if (rest <= 0 && exitY === 0) {
-    el.style.transform = 'none';
-    clearInnerTransform(el);
-    return;
-  }
-
-  const y = rest * viewportH * BRANCH_PULL_Y_VH + exitY;
-  const scale = 1 - rest * BRANCH_SCALE_PULL;
-
-  if (side === 'center') {
-    el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
-    clearInnerTransform(el);
-    return;
-  }
-
-  const x = branchSign(side) * rest * viewportH * BRANCH_PULL_X_VH;
-  el.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
-  clearInnerTransform(el);
-}
-
-function fadeOpacity(build: number): number {
-  if (build <= OPACITY_DELAY) return 0;
-  return (build - OPACITY_DELAY) / (1 - OPACITY_DELAY);
-}
 
 type RevealSide = 'left' | 'right' | 'center';
 
 interface RevealTarget {
   el: HTMLElement;
   side: RevealSide;
-  /** px offset added to settle start — zigzag cascade */
-  phasePx: number;
+  /** Document-space geometry: visual top/bottom = doc value - scrollY. */
+  docTop: number;
+  docBottom: number;
+  /* Last written values, for dirty-checking the style writes. */
+  lastTransform: string;
+  lastOpacity: string;
+  lastFilter: string;
+  lastSettle: string;
+  lastMoving: boolean;
 }
 
 let hijack = false;
 let wheelBound = false;
 let scrollBound = false;
 let wasMobileLayout = false;
+let mobileLayout = false;
 let target = 0;
 let current = 0;
 let maxScroll = 0;
@@ -139,6 +71,16 @@ let viewportH = 0;
 let navH = 0;
 let reveals: RevealTarget[] = [];
 let reducedMotion = false;
+let tree: HTMLElement | null = null;
+let treeMaxOffset = 0;
+let homeRoot: HTMLElement | null = null;
+let frameDirty = true;
+let lastApplied = Number.NaN;
+let lastJourney = -1;
+
+function branchSign(side: RevealSide): number {
+  return side === 'left' ? 1 : -1;
+}
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -156,17 +98,12 @@ function canHijack(): boolean {
   return !isCoarsePointer() && !isMobileLayout() && !prefersReducedMotion();
 }
 
-function clamp(n: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, n));
-}
-
-function smoothstep(t: number): number {
-  const x = clamp(t, 0, 1);
-  return x * x * (3 - 2 * x);
-}
-
 function getMain(): HTMLElement | null {
   return document.getElementById('main-content');
+}
+
+function env(): LifecycleEnv {
+  return { viewportH, current, hijack };
 }
 
 function measure(): void {
@@ -174,6 +111,7 @@ function measure(): void {
   navH = header?.offsetHeight ?? 0;
   viewportH = window.innerHeight;
   maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
+  treeMaxOffset = tree ? Math.max(0, tree.offsetHeight - viewportH) : 0;
 }
 
 function measureLanding(): void {
@@ -187,21 +125,17 @@ function measureLanding(): void {
 }
 
 function setInverted(enabled: boolean): void {
-  const main = getMain();
-  if (!main) return;
-  main.classList.toggle('inverted-scroll', enabled);
+  getMain()?.classList.toggle('inverted-scroll', enabled);
 }
 
 function setTreeProgress(scrollY: number): void {
-  const tree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
   if (!tree || maxScroll <= 0) return;
 
   const progress = hijack ? 1 - scrollY / maxScroll : scrollY / maxScroll;
-  const mobileFactor = isMobileLayout() ? TREE_MOBILE_FACTOR : 1;
+  const mobileFactor = mobileLayout ? TREE_MOBILE_FACTOR : 1;
   const opacity =
     (TREE_MIN_OPACITY + (TREE_MAX_OPACITY - TREE_MIN_OPACITY) * progress) * mobileFactor;
-  const maxOffset = Math.max(0, tree.offsetHeight - window.innerHeight);
-  const translateY = -maxOffset * (1 - progress);
+  const translateY = -treeMaxOffset * (1 - progress);
 
   tree.style.transform = `translateX(-50%) translateY(${translateY}px)`;
   tree.style.opacity = String(opacity);
@@ -216,105 +150,138 @@ function sideOf(el: HTMLElement): RevealSide {
 function collectReveals(): void {
   reveals = [];
   document.querySelectorAll<HTMLElement>('.home-v7__clip').forEach((el) => {
-    const side = sideOf(el);
-    const row = el.closest<HTMLElement>('.home-v7__row');
-    const clipCount = row?.querySelectorAll('.home-v7__clip').length ?? 1;
-    const phasePx =
-      clipCount > 1 && side === 'right' ? viewportH * SETTLE_SIDE_NUDGE : 0;
-    reveals.push({ el, side, phasePx });
+    reveals.push({
+      el,
+      side: sideOf(el),
+      docTop: 0,
+      docBottom: 0,
+      lastTransform: '',
+      lastOpacity: '',
+      lastFilter: '',
+      lastSettle: '',
+      lastMoving: false,
+    });
     el.classList.add('home-v7__clip--live');
   });
 }
 
 /**
- * Visual progress for inverted scroll.
- * Enter from top (collapsed) → descend into reading zone (built).
- * Anchored on the LEADING edge (rect.bottom): t=0 as the first pixel enters,
- * t=1 when that edge reaches the reading line. Past the bottom edge → stay built.
+ * One layout epoch: batch save/clear transforms, ONE layout flush for all
+ * rects, restore. Untransformed geometry never changes during scroll, so
+ * per-frame rects derive from `docTop - scrollY` with zero reads.
  */
-function settleProgress(rect: DOMRect, phasePx: number): number {
-  // Still above the viewport — not entered yet
-  if (rect.bottom <= 0) return 0;
-  // Left through the bottom — keep fully built
-  if (rect.top >= viewportH) return 1;
-
-  const start = viewportH * SETTLE_ENTRY_START + phasePx;
-  const end = viewportH * SETTLE_ENTRY_END + phasePx;
-  let t = smoothstep((rect.bottom - start) / (end - start));
-
-  // Canopy / end of ascent: RAMP remaining blocks to completion as scrollY → 0.
-  // A hard snap here made the final block jump into alignment mid-birth.
-  if (hijack && current <= viewportH * 0.3 && rect.top < viewportH) {
-    const canopyBoost = smoothstep(1 - current / (viewportH * 0.3));
-    t = Math.max(t, canopyBoost);
+function measureReveals(): void {
+  const saved: string[] = [];
+  for (const item of reveals) {
+    saved.push(item.el.style.transform);
+    item.el.style.transform = 'none';
   }
-
-  return clamp(t, 0, 1);
+  const scrollY = window.scrollY;
+  reveals.forEach((item, i) => {
+    const rect = item.el.getBoundingClientRect();
+    item.docTop = rect.top + scrollY;
+    item.docBottom = rect.bottom + scrollY;
+    item.el.style.transform = saved[i];
+  });
 }
 
-function exitProgress(rect: DOMRect): number {
-  if (!hijack) return 0;
-  // The canopy is the destination: nothing exits while resting at the top.
-  if (current <= viewportH * FUNNEL_CANOPY_HOLD) return 0;
-  const start = viewportH * FUNNEL_EXIT_START;
-  const end = viewportH * FUNNEL_EXIT_END;
-  return smoothstep((rect.top - start) / (end - start));
+function applyBranchTransform(item: RevealTarget, rest: number, exitY: number): void {
+  let transform: string;
+  if (rest <= 0 && exitY === 0) {
+    transform = 'none';
+  } else {
+    const y = rest * viewportH * BRANCH_PULL_Y_VH + exitY;
+    const scale = 1 - rest * BRANCH_SCALE_PULL;
+    const x = item.side === 'center' ? 0 : branchSign(item.side) * rest * viewportH * BRANCH_PULL_X_VH;
+    transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+  }
+  if (transform !== item.lastTransform) {
+    item.lastTransform = transform;
+    item.el.style.transform = transform;
+  }
 }
 
-function applyHidden(el: HTMLElement, side: RevealSide): void {
-  el.style.opacity = '0';
-  applyBranchTransform(el, side, 1);
-  el.style.filter = 'brightness(0.45)';
-  el.style.setProperty('--settle', '0');
+function writeOpacity(item: RevealTarget, value: string): void {
+  if (value !== item.lastOpacity) {
+    item.lastOpacity = value;
+    item.el.style.opacity = value;
+  }
 }
 
-function applySettle(item: RevealTarget, t: number, exit = 0): void {
-  const { el, side } = item;
+function writeFilter(item: RevealTarget, value: string): void {
+  if (value !== item.lastFilter) {
+    item.lastFilter = value;
+    item.el.style.filter = value;
+  }
+}
+
+function writeSettleVar(item: RevealTarget, value: string): void {
+  if (value !== item.lastSettle) {
+    item.lastSettle = value;
+    item.el.style.setProperty('--settle', value);
+  }
+}
+
+/** Layer promotion only while the block actually moves: no permanent textures. */
+function writeMoving(item: RevealTarget, moving: boolean): void {
+  if (moving !== item.lastMoving) {
+    item.lastMoving = moving;
+    item.el.classList.toggle('home-v7__clip--moving', moving);
+  }
+}
+
+function applySettle(item: RevealTarget, t: number, exit: number): void {
   const build = clamp(t, 0, 1);
-  if (build <= 0) {
-    applyHidden(el, side);
-    return;
-  }
-
   const rest = 1 - build;
   const exitY = exit * viewportH * FUNNEL_EXIT_PULL_Y_VH;
-  applyBranchTransform(el, side, rest, exitY);
-  const fade = fadeOpacity(build) * (1 - exit);
-  el.style.opacity = String(fade);
-  el.style.filter = `brightness(${0.5 + 0.5 * fade})`;
-  // Quantized: full-precision writes invalidate the glow text-shadows on
-  // every frame; 0.05 steps cut style recalcs ~20x with no visible banding.
-  const settleOut = Math.round(build * (1 - exit) * 20) / 20;
-  el.style.setProperty('--settle', String(settleOut));
+  // Quantized: brightness() invalidates paint; opacity is cheap but there is
+  // no reason to write sub-1% deltas either.
+  const fade = quantize(fadeOpacity(build) * (1 - exit), 50);
+
+  applyBranchTransform(item, rest, exitY);
+  writeOpacity(item, String(fade));
+  writeFilter(item, `brightness(${0.5 + 0.5 * fade})`);
+  writeSettleVar(item, String(quantize(build * (1 - exit))));
+  writeMoving(item, build > 0 && (build < 1 || exit > 0));
 }
 
-function clearSettle(el: HTMLElement): void {
-  el.style.transform = '';
-  clearInnerTransform(el);
-  el.style.opacity = '';
-  el.style.filter = '';
-  el.style.removeProperty('--settle');
-  el.classList.remove('home-v7__clip--live');
+function clearSettle(item: RevealTarget): void {
+  item.el.style.transform = '';
+  item.el.style.opacity = '';
+  item.el.style.filter = '';
+  item.el.style.removeProperty('--settle');
+  item.el.classList.remove('home-v7__clip--live', 'home-v7__clip--moving');
+  item.lastTransform = '';
+  item.lastOpacity = '';
+  item.lastFilter = '';
+  item.lastSettle = '';
+  item.lastMoving = false;
 }
 
-function updateReveals(): void {
-  if (reducedMotion || isMobileLayout()) return;
+function updateReveals(scrollY: number): void {
+  if (reducedMotion || mobileLayout) return;
 
+  const e = env();
   for (const item of reveals) {
-    const rect = readVisualRect(item.el);
-    const t = settleProgress(rect, item.phasePx);
-    applySettle(item, t, exitProgress(rect));
+    const top = item.docTop - scrollY;
+    const bottom = item.docBottom - scrollY;
+    const t = settleProgress(e, top, bottom);
+    applySettle(item, t, exitProgress(e, top));
   }
 }
 
-function revealAll(): void {
-  for (const item of reveals) {
-    clearSettle(item.el);
-    item.el.style.opacity = '1';
-    item.el.style.transform = 'none';
-    item.el.style.filter = 'none';
-    clearInnerTransform(item.el);
-  }
+/**
+ * Journey purity scale (0 roots .. 1 canopy), read by the CSS glow tokens.
+ * Written on the home root (never documentElement: that invalidates the whole
+ * document) and ONLY at rest: recoloring the glow stacks forces a broad style
+ * recalc + repaint, so it must never land mid-scroll.
+ */
+function updateJourney(scrollY: number): void {
+  if (!homeRoot || current !== target) return;
+  const j = quantize(journeyOf(scrollY, maxScroll));
+  if (j === lastJourney) return;
+  lastJourney = j;
+  homeRoot.style.setProperty('--journey', String(j));
 }
 
 function applyFrame(): void {
@@ -324,26 +291,20 @@ function applyFrame(): void {
   }
   setTreeProgress(scrollY);
   updateJourney(scrollY);
-  updateReveals();
-}
-
-/* Journey purity scale: 0 at the roots, 1 at the canopy. Quantized to 0.05
-   so the glow shadows repaint ~20 times across the whole ascent, not per
-   frame. Read by the CSS glow tokens (--journey). */
-let lastJourney = -1;
-
-function updateJourney(scrollY: number): void {
-  const journey = maxScroll > 0 ? clamp(1 - scrollY / maxScroll, 0, 1) : 1;
-  const j = Math.round(journey * 20) / 20;
-  if (j === lastJourney) return;
-  lastJourney = j;
-  document.documentElement.style.setProperty('--journey', String(j));
+  updateReveals(scrollY);
+  lastApplied = current;
+  frameDirty = false;
 }
 
 function tick(): void {
   current += (target - current) * LERP;
   if (Math.abs(target - current) < 0.5) current = target;
-  applyFrame();
+  // Idle bail: at rest with everything applied, the frame costs one compare.
+  if (frameDirty || current !== lastApplied || (current === target && lastJourney < 0)) {
+    applyFrame();
+  } else if (current === target) {
+    updateJourney(current);
+  }
   requestAnimationFrame(tick);
 }
 
@@ -383,7 +344,7 @@ function onNativeScroll(): void {
   current = window.scrollY;
   target = current;
   setTreeProgress(current);
-  updateReveals();
+  updateReveals(current);
 }
 
 function scrollToSection(id: string): void {
@@ -414,11 +375,13 @@ function bindHashNav(): void {
   });
 }
 
-function clearRevealInline(el: HTMLElement): void {
-  el.style.opacity = '';
-  el.style.transform = '';
-  el.style.filter = '';
-  clearInnerTransform(el);
+function revealAll(): void {
+  for (const item of reveals) {
+    clearSettle(item);
+    item.el.style.opacity = '1';
+    item.el.style.transform = 'none';
+    item.el.style.filter = 'none';
+  }
 }
 
 function syncScrollListeners(): void {
@@ -442,25 +405,30 @@ function syncScrollListeners(): void {
 }
 
 function setupMode(): void {
+  tree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
+  homeRoot = document.querySelector<HTMLElement>('.home-v7');
   measure();
-  const mobile = isMobileLayout();
+  mobileLayout = isMobileLayout();
   const nextHijack = canHijack();
 
   if (hijack && !nextHijack) {
-    for (const item of reveals) clearSettle(item.el);
+    for (const item of reveals) clearSettle(item);
   }
 
-  if (wasMobileLayout && !mobile) {
-    for (const item of reveals) clearRevealInline(item.el);
+  if (wasMobileLayout && !mobileLayout) {
+    for (const item of reveals) clearSettle(item);
   }
 
   hijack = nextHijack;
-  wasMobileLayout = mobile;
+  wasMobileLayout = mobileLayout;
   setInverted(hijack);
   collectReveals();
+  measureReveals();
   syncScrollListeners();
+  frameDirty = true;
+  lastJourney = -1;
 
-  if (reducedMotion || mobile) {
+  if (reducedMotion || mobileLayout) {
     revealAll();
     return;
   }
@@ -476,7 +444,7 @@ function setupMode(): void {
   current = window.scrollY;
   target = current;
   setTreeProgress(current);
-  updateReveals();
+  updateReveals(current);
 }
 
 let resizeTimeout: number | null = null;
@@ -486,32 +454,18 @@ function onResize(): void {
   resizeTimeout = window.setTimeout(() => {
     const anchor = window.scrollY;
     setupMode();
-    if (!hijack && !isMobileLayout()) {
+    if (!hijack && !mobileLayout) {
       current = anchor;
       target = anchor;
       setTreeProgress(anchor);
-      updateReveals();
+      updateReveals(anchor);
     }
   }, 150);
-}
-
-/** TYPE LAB (experiment): keys 1-4 or ?type=a|b|c swap the type system live. */
-function bindTypeLab(root: Element): void {
-  const variants: Record<string, string> = { '1': '', '2': 's' };
-  const initial = new URLSearchParams(location.search).get('type');
-  if (initial) root.setAttribute('data-typelab', initial);
-  window.addEventListener('keydown', (e) => {
-    if (!(e.key in variants)) return;
-    const v = variants[e.key];
-    if (v) root.setAttribute('data-typelab', v);
-    else root.removeAttribute('data-typelab');
-  });
 }
 
 async function init(): Promise<void> {
   const root = document.querySelector('.home-v7');
   if (!root) return;
-  bindTypeLab(root);
 
   reducedMotion = prefersReducedMotion();
   await document.fonts.ready;
@@ -519,10 +473,10 @@ async function init(): Promise<void> {
   setupMode();
 
   if (reducedMotion) {
-    const tree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
-    if (tree) {
-      tree.style.opacity = String(REDUCED_OPACITY);
-      tree.style.transform = 'translateX(-50%) translateY(-25vh)';
+    const reducedTree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
+    if (reducedTree) {
+      reducedTree.style.opacity = String(REDUCED_OPACITY);
+      reducedTree.style.transform = 'translateX(-50%) translateY(-25vh)';
     }
     revealAll();
     return;

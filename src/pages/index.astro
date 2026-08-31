@@ -1218,9 +1218,16 @@ import { HOME_SEO } from '../lib/seo';
     margin-inline: auto;
   }
 
-  /* Axis settle (driven by home-v7.ts: no clip curtains, no timed plays) */
+  /* Axis settle (driven by home-v7.ts: no clip curtains, no timed plays).
+     No --settle initializer here: elements the engine never touches (mobile,
+     reduced motion, static blocks) must fall back to var(--settle, 1). */
   .home-v7__clip {
-    --settle: 0;
+    /* intentionally bare: lifecycle vars arrive inline from the engine */
+  }
+
+  /* Layer promotion only while the engine reports motion: permanent
+     will-change on every clip held ~15 large textures alive at rest. */
+  .home-v7__clip--moving {
     will-change: transform, opacity, filter;
   }
 
@@ -1292,9 +1299,9 @@ import { HOME_SEO } from '../lib/seo';
       0 0 10px rgb(var(--ink-dark) / 0.95),
       0 0 30px rgb(var(--ink-dark) / 0.8),
       0 0 30px rgb(var(--ink-dark) / 0.8),
-      0 0 55px rgb(var(--ink-dark) / 0.6),
+      0 0 32px rgb(var(--ink-dark) / 0.6),
       0 0 30px rgb(var(--ink-mist) / calc(0.2 * var(--mist-purity, 1))),
-      0 0 60px rgb(var(--ink-mist) / calc(0.11 * var(--mist-purity, 1)));
+      0 0 36px rgb(var(--ink-mist) / calc(0.11 * var(--mist-purity, 1)));
   }
 
   .home-v7__peak:not(.home-v7__peak--dim),
@@ -1304,7 +1311,7 @@ import { HOME_SEO } from '../lib/seo';
     text-shadow:
       0 0 12px rgb(255 255 255 / calc(0.38 * var(--white-purity, 1))),
       0 0 26px rgb(255 255 255 / calc(0.26 * var(--white-purity, 1))),
-      0 0 52px rgb(255 255 255 / calc(0.18 * var(--white-purity, 1)));
+      0 0 34px rgb(255 255 255 / calc(0.18 * var(--white-purity, 1)));
   }
 
   /* The prophecy clones ride the same lifecycle, and the title dims a notch. */
