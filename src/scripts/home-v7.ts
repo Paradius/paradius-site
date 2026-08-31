@@ -282,7 +282,10 @@ function applySettle(item: RevealTarget, t: number, exit = 0): void {
   const fade = fadeOpacity(build) * (1 - exit);
   el.style.opacity = String(fade);
   el.style.filter = `brightness(${0.5 + 0.5 * fade})`;
-  el.style.setProperty('--settle', String(build * (1 - exit)));
+  // Quantized: full-precision writes invalidate the glow text-shadows on
+  // every frame; 0.05 steps cut style recalcs ~20x with no visible banding.
+  const settleOut = Math.round(build * (1 - exit) * 20) / 20;
+  el.style.setProperty('--settle', String(settleOut));
 }
 
 function clearSettle(el: HTMLElement): void {
@@ -320,7 +323,21 @@ function applyFrame(): void {
     window.scrollTo({ top: current, behavior: 'instant' as ScrollBehavior });
   }
   setTreeProgress(scrollY);
+  updateJourney(scrollY);
   updateReveals();
+}
+
+/* Journey purity scale: 0 at the roots, 1 at the canopy. Quantized to 0.05
+   so the glow shadows repaint ~20 times across the whole ascent, not per
+   frame. Read by the CSS glow tokens (--journey). */
+let lastJourney = -1;
+
+function updateJourney(scrollY: number): void {
+  const journey = maxScroll > 0 ? clamp(1 - scrollY / maxScroll, 0, 1) : 1;
+  const j = Math.round(journey * 20) / 20;
+  if (j === lastJourney) return;
+  lastJourney = j;
+  document.documentElement.style.setProperty('--journey', String(j));
 }
 
 function tick(): void {

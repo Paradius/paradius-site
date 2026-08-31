@@ -1107,20 +1107,20 @@ import { HOME_SEO } from '../lib/seo';
     position: absolute;
     inset: 0;
     z-index: -1;
-    color: rgb(0 0 0);
+    color: rgb(var(--ink-dark));
     font-weight: 700;
     /* Same-radius shadows stack multiplicatively: this is what gives the
        darkness enough body to quench the tree lines around the glyphs. */
     text-shadow:
-      0 0 12px rgb(0 0 0),
-      0 0 12px rgb(0 0 0),
-      0 0 12px rgb(0 0 0),
-      0 0 12px rgb(0 0 0),
-      0 0 12px rgb(0 0 0),
-      0 0 12px rgb(0 0 0),
-      0 0 30px rgb(0 0 0),
-      0 0 30px rgb(0 0 0),
-      0 0 30px rgb(0 0 0);
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 12px rgb(var(--ink-dark)),
+      0 0 30px rgb(var(--ink-dark)),
+      0 0 30px rgb(var(--ink-dark)),
+      0 0 30px rgb(var(--ink-dark));
     filter: blur(4px);
     pointer-events: none;
   }
@@ -1243,6 +1243,77 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__clip-inner {
     transform-origin: center center;
+  }
+
+  /* ---- Presentation glow -----------------------------------------------
+     Driven by --settle (0..1), written per clip by the settle engine.
+     Tokens live in ONE place:
+       --glow       the lifecycle ramp: 0 through most of the build, rises in
+                    the settle's last stretch, dies with the funnel exit
+                    (alpha/opacity clamp the out-of-range values).
+       --ink-dark   tone of the luminous-darkness pool (never pure black, or
+                    it vanishes against the page background).
+       --ink-mist   the cold rim that keeps the darkness readable over black.
+     Elements outside the engine (cards, mobile, reduced motion) fall back to
+     --glow 1: static glow. White text radiates a dim halo of its own
+     letterforms; gray text pools darkness that quenches the tree lines. */
+  .home-v7 {
+    --glow-start: 0.7;
+    /* Journey purity scale (written by the engine, 0 roots .. 1 canopy):
+       the gray ink slides from bluish dusk to pure black, the white halo
+       from a whisper to full radiance, and the blue rim recedes as the
+       darkness purifies. */
+    --j: var(--journey, 1);
+    --ink-dark: calc(24 * (1 - var(--j))) calc(28 * (1 - var(--j))) calc(40 * (1 - var(--j)));
+    --ink-mist: 205 208 215;
+    --white-purity: calc(0.3 + 0.7 * var(--j));
+    --mist-purity: calc(1 - 0.45 * var(--j));
+  }
+
+  .home-v7__clip {
+    --glow: calc((var(--settle, 1) - var(--glow-start)) / (1 - var(--glow-start)));
+  }
+
+  .home-v7__peak-lead:not(.home-v7__peak-lead--oneline),
+  .home-v7__peak--dim,
+  .home-v7__force-text,
+  .home-v7__force-label--will,
+  .home-v7__ops-title,
+  .home-v7__ops-text,
+  .home-v7__text,
+  .home-v7__graft,
+  .home-v7__graft-link {
+    /* Static rasters on purpose: a var()-driven alpha invalidates paint on
+       every settle step and stutters the scroll. The clip's own opacity
+       fade (compositor-only) carries the glow in and out instead. */
+    text-shadow:
+      0 0 10px rgb(var(--ink-dark) / 0.95),
+      0 0 10px rgb(var(--ink-dark) / 0.95),
+      0 0 10px rgb(var(--ink-dark) / 0.95),
+      0 0 30px rgb(var(--ink-dark) / 0.8),
+      0 0 30px rgb(var(--ink-dark) / 0.8),
+      0 0 55px rgb(var(--ink-dark) / 0.6),
+      0 0 30px rgb(var(--ink-mist) / calc(0.2 * var(--mist-purity, 1))),
+      0 0 60px rgb(var(--ink-mist) / calc(0.11 * var(--mist-purity, 1)));
+  }
+
+  .home-v7__peak:not(.home-v7__peak--dim),
+  .home-v7__voice,
+  .home-v7__force-text--power,
+  .home-v7__force-label--power {
+    text-shadow:
+      0 0 12px rgb(255 255 255 / calc(0.38 * var(--white-purity, 1))),
+      0 0 26px rgb(255 255 255 / calc(0.26 * var(--white-purity, 1))),
+      0 0 52px rgb(255 255 255 / calc(0.18 * var(--white-purity, 1)));
+  }
+
+  /* The prophecy clones ride the same lifecycle, and the title dims a notch. */
+  .home-v7__peak--oneline::before {
+    opacity: calc(0.4 * var(--glow, 1));
+  }
+
+  .home-v7__peak-lead--oneline::before {
+    opacity: var(--glow, 1);
   }
 
   /* Mobile */
