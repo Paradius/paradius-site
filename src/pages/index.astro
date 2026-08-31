@@ -439,7 +439,10 @@ import { HOME_SEO } from '../lib/seo';
     background-color: #fff;
     contain: strict;
     will-change: transform;
-    -webkit-mask-image:
+    /* One source for the 4-layer mask (tree shape intersected with the
+       traveling wave, the per-column window, and the height-intensity cap);
+       both vendor properties consume the same token. */
+    --shimmer-mask:
       url('/assets/circuit_tree_full.svg'),
       linear-gradient(
         to top,
@@ -473,47 +476,17 @@ import { HOME_SEO } from '../lib/seo';
         #fff 85%,
         #fff 100%
       );
-    -webkit-mask-size: 100% 86%, 100% 350%, 100% 100%, 100% 100%;
+    --shimmer-mask-size: 100% 86%, 100% 350%, 100% 100%, 100% 100%;
+    --shimmer-mask-position: center center, center 280%, center center, center center;
+    -webkit-mask-image: var(--shimmer-mask);
+    -webkit-mask-size: var(--shimmer-mask-size);
     -webkit-mask-repeat: no-repeat, no-repeat;
-    -webkit-mask-position: center center, center 280%, center center, center center;
+    -webkit-mask-position: var(--shimmer-mask-position);
     -webkit-mask-composite: source-in;
-    mask-image:
-      url('/assets/circuit_tree_full.svg'),
-      linear-gradient(
-        to top,
-        transparent 0%,
-        transparent 12%,
-        rgb(255 255 255 / 0.35) 18%,
-        transparent 24%,
-        transparent 36%,
-        rgb(255 255 255 / 0.9) 44%,
-        rgb(255 255 255 / 0.9) 48%,
-        transparent 56%,
-        transparent 66%,
-        rgb(255 255 255 / 0.5) 72%,
-        transparent 78%,
-        transparent 100%
-      ),
-      linear-gradient(
-        to right,
-        transparent 0%,
-        transparent var(--seg-a),
-        #fff calc(var(--seg-a) + 5%),
-        #fff calc(var(--seg-b) - 5%),
-        transparent var(--seg-b),
-        transparent 100%
-      ),
-      linear-gradient(
-        to top,
-        rgb(255 255 255 / 0.3) 0%,
-        rgb(255 255 255 / 0.45) 30%,
-        rgb(255 255 255 / 0.75) 60%,
-        #fff 85%,
-        #fff 100%
-      );
-    mask-size: 100% 86%, 100% 350%, 100% 100%, 100% 100%;
+    mask-image: var(--shimmer-mask);
+    mask-size: var(--shimmer-mask-size);
     mask-repeat: no-repeat, no-repeat;
-    mask-position: center center, center 280%, center center, center center;
+    mask-position: var(--shimmer-mask-position);
     mask-composite: intersect;
     clip-path: inset(
       0
@@ -842,7 +815,7 @@ import { HOME_SEO } from '../lib/seo';
   }
 
   .home-v7__title--slab {
-    font-family: 'Zilla Slab', var(--font-heading);
+    font-family: var(--font-voice);
     font-weight: 300;
   }
 
@@ -860,7 +833,7 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__text {
     /* Same size as the confession lead ("Missing either, ...") */
-    font-size: clamp(calc(1.1rem + 2px), calc(1.9vw + 2px), calc(1.45rem + 2px));
+    font-size: var(--fs-lead);
     line-height: 1.6;
     color: var(--color-text-secondary);
     margin: 0;
@@ -884,7 +857,7 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__ops-title {
     font-family: var(--font-sans);
-    font-size: calc(0.9375rem + 2px);
+    font-size: var(--fs-caption);
     font-weight: 600;
     letter-spacing: 0.02em;
     color: var(--color-accent);
@@ -903,7 +876,7 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__graft {
     font-family: var(--font-body);
     /* Caption size, page-wide: matches the ops-title (fruit labels). */
-    font-size: calc(0.9375rem + 2px);
+    font-size: var(--fs-caption);
     line-height: 1.75;
     color: #9ca3af;
     margin: var(--spacing-sm) 0 0;
@@ -920,7 +893,7 @@ import { HOME_SEO } from '../lib/seo';
     display: inline-block;
     margin-top: var(--spacing-sm);
     font-family: var(--font-body);
-    font-size: calc(0.9375rem + 2px);
+    font-size: var(--fs-caption);
     line-height: 1.75;
   }
 
@@ -1019,7 +992,7 @@ import { HOME_SEO } from '../lib/seo';
   .home-v7__peak-lead {
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: clamp(calc(1.1rem + 2px), calc(1.9vw + 2px), calc(1.45rem + 2px));
+    font-size: var(--fs-lead);
     line-height: 1.6;
     letter-spacing: var(--tracking-heading);
     color: var(--color-text-secondary);
@@ -1046,14 +1019,13 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__peak--confession {
     /* EXPERIMENT: Zilla Slab 300 for the citable line (lab direction D) */
-    font-family: 'Zilla Slab', var(--font-heading);
+    font-family: var(--font-voice);
     font-weight: 300;
     font-size: clamp(1.9rem, 3.8vw, 3.1rem);
     max-width: 30ch;
   }
 
   .home-v7__peak em {
-    font-style: normal;
     font-weight: 500;
     font-style: italic;
     color: var(--color-accent);
@@ -1138,7 +1110,7 @@ import { HOME_SEO } from '../lib/seo';
   }
 
   .home-v7__voice--slab {
-    font-family: 'Zilla Slab', var(--font-heading);
+    font-family: var(--font-voice);
     font-weight: 300;
   }
 
@@ -1179,7 +1151,7 @@ import { HOME_SEO } from '../lib/seo';
      Power defaults to the sans voice, Will to the heading voice. */
   .home-v7__force-text {
     font-family: var(--font-tech);
-    font-size: clamp(calc(1.65rem - 2px), calc(2.7vw - 2px), calc(2.25rem - 2px));
+    font-size: var(--fs-force, clamp(calc(1.65rem - 2px), calc(2.7vw - 2px), calc(2.25rem - 2px)));
     line-height: 1.45;
     color: var(--color-text-secondary);
     margin: 0;
@@ -1187,24 +1159,21 @@ import { HOME_SEO } from '../lib/seo';
 
   .home-v7__force-text--power {
     color: var(--color-text-primary);
-    font-family: var(--font-tech);
   }
 
   /* The forces differ by light, not by face: POWER white, WILL gray, both tech. */
   .home-v7__force-label--will {
-    font-family: var(--font-tech);
     color: var(--color-text-secondary);
   }
 
   .home-v7__force-text--will {
     color: var(--color-text-secondary);
-    font-family: var(--font-tech);
   }
 
   /* Fruit grounding line: the confession-lead size, not the force size.
-     Must stay AFTER the .home-v7__force-text base (same specificity). */
+     Sets the variable, not the property: order-immune per the repo rule. */
   .home-v7__force-text--lead-size {
-    font-size: clamp(calc(1.1rem + 2px), calc(1.9vw + 2px), calc(1.45rem + 2px));
+    --fs-force: var(--fs-lead);
   }
 
   .home-v7__row--dawn {
@@ -1235,6 +1204,9 @@ import { HOME_SEO } from '../lib/seo';
      Elements without --live (mobile, reduced motion, static blocks) get no
      motion styles at all: no !important overrides needed anywhere. */
   .home-v7 {
+    /* Type scale tokens: one definition per recurring size. */
+    --fs-lead: clamp(calc(1.1rem + 2px), calc(1.9vw + 2px), calc(1.45rem + 2px));
+    --fs-caption: calc(0.9375rem + 2px);
     --pull-x: 6vh;
     --pull-y: 85vh;
     --exit-pull: 16vh;
