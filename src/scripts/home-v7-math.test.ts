@@ -3,10 +3,8 @@ import {
   FUNNEL_CANOPY_HOLD,
   FUNNEL_EXIT_END,
   FUNNEL_EXIT_START,
-  OPACITY_DELAY,
   SETTLE_ENTRY_END,
   exitProgress,
-  fadeOpacity,
   journeyOf,
   quantize,
   settleProgress,
@@ -65,22 +63,6 @@ describe('exitProgress', () => {
   it('is halfway (smoothstepped) at the middle of the exit window', () => {
     const mid = VH * ((FUNNEL_EXIT_START + FUNNEL_EXIT_END) / 2);
     expect(exitProgress(midJourney, mid)).toBeCloseTo(0.5, 5);
-  });
-});
-
-describe('fadeOpacity', () => {
-  it('stays invisible until the opacity delay', () => {
-    expect(fadeOpacity(OPACITY_DELAY)).toBe(0);
-    expect(fadeOpacity(OPACITY_DELAY - 0.1)).toBe(0);
-  });
-
-  it('reaches full opacity at full build', () => {
-    expect(fadeOpacity(1)).toBe(1);
-  });
-
-  it('is linear between delay and full build', () => {
-    const mid = OPACITY_DELAY + (1 - OPACITY_DELAY) / 2;
-    expect(fadeOpacity(mid)).toBeCloseTo(0.5, 5);
   });
 });
 

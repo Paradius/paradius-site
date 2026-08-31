@@ -13,7 +13,6 @@ import {
   type LifecycleEnv,
   clamp,
   exitProgress,
-  fadeOpacity,
   journeyOf,
   quantize,
   settleProgress,
@@ -26,35 +25,18 @@ const TREE_MAX_OPACITY = 0.3;
 const TREE_MOBILE_FACTOR = 0.55;
 const REDUCED_OPACITY = 0.17;
 
-/**
- * Ascending diagonal from spine: Y must dominate X or it reads as a horizontal wipe.
- * Collapsed = toward spine + below rest → settles up and out (branch growth).
- *
- * CRITICAL: settle velocity competes with scroll flow. During the build the flow
- * drags the block DOWN one viewport-px per scrolled px; if pullY < the entry window
- * (SETTLE_ENTRY_END * vh) the ascent is cancelled and only X remains visible — it
- * reads as a horizontal sweep. pullY MUST exceed the window so the block gains
- * net upward motion on screen while it is born (corner-to-corner steep diagonal).
- */
-const BRANCH_PULL_X_VH = 0.06;
-const BRANCH_PULL_Y_VH = 0.85;
-/** Subtle uniform scale anchored at the spine-bottom corner (transform-origin in CSS). */
-const BRANCH_SCALE_PULL = 0.06;
-const FUNNEL_EXIT_PULL_Y_VH = 0.16;
-
-type RevealSide = 'left' | 'right' | 'center';
+/* Appearance (pull distances, fades, scale) lives ENTIRELY in CSS: see the
+   "Motion contract" section of the home style block. This file only writes
+   the lifecycle scalars --settle / --exit and the state classes. */
 
 interface RevealTarget {
   el: HTMLElement;
-  side: RevealSide;
   /** Document-space geometry: visual top/bottom = doc value - scrollY. */
   docTop: number;
   docBottom: number;
   /* Last written values, for dirty-checking the style writes. */
-  lastTransform: string;
-  lastOpacity: string;
-  lastFilter: string;
   lastSettle: string;
+  lastExit: string;
   lastMoving: boolean;
 }
 
@@ -77,10 +59,6 @@ let homeRoot: HTMLElement | null = null;
 let frameDirty = true;
 let lastApplied = Number.NaN;
 let lastJourney = -1;
-
-function branchSign(side: RevealSide): number {
-  return side === 'left' ? 1 : -1;
-}
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -141,24 +119,15 @@ function setTreeProgress(scrollY: number): void {
   tree.style.opacity = String(opacity);
 }
 
-function sideOf(el: HTMLElement): RevealSide {
-  if (el.classList.contains('home-v7__clip--left')) return 'left';
-  if (el.classList.contains('home-v7__clip--right')) return 'right';
-  return 'center';
-}
-
 function collectReveals(): void {
   reveals = [];
   document.querySelectorAll<HTMLElement>('.home-v7__clip').forEach((el) => {
     reveals.push({
       el,
-      side: sideOf(el),
       docTop: 0,
       docBottom: 0,
-      lastTransform: '',
-      lastOpacity: '',
-      lastFilter: '',
       lastSettle: '',
+      lastExit: '',
       lastMoving: false,
     });
     el.classList.add('home-v7__clip--live');
@@ -185,43 +154,6 @@ function measureReveals(): void {
   });
 }
 
-function applyBranchTransform(item: RevealTarget, rest: number, exitY: number): void {
-  let transform: string;
-  if (rest <= 0 && exitY === 0) {
-    transform = 'none';
-  } else {
-    const y = rest * viewportH * BRANCH_PULL_Y_VH + exitY;
-    const scale = 1 - rest * BRANCH_SCALE_PULL;
-    const x = item.side === 'center' ? 0 : branchSign(item.side) * rest * viewportH * BRANCH_PULL_X_VH;
-    transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
-  }
-  if (transform !== item.lastTransform) {
-    item.lastTransform = transform;
-    item.el.style.transform = transform;
-  }
-}
-
-function writeOpacity(item: RevealTarget, value: string): void {
-  if (value !== item.lastOpacity) {
-    item.lastOpacity = value;
-    item.el.style.opacity = value;
-  }
-}
-
-function writeFilter(item: RevealTarget, value: string): void {
-  if (value !== item.lastFilter) {
-    item.lastFilter = value;
-    item.el.style.filter = value;
-  }
-}
-
-function writeSettleVar(item: RevealTarget, value: string): void {
-  if (value !== item.lastSettle) {
-    item.lastSettle = value;
-    item.el.style.setProperty('--settle', value);
-  }
-}
-
 /** Layer promotion only while the block actually moves: no permanent textures. */
 function writeMoving(item: RevealTarget, moving: boolean): void {
   if (moving !== item.lastMoving) {
@@ -232,29 +164,28 @@ function writeMoving(item: RevealTarget, moving: boolean): void {
 
 function applySettle(item: RevealTarget, t: number, exit: number): void {
   const build = clamp(t, 0, 1);
-  const rest = 1 - build;
-  const exitY = exit * viewportH * FUNNEL_EXIT_PULL_Y_VH;
-  // Quantized: brightness() invalidates paint; opacity is cheap but there is
-  // no reason to write sub-1% deltas either.
-  const fade = quantize(fadeOpacity(build) * (1 - exit), 50);
+  // 1/1000 steps: sub-pixel smooth for the CSS transform, and the string
+  // compare skips the write entirely for blocks at rest.
+  const settle = String(quantize(build, 1000));
+  const exitOut = String(quantize(exit, 1000));
 
-  applyBranchTransform(item, rest, exitY);
-  writeOpacity(item, String(fade));
-  writeFilter(item, `brightness(${0.5 + 0.5 * fade})`);
-  writeSettleVar(item, String(quantize(build * (1 - exit))));
+  if (settle !== item.lastSettle) {
+    item.lastSettle = settle;
+    item.el.style.setProperty('--settle', settle);
+  }
+  if (exitOut !== item.lastExit) {
+    item.lastExit = exitOut;
+    item.el.style.setProperty('--exit', exitOut);
+  }
   writeMoving(item, build > 0 && (build < 1 || exit > 0));
 }
 
 function clearSettle(item: RevealTarget): void {
-  item.el.style.transform = '';
-  item.el.style.opacity = '';
-  item.el.style.filter = '';
   item.el.style.removeProperty('--settle');
+  item.el.style.removeProperty('--exit');
   item.el.classList.remove('home-v7__clip--live', 'home-v7__clip--moving');
-  item.lastTransform = '';
-  item.lastOpacity = '';
-  item.lastFilter = '';
   item.lastSettle = '';
+  item.lastExit = '';
   item.lastMoving = false;
 }
 
@@ -375,13 +306,9 @@ function bindHashNav(): void {
   });
 }
 
+/** Static presentation: without --live the motion contract applies nothing. */
 function revealAll(): void {
-  for (const item of reveals) {
-    clearSettle(item);
-    item.el.style.opacity = '1';
-    item.el.style.transform = 'none';
-    item.el.style.filter = 'none';
-  }
+  for (const item of reveals) clearSettle(item);
 }
 
 function syncScrollListeners(): void {

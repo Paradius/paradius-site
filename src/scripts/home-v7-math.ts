@@ -12,9 +12,6 @@
 export const SETTLE_ENTRY_START = 0;
 /** Fully emerged when the leading (bottom) edge reaches this fraction of viewport. */
 export const SETTLE_ENTRY_END = 0.5;
-/** Opacity stays at 0 until this fraction of the emerge (0-1). Late enough
- * that a nascent block has cleared the previous same-side block below it. */
-export const OPACITY_DELAY = 0.55;
 /** Near the canopy, remaining blocks RAMP to completion as scroll approaches 0. */
 export const CANOPY_RAMP = 0.3;
 
@@ -69,12 +66,6 @@ export function exitProgress(env: LifecycleEnv, top: number): number {
   const start = env.viewportH * FUNNEL_EXIT_START;
   const end = env.viewportH * FUNNEL_EXIT_END;
   return smoothstep((top - start) / (end - start));
-}
-
-/** Opacity ramp inside the build: invisible until OPACITY_DELAY, then linear. */
-export function fadeOpacity(build: number): number {
-  if (build <= OPACITY_DELAY) return 0;
-  return (build - OPACITY_DELAY) / (1 - OPACITY_DELAY);
 }
 
 /** Quantize to 1/steps increments: fewer style invalidations, no visible banding. */

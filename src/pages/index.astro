@@ -1218,38 +1218,71 @@ import { HOME_SEO } from '../lib/seo';
     margin-inline: auto;
   }
 
-  /* Axis settle (driven by home-v7.ts: no clip curtains, no timed plays).
-     No --settle initializer here: elements the engine never touches (mobile,
-     reduced motion, static blocks) must fall back to var(--settle, 1). */
-  .home-v7__clip {
-    /* intentionally bare: lifecycle vars arrive inline from the engine */
+  /* ---- Motion contract ---------------------------------------------------
+     The engine (home-v7.ts) writes ONLY lifecycle scalars per clip:
+     --settle (build, 0..1) and --exit (0..1), plus the --live/--moving
+     state classes. ALL appearance derives here, so every dial is a CSS
+     token, tunable live in devtools:
+       --pull-x / --pull-y  collapsed offset toward the spine and below.
+                            CRITICAL: --pull-y must exceed the settle entry
+                            window (SETTLE_ENTRY_END * 100vh) or the scroll
+                            flow cancels the ascent and the birth reads as a
+                            horizontal wipe.
+       --exit-pull          extra downward travel while funnel-exiting
+       --scale-pull         collapsed shrink (anchored at the spine-bottom
+                            corner via transform-origin below)
+       --fade-delay         build fraction where opacity starts rising
+     Elements without --live (mobile, reduced motion, static blocks) get no
+     motion styles at all: no !important overrides needed anywhere. */
+  .home-v7 {
+    --pull-x: 6vh;
+    --pull-y: 85vh;
+    --exit-pull: 16vh;
+    --scale-pull: 0.06;
+    --fade-delay: 0.55;
+  }
+
+  .home-v7__clip--left {
+    /* Anchor at spine edge and bottom: growth comes from below during the ascent */
+    --sign: 1;
+    transform-origin: right bottom;
+  }
+
+  .home-v7__clip--right {
+    --sign: -1;
+    transform-origin: left bottom;
+  }
+
+  .home-v7__clip--center {
+    --sign: 0;
+    transform-origin: center bottom;
+  }
+
+  .home-v7__clip--live {
+    --rest: calc(1 - var(--settle, 1));
+    --fade: clamp(
+      0,
+      calc(
+        (var(--settle, 1) - var(--fade-delay)) / (1 - var(--fade-delay)) *
+          (1 - var(--exit, 0))
+      ),
+      1
+    );
+    backface-visibility: hidden;
+    opacity: var(--fade);
+    filter: brightness(calc(0.5 + 0.5 * var(--fade)));
+    transform: translate3d(
+        calc(var(--sign, 0) * var(--rest) * var(--pull-x)),
+        calc(var(--rest) * var(--pull-y) + var(--exit, 0) * var(--exit-pull)),
+        0
+      )
+      scale(calc(1 - var(--rest) * var(--scale-pull)));
   }
 
   /* Layer promotion only while the engine reports motion: permanent
      will-change on every clip held ~15 large textures alive at rest. */
   .home-v7__clip--moving {
     will-change: transform, opacity, filter;
-  }
-
-  .home-v7__clip--left {
-    /* Anchor at spine edge and bottom: growth comes from below during the ascent */
-    transform-origin: right bottom;
-  }
-
-  .home-v7__clip--right {
-    transform-origin: left bottom;
-  }
-
-  .home-v7__clip--center {
-    transform-origin: center bottom;
-  }
-
-  .home-v7__clip--live {
-    backface-visibility: hidden;
-  }
-
-  .home-v7__clip-inner {
-    transform-origin: center center;
   }
 
   /* ---- Presentation glow -----------------------------------------------
@@ -1388,10 +1421,13 @@ import { HOME_SEO } from '../lib/seo';
       gap: var(--spacing-xl);
     }
 
-    .home-v7__clip {
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
+    /* Neutralize the motion contract (same specificity, later in the
+       cascade): covers the debounce window before the engine re-runs
+       setupMode on a viewport change. */
+    .home-v7__clip--live {
+      opacity: 1;
+      transform: none;
+      filter: none;
     }
 
     .home-v7__peak {
@@ -1427,10 +1463,13 @@ import { HOME_SEO } from '../lib/seo';
       transform: none;
     }
 
-    .home-v7__clip {
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
+    /* Neutralize the motion contract (same specificity, later in the
+       cascade): covers the debounce window before the engine re-runs
+       setupMode on a viewport change. */
+    .home-v7__clip--live {
+      opacity: 1;
+      transform: none;
+      filter: none;
     }
 
     .home-v7__tree {
