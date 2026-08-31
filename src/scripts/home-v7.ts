@@ -19,7 +19,7 @@ const REDUCED_OPACITY = 0.17;
  */
 const SETTLE_ENTRY_START = 0;
 /** Fully emerged when the leading (bottom) edge reaches this fraction of viewport. */
-const SETTLE_ENTRY_END = 0.68;
+const SETTLE_ENTRY_END = 0.5;
 /**
  * No artificial side phase: with leading-edge anchoring, geometry orders the
  * births naturally — whichever block hangs lower enters (and is born) first.
