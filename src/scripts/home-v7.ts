@@ -35,6 +35,7 @@ interface RevealTarget {
   docBottom: number;
   /* Last written values, for dirty-checking the style writes. */
   lastSettle: string;
+  lastSettleQ: string;
   lastExit: string;
   lastMoving: boolean;
 }
@@ -138,6 +139,7 @@ function collectReveals(): void {
       docTop: 0,
       docBottom: 0,
       lastSettle: '',
+      lastSettleQ: '',
       lastExit: '',
       lastMoving: false,
     });
@@ -184,6 +186,12 @@ function applySettle(item: RevealTarget, t: number, exit: number): void {
     item.lastSettle = settle;
     item.el.style.setProperty('--settle', settle);
   }
+  // Coarse channel for paint-heavy consumers (the glow): 0.05 steps.
+  const settleQ = String(quantize(build * (1 - exit)));
+  if (settleQ !== item.lastSettleQ) {
+    item.lastSettleQ = settleQ;
+    item.el.style.setProperty('--settle-q', settleQ);
+  }
   if (exitOut !== item.lastExit) {
     item.lastExit = exitOut;
     item.el.style.setProperty('--exit', exitOut);
@@ -193,9 +201,11 @@ function applySettle(item: RevealTarget, t: number, exit: number): void {
 
 function clearSettle(item: RevealTarget): void {
   item.el.style.removeProperty('--settle');
+  item.el.style.removeProperty('--settle-q');
   item.el.style.removeProperty('--exit');
   item.el.classList.remove('home-v7__clip--live', 'home-v7__clip--moving');
   item.lastSettle = '';
+  item.lastSettleQ = '';
   item.lastExit = '';
   item.lastMoving = false;
 }

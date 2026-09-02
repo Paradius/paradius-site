@@ -1245,8 +1245,12 @@ import { HOME_SEO } from '../lib/seo';
     --mist-purity: calc(1 - 0.45 * var(--j));
   }
 
+  /* The glow reads the COARSE settle channel (--settle-q, 0.05 steps), not
+     the fine one that drives transforms: the prophecy clones carry big
+     blurred rasters, and repainting their opacity per frame during the
+     canopy ramp was a visible stutter at the top of the page. */
   .home-v7__clip {
-    --glow: calc((var(--settle, 1) - var(--glow-start)) / (1 - var(--glow-start)));
+    --glow: calc((var(--settle-q, 1) - var(--glow-start)) / (1 - var(--glow-start)));
   }
 
   .home-v7__peak-lead:not(.home-v7__peak-lead--oneline),
