@@ -1263,61 +1263,6 @@
     min-height: 60vh;
   }
 
-  .mockup-banner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 200;
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-divider);
-  }
-
-  .mockup-banner__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
-    max-width: var(--width-content);
-    margin-inline: auto;
-    padding: 0.5rem var(--spacing-gutter);
-  }
-
-  .mockup-banner__text {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .mockup-banner__label {
-    font-family: var(--font-brand);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
-  .mockup-banner__variant {
-    color: var(--color-text-secondary);
-  }
-
-  .mockup-banner__link {
-    flex-shrink: 0;
-    font-size: 0.75rem;
-    letter-spacing: var(--tracking-link);
-    color: var(--color-accent);
-    text-decoration: none;
-    transition: color var(--transition-duration-fast) ease;
-  }
-
-  .mockup-banner__link:hover,
-  .mockup-banner__link:focus-visible {
-    color: var(--color-text-primary);
-  }
-
-  .mockup-banner + .site-header {
-    top: 2.5rem;
-  }
-
   .mockup-page-wrap {
     max-width: var(--width-content);
     margin-inline: auto;
@@ -2431,16 +2376,6 @@
 
   .mockup-main {
     padding-top: 6.5rem;
-  }
-
-  .mockup-banner + .site-header {
-    top: 3.75rem;
-  }
-
-  .mockup-banner__container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
   }
 
   .talent-row-a {
