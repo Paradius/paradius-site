@@ -990,6 +990,25 @@ body:has(.home-v7) .site-header {
 /* == 09 ADAPT ============================== mobile, wide, reduced motion */
 /* Mobile */
 @media (max-width: 768px) {
+  /* Mobile re-decides the vertical rhythm WHOLESALE. Desktop tuning lives
+     in inline --row-air-* vars on the markup, which no media query can
+     override at the variable level; overriding the consuming PROPERTIES
+     here makes every desktop dial (tucks, negative staggers, per-section
+     air) inert in the single-column world, where opposite-side overlaps
+     become superpositions. */
+  .home-v7__row {
+    margin-block-start: clamp(3.5rem, 9vh, 6rem);
+    margin-block-end: clamp(3.5rem, 9vh, 6rem);
+  }
+
+  .home-v7__hero + .home-v7__row {
+    margin-block-start: clamp(0.5rem, 1.25vh, 1rem);
+  }
+
+  .home-v7__row--thesis-close {
+    margin-block-start: clamp(5rem, 12vh, 8rem);
+  }
+
   .home-v7__spine {
     grid-template-columns: 1fr;
     gap: 0;
@@ -1053,13 +1072,51 @@ body:has(.home-v7) .site-header {
     gap: var(--spacing-xl);
   }
 
-  /* Neutralize the motion contract (same specificity, later in the
-     cascade): covers the debounce window before the engine re-runs
-     setupMode on a viewport change. */
-  .home-v7__clip--live {
-    opacity: 1;
-    transform: none;
-    filter: none;
+  /* Mobile ANIMATES: the engine runs in natural mode (native touch scroll
+     through the mirror adapter), so the motion contract stays live here.
+     The phone is the inside of the trunk: blocks open from the screen
+     edges, so the collapse pull reaches from the edge itself. */
+  .home-v7 {
+    --pull-x: 14vw;
+    --pull-y: 60vh;
+  }
+
+  /* Inside the trunk for real: the tree OVERFLOWS the phone. Roots fill the
+     screen at moment one, the trunk owns the width through the journey, the
+     canopy arrives at the top. At poster size the traversal illusion dies. */
+  .home-v7__tree,
+  .home-v7__tree-shimmer {
+    width: 480vw;
+    height: 340dvh;
+  }
+
+  /* Mobile type scale: the desktop sizes read enormous at 390px and turn
+     every paragraph into a wall. Phone-native scale, same hierarchy. */
+  .home-v7 {
+    --fs-lead: clamp(1rem, 4.2vw, 1.15rem);
+    --fs-caption: 0.875rem;
+  }
+
+  .home-v7__voice {
+    font-size: clamp(1.25rem, 5.5vw, 1.55rem);
+  }
+
+  .home-v7__voice--pump {
+    font-size: clamp(1.5rem, 6.5vw, 1.9rem);
+  }
+
+  .home-v7__force-text {
+    font-size: var(--fs-force, clamp(1.05rem, 4.6vw, 1.3rem));
+  }
+
+  .home-v7__peak-lead {
+    font-size: var(--fs-lead);
+  }
+
+  /* Dead air: full-viewport ceremonial holds are desktop luxury; on a phone
+     they read as a stuck page between swipes. */
+  .home-v7__row--confession {
+    min-height: auto;
   }
 
   .home-v7__peak {

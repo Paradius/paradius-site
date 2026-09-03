@@ -304,14 +304,26 @@ function clearSettle(item: RevealTarget): void {
 }
 
 function updateReveals(scrollY: number): void {
-  if (reducedMotion || mobileLayout) return;
+  if (reducedMotion) return;
 
-  const e = env();
+  /* Natural mode (mobile/touch, no wheel hijack): the document keeps normal
+     order and native scroll physics; the ASCENT semantics are produced by
+     reflecting the viewport coordinates and the remaining scroll into the
+     inverted model. Same math, same tests, zero duplicated lifecycle. */
+  const natural = !hijack;
+  const e: LifecycleEnv = natural
+    ? { viewportH, current: Math.max(0, maxScroll - scrollY), hijack: true }
+    : env();
   nearBudget = 1;
   for (let i = 0; i < reveals.length; i++) {
     const item = reveals[i];
-    const top = item.docTop - scrollY;
-    const bottom = item.docBottom - scrollY;
+    let top = item.docTop - scrollY;
+    let bottom = item.docBottom - scrollY;
+    if (natural) {
+      const t = top;
+      top = viewportH - bottom;
+      bottom = viewportH - t;
+    }
     const t = settleProgress(e, top, bottom);
     applySettle(item, t, exitProgress(e, top));
     writeNear(item, i, top, bottom);
@@ -324,9 +336,14 @@ function updateReveals(scrollY: number): void {
  * document) and ONLY at rest: recoloring the glow stacks forces a broad style
  * recalc + repaint, so it must never land mid-scroll.
  */
+let lastNativeScrollAt = 0;
+
 function updateJourney(scrollY: number): void {
   if (!homeRoot || current !== target) return;
-  const j = quantize(journeyOf(scrollY, maxScroll));
+  // Natural mode has no LERP: "rest" means the native scroll went quiet.
+  if (!hijack && performance.now() - lastNativeScrollAt < 150) return;
+  const effective = hijack ? scrollY : Math.max(0, maxScroll - scrollY);
+  const j = quantize(journeyOf(effective, maxScroll));
   if (j === lastJourney) return;
   lastJourney = j;
   homeRoot.style.setProperty('--journey', String(j));
@@ -404,6 +421,7 @@ function onKeydown(e: KeyboardEvent): void {
 
 function onNativeScroll(): void {
   if (hijack) return;
+  lastNativeScrollAt = performance.now();
   current = window.scrollY;
   target = current;
   setTreeProgress(current);
@@ -487,7 +505,7 @@ function setupMode(): void {
   frameDirty = true;
   lastJourney = -1;
 
-  if (reducedMotion || mobileLayout) {
+  if (reducedMotion) {
     revealAll();
     return;
   }
