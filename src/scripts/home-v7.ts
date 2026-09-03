@@ -19,6 +19,7 @@ import {
   settleProgress,
 } from './home-v7-math';
 import { prepareGlowClones } from './home-v7-glow';
+import { setupBirths, teardownBirths } from './home-v7-birth';
 
 /* Chase factor per 60Hz-equivalent frame (time-normalized downstream).
    0.24 reproduces the feel the owner tuned on his high-refresh display
@@ -78,6 +79,18 @@ function isMobileLayout(): boolean {
   return window.matchMedia('(max-width: 768px)').matches;
 }
 
+let treeTimelineSupport: boolean | null = null;
+
+/** Scroll-driven animations: when supported, the mobile tree transform is
+ *  owned by a CSS timeline instead of a per-frame JS write. Memoized: this
+ *  runs on the scroll hot path via setTreeProgress. */
+function supportsTreeTimeline(): boolean {
+  if (treeTimelineSupport === null) {
+    treeTimelineSupport = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: scroll()');
+  }
+  return treeTimelineSupport;
+}
+
 function canHijack(): boolean {
   return !isCoarsePointer() && !isMobileLayout() && !prefersReducedMotion();
 }
@@ -124,12 +137,17 @@ function setTreeProgress(scrollY: number): void {
   const mobileFactor = mobileLayout ? TREE_MOBILE_FACTOR : 1;
   const opacity =
     (TREE_MIN_OPACITY + (TREE_MAX_OPACITY - TREE_MIN_OPACITY) * progress) * mobileFactor;
-  const shift = `${Math.round(-treeMaxOffset * (1 - progress))}px`;
   const fade = String(quantize(opacity, 1000));
 
-  if (shift !== lastTreeShift) {
-    lastTreeShift = shift;
-    homeRoot.style.setProperty('--tree-shift', shift);
+  /* Mobile with scroll-driven animation support: the tree transform belongs to
+     the CSS timeline, so the engine only owns the fade here. */
+  const timelineOwnsShift = !hijack && mobileLayout && supportsTreeTimeline();
+  if (!timelineOwnsShift) {
+    const shift = `${Math.round(-treeMaxOffset * (1 - progress))}px`;
+    if (shift !== lastTreeShift) {
+      lastTreeShift = shift;
+      homeRoot.style.setProperty('--tree-shift', shift);
+    }
   }
   if (fade !== lastTreeFade) {
     lastTreeFade = fade;
@@ -303,27 +321,16 @@ function clearSettle(item: RevealTarget): void {
   item.lastNear = false;
 }
 
+/** Hijack-only lifecycle. Natural mode (mobile/touch) has no scrub: blocks are
+ *  born once by the IntersectionObserver in home-v7-birth.ts. */
 function updateReveals(scrollY: number): void {
-  if (reducedMotion) return;
-
-  /* Natural mode (mobile/touch, no wheel hijack): the document keeps normal
-     order and native scroll physics; the ASCENT semantics are produced by
-     reflecting the viewport coordinates and the remaining scroll into the
-     inverted model. Same math, same tests, zero duplicated lifecycle. */
-  const natural = !hijack;
-  const e: LifecycleEnv = natural
-    ? { viewportH, current: Math.max(0, maxScroll - scrollY), hijack: true }
-    : env();
+  if (reducedMotion || !hijack) return;
+  const e = env();
   nearBudget = 1;
   for (let i = 0; i < reveals.length; i++) {
     const item = reveals[i];
-    let top = item.docTop - scrollY;
-    let bottom = item.docBottom - scrollY;
-    if (natural) {
-      const t = top;
-      top = viewportH - bottom;
-      bottom = viewportH - t;
-    }
+    const top = item.docTop - scrollY;
+    const bottom = item.docBottom - scrollY;
     const t = settleProgress(e, top, bottom);
     applySettle(item, t, exitProgress(e, top));
     writeNear(item, i, top, bottom);
@@ -425,7 +432,6 @@ function onNativeScroll(): void {
   current = window.scrollY;
   target = current;
   setTreeProgress(current);
-  updateReveals(current);
 }
 
 function scrollToSection(id: string): void {
@@ -482,6 +488,9 @@ function syncScrollListeners(): void {
 }
 
 function setupMode(): void {
+  // Unconditional: idempotent, and it clears the observer across a mode cross
+  // so a later natural pass can register births again.
+  teardownBirths();
   tree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
   homeRoot = document.querySelector<HTMLElement>('.home-v7');
   measure();
@@ -500,6 +509,12 @@ function setupMode(): void {
   wasMobileLayout = mobileLayout;
   setInverted(hijack);
   collectReveals();
+  /* collectReveals marks every clip live because the hijack path needs it.
+     Natural mode owns no lifecycle: revert it so the clips paint their static
+     settled pose and the birth CSS takes over. */
+  if (!hijack) {
+    for (const item of reveals) clearSettle(item);
+  }
   measureReveals();
   syncScrollListeners();
   frameDirty = true;
@@ -522,21 +537,30 @@ function setupMode(): void {
   current = window.scrollY;
   target = current;
   setTreeProgress(current);
-  updateReveals(current);
+  if (homeRoot) setupBirths(homeRoot);
 }
 
 let resizeTimeout: number | null = null;
+let lastViewportW = 0;
 
 function onResize(): void {
   if (resizeTimeout) clearTimeout(resizeTimeout);
   resizeTimeout = window.setTimeout(() => {
+    /* Mobile URL-bar collapse fires height-only resizes mid-gesture; a full
+       setupMode there re-measures the world and stalls the first swipe. The
+       mobile layout has no dvh left, so geometry is stable: refresh the
+       viewport scalars and keep scrolling. */
+    if (!hijack && mobileLayout && window.innerWidth === lastViewportW) {
+      measure();
+      return;
+    }
+    lastViewportW = window.innerWidth;
     const anchor = window.scrollY;
     setupMode();
     if (!hijack && !mobileLayout) {
       current = anchor;
       target = anchor;
       setTreeProgress(anchor);
-      updateReveals(anchor);
     }
   }, 150);
 }
@@ -551,6 +575,7 @@ async function init(): Promise<void> {
   // paint them once and never touch them again.
   prepareGlowClones(root);
   bindHashNav();
+  lastViewportW = window.innerWidth;
   setupMode();
 
   if (reducedMotion) {
