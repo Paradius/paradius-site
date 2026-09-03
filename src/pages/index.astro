@@ -38,8 +38,10 @@ import '../styles/home-v7.css';
 
     <main id="main-content" class="home-v7__main">
       <!-- HERO: roots, centered -->
-      <section class="home-v7__hero" aria-labelledby="hero-heading">
-        <div class="home-v7__hero-inner">
+      <section class="home-v7__hero" data-home-v7-node aria-labelledby="hero-heading">
+        <!-- The hero rides the same funnel as every block: it fades on the
+             way out instead of lingering under the confession frame. -->
+        <div class="home-v7__hero-inner home-v7__clip home-v7__clip--center">
           <h1 id="hero-heading" class="sr-only">
             Paradius: Architecting the Dawn from Within | Software Engineering Consultancy
           </h1>

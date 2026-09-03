@@ -169,7 +169,9 @@ const SNAP_IDLE_MS = 160;
 const SNAP_READING_LINE = 0.55;
 /** Drift fraction per frame: the magnet reaches from further away but pulls
  *  gently, a slow slide into place instead of a yank. */
-const SNAP_PULL = 0.012;
+/* 0.045 reproduces the drift the owner validated pre-normalization on his
+   high-refresh display (0.012 x ~3.7 effective). */
+const SNAP_PULL = 0.045;
 const SNAP_MERGE_VH = 0.15;
 let anchors: number[] = [];
 let lastWheelAt = 0;
