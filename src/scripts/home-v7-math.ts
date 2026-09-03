@@ -21,6 +21,10 @@ export const CANOPY_RAMP = 0.3;
 export const FUNNEL_EXIT_START = 0.6;
 export const FUNNEL_EXIT_END = 0.82;
 export const FUNNEL_CANOPY_HOLD = 0.35;
+/** The hold releases over this extra fraction of viewport, so leaving the
+ * canopy re-enables exits as a fade, never as a switch (blocks were popping
+ * from held-visible to mid-exit when crossing the boundary). */
+export const FUNNEL_CANOPY_RAMP = 0.25;
 
 export interface LifecycleEnv {
   viewportH: number;
@@ -59,13 +63,19 @@ export function settleProgress(env: LifecycleEnv, top: number, bottom: number): 
   return clamp(t, 0, 1);
 }
 
-/** Funnel-exit progress: 0 = still parked/reading, 1 = fully departed. */
+/** Funnel-exit progress: 0 = still parked/reading, 1 = fully departed.
+ *  Near the canopy the exit is held off, releasing gradually over
+ *  FUNNEL_CANOPY_RAMP so reverse travel reads as the same funnel played
+ *  backwards instead of a visibility switch. */
 export function exitProgress(env: LifecycleEnv, top: number): number {
   if (!env.hijack) return 0;
-  if (env.current <= env.viewportH * FUNNEL_CANOPY_HOLD) return 0;
+  const hold = smoothstep(
+    (env.current / env.viewportH - FUNNEL_CANOPY_HOLD) / FUNNEL_CANOPY_RAMP,
+  );
+  if (hold <= 0) return 0;
   const start = env.viewportH * FUNNEL_EXIT_START;
   const end = env.viewportH * FUNNEL_EXIT_END;
-  return smoothstep((top - start) / (end - start));
+  return hold * smoothstep((top - start) / (end - start));
 }
 
 /** Quantize to 1/steps increments: fewer style invalidations, no visible banding. */

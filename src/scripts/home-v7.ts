@@ -17,6 +17,7 @@ import {
   quantize,
   settleProgress,
 } from './home-v7-math';
+import { prepareGlowClones } from './home-v7-glow';
 
 const LERP = 0.07;
 const SCROLL_SPEED = 0.55;
@@ -38,6 +39,7 @@ interface RevealTarget {
   lastSettleQ: string;
   lastExit: string;
   lastMoving: boolean;
+  lastNear: boolean;
 }
 
 let hijack = false;
@@ -142,6 +144,7 @@ function collectReveals(): void {
       lastSettleQ: '',
       lastExit: '',
       lastMoving: false,
+      lastNear: false,
     });
     el.classList.add('home-v7__clip--live');
   });
@@ -199,15 +202,30 @@ function applySettle(item: RevealTarget, t: number, exit: number): void {
   writeMoving(item, build > 0 && (build < 1 || exit > 0));
 }
 
+/** GPU budget: glow clone layers stay promoted only near the viewport.
+ *  Wide hysteresis (promote inside ±1.5 screens, demote beyond ±3) so both
+ *  transitions happen far offscreen: promotion rasters before the block is
+ *  visible, and a demoted clone outside the raster distance never repaints
+ *  mid-scroll. */
+function writeNear(item: RevealTarget, top: number, bottom: number): void {
+  const inner = item.lastNear ? 3 : 1.5;
+  const near = bottom > -inner * viewportH && top < (1 + inner) * viewportH;
+  if (near !== item.lastNear) {
+    item.lastNear = near;
+    item.el.classList.toggle('home-v7__clip--near', near);
+  }
+}
+
 function clearSettle(item: RevealTarget): void {
   item.el.style.removeProperty('--settle');
   item.el.style.removeProperty('--settle-q');
   item.el.style.removeProperty('--exit');
-  item.el.classList.remove('home-v7__clip--live', 'home-v7__clip--moving');
+  item.el.classList.remove('home-v7__clip--live', 'home-v7__clip--moving', 'home-v7__clip--near');
   item.lastSettle = '';
   item.lastSettleQ = '';
   item.lastExit = '';
   item.lastMoving = false;
+  item.lastNear = false;
 }
 
 function updateReveals(scrollY: number): void {
@@ -219,6 +237,7 @@ function updateReveals(scrollY: number): void {
     const bottom = item.docBottom - scrollY;
     const t = settleProgress(e, top, bottom);
     applySettle(item, t, exitProgress(e, top));
+    writeNear(item, top, bottom);
   }
 }
 
@@ -417,6 +436,9 @@ async function init(): Promise<void> {
 
   reducedMotion = prefersReducedMotion();
   await document.fonts.ready;
+  // All modes, mobile included: the clones ARE the glow. Static pages just
+  // paint them once and never touch them again.
+  prepareGlowClones(root);
   bindHashNav();
   setupMode();
 

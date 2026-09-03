@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   FUNNEL_CANOPY_HOLD,
+  FUNNEL_CANOPY_RAMP,
   FUNNEL_EXIT_END,
   FUNNEL_EXIT_START,
   SETTLE_ENTRY_END,
@@ -53,6 +54,20 @@ describe('exitProgress', () => {
   it('is 0 while resting at the canopy', () => {
     const resting = { viewportH: VH, current: VH * FUNNEL_CANOPY_HOLD, hijack: true };
     expect(exitProgress(resting, VH)).toBe(0);
+  });
+
+  it('re-enables gradually when leaving the canopy, not as a switch', () => {
+    const justPast = {
+      viewportH: VH,
+      current: VH * (FUNNEL_CANOPY_HOLD + FUNNEL_CANOPY_RAMP / 2),
+      hijack: true,
+    };
+    const wellPast = { viewportH: VH, current: VH * 2, hijack: true };
+    const deepInExit = VH; // top past the exit window: full exit when unheld
+    const held = exitProgress(justPast, deepInExit);
+    expect(held).toBeGreaterThan(0);
+    expect(held).toBeLessThan(1);
+    expect(exitProgress(wellPast, deepInExit)).toBe(1);
   });
 
   it('is 0 before the exit window and 1 past it', () => {

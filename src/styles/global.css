@@ -299,8 +299,8 @@
       rgb(0 0 0 / 0.12) 55%,
       rgb(255 255 255 / 0.04) 100%
     );
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
+    /* No backdrop blur (owner call, 2026-09-01): constant re-sampling of
+       the animated tree behind the fixed header cost scroll budget. */
     border-bottom: none;
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
   }
