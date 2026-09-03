@@ -360,7 +360,9 @@
 
   .site-header__cta:hover,
   .site-header__cta:focus-visible {
-    background-color: var(--color-accent);
+    /* Same recipe as every dark-ground CTA: invert to white with black text. */
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
     color: #000;
   }
 

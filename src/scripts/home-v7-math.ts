@@ -78,6 +78,19 @@ export function exitProgress(env: LifecycleEnv, top: number): number {
   return hold * smoothstep((top - start) / (end - start));
 }
 
+/**
+ * Frame-rate-independent damping. `factorAt60` is the legacy per-frame LERP
+ * factor the motion was calibrated with on a 60Hz display; the returned
+ * factor produces IDENTICAL motion per unit time at any refresh rate
+ * (a 240Hz frame advances a quarter as far as a 60Hz frame, four times as
+ * often). dt is clamped so a background-tab hiccup cannot teleport.
+ */
+export function dampingFactor(dtMs: number, factorAt60: number): number {
+  const dt = clamp(dtMs, 1, 100);
+  const lambda = -Math.log(1 - factorAt60) * 60;
+  return 1 - Math.exp(-lambda * (dt / 1000));
+}
+
 /** Quantize to 1/steps increments: fewer style invalidations, no visible banding. */
 export function quantize(v: number, steps = 20): number {
   return Math.round(v * steps) / steps;

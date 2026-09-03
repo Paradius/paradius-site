@@ -12,6 +12,7 @@
 import {
   type LifecycleEnv,
   clamp,
+  dampingFactor,
   exitProgress,
   journeyOf,
   quantize,
@@ -19,7 +20,10 @@ import {
 } from './home-v7-math';
 import { prepareGlowClones } from './home-v7-glow';
 
-const LERP = 0.07;
+/* Chase factor per 60Hz-equivalent frame (time-normalized downstream).
+   0.24 reproduces the feel the owner tuned on his high-refresh display
+   before the normalization fix; it now feels the same on any monitor. */
+const LERP = 0.1;
 const SCROLL_SPEED = 0.55;
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
@@ -157,7 +161,7 @@ function collectReveals(): void {
    Dials: SNAP_RADIUS_VH (capture range), SNAP_PULL (drift speed),
    SNAP_IDLE_MS (rest before pull), SNAP_READING_LINE (park line, vh),
    SNAP_MERGE_VH (anchors closer than this fuse into one). */
-const SNAP_ENABLED_DEFAULT = true;
+const SNAP_ENABLED_DEFAULT = false;
 /** Runtime state; the A key toggles it (tuning aid). */
 let snapEnabled = SNAP_ENABLED_DEFAULT;
 const SNAP_RADIUS_VH = 0.35;
@@ -184,7 +188,7 @@ function computeAnchors(): void {
   if (landingScroll > 0) anchors.push(landingScroll);
 }
 
-function maybeSnap(): void {
+function maybeSnap(dt: number): void {
   // The magnet only exists while ASCENDING the tree. Descending (reverse
   // travel) is always free: no pull, however slow the gesture.
   if (!snapEnabled || !hijack || !snapArmed || !ascending) return;
@@ -204,7 +208,7 @@ function maybeSnap(): void {
     return;
   }
   // Gentle continuous drift; the LERP smooths it further downstream.
-  target += (best - target) * SNAP_PULL;
+  target += (best - target) * dampingFactor(dt, SNAP_PULL);
   if (Math.abs(best - target) < 0.5) {
     target = best;
     snapArmed = false;
@@ -265,13 +269,21 @@ function applySettle(item: RevealTarget, t: number, exit: number): void {
 
 /** GPU budget: glow clone layers stay promoted only near the viewport.
  *  Wide hysteresis (promote inside ±1.5 screens, demote beyond ±3) so both
- *  transitions happen far offscreen: promotion rasters before the block is
- *  visible, and a demoted clone outside the raster distance never repaints
- *  mid-scroll. */
-function writeNear(item: RevealTarget, top: number, bottom: number): void {
-  const inner = item.lastNear ? 3 : 1.5;
+ *  transitions happen far offscreen. STAGGERED: at most one promotion or
+ *  demotion per frame; a batch of blocks crossing the boundary together
+ *  (the canopy cluster) used to raster all its clone textures in one frame,
+ *  a deterministic micro-hitch at that scroll zone. */
+let nearBudget = 0;
+
+function writeNear(item: RevealTarget, index: number, top: number, bottom: number): void {
+  // Staggered activation distances (1.5 / 1.8 / 2.1 / 2.4 screens by index):
+  // neighboring clones become rasterizable at DIFFERENT scroll depths, so a
+  // dense cluster (the canopy) never enters the raster window as one batch.
+  const activate = 1.5 + (index % 4) * 0.3;
+  const inner = item.lastNear ? activate + 1.5 : activate;
   const near = bottom > -inner * viewportH && top < (1 + inner) * viewportH;
-  if (near !== item.lastNear) {
+  if (near !== item.lastNear && nearBudget > 0) {
+    nearBudget -= 1;
     item.lastNear = near;
     item.el.classList.toggle('home-v7__clip--near', near);
   }
@@ -293,12 +305,14 @@ function updateReveals(scrollY: number): void {
   if (reducedMotion || mobileLayout) return;
 
   const e = env();
-  for (const item of reveals) {
+  nearBudget = 1;
+  for (let i = 0; i < reveals.length; i++) {
+    const item = reveals[i];
     const top = item.docTop - scrollY;
     const bottom = item.docBottom - scrollY;
     const t = settleProgress(e, top, bottom);
     applySettle(item, t, exitProgress(e, top));
-    writeNear(item, top, bottom);
+    writeNear(item, i, top, bottom);
   }
 }
 
@@ -328,9 +342,15 @@ function applyFrame(): void {
   frameDirty = false;
 }
 
-function tick(): void {
-  maybeSnap();
-  current += (target - current) * LERP;
+let lastTickAt = 0;
+
+function tick(now: number): void {
+  const dt = lastTickAt ? now - lastTickAt : 1000 / 60;
+  lastTickAt = now;
+  maybeSnap(dt);
+  // Time-normalized damping: identical feel at 60Hz and 240Hz; high-refresh
+  // displays get proportionally more animation frames, not faster motion.
+  current += (target - current) * dampingFactor(dt, LERP);
   if (Math.abs(target - current) < 0.5) current = target;
   // Idle bail: at rest with everything applied, the frame costs one compare.
   if (frameDirty || current !== lastApplied || (current === target && lastJourney < 0)) {

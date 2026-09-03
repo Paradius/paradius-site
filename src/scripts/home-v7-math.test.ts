@@ -5,6 +5,7 @@ import {
   FUNNEL_EXIT_END,
   FUNNEL_EXIT_START,
   SETTLE_ENTRY_END,
+  dampingFactor,
   exitProgress,
   journeyOf,
   quantize,
@@ -90,6 +91,24 @@ describe('quantize', () => {
   it('preserves the endpoints exactly', () => {
     expect(quantize(0)).toBe(0);
     expect(quantize(1)).toBe(1);
+  });
+});
+
+describe('dampingFactor', () => {
+  it('matches the legacy per-frame factor at the 60Hz calibration point', () => {
+    expect(dampingFactor(1000 / 60, 0.07)).toBeCloseTo(0.07, 3);
+  });
+
+  it('is frame-rate independent: two 120Hz steps equal one 60Hz step', () => {
+    const oneStep = dampingFactor(1000 / 60, 0.07);
+    const half = dampingFactor(1000 / 120, 0.07);
+    const twoSteps = 1 - (1 - half) * (1 - half);
+    expect(twoSteps).toBeCloseTo(oneStep, 6);
+  });
+
+  it('clamps degenerate dt instead of exploding', () => {
+    expect(dampingFactor(0, 0.07)).toBeGreaterThan(0);
+    expect(dampingFactor(10000, 0.07)).toBeLessThanOrEqual(1);
   });
 });
 
