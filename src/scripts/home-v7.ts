@@ -157,7 +157,9 @@ function collectReveals(): void {
    Dials: SNAP_RADIUS_VH (capture range), SNAP_PULL (drift speed),
    SNAP_IDLE_MS (rest before pull), SNAP_READING_LINE (park line, vh),
    SNAP_MERGE_VH (anchors closer than this fuse into one). */
-const SNAP_ENABLED = true;
+const SNAP_ENABLED_DEFAULT = true;
+/** Runtime state; the A key toggles it (tuning aid). */
+let snapEnabled = SNAP_ENABLED_DEFAULT;
 const SNAP_RADIUS_VH = 0.35;
 const SNAP_IDLE_MS = 160;
 const SNAP_READING_LINE = 0.55;
@@ -171,7 +173,6 @@ let snapArmed = false;
 let ascending = false;
 
 function computeAnchors(): void {
-  if (!SNAP_ENABLED) return;
   const raw = reveals
     .map((item) => item.docBottom - viewportH * SNAP_READING_LINE)
     .filter((a) => a > 0 && a < maxScroll)
@@ -186,7 +187,7 @@ function computeAnchors(): void {
 function maybeSnap(): void {
   // The magnet only exists while ASCENDING the tree. Descending (reverse
   // travel) is always free: no pull, however slow the gesture.
-  if (!SNAP_ENABLED || !hijack || !snapArmed || !ascending) return;
+  if (!snapEnabled || !hijack || !snapArmed || !ascending) return;
   if (performance.now() - lastWheelAt < SNAP_IDLE_MS) return;
   let best = Number.NaN;
   let bestDist = viewportH * SNAP_RADIUS_VH;
@@ -354,6 +355,11 @@ function onKeydown(e: KeyboardEvent): void {
 
   const step = viewportH * 0.35;
   let delta = 0;
+
+  if (e.key === 'a' || e.key === 'A') {
+    snapEnabled = !snapEnabled;
+    return;
+  }
 
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
     delta = -step;
