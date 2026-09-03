@@ -30,22 +30,22 @@ const availabilityLabels: Record<Availability, string> = {
 
 <div
   id="talent-filters"
-  class="mockup-filters section-reveal"
+  class="filters section-reveal"
   role="search"
   aria-label="Catalog filters"
   aria-controls="talent-catalog"
 >
-  <div class="mockup-filters__container">
-    <p class="mockup-filters__hint" id="talent-filter-status" aria-live="polite">
+  <div class="filters__container">
+    <p class="filters__hint" id="talent-filter-status" aria-live="polite">
       {formatRegistryStatus(profiles.length)}
     </p>
-    <div class="mockup-filters__groups">
-      <fieldset class="mockup-filters__group" data-filter-group="role">
-        <legend class="mockup-filters__legend">Role</legend>
-        <div class="mockup-filters__pills">
+    <div class="filters__groups">
+      <fieldset class="filters__group" data-filter-group="role">
+        <legend class="filters__legend">Role</legend>
+        <div class="filters__pills">
           <button
             type="button"
-            class="mockup-filters__pill mockup-filters__pill--active"
+            class="filters__pill filters__pill--active"
             data-filter="role"
             data-value=""
             aria-pressed="true"
@@ -56,7 +56,7 @@ const availabilityLabels: Record<Availability, string> = {
             roles.map((role: DeveloperRole) => (
               <button
                 type="button"
-                class="mockup-filters__pill"
+                class="filters__pill"
                 data-filter="role"
                 data-value={role}
                 aria-pressed="false"
@@ -68,12 +68,12 @@ const availabilityLabels: Record<Availability, string> = {
         </div>
       </fieldset>
 
-      <fieldset class="mockup-filters__group" data-filter-group="seniority">
-        <legend class="mockup-filters__legend">Seniority</legend>
-        <div class="mockup-filters__pills">
+      <fieldset class="filters__group" data-filter-group="seniority">
+        <legend class="filters__legend">Seniority</legend>
+        <div class="filters__pills">
           <button
             type="button"
-            class="mockup-filters__pill mockup-filters__pill--active"
+            class="filters__pill filters__pill--active"
             data-filter="seniority"
             data-value=""
             aria-pressed="true"
@@ -84,7 +84,7 @@ const availabilityLabels: Record<Availability, string> = {
             seniorityOptions.map((seniority) => (
               <button
                 type="button"
-                class="mockup-filters__pill"
+                class="filters__pill"
                 data-filter="seniority"
                 data-value={seniority}
                 aria-pressed="false"
@@ -96,12 +96,12 @@ const availabilityLabels: Record<Availability, string> = {
         </div>
       </fieldset>
 
-      <fieldset class="mockup-filters__group" data-filter-group="availability">
-        <legend class="mockup-filters__legend">Availability</legend>
-        <div class="mockup-filters__pills">
+      <fieldset class="filters__group" data-filter-group="availability">
+        <legend class="filters__legend">Availability</legend>
+        <div class="filters__pills">
           <button
             type="button"
-            class="mockup-filters__pill mockup-filters__pill--active"
+            class="filters__pill filters__pill--active"
             data-filter="availability"
             data-value=""
             aria-pressed="true"
@@ -112,7 +112,7 @@ const availabilityLabels: Record<Availability, string> = {
             availabilityOptions.map((availability) => (
               <button
                 type="button"
-                class="mockup-filters__pill"
+                class="filters__pill"
                 data-filter="availability"
                 data-value={availability}
                 aria-pressed="false"
@@ -124,11 +124,11 @@ const availabilityLabels: Record<Availability, string> = {
         </div>
       </fieldset>
 
-      <div class="mockup-filters__group mockup-filters__group--search">
-        <label class="mockup-filters__legend" for="talent-stack-search">Stack</label>
+      <div class="filters__group filters__group--search">
+        <label class="filters__legend" for="talent-stack-search">Stack</label>
         <input
           id="talent-stack-search"
-          class="mockup-filters__search"
+          class="filters__search"
           type="search"
           name="stack"
           placeholder="Search stack (e.g. flutter, go)"

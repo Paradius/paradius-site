@@ -29,7 +29,7 @@ const profileUrl = `/talent/${profile.code}/`;
 >
   <div class="talent-card-b__header">
     <span class="talent-card-b__code">{profile.code}</span>
-    <span class={`mockup-badge ${availability.modifier}`}>{availability.label}</span>
+    <span class={`badge ${availability.modifier}`}>{availability.label}</span>
   </div>
   <h2 class="talent-card-b__headline">
     <a href={profileUrl} class="talent-card__link">{profile.headline}</a>
@@ -40,10 +40,10 @@ const profileUrl = `/talent/${profile.code}/`;
   <div class="talent-card-b__tags" aria-label="Primary stack">
     {
       visibleStack.map((tag) => (
-        <span class="mockup-chip">{formatStackTag(tag)}</span>
+        <span class="chip">{formatStackTag(tag)}</span>
       ))
     }
-    {overflow > 0 && <span class="mockup-chip mockup-chip--muted">+{overflow}</span>}
+    {overflow > 0 && <span class="chip chip--muted">+{overflow}</span>}
   </div>
   <a href={profileUrl} class="talent-card-b__cta">View profile</a>
 </article>

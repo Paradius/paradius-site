@@ -28,7 +28,7 @@ const contactUrl = `/contact?profile=${encodeURIComponent(profile.code)}`;
     <aside class="profile-dossier-b__meta" aria-label="Profile details">
       <div class="profile-dossier-b__meta-block">
         <h2 class="profile-dossier-b__meta-title">Availability</h2>
-        <span class={`mockup-badge ${availability.modifier}`}>{availability.label}</span>
+        <span class={`badge ${availability.modifier}`}>{availability.label}</span>
         <p class="profile-dossier-b__meta-note">Profiles presented within 48 hours</p>
       </div>
 
@@ -42,7 +42,7 @@ const contactUrl = `/contact?profile=${encodeURIComponent(profile.code)}`;
       <div class="profile-dossier-b__meta-block">
         <h2 class="profile-dossier-b__meta-title">Stack</h2>
         <div class="profile-dossier-b__tags">
-          {profile.stack.map((tag) => <span class="mockup-chip">{formatStackTag(tag)}</span>)}
+          {profile.stack.map((tag) => <span class="chip">{formatStackTag(tag)}</span>)}
         </div>
       </div>
 

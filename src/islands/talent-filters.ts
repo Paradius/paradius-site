@@ -71,7 +71,7 @@ function setActivePill(group: string, value: string): void {
   );
   for (const pill of pills) {
     const isActive = pill.dataset.value === value;
-    pill.classList.toggle('mockup-filters__pill--active', isActive);
+    pill.classList.toggle('filters__pill--active', isActive);
     pill.setAttribute('aria-pressed', String(isActive));
   }
 }

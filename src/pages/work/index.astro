@@ -20,7 +20,7 @@ const seo = buildWorkCatalogSeo(cases);
       description="Anonymized engagements, narrated without invented numbers. What we designed, what we built, and what is still standing."
     />
     <section class="work-page" aria-label="Case studies">
-      <div class="work-page__cases mockup-page-wrap">
+      <div class="work-page__cases page-wrap">
         {cases.map((caseStudy, index) => (
           <WorkCaseStudy caseStudy={caseStudy} caseIndex={index + 1} headingLevel="h2" />
         ))}

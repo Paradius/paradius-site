@@ -23,9 +23,9 @@ const ROLE_LABELS: Record<DeveloperRole, string> = {
 };
 
 const AVAILABILITY_LABELS: Record<Availability, { label: string; modifier: string }> = {
-  available: { label: 'Available now', modifier: 'mockup-badge--available' },
-  soon: { label: 'Available soon', modifier: 'mockup-badge--soon' },
-  unavailable: { label: 'Currently assigned', modifier: 'mockup-badge--unavailable' },
+  available: { label: 'Available now', modifier: 'badge--available' },
+  soon: { label: 'Available soon', modifier: 'badge--soon' },
+  unavailable: { label: 'Currently assigned', modifier: 'badge--unavailable' },
 };
 
 const LANGUAGE_NAMES: Record<string, string> = {
