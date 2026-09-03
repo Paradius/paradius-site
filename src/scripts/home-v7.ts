@@ -150,6 +150,66 @@ function collectReveals(): void {
   });
 }
 
+/* Soft scroll anchors: when the wheel rests mid-ascent near a block's
+   presentation point, the target drifts gently into it (descent is always
+   free). SNAP_ENABLED is the master switch: false makes the whole system
+   inert with zero per-frame cost.
+   Dials: SNAP_RADIUS_VH (capture range), SNAP_PULL (drift speed),
+   SNAP_IDLE_MS (rest before pull), SNAP_READING_LINE (park line, vh),
+   SNAP_MERGE_VH (anchors closer than this fuse into one). */
+const SNAP_ENABLED = true;
+const SNAP_RADIUS_VH = 0.35;
+const SNAP_IDLE_MS = 160;
+const SNAP_READING_LINE = 0.55;
+/** Drift fraction per frame: the magnet reaches from further away but pulls
+ *  gently, a slow slide into place instead of a yank. */
+const SNAP_PULL = 0.012;
+const SNAP_MERGE_VH = 0.15;
+let anchors: number[] = [];
+let lastWheelAt = 0;
+let snapArmed = false;
+let ascending = false;
+
+function computeAnchors(): void {
+  if (!SNAP_ENABLED) return;
+  const raw = reveals
+    .map((item) => item.docBottom - viewportH * SNAP_READING_LINE)
+    .filter((a) => a > 0 && a < maxScroll)
+    .sort((a, b) => a - b);
+  anchors = [0];
+  for (const a of raw) {
+    if (a - anchors[anchors.length - 1] > viewportH * SNAP_MERGE_VH) anchors.push(a);
+  }
+  if (landingScroll > 0) anchors.push(landingScroll);
+}
+
+function maybeSnap(): void {
+  // The magnet only exists while ASCENDING the tree. Descending (reverse
+  // travel) is always free: no pull, however slow the gesture.
+  if (!SNAP_ENABLED || !hijack || !snapArmed || !ascending) return;
+  if (performance.now() - lastWheelAt < SNAP_IDLE_MS) return;
+  let best = Number.NaN;
+  let bestDist = viewportH * SNAP_RADIUS_VH;
+  for (const a of anchors) {
+    if (a > target) continue; // only anchors ahead in the ascent
+    const d = target - a;
+    if (d < bestDist) {
+      bestDist = d;
+      best = a;
+    }
+  }
+  if (Number.isNaN(best)) {
+    snapArmed = false;
+    return;
+  }
+  // Gentle continuous drift; the LERP smooths it further downstream.
+  target += (best - target) * SNAP_PULL;
+  if (Math.abs(best - target) < 0.5) {
+    target = best;
+    snapArmed = false;
+  }
+}
+
 /**
  * One layout epoch: batch save/clear transforms, ONE layout flush for all
  * rects, restore. Untransformed geometry never changes during scroll, so
@@ -268,6 +328,7 @@ function applyFrame(): void {
 }
 
 function tick(): void {
+  maybeSnap();
   current += (target - current) * LERP;
   if (Math.abs(target - current) < 0.5) current = target;
   // Idle bail: at rest with everything applied, the frame costs one compare.
@@ -283,6 +344,9 @@ function onWheel(e: WheelEvent): void {
   if (!hijack) return;
   e.preventDefault();
   target = clamp(target - e.deltaY * SCROLL_SPEED, 0, maxScroll);
+  lastWheelAt = performance.now();
+  ascending = e.deltaY > 0;
+  snapArmed = true;
 }
 
 function onKeydown(e: KeyboardEvent): void {
@@ -402,6 +466,7 @@ function setupMode(): void {
 
   if (hijack) {
     measureLanding();
+    computeAnchors();
     target = landingScroll;
     current = landingScroll;
     applyFrame();
