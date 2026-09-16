@@ -15,7 +15,7 @@ export const BIRTH_STAGGER_MS = 80;
 export const BIRTH_SETTLE_QUIET_MS = 140;
 
 let observer: IntersectionObserver | null = null;
-let pending: Set<Element> = new Set();
+const pending: Set<Element> = new Set();
 let initialBatch = true;
 let quietTimer = 0;
 
