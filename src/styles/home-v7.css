@@ -1067,6 +1067,19 @@ body:has(.home-v7) .site-header {
   }
 }
 
+/* Reflow freeze: static pose while the viewport changes. Decorative infinite
+   animations keep running; pausing the scroll-timeline tree would detach it
+   from the restored scroll position. */
+html[data-reflowing] .home-v7 *,
+html[data-reflowing] .home-v7 *::before,
+html[data-reflowing] .home-v7 *::after {
+  transition: none !important;
+}
+
+html[data-reflowing] {
+  scroll-snap-type: none !important;
+}
+
 @media (min-width: 1400px) {
   .home-v7__tagline {
     max-width: 1600px;
