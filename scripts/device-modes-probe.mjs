@@ -81,5 +81,82 @@ async function runFingerprint(outDir) {
   await browser.close();
 }
 
+const EXPECT_ENGINE = { touch: 'pager', desktop: 'guided' };
+let failures = 0;
+function report(ok, config, check, detail) {
+  if (!ok) failures += 1;
+  console.log(`${ok ? 'PASS' : 'FAIL'} ${config} ${check} ${detail}`);
+}
+
+async function runMatrix() {
+  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium' });
+  for (const [name, c] of Object.entries(CONFIGS)) {
+    const { context, page } = await openConfig(browser, name);
+    const s = await page.evaluate(() => ({
+      device: document.documentElement.dataset.device,
+      engine: document.documentElement.dataset.homeEngine,
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+      toggle: getComputedStyle(document.querySelector('.site-header__menu-toggle')).display,
+    }));
+    report(s.device === c.device, name, 'device', s.device);
+    report(s.engine === EXPECT_ENGINE[c.device], name, 'engine', s.engine);
+    report(s.overflow <= 0, name, 'no-horizontal-overflow', `${s.overflow}px`);
+    if (c.device === 'touch') report(s.toggle === 'flex', name, 'header-collapsed', s.toggle);
+    await context.close();
+  }
+
+  {
+    const { context, page } = await openConfig(browser, 'pixel-portrait');
+    const k = 5;
+    await page.evaluate((i) => {
+      const pages = [...document.querySelectorAll('.home-v7__hero, .home-v7__row')];
+      window.scrollTo({ top: pages[i].getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+    }, k);
+    await page.waitForTimeout(600);
+    const before = await page.evaluate(() => window.__homeV7Anchor());
+    await page.setViewportSize({ width: 915, height: 412 });
+    await page.waitForTimeout(800);
+    const after = await page.evaluate(() => {
+      const tops = [...document.querySelectorAll('.home-v7__hero, .home-v7__row')].map(
+        (p) => p.getBoundingClientRect().top + window.scrollY,
+      );
+      let anchor = 0;
+      tops.forEach((t, i) => {
+        if (Math.abs(t - window.scrollY) < Math.abs(tops[anchor] - window.scrollY)) anchor = i;
+      });
+      return {
+        anchor,
+        offset: Math.round(tops[anchor] - window.scrollY),
+        reflowing: document.documentElement.hasAttribute('data-reflowing'),
+      };
+    });
+    report(before === k && after.anchor === k && after.offset === 0, 'pixel-rotate', 'same-page', `${before}->${after.anchor} offset ${after.offset}`);
+    report(!after.reflowing, 'pixel-rotate', 'unfrozen', String(after.reflowing));
+    await context.close();
+  }
+
+  {
+    const { context, page } = await openConfig(browser, 'desktop');
+    const mid = await page.evaluate(() => Math.round((document.documentElement.scrollHeight - window.innerHeight) * 0.5));
+    await page.evaluate((y) => window.__homeV7SetScroll(y), mid);
+    await page.waitForTimeout(300);
+    const before = await page.evaluate(() => window.__homeV7Anchor());
+    await page.setViewportSize({ width: 1000, height: 900 });
+    await page.waitForTimeout(800);
+    const after = await page.evaluate(() => ({
+      anchor: window.__homeV7Anchor(),
+      reflowing: document.documentElement.hasAttribute('data-reflowing'),
+    }));
+    const same = before && after.anchor && before.index === after.anchor.index && Math.abs(before.fraction - after.anchor.fraction) < 0.05;
+    report(Boolean(same), 'desktop-resize', 'same-section', `${JSON.stringify(before)}->${JSON.stringify(after.anchor)}`);
+    report(!after.reflowing, 'desktop-resize', 'unfrozen', String(after.reflowing));
+    await context.close();
+  }
+
+  await browser.close();
+  if (failures) process.exit(1);
+}
+
 const [mode, arg] = process.argv.slice(2);
 if (mode === 'fingerprint') await runFingerprint(arg);
+if (mode === 'matrix') await runMatrix();

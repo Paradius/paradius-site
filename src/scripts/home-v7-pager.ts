@@ -13,6 +13,8 @@ let viewportH = 0;
 let maxScroll = 0;
 let treeMaxOffset = 0;
 let pageTops: number[] = [];
+let measuredW = 0;
+let pageIndex = 0;
 let lastTreeShift = '';
 let lastTreeFade = '';
 let lastJourney = -1;
@@ -21,6 +23,7 @@ let journeyTimer = 0;
 const timelineOwnsShift = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: scroll()');
 
 function measure(): void {
+  measuredW = window.innerWidth;
   viewportH = window.innerHeight;
   maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
   treeMaxOffset = tree ? Math.max(0, tree.offsetHeight - viewportH) : 0;
@@ -59,6 +62,9 @@ function writeJourney(): void {
 }
 
 function onScroll(): void {
+  // By the time resize fires the browser has already reflowed and moved the
+  // scroll: an index read against stale page tops would anchor the wrong page.
+  if (window.innerWidth === measuredW) pageIndex = nearestPageIndex(pageTops, window.scrollY);
   setTreeProgress(window.scrollY);
   if (journeyTimer) window.clearTimeout(journeyTimer);
   journeyTimer = window.setTimeout(writeJourney, JOURNEY_QUIET_MS);
@@ -70,6 +76,7 @@ export function createPagerEngine(): HomeEngine<number> {
       homeRoot = document.querySelector<HTMLElement>('.home-v7');
       tree = document.querySelector<HTMLElement>('[data-home-v7-tree]');
       measure();
+      pageIndex = nearestPageIndex(pageTops, window.scrollY);
       setTreeProgress(window.scrollY);
       writeJourney();
       window.addEventListener('scroll', onScroll, { passive: true });
@@ -80,11 +87,12 @@ export function createPagerEngine(): HomeEngine<number> {
       lastJourney = -1;
     },
     captureAnchor() {
-      return nearestPageIndex(pageTops, window.scrollY);
+      return pageIndex;
     },
     restoreAnchor(index) {
       const top = pageTops[index];
       if (top === undefined) return;
+      pageIndex = index;
       window.scrollTo({ top, behavior: 'instant' as ScrollBehavior });
       setTreeProgress(top);
       writeJourney();
