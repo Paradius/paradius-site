@@ -2367,3 +2367,43 @@
   }
 }
 
+/* Touch devices get the collapsed header at any width; desktop keeps the 1024px cut above. */
+html[data-device="touch"] .site-header__menu-toggle {
+  display: flex;
+}
+
+html[data-device="touch"] .site-header__nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-duration-base) ease,
+    visibility var(--transition-duration-base) ease;
+}
+
+/* Must follow the scoped nav rule: the bare --open modifier loses to its specificity. */
+html[data-device="touch"] .site-header__nav--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+html[data-device="touch"] .site-header__nav-list {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+html[data-device="touch"] .site-header__nav-link {
+  font-size: 1.25rem;
+  letter-spacing: var(--tracking-caps-wide);
+}
