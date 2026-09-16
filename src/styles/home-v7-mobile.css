@@ -333,4 +333,17 @@
   .home-v7__hero {
     scroll-snap-align: start;
   }
+
+  /* Optical centering. Geometric center reads low here: the fixed header
+     takes the top of the screen and the tree's mass sits high, so the eye
+     puts the balance point above the middle. Raise to lift, 0 to go back
+     to pure geometry. */
+  .home-v7 {
+    --page-lift: 20svh;
+  }
+
+  .home-v7__row,
+  .home-v7__hero {
+    padding-bottom: calc(clamp(3rem, 8svh, 5rem) + var(--page-lift));
+  }
 }
