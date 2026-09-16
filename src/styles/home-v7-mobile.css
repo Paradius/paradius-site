@@ -106,8 +106,8 @@
      lvh, not dvh: the URL-bar collapse must never resize this layer live. */
   .home-v7__tree,
   .home-v7__tree-shimmer {
-    width: 480vw;
-    height: 340lvh;
+    width: 576vw;
+    height: 408lvh;
   }
 
   /* Fill the layer: desktop centers the artwork at 86% height, which on the
@@ -135,8 +135,8 @@
     top: 0;
     left: calc(50% + 1.2vw);
     z-index: 0;
-    width: 480vw;
-    height: 340lvh;
+    width: 576vw;
+    height: 408lvh;
     pointer-events: none;
     transform: translateX(-50%) translateY(var(--tree-shift, -50vh));
     /* The desktop twins' exact ride: a whisper at the roots, brightening
@@ -225,20 +225,30 @@
   /* Mobile type scale: the desktop sizes read enormous at 390px and turn
      every paragraph into a wall. Phone-native scale, same hierarchy. */
   .home-v7 {
-    --fs-lead: clamp(1rem, 4.2vw, 1.15rem);
-    --fs-caption: 0.875rem;
+    --fs-scale: 1.2;
+    --fs-lead: calc(clamp(1rem, 4.2vw, 1.15rem) * var(--fs-scale));
+    --fs-caption: calc(0.875rem * var(--fs-scale));
+  }
+
+  .home-v7__cta,
+  .home-v7__teaser-cta {
+    font-size: calc(0.8125rem * var(--fs-scale));
+  }
+
+  .home-v7__force-label {
+    font-size: calc(clamp(1.35rem, 2vw, 1.8rem) * var(--fs-scale));
   }
 
   .home-v7__voice {
-    font-size: clamp(1.25rem, 5.5vw, 1.55rem);
+    font-size: calc(clamp(1.25rem, 5.5vw, 1.55rem) * var(--fs-scale));
   }
 
   .home-v7__voice--pump {
-    font-size: clamp(1.5rem, 6.5vw, 1.9rem);
+    font-size: calc(clamp(1.5rem, 6.5vw, 1.9rem) * var(--fs-scale));
   }
 
   .home-v7__force-text {
-    font-size: var(--fs-force, clamp(1.05rem, 4.6vw, 1.3rem));
+    font-size: var(--fs-force, calc(clamp(1.05rem, 4.6vw, 1.3rem) * var(--fs-scale)));
   }
 
   .home-v7__peak-lead {
@@ -252,7 +262,7 @@
   }
 
   .home-v7__peak {
-    font-size: clamp(1.75rem, 7vw, 2.3rem);
+    font-size: calc(clamp(1.75rem, 7vw, 2.3rem) * var(--fs-scale));
   }
 
   .home-v7__cta {
@@ -262,7 +272,7 @@
   /* Compositor-driven tree traversal: off the main thread entirely.
      Chrome/Android 115+, Safari iOS 26+. Where unsupported, the JS path
      keeps writing --tree-shift and nothing changes. The travel range
-     mirrors the layer geometry: 340lvh tall against a ~100lvh viewport.
+     mirrors the layer geometry: 408lvh tall against a ~100lvh viewport.
      Transform only: the engine still owns --tree-fade every frame. */
   @supports (animation-timeline: scroll()) {
     /* Gated on no-preference because a running animation outranks any normal
@@ -302,7 +312,7 @@
 
     @keyframes home-v7-tree-travel {
       from {
-        transform: translateX(-50%) translateY(calc(100lvh - 340lvh));
+        transform: translateX(-50%) translateY(calc(100lvh - 408lvh));
       }
       to {
         transform: translateX(-50%) translateY(0);
