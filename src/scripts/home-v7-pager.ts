@@ -5,7 +5,6 @@ import type { HomeEngine } from './home-v7-reflow';
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
 const TREE_TOUCH_FACTOR = 0.55;
-const JOURNEY_QUIET_MS = 150;
 
 let homeRoot: HTMLElement | null = null;
 let tree: HTMLElement | null = null;
@@ -17,10 +16,9 @@ let measuredW = 0;
 let pageIndex = 0;
 let lastTreeShift = '';
 let lastTreeFade = '';
-let lastJourney = -1;
-let journeyTimer = 0;
 
-const timelineOwnsShift = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: scroll()');
+// With scroll timelines the CSS owns the tree transform AND fade (home-v7-pager.css): JS writes nothing per frame.
+const timelineOwnsTree = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: scroll()');
 
 function measure(): void {
   measuredW = window.innerWidth;
@@ -28,22 +26,29 @@ function measure(): void {
   maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
   treeMaxOffset = tree ? Math.max(0, tree.offsetHeight - viewportH) : 0;
   const scrollY = window.scrollY;
-  pageTops = [...document.querySelectorAll<HTMLElement>('.home-v7__hero, .home-v7__row')].map(
-    (page) => page.getBoundingClientRect().top + scrollY,
-  );
+  const pages = [...document.querySelectorAll<HTMLElement>('.home-v7__hero, .home-v7__row')];
+  pageTops = pages.map((page) => page.getBoundingClientRect().top + scrollY);
+  writePageJourneys(pages);
+}
+
+// A page at rest shows the journey of its own position, so each page carries it
+// statically: a global write on landing repainted every glow (54 -> 6 janky frames).
+function writePageJourneys(pages: HTMLElement[]): void {
+  pages.forEach((page, i) => {
+    const j = String(quantize(journeyOf(Math.max(0, maxScroll - Math.min(pageTops[i], maxScroll)), maxScroll)));
+    if (page.style.getPropertyValue('--journey') !== j) page.style.setProperty('--journey', j);
+  });
 }
 
 function setTreeProgress(scrollY: number): void {
-  if (!homeRoot || maxScroll <= 0) return;
+  if (!homeRoot || maxScroll <= 0 || timelineOwnsTree) return;
   const progress = scrollY / maxScroll;
   const opacity = (TREE_MIN_OPACITY + (TREE_MAX_OPACITY - TREE_MIN_OPACITY) * progress) * TREE_TOUCH_FACTOR;
   const fade = String(quantize(opacity, 1000));
-  if (!timelineOwnsShift) {
-    const shift = `${Math.round(-treeMaxOffset * (1 - progress))}px`;
-    if (shift !== lastTreeShift) {
-      lastTreeShift = shift;
-      homeRoot.style.setProperty('--tree-shift', shift);
-    }
+  const shift = `${Math.round(-treeMaxOffset * (1 - progress))}px`;
+  if (shift !== lastTreeShift) {
+    lastTreeShift = shift;
+    homeRoot.style.setProperty('--tree-shift', shift);
   }
   if (fade !== lastTreeFade) {
     lastTreeFade = fade;
@@ -51,23 +56,11 @@ function setTreeProgress(scrollY: number): void {
   }
 }
 
-// --journey recolors the glow stacks: written only once the scroll is at rest.
-function writeJourney(): void {
-  journeyTimer = 0;
-  if (!homeRoot) return;
-  const j = quantize(journeyOf(Math.max(0, maxScroll - window.scrollY), maxScroll));
-  if (j === lastJourney) return;
-  lastJourney = j;
-  homeRoot.style.setProperty('--journey', String(j));
-}
-
 function onScroll(): void {
   // By the time resize fires the browser has already reflowed and moved the
   // scroll: an index read against stale page tops would anchor the wrong page.
   if (window.innerWidth === measuredW) pageIndex = nearestPageIndex(pageTops, window.scrollY);
   setTreeProgress(window.scrollY);
-  if (journeyTimer) window.clearTimeout(journeyTimer);
-  journeyTimer = window.setTimeout(writeJourney, JOURNEY_QUIET_MS);
 }
 
 export function createPagerEngine(): HomeEngine<number> {
@@ -78,13 +71,11 @@ export function createPagerEngine(): HomeEngine<number> {
       measure();
       pageIndex = nearestPageIndex(pageTops, window.scrollY);
       setTreeProgress(window.scrollY);
-      writeJourney();
       window.addEventListener('scroll', onScroll, { passive: true });
       if (homeRoot) setupBirths(homeRoot);
     },
     measure() {
       measure();
-      lastJourney = -1;
     },
     captureAnchor() {
       return pageIndex;
@@ -95,7 +86,6 @@ export function createPagerEngine(): HomeEngine<number> {
       pageIndex = index;
       window.scrollTo({ top, behavior: 'instant' as ScrollBehavior });
       setTreeProgress(top);
-      writeJourney();
     },
     setFrozen() {},
   };

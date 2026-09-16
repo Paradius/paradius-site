@@ -52,6 +52,16 @@ html[data-device="touch"] .home-v7__col--empty {
   display: none;
 }
 
+/* The engine writes --journey per page (home-v7-pager.ts), so the purity tokens
+   must resolve on the page, not on .home-v7. Same formulas as home-v7.css 07. */
+html[data-device="touch"] .home-v7__hero,
+html[data-device="touch"] .home-v7__row {
+  --j: var(--journey, 1);
+  --ink-dark: calc(24 * (1 - var(--j))) calc(28 * (1 - var(--j))) calc(40 * (1 - var(--j)));
+  --white-purity: calc(0.3 + 0.7 * var(--j));
+  --mist-purity: calc(1 - 0.45 * var(--j));
+}
+
 html[data-device="touch"] .home-v7__content {
   width: 100%;
   --branch-push: 0;
@@ -271,18 +281,24 @@ html[data-device="touch"] .home-v7__cta {
      declaration: without this the reduced-motion resting pose at the end of
      the sheet (a still tree at -25vh) would be overridden here. */
   @media (prefers-reduced-motion: no-preference) {
+    /* The fade rides the timeline too: a per-scroll --tree-fade write from JS
+       restyled the whole home every frame (184 -> 6 janky frames on the Tab). */
     html[data-device="touch"] .home-v7__tree {
-      animation: home-v7-tree-travel linear both;
+      animation:
+        home-v7-tree-travel linear both,
+        home-v7-tree-fade-touch linear both;
       /* Always after the shorthand: `animation` resets this longhand. */
-      animation-timeline: scroll(root);
+      animation-timeline: scroll(root), scroll(root);
     }
 
     /* The glow parent rides the same travel: where the timeline owns the
        transform the engine never writes --tree-shift, so without this the
        glow would sit still while the tree ascends. */
     html[data-device="touch"] .home-v7__tree-glow {
-      animation: home-v7-tree-travel linear both;
-      animation-timeline: scroll(root);
+      animation:
+        home-v7-tree-travel linear both,
+        home-v7-glow-fade-touch linear both;
+      animation-timeline: scroll(root), scroll(root);
     }
 
     /* The twins already run the mask pulse (section 01). A second shorthand
@@ -358,5 +374,28 @@ html[data-device="touch"] .home-v7__hero {
   }
   to {
     transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Pager engine curve baked in: tree (0.04 + 0.26p) * 0.55; glow min(0.3, 4 * tree),
+   which reaches its cap at p = 0.3706. Keep in sync with home-v7-pager.ts. */
+@keyframes home-v7-tree-fade-touch {
+  from {
+    opacity: 0.022;
+  }
+  to {
+    opacity: 0.165;
+  }
+}
+
+@keyframes home-v7-glow-fade-touch {
+  0% {
+    opacity: 0.088;
+  }
+  37.06% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.3;
   }
 }
