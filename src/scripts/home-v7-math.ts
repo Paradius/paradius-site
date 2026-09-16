@@ -100,3 +100,53 @@ export function quantize(v: number, steps = 20): number {
 export function journeyOf(scrollY: number, maxScroll: number): number {
   return maxScroll > 0 ? clamp(1 - scrollY / maxScroll, 0, 1) : 1;
 }
+
+export interface Box {
+  top: number;
+  bottom: number;
+}
+
+export interface BoxAnchor {
+  index: number;
+  fraction: number;
+}
+
+export function nearestPageIndex(pageTops: readonly number[], scrollY: number): number {
+  let best = -1;
+  let bestDist = Infinity;
+  pageTops.forEach((top, i) => {
+    const d = Math.abs(top - scrollY);
+    if (d < bestDist) {
+      bestDist = d;
+      best = i;
+    }
+  });
+  return best;
+}
+
+export function captureBoxAnchor(boxes: readonly Box[], lineDocY: number): BoxAnchor | null {
+  let best = -1;
+  let bestDist = Infinity;
+  boxes.forEach((box, i) => {
+    const d = lineDocY < box.top ? box.top - lineDocY : lineDocY > box.bottom ? lineDocY - box.bottom : 0;
+    if (d < bestDist) {
+      bestDist = d;
+      best = i;
+    }
+  });
+  if (best < 0) return null;
+  const { top, bottom } = boxes[best];
+  const height = bottom - top;
+  return { index: best, fraction: height > 0 ? (lineDocY - top) / height : 0 };
+}
+
+export function restoreBoxAnchor(
+  boxes: readonly Box[],
+  anchor: BoxAnchor,
+  lineOffset: number,
+  maxScroll: number,
+): number {
+  const box = boxes[anchor.index];
+  if (!box) return clamp(0, 0, maxScroll);
+  return clamp(box.top + anchor.fraction * (box.bottom - box.top) - lineOffset, 0, maxScroll);
+}

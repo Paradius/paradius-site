@@ -10,6 +10,9 @@ import {
   journeyOf,
   quantize,
   settleProgress,
+  captureBoxAnchor,
+  nearestPageIndex,
+  restoreBoxAnchor,
 } from './home-v7-math';
 
 const VH = 1000;
@@ -122,5 +125,53 @@ describe('journeyOf', () => {
     expect(journeyOf(5000, 4000)).toBe(0);
     expect(journeyOf(-50, 4000)).toBe(1);
     expect(journeyOf(100, 0)).toBe(1);
+  });
+});
+
+describe('nearestPageIndex', () => {
+  it('returns the page whose top is closest to the scroll position', () => {
+    expect(nearestPageIndex([0, 900, 1800, 2700], 1700)).toBe(2);
+  });
+  it('prefers the earlier page on a tie', () => {
+    expect(nearestPageIndex([0, 900, 1800], 450)).toBe(0);
+  });
+  it('returns -1 without pages', () => {
+    expect(nearestPageIndex([], 300)).toBe(-1);
+  });
+});
+
+describe('box anchors', () => {
+  const before = [
+    { top: 0, bottom: 400 },
+    { top: 600, bottom: 1000 },
+    { top: 1400, bottom: 1600 },
+  ];
+
+  it('captures the containing box and the fraction travelled inside it', () => {
+    expect(captureBoxAnchor(before, 700)).toEqual({ index: 1, fraction: 0.25 });
+  });
+
+  it('falls back to the nearest box when the line sits in a gap', () => {
+    expect(captureBoxAnchor(before, 1300)).toEqual({ index: 2, fraction: -0.5 });
+  });
+
+  it('returns null without boxes', () => {
+    expect(captureBoxAnchor([], 10)).toBeNull();
+  });
+
+  it('lands the same point of the same box on the reflowed geometry', () => {
+    const after = [
+      { top: 0, bottom: 700 },
+      { top: 900, bottom: 1700 },
+      { top: 2100, bottom: 2400 },
+    ];
+    // 25% into box 1 (1100) placed on a line 450px below the viewport top.
+    expect(restoreBoxAnchor(after, { index: 1, fraction: 0.25 }, 450, 5000)).toBe(650);
+  });
+
+  it('clamps the restored scroll to the scrollable range', () => {
+    expect(restoreBoxAnchor(before, { index: 0, fraction: 0 }, 450, 5000)).toBe(0);
+    expect(restoreBoxAnchor(before, { index: 2, fraction: 1 }, 0, 1000)).toBe(1000);
+    expect(restoreBoxAnchor(before, { index: 9, fraction: 0.5 }, 0, 1000)).toBe(0);
   });
 });
