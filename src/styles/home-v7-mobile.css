@@ -124,13 +124,6 @@
     display: none;
   }
 
-  /* DIAG (temporary): both mural layers off, to tell a raster ghost from a
-     text compositing one. Delete once the owner has flicked. */
-  .home-v7 .home-v7__tree,
-  .home-v7 .home-v7__tree-glow {
-    display: none;
-  }
-
   /* Shimmer v2 (prototype): the parent holds ONE static tree mask, rastered
      once; the traveling bands are children moved by transform, composited on
      the GPU. The browser intersects band and silhouette for free because the
