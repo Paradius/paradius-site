@@ -167,7 +167,11 @@ body:has(.home-v7) .site-header {
   position: relative;
   z-index: 1;
   /* clip, not hidden: hidden makes main a scroll container (mobile browsers
-     can pan it sideways to the pulled clips); clip only crops. */
+     can pan it sideways to the pulled clips); clip only crops. Unlike hidden,
+     clip creates NO formatting context, so the last row's block margin would
+     collapse out of main (the flipped world reads it as the top gap over the
+     prophecy). flow-root restores the containment without a scroll box. */
+  display: flow-root;
   overflow-x: clip;
 }
 
@@ -724,7 +728,6 @@ body:has(.home-v7) .site-header {
   will-change: opacity;
 }
 
-
 .home-v7__voice {
   font-family: var(--font-heading);
   font-size: clamp(1.65rem, 2.7vw, 2.25rem);
@@ -996,212 +999,6 @@ body:has(.home-v7) .site-header {
 
 /* == 09 ADAPT ============================== mobile, wide, reduced motion */
 /* Mobile */
-@media (max-width: 768px) {
-  /* Mobile re-decides the vertical rhythm WHOLESALE. Desktop tuning lives
-     in inline --row-air-* vars on the markup, which no media query can
-     override at the variable level; overriding the consuming PROPERTIES
-     here makes every desktop dial (tucks, negative staggers, per-section
-     air) inert in the single-column world, where opposite-side overlaps
-     become superpositions. */
-  .home-v7__row {
-    margin-block-start: clamp(2.25rem, 6vh, 4rem);
-    margin-block-end: clamp(2.25rem, 6vh, 4rem);
-  }
-
-  .home-v7__hero + .home-v7__row {
-    margin-block-start: clamp(0.5rem, 1.25vh, 1rem);
-  }
-
-  .home-v7__row--thesis-close {
-    margin-block-start: clamp(5rem, 12vh, 8rem);
-  }
-
-  .home-v7__spine {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .home-v7__axis {
-    display: none;
-  }
-
-  .home-v7__col--left,
-  .home-v7__col--right {
-    text-align: left;
-    align-items: flex-start;
-  }
-
-  .home-v7__row--split .home-v7__col--left {
-    margin-top: var(--spacing-md);
-  }
-
-  .home-v7__row--split .home-v7__col--right {
-    margin-top: 0;
-  }
-
-  .home-v7__col--empty {
-    display: none;
-  }
-
-  .home-v7__content {
-    width: 100%;
-    --branch-push: 0;
-    --content-span: 100%;
-  }
-
-  .home-v7__row--split .home-v7__col--hang {
-    padding-top: var(--spacing-lg);
-  }
-
-  .home-v7__row--left .home-v7__ops-block {
-    text-align: left;
-    border-right: none;
-    border-left: 2px solid var(--color-accent);
-    padding-left: var(--spacing-md);
-    padding-right: 0;
-  }
-
-  .home-v7__tagline {
-    width: 80vw;
-    max-width: 90vw;
-  }
-
-  .home-v7__row--pair {
-    --row-air-top: clamp(1.25rem, 3vh, 2rem);
-  }
-
-  .home-v7__row--cup {
-    --row-air-bottom: clamp(4rem, 10vh, 6rem);
-  }
-
-  .home-v7__cup-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-  }
-
-  .home-v7 {
-    /* Birth choreography dials (short distances read premium on a phone) */
-    --birth-pull-x: 1.25rem;
-    --birth-pull-y: 1.75rem;
-  }
-
-  /* Birth language: a block is BORN once (IntersectionObserver adds --born)
-     and stays born. Opacity lands BEFORE translate (desynced channels read
-     expensive); distances are short; the brand expo-out does the rest.
-     Glow clones simply fade with their host: opacity only, blur never. */
-  .home-v7__clip--birth {
-    opacity: 0;
-    transform: translate3d(
-      calc(var(--sign, 0) * var(--birth-pull-x)),
-      var(--birth-pull-y),
-      0
-    );
-    transition:
-      opacity 550ms var(--ease-brand) var(--birth-delay, 0ms),
-      transform 750ms var(--ease-brand) var(--birth-delay, 0ms);
-  }
-
-  .home-v7__clip--born {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  /* Inside the trunk for real: the tree OVERFLOWS the phone. Roots fill the
-     screen at moment one, the trunk owns the width through the journey, the
-     canopy arrives at the top. At poster size the traversal illusion dies.
-     lvh, not dvh: the URL-bar collapse must never resize this layer live. */
-  .home-v7__tree,
-  .home-v7__tree-shimmer {
-    width: 480vw;
-    height: 340lvh;
-  }
-
-  /* svh, not dvh: with dvh the hero GROWS under the finger exactly as the
-     URL bar collapses, cancelling the first swipe (the hero->body stall). */
-  .home-v7__hero {
-    min-height: 100svh;
-  }
-
-  /* Mobile type scale: the desktop sizes read enormous at 390px and turn
-     every paragraph into a wall. Phone-native scale, same hierarchy. */
-  .home-v7 {
-    --fs-lead: clamp(1rem, 4.2vw, 1.15rem);
-    --fs-caption: 0.875rem;
-  }
-
-  .home-v7__voice {
-    font-size: clamp(1.25rem, 5.5vw, 1.55rem);
-  }
-
-  .home-v7__voice--pump {
-    font-size: clamp(1.5rem, 6.5vw, 1.9rem);
-  }
-
-  .home-v7__force-text {
-    font-size: var(--fs-force, clamp(1.05rem, 4.6vw, 1.3rem));
-  }
-
-  .home-v7__peak-lead {
-    font-size: var(--fs-lead);
-  }
-
-  /* Dead air: full-viewport ceremonial holds are desktop luxury; on a phone
-     they read as a stuck page between swipes. */
-  .home-v7__row--confession {
-    min-height: auto;
-  }
-
-  .home-v7__peak {
-    font-size: clamp(1.75rem, 7vw, 2.3rem);
-  }
-
-  .home-v7__cta {
-    --cta-pad: 0.75rem 2rem;
-  }
-
-  /* Compositor-driven tree traversal: off the main thread entirely.
-     Chrome/Android 115+, Safari iOS 26+. Where unsupported, the JS path
-     keeps writing --tree-shift and nothing changes. The travel range
-     mirrors the layer geometry: 340lvh tall against a ~100lvh viewport.
-     Transform only: the engine still owns --tree-fade every frame. */
-  @supports (animation-timeline: scroll()) {
-    /* Gated on no-preference because a running animation outranks any normal
-       declaration: without this the reduced-motion resting pose at the end of
-       the sheet (a still tree at -25vh) would be overridden here. */
-    @media (prefers-reduced-motion: no-preference) {
-      .home-v7__tree {
-        animation: home-v7-tree-travel linear both;
-        /* Always after the shorthand: `animation` resets this longhand. */
-        animation-timeline: scroll(root);
-      }
-
-      /* The twins already run the mask pulse (section 01). A second shorthand
-         would REPLACE it, so both animations ride one comma list: the pulse on
-         the document timeline, the travel on the scroll timeline. */
-      .home-v7__tree-shimmer {
-        animation:
-          home-v7-tree-pulse var(--pulse-duration) linear infinite,
-          home-v7-tree-travel linear both;
-        /* That shorthand also reset animation-delay to 0s, so the per-twin
-           stagger is restated as a two-entry list. It reads the same
-           --pulse-delay each --sN modifier sets in section 01, so no timing
-           number is duplicated here; the travel entry is always 0s (a scroll
-           timeline has no time offset). */
-        animation-delay: var(--pulse-delay, 0s), 0s;
-        animation-timeline: auto, scroll(root);
-      }
-    }
-
-    @keyframes home-v7-tree-travel {
-      from {
-        transform: translateX(-50%) translateY(calc(100lvh - 340lvh));
-      }
-      to {
-        transform: translateX(-50%) translateY(0);
-      }
-    }
-  }
-}
 
 @media (min-width: 1400px) {
   .home-v7__tagline {

@@ -82,15 +82,29 @@ describe('setupBirths', () => {
     expect(document.querySelectorAll('.home-v7__clip--birth').length).toBe(3);
   });
 
-  it('births every clip it hid once all observed nodes have fired', () => {
+  it('births every clip it hid once all nodes have fired and the scroll settled', () => {
     const { FakeIO, fire } = makeIO();
     const root = fixtureWithOrphanClip();
     setupBirths(root, FakeIO);
     root.querySelectorAll('[data-home-v7-node]').forEach((node) => fire(node));
+    window.dispatchEvent(new Event('scrollend'));
     const birth = document.querySelectorAll('.home-v7__clip--birth').length;
     const born = document.querySelectorAll('.home-v7__clip--born').length;
     expect(birth).toBeGreaterThan(0);
     expect(born).toBe(birth);
+  });
+
+  it('holds a mid-scroll intersection pending until the scroll settles', () => {
+    const { FakeIO, fire } = makeIO();
+    const root = fixture();
+    setupBirths(root, FakeIO);
+    const nodes = root.querySelectorAll<HTMLElement>('[data-home-v7-node]');
+    fire(nodes[0]); // initial batch: the landing page births immediately
+    fire(nodes[1]); // page turn in flight: must NOT birth yet
+    const clip = nodes[1].querySelector('.home-v7__clip') as HTMLElement;
+    expect(clip.classList.contains('home-v7__clip--born')).toBe(false);
+    window.dispatchEvent(new Event('scrollend'));
+    expect(clip.classList.contains('home-v7__clip--born')).toBe(true);
   });
 
   it('observes each node', () => {
