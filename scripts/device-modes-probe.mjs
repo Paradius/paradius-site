@@ -108,29 +108,17 @@ async function runMatrix() {
   {
     const { context, page } = await openConfig(browser, 'pixel-portrait');
     const k = 5;
-    await page.evaluate((i) => {
-      const pages = [...document.querySelectorAll('.home-v7__hero, .home-v7__row')];
-      window.scrollTo({ top: pages[i].getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
-    }, k);
-    await page.waitForTimeout(600);
+    for (let i = 0; i < k; i++) await page.keyboard.press('ArrowDown');
+    await page.waitForTimeout(900);
     const before = await page.evaluate(() => window.__homeV7Anchor());
     await page.setViewportSize({ width: 915, height: 412 });
-    await page.waitForTimeout(800);
-    const after = await page.evaluate(() => {
-      const tops = [...document.querySelectorAll('.home-v7__hero, .home-v7__row')].map(
-        (p) => p.getBoundingClientRect().top + window.scrollY,
-      );
-      let anchor = 0;
-      tops.forEach((t, i) => {
-        if (Math.abs(t - window.scrollY) < Math.abs(tops[anchor] - window.scrollY)) anchor = i;
-      });
-      return {
-        anchor,
-        offset: Math.round(tops[anchor] - window.scrollY),
-        reflowing: document.documentElement.hasAttribute('data-reflowing'),
-      };
-    });
-    report(before === k && after.anchor === k && after.offset === 0, 'pixel-rotate', 'same-page', `${before}->${after.anchor} offset ${after.offset}`);
+    await page.waitForTimeout(1200);
+    const after = await page.evaluate((i) => ({
+      anchor: window.__homeV7Anchor(),
+      top: Math.round([...document.querySelectorAll('.home-v7__hero, .home-v7__row')][i].getBoundingClientRect().top),
+      reflowing: document.documentElement.hasAttribute('data-reflowing'),
+    }), k);
+    report(before === k && after.anchor === k && Math.abs(after.top) <= 2, 'pixel-rotate', 'same-page', `${before}->${after.anchor} top ${after.top}`);
     report(!after.reflowing, 'pixel-rotate', 'unfrozen', String(after.reflowing));
     await context.close();
   }

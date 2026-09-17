@@ -1,7 +1,6 @@
 import { readDeviceClass } from './device-class';
 import { prepareGlowClones } from './home-v7-glow';
 import { createGuidedEngine } from './home-v7-guided';
-import { createFlipEngine } from './home-v7-flip';
 import { createPagerEngine } from './home-v7-pager';
 import { createReflow, type HomeEngine } from './home-v7-reflow';
 
@@ -15,10 +14,8 @@ async function init(): Promise<void> {
 
   const html = document.documentElement;
   const device = readDeviceClass(html);
-  const flip = device === 'touch' && new URLSearchParams(window.location.search).has('flip');
-  const engine: HomeEngine<unknown> =
-    device === 'desktop' ? createGuidedEngine() : flip ? createFlipEngine() : createPagerEngine();
-  html.dataset.homeEngine = device === 'desktop' ? 'guided' : flip ? 'flip' : 'pager';
+  const engine: HomeEngine<unknown> = device === 'touch' ? createPagerEngine() : createGuidedEngine();
+  html.dataset.homeEngine = device === 'touch' ? 'pager' : 'guided';
   engine.mount();
 
   const reflow = createReflow(engine, {

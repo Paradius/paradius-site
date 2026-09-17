@@ -1,6 +1,7 @@
 /* == PAGER ==== touch devices, any size (data-device from BaseLayout).
-   ISOLATION CONTRACT: every rule here is scoped to html[data-device="touch"];
-   the pager is tuned HERE and only here. home-v7.css is desktop territory. */
+   A notebook: pages are turned, never scrolled (home-v7-pager.ts).
+   ISOLATION CONTRACT: every rule here is scoped to touch; the pager is tuned
+   HERE and only here. home-v7.css is desktop territory. */
 
 html:not([data-device="touch"]) .home-v7__tree-glow {
   display: none;
@@ -151,11 +152,7 @@ html[data-device="touch"] .home-v7__tree-glow {
   width: 576vw;
   height: 408lvh;
   pointer-events: none;
-  transform: translateX(-50%) translateY(var(--tree-shift, -50vh));
-  /* The desktop twins' exact ride: a whisper at the roots, brightening
-     with the ascent (the earlier bright floor was a crutch for the hidden
-     attr bug, not a calibration). */
-  opacity: min(0.3, calc(var(--tree-fade, 0.04) * 4));
+  transform: translateX(-50%) translateY(calc(100lvh - 408lvh));
   overflow: hidden;
   contain: strict;
   -webkit-mask-image: url('/assets/circuit_tree_full.svg');
@@ -271,77 +268,16 @@ html[data-device="touch"] .home-v7__cta {
   --cta-pad: 0.75rem 2rem;
 }
 
-/* Compositor-driven tree traversal: off the main thread entirely.
-   Chrome/Android 115+, Safari iOS 26+. Where unsupported, the JS path
-   keeps writing --tree-shift and nothing changes. The travel range
-   mirrors the layer geometry: 408lvh tall against a ~100lvh viewport.
-   Transform only: the engine still owns --tree-fade every frame. */
-@supports (animation-timeline: scroll()) {
-  /* Gated on no-preference because a running animation outranks any normal
-     declaration: without this the reduced-motion resting pose at the end of
-     the sheet (a still tree at -25vh) would be overridden here. */
-  @media (prefers-reduced-motion: no-preference) {
-    /* The fade rides the timeline too: a per-scroll --tree-fade write from JS
-       restyled the whole home every frame (184 -> 6 janky frames on the Tab). */
-    html[data-device="touch"] .home-v7__tree {
-      animation:
-        home-v7-tree-travel linear both,
-        home-v7-tree-fade-touch linear both;
-      /* Always after the shorthand: `animation` resets this longhand. */
-      animation-timeline: scroll(root), scroll(root);
-    }
-
-    /* The glow parent rides the same travel: where the timeline owns the
-       transform the engine never writes --tree-shift, so without this the
-       glow would sit still while the tree ascends. */
-    html[data-device="touch"] .home-v7__tree-glow {
-      animation:
-        home-v7-tree-travel linear both,
-        home-v7-glow-fade-touch linear both;
-      animation-timeline: scroll(root), scroll(root);
-    }
-
-    /* The twins already run the mask pulse (section 01). A second shorthand
-       would REPLACE it, so both animations ride one comma list: the pulse on
-       the document timeline, the travel on the scroll timeline. */
-    html[data-device="touch"] .home-v7__tree-shimmer {
-      animation:
-        home-v7-tree-pulse var(--pulse-duration) linear infinite,
-        home-v7-tree-travel linear both;
-      /* That shorthand also reset animation-delay to 0s, so the per-twin
-         stagger is restated as a two-entry list. It reads the same
-         --pulse-delay each --sN modifier sets in section 01, so no timing
-         number is duplicated here; the travel entry is always 0s (a scroll
-         timeline has no time offset). */
-      animation-delay: var(--pulse-delay, 0s), 0s;
-      animation-timeline: auto, scroll(root);
-    }
-  }
-
-}
-
-/* EXPERIMENT (pager): the mobile home reads as a notebook of pages. Each
-   row becomes one full-viewport page; the thumb flips pages (scroll-snap
-   on the document scroller), the scroll stays continuous underneath so
-   the tree travel keeps compositing. Births fire as a page is taken. */
-html[data-device="touch"]:has(.home-v7) {
-  scroll-snap-type: y mandatory;
-}
-
+/* Each row is one full-viewport page of the notebook. */
 html[data-device="touch"] .home-v7__row {
   min-height: 100svh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  scroll-snap-align: start;
   margin-block-start: 0;
   margin-block-end: 0;
   padding-block: clamp(3rem, 8svh, 5rem);
-}
-
-html[data-device="touch"] .home-v7__hero {
-  scroll-snap-align: start;
 }
 
 /* Optical centering. Geometric center reads low here: the fixed header
@@ -368,110 +304,78 @@ html[data-device="touch"] .home-v7__hero {
   }
 }
 
-@keyframes home-v7-tree-travel {
-  from {
-    transform: translateX(-50%) translateY(calc(100lvh - 408lvh));
-  }
-  to {
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-/* Pager engine curve baked in: tree (0.04 + 0.26p) * 0.55; glow min(0.3, 4 * tree),
-   which reaches its cap at p = 0.3706. Keep in sync with home-v7-pager.ts. */
-@keyframes home-v7-tree-fade-touch {
-  from {
-    opacity: 0.022;
-  }
-  to {
-    opacity: 0.165;
-  }
-}
-
-@keyframes home-v7-glow-fade-touch {
-  0% {
-    opacity: 0.088;
-  }
-  37.06% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.3;
-  }
-}
-
-/* PROTOTYPE (?flip): pages are turned, never scrolled (home-v7-flip.ts). */
-html[data-pager="flip"],
-html[data-pager="flip"] body {
+/* data-pager is set by the mounted engine: without it (reduced motion, no JS)
+   the home scrolls natively and stays static. */
+html[data-pager],
+html[data-pager] body {
   overflow: hidden;
   overscroll-behavior: none;
 }
 
-html[data-pager="flip"]:has(.home-v7) {
-  scroll-snap-type: none;
-}
-
-html[data-pager="flip"] .home-v7__main,
-html[data-pager="flip"] .footer-ledger,
-html[data-pager="flip"] .home-v7__tree,
-html[data-pager="flip"] .home-v7__tree-glow {
-  transition: transform var(--flip-ms, 420ms) cubic-bezier(0.22, 1, 0.36, 1);
+html[data-pager] .home-v7__main,
+html[data-pager] .footer-ledger,
+html[data-pager] .home-v7__tree,
+html[data-pager] .home-v7__tree-glow {
+  transition: transform var(--pager-ms, 420ms) cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 
-html[data-pager="flip"] .home-v7__tree,
-html[data-pager="flip"] .home-v7__tree-glow {
+/* Inertia: the tree starts with the page but keeps gliding after the page lands,
+   decelerating into its stop without overshoot. Longer = a longer glide. */
+html[data-pager] .home-v7__tree,
+html[data-pager] .home-v7__tree-glow {
   animation: none;
+  transition: transform 1100ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-html[data-pager="flip"][data-flip-drag] .home-v7__main,
-html[data-pager="flip"][data-flip-drag] .footer-ledger,
-html[data-pager="flip"][data-flip-drag] .home-v7__tree,
-html[data-pager="flip"][data-flip-drag] .home-v7__tree-glow {
+html[data-pager][data-pager-drag] .home-v7__main,
+html[data-pager][data-pager-drag] .footer-ledger,
+html[data-pager][data-pager-drag] .home-v7__tree,
+html[data-pager][data-pager-drag] .home-v7__tree-glow {
   transition: none;
 }
 
-html[data-pager="flip"] .home-v7__tree {
-  opacity: calc((0.04 + 0.26 * var(--flip-p, 0)) * 0.55);
+html[data-pager] .home-v7__tree {
+  opacity: calc((0.04 + 0.26 * var(--pager-p, 0)) * 0.55);
 }
 
-html[data-pager="flip"] .home-v7__tree-glow {
-  opacity: min(0.3, calc((0.04 + 0.26 * var(--flip-p, 0)) * 2.2));
+html[data-pager] .home-v7__tree-glow {
+  opacity: min(0.3, calc((0.04 + 0.26 * var(--pager-p, 0)) * 2.2));
 }
 
-html[data-pager="flip"] .home-v7__hero:not(.home-v7__page--near) .home-v7__glow-host::after,
-html[data-pager="flip"] .home-v7__row:not(.home-v7__page--near) .home-v7__glow-host::after {
+html[data-pager] .home-v7__hero:not(.home-v7__page--near) .home-v7__glow-host::after,
+html[data-pager] .home-v7__row:not(.home-v7__page--near) .home-v7__glow-host::after {
   display: none;
 }
 
 /* One slow band: five bands kept the GPU at 60fps even at rest (Tab S7 FE: 45 -> 8 janky frames). */
-html[data-pager="flip"] .home-v7__glow-band:not(:first-child) {
+html[data-pager] .home-v7__glow-band:not(:first-child) {
   display: none;
 }
 
-html[data-pager="flip"] .home-v7__glow-band:first-child {
+html[data-pager] .home-v7__glow-band:first-child {
   animation-duration: 12s;
 }
 
 /* Two shadows instead of 3-5: the blur stack was the paint cost of every turn. */
-html[data-pager="flip"] .home-v7__peak-lead:not(.home-v7__peak-lead--oneline)::after,
-html[data-pager="flip"] .home-v7__peak--dim::after,
-html[data-pager="flip"] .home-v7__force-text::after,
-html[data-pager="flip"] .home-v7__force-label--will::after,
-html[data-pager="flip"] .home-v7__ops-title::after,
-html[data-pager="flip"] .home-v7__ops-text::after,
-html[data-pager="flip"] .home-v7__text::after,
-html[data-pager="flip"] .home-v7__graft::after,
-html[data-pager="flip"] .home-v7__graft-link::after {
+html[data-pager] .home-v7__peak-lead:not(.home-v7__peak-lead--oneline)::after,
+html[data-pager] .home-v7__peak--dim::after,
+html[data-pager] .home-v7__force-text::after,
+html[data-pager] .home-v7__force-label--will::after,
+html[data-pager] .home-v7__ops-title::after,
+html[data-pager] .home-v7__ops-text::after,
+html[data-pager] .home-v7__text::after,
+html[data-pager] .home-v7__graft::after,
+html[data-pager] .home-v7__graft-link::after {
   text-shadow:
     0 0 10px rgb(var(--ink-dark) / 1),
     0 0 28px rgb(var(--ink-dark) / 0.96);
 }
 
-html[data-pager="flip"] .home-v7__peak:not(.home-v7__peak--dim):not(.home-v7__peak--oneline)::after,
-html[data-pager="flip"] .home-v7__voice::after,
-html[data-pager="flip"] .home-v7__force-text--power::after,
-html[data-pager="flip"] .home-v7__force-label--power::after {
+html[data-pager] .home-v7__peak:not(.home-v7__peak--dim):not(.home-v7__peak--oneline)::after,
+html[data-pager] .home-v7__voice::after,
+html[data-pager] .home-v7__force-text--power::after,
+html[data-pager] .home-v7__force-label--power::after {
   text-shadow:
     0 0 12px rgb(255 255 255 / calc(0.38 * var(--white-purity, 1))),
     0 0 28px rgb(255 255 255 / calc(0.32 * var(--white-purity, 1)));
