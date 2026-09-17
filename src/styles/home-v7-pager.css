@@ -69,14 +69,16 @@ html[data-device="touch"] .home-v7__content {
   --content-span: 100%;
 }
 
-/* Split-row indents survive on touch: the width-based sheet lost this fight on
-   specificity and the owner validated that look. Remove to zero them (project B). */
+/* POWER and WILL hang from the same margin (owner, 09-17: "same margin issue").
+   The staggered indents they had on touch are desktop's language. */
+html[data-device="touch"] .home-v7__row--split .home-v7__content--depth-1,
 html[data-device="touch"] .home-v7__row--split .home-v7__content--depth-2 {
-  --branch-push: clamp(1.5rem, 9vw, 8rem);
+  --branch-push: 0;
 }
 
-html[data-device="touch"] .home-v7__row--split .home-v7__content--depth-1 {
-  --branch-push: clamp(0rem, 3vw, 2rem);
+/* Lateral air: at 412px the lines ran into both edges. */
+html[data-device="touch"] .home-v7 {
+  --bleed-pad: clamp(1.4rem, 7vw, 4rem);
 }
 
 html[data-device="touch"] .home-v7__row--split .home-v7__col--hang {
@@ -91,10 +93,6 @@ html[data-device="touch"] .home-v7__row--left .home-v7__ops-block {
   padding-right: 0;
 }
 
-html[data-device="touch"] .home-v7__tagline {
-  width: 80vw;
-  max-width: 90vw;
-}
 
 html[data-device="touch"] .home-v7__row--cup {
   --row-air-bottom: clamp(4rem, 10vh, 6rem);
@@ -235,7 +233,7 @@ html[data-device="touch"] .home-v7__force-label {
 }
 
 html[data-device="touch"] .home-v7__voice {
-  font-size: calc(clamp(1.25rem, 5.5vw, 1.55rem) * var(--fs-scale));
+  font-size: calc(clamp(1.25rem, 5.5vw, 1.55rem) * var(--fs-scale) * var(--page-fs, 1));
 }
 
 html[data-device="touch"] .home-v7__voice--pump {
@@ -243,11 +241,11 @@ html[data-device="touch"] .home-v7__voice--pump {
 }
 
 html[data-device="touch"] .home-v7__force-text {
-  font-size: var(--fs-force, calc(clamp(1.05rem, 4.6vw, 1.3rem) * var(--fs-scale)));
+  font-size: calc(var(--fs-force, calc(clamp(1.05rem, 4.6vw, 1.3rem) * var(--fs-scale))) * var(--page-fs, 1));
 }
 
 html[data-device="touch"] .home-v7__peak-lead {
-  font-size: var(--fs-lead);
+  font-size: calc(var(--fs-lead) * var(--page-fs, 1));
 }
 
 /* Dead air: full-viewport ceremonial holds are desktop luxury; on a phone
@@ -257,7 +255,33 @@ html[data-device="touch"] .home-v7__row--confession {
 }
 
 html[data-device="touch"] .home-v7__peak {
-  font-size: calc(clamp(1.75rem, 7vw, 2.3rem) * var(--fs-scale));
+  font-size: calc(clamp(1.75rem, 7vw, 2.3rem) * var(--fs-scale) * var(--page-fs, 1));
+}
+
+/* Type size is a PER PAGE dial (owner: "bigger" never meant everywhere). */
+html[data-device="touch"] #philosophy {
+  --page-fs: 1.08;
+}
+
+html[data-device="touch"] #thesis {
+  --page-fs: 1.12;
+}
+
+html[data-device="touch"] .home-v7__row--thesis-close {
+  --page-fs: 1.12;
+}
+
+html[data-device="touch"] #engine-close {
+  --page-fs: 1.12;
+}
+
+html[data-device="touch"] #assurance {
+  --page-fs: 1.3;
+}
+
+/* The white voice carries; the grey one grounds. A step apart, not a size. */
+html[data-device="touch"] .home-v7__force-text--power {
+  --fs-force: calc(clamp(1.05rem, 4.6vw, 1.3rem) * var(--fs-scale) * 1.08);
 }
 
 html[data-device="touch"] .home-v7__cta {
@@ -276,17 +300,22 @@ html[data-device="touch"] .home-v7__row {
   padding-block: clamp(3rem, 8svh, 5rem);
 }
 
-/* Optical centering. Geometric center reads low here: the fixed header
-   takes the top of the screen and the tree's mass sits high, so the eye
-   puts the balance point above the middle. Raise to lift, 0 to go back
-   to pure geometry. */
+/* Centred in the page, not in the screen: the top pad clears the fixed header
+   so the block sits in the middle of what is actually free. --page-lift raises
+   it further off geometry (0 = centred; it used to be 20svh, which read as a
+   block stuck to the ceiling with a dead band underneath). */
 html[data-device="touch"] .home-v7 {
-  --page-lift: 20svh;
+  --page-lift: 0svh;
+  --page-edge: clamp(1.25rem, 4svh, 2.5rem);
+}
+
+html[data-device="touch"] .home-v7__row {
+  padding-top: calc(var(--site-header-height) + var(--page-edge));
 }
 
 html[data-device="touch"] .home-v7__row,
 html[data-device="touch"] .home-v7__hero {
-  padding-bottom: calc(clamp(3rem, 8svh, 5rem) + var(--page-lift));
+  padding-bottom: calc(var(--page-edge) + var(--page-lift));
 }
 
 /* Paired blocks share one sheet (home-v7-pager.ts groups them): the unit never
@@ -294,11 +323,14 @@ html[data-device="touch"] .home-v7__hero {
    starts there, so the two read as one group; --pair-air is the air between
    them. The sheet still adds to 100svh: any less and the next page bleeds in. */
 html[data-device="touch"] .home-v7__row--pair {
-  --pair-air: clamp(1.25rem, 4svh, 2.5rem);
-  --pair-split: 34svh;
-  /* Never less than the header: in landscape a page is 412px tall and a plain
-     8svh top pad parks the first line under the logo. */
-  --pair-edge: max(clamp(3rem, 8svh, 5rem), calc(var(--site-header-height) + 0.75rem));
+  /* Two blocks on one sheet get a tighter scale: at full size the proofs ran
+     80px past the bottom of a Pixel page, and a sheet cannot scroll. */
+  --page-fs: 0.85;
+  --pair-air: clamp(0.75rem, 2.5svh, 1.75rem);
+  --pair-split: 50svh;
+  /* Clears the header like every other page: in landscape a page is 412px tall
+     and a plain 8svh top pad parks the first line under the logo. */
+  --pair-edge: calc(var(--site-header-height) + var(--page-edge));
 }
 
 html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
@@ -310,7 +342,47 @@ html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
 html[data-device="touch"] .home-v7__row--pair-2 {
   min-height: calc(100svh - var(--pair-split));
   justify-content: flex-start;
-  padding-block: calc(var(--pair-air) / 2) var(--pair-edge);
+  padding-block: calc(var(--pair-air) / 2) calc(var(--page-edge) / 2);
+}
+
+/* Hero: the lockup is capped by HEIGHT as well. A width-only cap (plus the
+   desktop 700px floor) printed a tagline taller than a landscape page, so the
+   header ate its top and the calls fell off the bottom. Both calls share one
+   width, and the group sits centred in the page under the header. */
+html[data-device="touch"] .home-v7__hero {
+  --tagline-cap: 42svh;
+  padding-bottom: var(--site-header-height);
+}
+
+html[data-device="touch"] .home-v7__tagline {
+  width: 84vw;
+  min-width: 0;
+  max-width: 84vw;
+  max-height: var(--tagline-cap);
+  object-fit: contain;
+  margin-bottom: clamp(1.75rem, 6svh, 3.25rem);
+}
+
+html[data-device="touch"] .home-v7__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 20rem);
+  justify-content: center;
+  gap: clamp(0.9rem, 3svh, 1.6rem);
+}
+
+html[data-device="touch"] .home-v7__cta {
+  width: 100%;
+  text-align: center;
+}
+
+@media (orientation: landscape) {
+  html[data-device="touch"] .home-v7__hero {
+    --tagline-cap: 34svh;
+  }
+
+  html[data-device="touch"] .home-v7__actions {
+    grid-template-columns: repeat(2, minmax(0, 16rem));
+  }
 }
 
 /* Landscape has width, not height: two blocks stacked would spill off a 412px
@@ -325,7 +397,7 @@ html[data-device="touch"] .home-v7__row--pair-2 {
     width: 50%;
     min-height: 100svh;
     justify-content: flex-start;
-    padding-block: var(--pair-edge) calc(var(--pair-edge) + var(--page-lift) * 0.5);
+    padding-block: var(--pair-edge) var(--page-edge);
   }
 
   html[data-device="touch"] .home-v7__hero,
@@ -335,6 +407,34 @@ html[data-device="touch"] .home-v7__row--pair-2 {
 
   html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
     clear: none;
+  }
+
+  /* Side by side beats stacked wherever the page is short: POWER/WILL and the
+     two closing cards overran a landscape page in one column. */
+  html[data-device="touch"] .home-v7__row--pair {
+    --page-fs: 0.95;
+  }
+
+  html[data-device="touch"] .home-v7__row--cup .home-v7__text {
+    font-size: calc(var(--fs-lead) * 0.88);
+  }
+
+  html[data-device="touch"] .home-v7__cup-col {
+    padding: clamp(0.75rem, 2.5svh, 1.25rem) var(--spacing-md);
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__spine {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 4vw, 3rem);
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--left {
+    margin-top: 0;
+  }
+
+  html[data-device="touch"] .home-v7__cup-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 3vw, 2rem);
   }
 }
 
@@ -378,6 +478,15 @@ html[data-pager][data-pager-drag] .footer-ledger,
 html[data-pager][data-pager-drag] .home-v7__tree,
 html[data-pager][data-pager-drag] .home-v7__tree-glow {
   transition: none;
+}
+
+/* The closing sheet is the footer itself: it used to sit under half a screen of
+   leftover dawn page ("WTF?" on the owner's review). */
+html[data-pager] .footer-ledger {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 html[data-pager] .home-v7__tree {

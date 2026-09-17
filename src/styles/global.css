@@ -293,16 +293,33 @@
     /* Actual transparent glass, same pane recipe as the home cup cards:
        faint diagonal tint, minimal blur, lit top edge, shaded bottom edge. */
     background-color: transparent;
+    /* No backdrop blur (owner call, 2026-09-01): constant re-sampling of
+       the animated tree behind the fixed header cost scroll budget. */
+    border-bottom: none;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
+  }
+
+  /* The glass thins out on the face that meets the content: the header
+     dissolves downward, the footer upward. The pane lives on a pseudo so the
+     fade never reaches the logo, the nav or the links. */
+  .site-header::before,
+  .footer-ledger::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .site-header::before {
     background-image: linear-gradient(
       105deg,
       rgb(0 0 0 / 0.35) 0%,
       rgb(0 0 0 / 0.12) 55%,
       rgb(255 255 255 / 0.04) 100%
     );
-    /* No backdrop blur (owner call, 2026-09-01): constant re-sampling of
-       the animated tree behind the fixed header cost scroll budget. */
-    border-bottom: none;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
+    -webkit-mask-image: linear-gradient(to bottom, #000 38%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 38%, transparent 100%);
   }
 
   .site-header--scrolled {
@@ -1169,9 +1186,6 @@
     /* Same glass treatment as .site-header: translucent band, no hard border */
     border-top: none;
     background-color: transparent;
-    background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.48) 0%, rgb(0 0 0 / 0.48) 100%);
-    backdrop-filter: blur(16px) saturate(1.2);
-    -webkit-backdrop-filter: blur(16px) saturate(1.2);
     padding-block: var(--spacing-md);
     font-family: var(--font-body);
     font-size: 0.8rem;
@@ -1179,6 +1193,14 @@
     line-height: 1.7;
     letter-spacing: var(--tracking-link);
     color: var(--color-text-secondary);
+  }
+
+  .footer-ledger::before {
+    background-image: linear-gradient(to top, rgb(0 0 0 / 0.48) 0%, rgb(0 0 0 / 0.48) 100%);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-mask-image: linear-gradient(to top, #000 38%, transparent 100%);
+    mask-image: linear-gradient(to top, #000 38%, transparent 100%);
   }
 
   /* One band, three zones on the same y axis: links left, facts center, copyright right */
