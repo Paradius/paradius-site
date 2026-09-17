@@ -96,10 +96,6 @@ html[data-device="touch"] .home-v7__tagline {
   max-width: 90vw;
 }
 
-html[data-device="touch"] .home-v7__row--pair {
-  --row-air-top: clamp(1.25rem, 3vh, 2rem);
-}
-
 html[data-device="touch"] .home-v7__row--cup {
   --row-air-bottom: clamp(4rem, 10vh, 6rem);
 }
@@ -291,6 +287,55 @@ html[data-device="touch"] .home-v7 {
 html[data-device="touch"] .home-v7__row,
 html[data-device="touch"] .home-v7__hero {
   padding-bottom: calc(clamp(3rem, 8svh, 5rem) + var(--page-lift));
+}
+
+/* Paired blocks share one sheet (home-v7-pager.ts groups them): the unit never
+   breaks across a turn. The first block hangs from --pair-split, the second
+   starts there, so the two read as one group; --pair-air is the air between
+   them. The sheet still adds to 100svh: any less and the next page bleeds in. */
+html[data-device="touch"] .home-v7__row--pair {
+  --pair-air: clamp(1.25rem, 4svh, 2.5rem);
+  --pair-split: 34svh;
+  /* Never less than the header: in landscape a page is 412px tall and a plain
+     8svh top pad parks the first line under the logo. */
+  --pair-edge: max(clamp(3rem, 8svh, 5rem), calc(var(--site-header-height) + 0.75rem));
+}
+
+html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
+  min-height: var(--pair-split);
+  justify-content: flex-end;
+  padding-block: var(--pair-edge) calc(var(--pair-air) / 2);
+}
+
+html[data-device="touch"] .home-v7__row--pair-2 {
+  min-height: calc(100svh - var(--pair-split));
+  justify-content: flex-start;
+  padding-block: calc(var(--pair-air) / 2) var(--pair-edge);
+}
+
+/* Landscape has width, not height: two blocks stacked would spill off a 412px
+   page. The pair splits into columns instead, the second riding up beside the
+   first, and the sheet still measures exactly one page tall. */
+@media (orientation: landscape) {
+  /* Floats, not a negative margin: both columns hang from the same top even
+     when one block runs longer, and the next sheet clears whichever is taller. */
+  html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2),
+  html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
+    float: left;
+    width: 50%;
+    min-height: 100svh;
+    justify-content: flex-start;
+    padding-block: var(--pair-edge) calc(var(--pair-edge) + var(--page-lift) * 0.5);
+  }
+
+  html[data-device="touch"] .home-v7__hero,
+  html[data-device="touch"] .home-v7__row {
+    clear: both;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
+    clear: none;
+  }
 }
 
 /* The band is 3.5x the trunk height; a 35% self-translate sweeps the whole

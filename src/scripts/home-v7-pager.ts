@@ -10,7 +10,7 @@ const EDGE_RESISTANCE = 0.25;
 let homeRoot: HTMLElement | null = null;
 let movers: HTMLElement[] = [];
 let trees: HTMLElement[] = [];
-let pages: HTMLElement[] = [];
+let sheets: HTMLElement[][] = [];
 let nearTimer = 0;
 let stops: number[] = [];
 let index = 0;
@@ -38,15 +38,28 @@ function setTree(progress: number): void {
   for (const el of trees) el.style.transform = t;
 }
 
+// A sheet is what one gesture turns. Sections marked --pair-2 stay on the sheet
+// their partner opened: two blocks that mean one thing never split in two.
+function readSheets(): HTMLElement[][] {
+  const grouped: HTMLElement[][] = [];
+  for (const section of document.querySelectorAll<HTMLElement>('.home-v7__hero, .home-v7__row')) {
+    const last = grouped[grouped.length - 1];
+    if (last && section.classList.contains('home-v7__row--pair-2')) last.push(section);
+    else grouped.push([section]);
+  }
+  return grouped;
+}
+
 function measure(): void {
   viewportH = window.innerHeight;
   for (const el of movers) el.style.transform = 'none';
-  pages = [...document.querySelectorAll<HTMLElement>('.home-v7__hero, .home-v7__row')];
+  sheets = readSheets();
   const maxOffset = Math.max(0, document.documentElement.scrollHeight - viewportH);
-  stops = pages.map((p) => Math.min(p.getBoundingClientRect().top, maxOffset));
+  stops = sheets.map((sheet) => Math.min(sheet[0].getBoundingClientRect().top, maxOffset));
   if (maxOffset > stops[stops.length - 1] + 1) stops.push(maxOffset);
-  pages.forEach((page, i) => {
-    page.style.setProperty('--journey', String(quantize(journeyOf(maxOffset - stops[i], maxOffset))));
+  sheets.forEach((sheet, i) => {
+    const journey = String(quantize(journeyOf(maxOffset - stops[i], maxOffset)));
+    for (const section of sheet) section.style.setProperty('--journey', journey);
   });
   setOffset(offset);
 }
@@ -55,14 +68,18 @@ function measure(): void {
 // clones were rastered for nothing. The destination lights up before the turn starts;
 // far pages go dark only after it lands, so rapid flicks never arrive at a bare page.
 function lightNear(): void {
-  pages.forEach((page, i) => {
-    if (Math.abs(i - index) <= 1) page.classList.add('home-v7__page--near');
+  sheets.forEach((sheet, i) => {
+    if (Math.abs(i - index) > 1) return;
+    for (const section of sheet) section.classList.add('home-v7__page--near');
   });
 }
 
 function markNear(): void {
   nearTimer = 0;
-  pages.forEach((page, i) => page.classList.toggle('home-v7__page--near', Math.abs(i - index) <= 1));
+  sheets.forEach((sheet, i) => {
+    const near = Math.abs(i - index) <= 1;
+    for (const section of sheet) section.classList.toggle('home-v7__page--near', near);
+  });
 }
 
 function goTo(next: number): void {

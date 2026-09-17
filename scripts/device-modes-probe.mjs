@@ -116,7 +116,11 @@ async function runMatrix() {
     await page.waitForTimeout(1200);
     const after = await page.evaluate((i) => ({
       anchor: window.__homeV7Anchor(),
-      top: Math.round([...document.querySelectorAll('.home-v7__hero, .home-v7__row')][i].getBoundingClientRect().top),
+      top: Math.round(
+        [...document.querySelectorAll('.home-v7__hero, .home-v7__row')]
+          .filter((el) => !el.classList.contains('home-v7__row--pair-2'))
+          [i].getBoundingClientRect().top,
+      ),
       reflowing: document.documentElement.hasAttribute('data-reflowing'),
     }), k);
     report(before === k && after.anchor === k && Math.abs(after.top) <= 2, 'pixel-rotate', 'same-page', `${before}->${after.anchor} top ${after.top}`);
