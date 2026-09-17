@@ -399,3 +399,80 @@ html[data-device="touch"] .home-v7__hero {
     opacity: 0.3;
   }
 }
+
+/* PROTOTYPE (?flip): pages are turned, never scrolled (home-v7-flip.ts). */
+html[data-pager="flip"],
+html[data-pager="flip"] body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html[data-pager="flip"]:has(.home-v7) {
+  scroll-snap-type: none;
+}
+
+html[data-pager="flip"] .home-v7__main,
+html[data-pager="flip"] .footer-ledger,
+html[data-pager="flip"] .home-v7__tree,
+html[data-pager="flip"] .home-v7__tree-glow {
+  transition: transform var(--flip-ms, 420ms) cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+html[data-pager="flip"] .home-v7__tree,
+html[data-pager="flip"] .home-v7__tree-glow {
+  animation: none;
+}
+
+html[data-pager="flip"][data-flip-drag] .home-v7__main,
+html[data-pager="flip"][data-flip-drag] .footer-ledger,
+html[data-pager="flip"][data-flip-drag] .home-v7__tree,
+html[data-pager="flip"][data-flip-drag] .home-v7__tree-glow {
+  transition: none;
+}
+
+html[data-pager="flip"] .home-v7__tree {
+  opacity: calc((0.04 + 0.26 * var(--flip-p, 0)) * 0.55);
+}
+
+html[data-pager="flip"] .home-v7__tree-glow {
+  opacity: min(0.3, calc((0.04 + 0.26 * var(--flip-p, 0)) * 2.2));
+}
+
+html[data-pager="flip"] .home-v7__hero:not(.home-v7__page--near) .home-v7__glow-host::after,
+html[data-pager="flip"] .home-v7__row:not(.home-v7__page--near) .home-v7__glow-host::after {
+  display: none;
+}
+
+/* One slow band: five bands kept the GPU at 60fps even at rest (Tab S7 FE: 45 -> 8 janky frames). */
+html[data-pager="flip"] .home-v7__glow-band:not(:first-child) {
+  display: none;
+}
+
+html[data-pager="flip"] .home-v7__glow-band:first-child {
+  animation-duration: 12s;
+}
+
+/* Two shadows instead of 3-5: the blur stack was the paint cost of every turn. */
+html[data-pager="flip"] .home-v7__peak-lead:not(.home-v7__peak-lead--oneline)::after,
+html[data-pager="flip"] .home-v7__peak--dim::after,
+html[data-pager="flip"] .home-v7__force-text::after,
+html[data-pager="flip"] .home-v7__force-label--will::after,
+html[data-pager="flip"] .home-v7__ops-title::after,
+html[data-pager="flip"] .home-v7__ops-text::after,
+html[data-pager="flip"] .home-v7__text::after,
+html[data-pager="flip"] .home-v7__graft::after,
+html[data-pager="flip"] .home-v7__graft-link::after {
+  text-shadow:
+    0 0 10px rgb(var(--ink-dark) / 1),
+    0 0 28px rgb(var(--ink-dark) / 0.96);
+}
+
+html[data-pager="flip"] .home-v7__peak:not(.home-v7__peak--dim):not(.home-v7__peak--oneline)::after,
+html[data-pager="flip"] .home-v7__voice::after,
+html[data-pager="flip"] .home-v7__force-text--power::after,
+html[data-pager="flip"] .home-v7__force-label--power::after {
+  text-shadow:
+    0 0 12px rgb(255 255 255 / calc(0.38 * var(--white-purity, 1))),
+    0 0 28px rgb(255 255 255 / calc(0.32 * var(--white-purity, 1)));
+}
