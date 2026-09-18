@@ -100,7 +100,15 @@ html[data-device="touch"] .home-v7__row--cup {
 
 html[data-device="touch"] .home-v7__cup-grid {
   grid-template-columns: 1fr;
-  gap: var(--spacing-xl);
+  gap: clamp(1rem, 3svh, 2rem);
+}
+
+html[data-device="touch"] .home-v7__cup-col {
+  padding: clamp(0.9rem, 2.5svh, 1.5rem) var(--spacing-md);
+}
+
+html[data-device="touch"] .home-v7__row--cup .home-v7__text {
+  font-size: calc(var(--fs-lead) * 0.92);
 }
 
 /* Entrance animations are PARKED (owner call, 09-03): first the page
@@ -397,7 +405,7 @@ html[data-device="touch"] .home-v7__lockup-trace g {
 html[data-device="touch"] .home-v7__lockup-band {
   --sweep-from: -80px;
   --sweep-to: 240px;
-  animation: home-v7-lockup-drift var(--drift-ms, 21s) ease-in-out infinite alternate;
+  animation: home-v7-lockup-drift var(--drift-ms, 16s) ease-in-out infinite alternate;
 }
 
 html[data-device="touch"] .home-v7__lockup-trace--wide .home-v7__lockup-band {
@@ -405,19 +413,19 @@ html[data-device="touch"] .home-v7__lockup-trace--wide .home-v7__lockup-band {
 }
 
 html[data-device="touch"] .home-v7__lockup-band--a {
-  --drift-ms: 19s;
+  --drift-ms: 13s;
   opacity: 0.55;
 }
 
 html[data-device="touch"] .home-v7__lockup-band--b {
-  --drift-ms: 27s;
+  --drift-ms: 18s;
   animation-direction: alternate-reverse;
   opacity: 0.4;
   width: 104px;
 }
 
 html[data-device="touch"] .home-v7__lockup-band--c {
-  --drift-ms: 33s;
+  --drift-ms: 22s;
   animation-delay: -8s;
   opacity: 0.35;
   width: 46px;
@@ -519,7 +527,16 @@ html[data-device="touch"] .home-v7__cta {
   /* Side by side beats stacked wherever the page is short: POWER/WILL and the
      two closing cards overran a landscape page in one column. */
   html[data-device="touch"] .home-v7__row--pair {
-    --page-fs: 0.95;
+    --page-fs: 0.9;
+  }
+
+  /* A landscape page has no room for the per-page bumps: they belong to portrait. */
+  html[data-device="touch"] #philosophy,
+  html[data-device="touch"] #thesis,
+  html[data-device="touch"] .home-v7__row--thesis-close,
+  html[data-device="touch"] #engine-close,
+  html[data-device="touch"] #assurance {
+    --page-fs: 1;
   }
 
   html[data-device="touch"] .home-v7__row--cup .home-v7__text {
@@ -641,3 +658,4 @@ html[data-pager] .home-v7__force-label--power::after {
     0 0 12px rgb(255 255 255 / calc(0.38 * var(--white-purity, 1))),
     0 0 28px rgb(255 255 255 / calc(0.32 * var(--white-purity, 1)));
 }
+

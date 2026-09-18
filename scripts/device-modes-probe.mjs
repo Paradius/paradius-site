@@ -13,9 +13,10 @@ const UA = {
 };
 
 export const CONFIGS = {
-  'pixel-portrait': { w: 412, h: 915, touch: true, ua: UA.pixel, platform: 'Android', device: 'touch' },
-  'pixel-landscape': { w: 915, h: 412, touch: true, ua: UA.pixel, platform: 'Android', device: 'touch' },
-  'tab-portrait': { w: 753, h: 1037, dpr: 2.125, touch: true, ua: UA.tab, platform: 'Android', device: 'touch' },
+  // Measured on the owner's Pixel 9 in Chrome (viewport after browser and system bars).
+  'pixel-portrait': { w: 448, h: 803, dpr: 2.25, touch: true, ua: UA.pixel, platform: 'Android', device: 'touch' },
+  'pixel-landscape': { w: 998, h: 385, dpr: 2.25, touch: true, ua: UA.pixel, platform: 'Android', device: 'touch' },
+  'tab-portrait': { w: 753, h: 1036, dpr: 2.125, touch: true, ua: UA.tab, platform: 'Android', device: 'touch' },
   // Measured on the owner's Tab S7 FE in Chrome (viewport after browser and system bars).
   'tab-landscape': { w: 1204, h: 585, dpr: 2.125, touch: true, ua: UA.tab, platform: 'Android', device: 'touch' },
   desktop: { w: 1440, h: 900, touch: false, ua: UA.desktop, platform: 'Windows', device: 'desktop' },
