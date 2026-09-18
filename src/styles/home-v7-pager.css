@@ -847,3 +847,31 @@ html[data-device="touch"] #assurance {
     --page-fs: 1.12;
   }
 }
+
+/* --- Hojas 4 y 9: the two forces and the two proofs share one shape (owner,
+   vuelta 4: "como la raya en forma de L", mirrored). The rule sits on the outer
+   side of each block and the text hangs from that edge. */
+html[data-device="touch"] .home-v7__row--split .home-v7__col--left .home-v7__content,
+html[data-device="touch"] #proofs .home-v7__ops-block {
+  border-left: 2px solid var(--color-accent);
+  border-right: none;
+  padding-left: var(--spacing-md);
+  padding-right: 0;
+  text-align: left;
+}
+
+html[data-device="touch"] .home-v7__row--split .home-v7__col--right .home-v7__content,
+html[data-device="touch"] #proofs-banking .home-v7__ops-block {
+  border-right: 2px solid var(--color-accent);
+  border-left: none;
+  padding-right: var(--spacing-md);
+  padding-left: 0;
+  text-align: right;
+}
+
+html[data-device="touch"] .home-v7__row--split .home-v7__col--right,
+html[data-device="touch"] #proofs-banking .home-v7__col--right,
+html[data-device="touch"] #proofs-banking .home-v7__content {
+  align-items: flex-end;
+  text-align: right;
+}
