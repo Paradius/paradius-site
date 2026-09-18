@@ -25,6 +25,11 @@ import type { HomeEngine } from './home-v7-reflow';
    before the normalization fix; it now feels the same on any monitor. */
 const LERP = 0.1;
 const SCROLL_SPEED = 0.55;
+/* Ceiling on how fast the page may travel, in viewports per second, and on how
+   far ahead of the page one gesture may throw the target. A hard flick on a
+   trackpad sends deltas big enough to cross the whole home in a blink. */
+const MAX_SPEED_VH_S = 2.2;
+const MAX_LEAD_VH = 1.2;
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
 
@@ -315,7 +320,9 @@ function tick(now: number): void {
   maybeSnap(dt);
   // Time-normalized damping: identical feel at 60Hz and 240Hz; high-refresh
   // displays get proportionally more animation frames, not faster motion.
-  current += (target - current) * dampingFactor(dt, LERP);
+  const step = (target - current) * dampingFactor(dt, LERP);
+  const cap = (MAX_SPEED_VH_S * viewportH * dt) / 1000;
+  current += clamp(step, -cap, cap);
   if (Math.abs(target - current) < 0.5) current = target;
   // Idle bail: at rest with everything applied, the frame costs one compare.
   if (frameDirty || current !== lastApplied || (current === target && lastJourney < 0)) {
@@ -329,7 +336,12 @@ function tick(now: number): void {
 function onWheel(e: WheelEvent): void {
   e.preventDefault();
   if (frozen) return;
-  target = clamp(target - e.deltaY * SCROLL_SPEED, 0, maxScroll);
+  const lead = MAX_LEAD_VH * viewportH;
+  target = clamp(
+    clamp(target - e.deltaY * SCROLL_SPEED, current - lead, current + lead),
+    0,
+    maxScroll,
+  );
   lastWheelAt = performance.now();
   ascending = e.deltaY > 0;
   snapArmed = true;
