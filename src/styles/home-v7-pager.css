@@ -526,8 +526,18 @@ html[data-device="touch"] .home-v7__cta {
 
   /* Side by side beats stacked wherever the page is short: POWER/WILL and the
      two closing cards overran a landscape page in one column. */
+  /* A real landscape page is 372px tall on the phone and the header alone takes
+     a fifth of it: the page edge shrinks and the dense pages tighten a step. */
+  html[data-device="touch"] .home-v7 {
+    --page-edge: clamp(0.5rem, 2svh, 1rem);
+  }
+
   html[data-device="touch"] .home-v7__row--pair {
     --page-fs: 0.9;
+  }
+
+  html[data-device="touch"] .home-v7__row--split {
+    --page-fs: 0.92;
   }
 
   /* A landscape page has no room for the per-page bumps: they belong to portrait. */
