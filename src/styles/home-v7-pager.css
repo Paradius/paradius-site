@@ -350,38 +350,70 @@ html[data-device="touch"] .home-v7__row--pair-2 {
    header ate its top and the calls fell off the bottom. Both calls share one
    width, and the group sits centred in the page under the header. */
 html[data-device="touch"] .home-v7__hero {
-  --tagline-cap: 42svh;
+  --tagline-cap: 50svh;
+  --dawn-light: 0.12;
   padding-bottom: var(--site-header-height);
 }
 
 html[data-device="touch"] .home-v7__tagline {
-  width: 84vw;
+  width: 92vw;
   min-width: 0;
-  max-width: 84vw;
+  max-width: 92vw;
   max-height: var(--tagline-cap);
   object-fit: contain;
-  margin-bottom: clamp(1.75rem, 6svh, 3.25rem);
+  margin-bottom: clamp(2.5rem, 9svh, 4.5rem);
 }
 
+/* The dawn behind the lockup. It cannot ride on the image: the entrance
+   animation owns its filter (animations outrank plain declarations) and the
+   reveal mask would clip a drop-shadow at the box edge anyway. */
+html[data-device="touch"] .home-v7__hero-inner {
+  position: relative;
+}
+
+html[data-device="touch"] .home-v7__hero-inner::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 32%;
+  z-index: -1;
+  width: 150%;
+  aspect-ratio: 2.2 / 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgb(255 255 255 / var(--dawn-light)) 0%, rgb(255 255 255 / 0) 68%);
+}
+
+/* The two calls step back so only the lockup carries weight. */
 html[data-device="touch"] .home-v7__actions {
   display: grid;
-  grid-template-columns: minmax(0, 20rem);
+  grid-template-columns: minmax(0, 17rem);
   justify-content: center;
-  gap: clamp(0.9rem, 3svh, 1.6rem);
+  gap: clamp(0.7rem, 2svh, 1.1rem);
 }
 
 html[data-device="touch"] .home-v7__cta {
   width: 100%;
   text-align: center;
+  border-color: rgb(255 255 255 / 0.4);
+  --cta-pad: 0.7rem 1.5rem;
+  font-size: calc(0.75rem * var(--fs-scale));
 }
 
 @media (orientation: landscape) {
+  /* A landscape page is 412px tall: the lockup takes what is left after the
+     header and the calls, or its top slides under the logo. */
   html[data-device="touch"] .home-v7__hero {
-    --tagline-cap: 34svh;
+    --tagline-cap: 38svh;
+    padding-bottom: var(--page-edge);
+  }
+
+  html[data-device="touch"] .home-v7__tagline {
+    margin-bottom: clamp(1.25rem, 5svh, 2.5rem);
   }
 
   html[data-device="touch"] .home-v7__actions {
-    grid-template-columns: repeat(2, minmax(0, 16rem));
+    grid-template-columns: repeat(2, minmax(0, 15rem));
   }
 }
 
