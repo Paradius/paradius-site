@@ -62,11 +62,13 @@ const seo: PageSeo = {
     padding-block: var(--spacing-2xl);
   }
 
-  /* Typographic peak of the site: nothing else competes with it in the frame. */
+  /* Typographic peak of the site: nothing else competes with it in the frame.
+     Same voice as the home's peaks: the serif carries the mythic register, the
+     sans made this read like a browser error page. */
   .not-found__title {
-    font-family: var(--font-brand);
+    font-family: var(--font-voice);
     font-size: clamp(2.5rem, 8vw, 5rem);
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.1;
     letter-spacing: var(--tracking-heading);
     color: var(--color-text-primary);
@@ -91,6 +93,18 @@ const seo: PageSeo = {
     justify-content: center;
     gap: var(--spacing-sm);
     margin-block-start: var(--spacing-xl);
+  }
+
+  /* One width for both calls, capped: stretched full-bleed blocks on a phone
+     read as a form, not as a way out. */
+  @media (max-width: 720px) {
+    .not-found__actions {
+      display: grid;
+      grid-template-columns: minmax(0, 17rem);
+      justify-content: center;
+      gap: clamp(0.7rem, 2svh, 1.1rem);
+      width: 100%;
+    }
   }
 
   .not-found__actions .not-found__cta {

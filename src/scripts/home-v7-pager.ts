@@ -55,7 +55,12 @@ function measure(): void {
   for (const el of movers) el.style.transform = 'none';
   sheets = readSheets();
   const maxOffset = Math.max(0, document.documentElement.scrollHeight - viewportH);
-  stops = sheets.map((sheet) => Math.min(sheet[0].getBoundingClientRect().top, maxOffset));
+  // Document coordinates, not viewport ones: if the page is scrolled while we
+  // measure (the browser restores a scroll position of its own after a reload),
+  // viewport tops shift every stop and the notebook lands between two sheets.
+  stops = sheets.map((sheet) =>
+    Math.min(sheet[0].getBoundingClientRect().top + window.scrollY, maxOffset),
+  );
   if (maxOffset > stops[stops.length - 1] + 1) stops.push(maxOffset);
   sheets.forEach((sheet, i) => {
     const journey = String(quantize(journeyOf(maxOffset - stops[i], maxOffset)));
@@ -142,10 +147,18 @@ export function createPagerEngine(): HomeEngine<number> {
       trees = [...document.querySelectorAll<HTMLElement>('.home-v7__tree, .home-v7__tree-glow')];
       document.documentElement.setAttribute('data-pager', '');
       document.documentElement.style.setProperty('--pager-ms', `${TURN_MS}ms`);
+      // The notebook has no scroll of its own to restore, and Chrome restores
+      // one anyway, late enough to land the first sheet half turned.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       window.scrollTo(0, 0);
       measure();
       goTo(0);
       markNear();
+      window.addEventListener('load', () => {
+        window.scrollTo(0, 0);
+        measure();
+        goTo(index);
+      });
       window.addEventListener('touchstart', onTouchStart, { passive: true });
       window.addEventListener('touchmove', onTouchMove, { passive: false });
       window.addEventListener('touchend', onTouchEnd, { passive: true });
