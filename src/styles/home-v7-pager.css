@@ -363,11 +363,12 @@ html[data-device="touch"] .home-v7__tagline {
   margin-bottom: clamp(2.5rem, 9svh, 4.5rem);
 }
 
-/* The edges of the lockup catch the light, the way the tree's roots do: a soft
-   band crosses the artwork and only lands where the letters have an edge,
-   because the lockup's own outline is the mask. A lit dot running the path was
-   the first try and it strobed: this typeface is built from tiny facets, so the
-   dot stuttered across dozens of them in a fifth of a second. */
+/* Light on the edges of the lockup, always there, never an event: three soft
+   bands drift back and forth at different speeds behind the artwork's own
+   outline, which is the mask. Their overlap never repeats, so the edges keep
+   moving like light on water. A single lit dot running the path came first and
+   strobed: this typeface is built from tiny facets and the dot crossed dozens
+   of them in a fifth of a second. */
 html[data-device="touch"] .home-v7__lockup {
   position: relative;
   display: block;
@@ -377,30 +378,49 @@ html[data-device="touch"] .home-v7__lockup picture {
   display: block;
 }
 
+/* hidden, not visible: anything the bands paint past the artwork would print a
+   straight edge along the top of the box. */
 html[data-device="touch"] .home-v7__lockup-trace {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow: hidden;
   pointer-events: none;
 }
 
 html[data-device="touch"] .home-v7__lockup-trace g {
-  opacity: var(--edge-light, 0.75);
-  filter: drop-shadow(0 0 2px rgb(255 255 255 / 0.5));
+  opacity: var(--edge-light, 0.5);
 }
 
 /* Travel is in the artwork's own units, so each lockup sweeps its own width. */
 html[data-device="touch"] .home-v7__lockup-band {
   --sweep-from: -80px;
-  --sweep-to: 250px;
-  transform: translateX(var(--sweep-from));
-  animation: home-v7-lockup-sweep var(--sweep-ms, 13s) cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --sweep-to: 240px;
+  animation: home-v7-lockup-drift var(--drift-ms, 21s) ease-in-out infinite alternate;
 }
 
 html[data-device="touch"] .home-v7__lockup-trace--wide .home-v7__lockup-band {
-  --sweep-to: 320px;
+  --sweep-to: 310px;
+}
+
+html[data-device="touch"] .home-v7__lockup-band--a {
+  --drift-ms: 19s;
+  opacity: 0.55;
+}
+
+html[data-device="touch"] .home-v7__lockup-band--b {
+  --drift-ms: 27s;
+  animation-direction: alternate-reverse;
+  opacity: 0.4;
+  width: 104px;
+}
+
+html[data-device="touch"] .home-v7__lockup-band--c {
+  --drift-ms: 33s;
+  animation-delay: -8s;
+  opacity: 0.35;
+  width: 46px;
 }
 
 html:not([data-device="touch"]) .home-v7__lockup-trace,
@@ -429,17 +449,12 @@ html[data-pager] .home-v7__hero:not(.home-v7__page--near) .home-v7__lockup-trace
   }
 }
 
-/* One crossing, then a long rest: the light is a breath, not a blink. */
-@keyframes home-v7-lockup-sweep {
-  0% {
+@keyframes home-v7-lockup-drift {
+  from {
     transform: translateX(var(--sweep-from));
   }
 
-  38% {
-    transform: translateX(var(--sweep-to));
-  }
-
-  100% {
+  to {
     transform: translateX(var(--sweep-to));
   }
 }

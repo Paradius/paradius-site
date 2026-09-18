@@ -103,14 +103,16 @@ const traceWide = traceOf(lockupWide);
                   </linearGradient>
                 </defs>
                 <g mask={`url(#lockup-edge-${key})`}>
-                  <rect
-                    class="home-v7__lockup-band"
-                    x="0"
-                    y="-30"
-                    width="70"
-                    height="180"
-                    fill={`url(#lockup-band-${key})`}
-                  />
+                  {['a', 'b', 'c'].map((band) => (
+                    <rect
+                      class={`home-v7__lockup-band home-v7__lockup-band--${band}`}
+                      x="0"
+                      y="-6"
+                      width="70"
+                      height="116"
+                      fill={`url(#lockup-band-${key})`}
+                    />
+                  ))}
                 </g>
               </svg>
             ))}
