@@ -398,17 +398,24 @@ html[data-device="touch"] .home-v7__lockup-trace {
 }
 
 html[data-device="touch"] .home-v7__lockup-trace g {
-  opacity: var(--edge-light, 0.85);
+  opacity: var(--edge-light, 0.6);
   /* The spill onto the black is what makes the light readable: white on white
      reads as nothing. */
-  filter: drop-shadow(0 0 2.5px rgb(255 255 255 / 0.55));
+  filter: drop-shadow(0 0 2px rgb(255 255 255 / 0.4));
 }
 
 /* Travel is in the artwork's own units, so each lockup sweeps its own width. */
+/* Each band travels its own span, at its own pace, with its own breathing, and
+   none of the periods divide another: the pattern takes minutes to come back,
+   so the eye never learns it. */
 html[data-device="touch"] .home-v7__lockup-band {
   --sweep-from: -80px;
   --sweep-to: 240px;
-  animation: home-v7-lockup-drift var(--drift-ms, 16s) ease-in-out infinite alternate;
+  --band-light: 0.7;
+  opacity: var(--band-light);
+  animation:
+    home-v7-lockup-drift var(--drift-ms, 16s) ease-in-out infinite alternate,
+    home-v7-lockup-breathe var(--breathe-ms, 11s) ease-in-out infinite alternate;
 }
 
 html[data-device="touch"] .home-v7__lockup-trace--wide .home-v7__lockup-band {
@@ -417,20 +424,28 @@ html[data-device="touch"] .home-v7__lockup-trace--wide .home-v7__lockup-band {
 
 html[data-device="touch"] .home-v7__lockup-band--a {
   --drift-ms: 13s;
-  opacity: 0.85;
+  --breathe-ms: 7s;
+  --band-light: 0.75;
 }
 
 html[data-device="touch"] .home-v7__lockup-band--b {
   --drift-ms: 18s;
+  --breathe-ms: 11s;
+  --band-light: 0.5;
+  --sweep-from: -140px;
+  --sweep-to: 190px;
   animation-direction: alternate-reverse;
-  opacity: 0.65;
   width: 104px;
 }
 
 html[data-device="touch"] .home-v7__lockup-band--c {
-  --drift-ms: 22s;
-  animation-delay: -8s;
-  opacity: 0.55;
+  --drift-ms: 23s;
+  --breathe-ms: 17s;
+  --band-light: 0.45;
+  --sweep-from: -30px;
+  --sweep-to: 290px;
+  animation-delay: -8s, -3s;
+  animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1), ease-in-out;
   width: 46px;
 }
 
@@ -457,6 +472,16 @@ html[data-pager] .home-v7__hero:not(.home-v7__page--near) .home-v7__lockup-trace
 @media (prefers-reduced-motion: reduce) {
   html[data-device="touch"] .home-v7__lockup-trace {
     display: none;
+  }
+}
+
+@keyframes home-v7-lockup-breathe {
+  from {
+    opacity: calc(var(--band-light) * 0.2);
+  }
+
+  to {
+    opacity: var(--band-light);
   }
 }
 
