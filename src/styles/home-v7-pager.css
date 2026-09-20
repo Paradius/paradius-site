@@ -366,7 +366,7 @@ html[data-device="touch"] .home-v7__row--pair {
   /* Two blocks on one sheet get a tighter scale: at full size the proofs ran
      80px past the bottom of a Pixel page, and a sheet cannot scroll. */
   --page-fs: 0.85;
-  --pair-air: clamp(0.75rem, 2.5svh, 1.75rem);
+  --pair-air: clamp(3rem, 12svh, 7.5rem);
   /* Where the two halves meet in portrait. Above the middle, because the glass
      header makes a group hung off 50% read low. */
   --pair-split: 46svh;
