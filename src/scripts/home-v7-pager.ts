@@ -39,7 +39,9 @@ function setOffset(y: number): void {
 }
 
 function journeyProgress(at: number): number {
-  return stops.length > 1 ? clamp(at / (stops.length - 1), 0, 1) : 0;
+  /* Over the sheets, not the stops: the ledger is an appendix, so the tree
+     finishes its climb on the dawn and holds there while the strip rises. */
+  return sheets.length > 1 ? clamp(at / (sheets.length - 1), 0, 1) : 0;
 }
 
 // Inline transform on the tree layers only: a --pager-p write on the home root
