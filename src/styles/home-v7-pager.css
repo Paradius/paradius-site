@@ -843,9 +843,20 @@ html[data-device="touch"] #assurance {
 
 /* Phone portrait (448x803). */
 @media (orientation: portrait) and (max-width: 699px) {
-  html[data-device="touch"] #philosophy,
   html[data-device="touch"] #thesis {
     --page-lift: 4svh;
+  }
+
+  /* Owner, vuelta 5: the confession sits low, the two cards sit high. --page-lift
+     is bottom padding, so more of it raises; --header-share is how much header
+     the page reserves, so more of it lowers. */
+  html[data-device="touch"] #philosophy {
+    --page-lift: 12svh;
+  }
+
+  html[data-device="touch"] .home-v7__row--cup {
+    --page-lift: 0svh;
+    --header-share: 0.8;
   }
 }
 
