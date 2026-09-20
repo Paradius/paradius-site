@@ -80,6 +80,8 @@
   .ed-stage img { max-width: 100%; max-height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
   .ed-stage canvas { position: absolute; cursor: crosshair; }
   .pen-note { color: var(--muted); font-size: 13px; }
+  .ed-count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: center; }
+  .tool[disabled] { opacity: 0.35; }
   .ed-side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 6px; min-height: 0; }
   .ed-side textarea { height: 100%; min-height: 120px; }
   @media (max-width: 900px), (orientation: portrait) and (max-width: 1200px) {
@@ -93,7 +95,7 @@
 <header class="top">
   <span class="eyebrow">Paradius · home touch · vuelta 5 · experimento horizontal · 19 sep 2026</span>
   <h1>Revisión del cuaderno</h1>
-  <p class="lede"><strong>11 hojas más el pie.</strong> El pie dejó de ser una hoja: el amanecer se queda con su página entera y la franja espera justo bajo el borde — un gesto más al final la sube (la última captura es ese estado, no una hoja). Calibrado contra el teléfono real: 448x803 vertical y 931x372 horizontal, ya sin la barra de traducir que me estaba comiendo 48px. Aire parejo entre los dos bloques en las cuatro hojas de a dos, y todo menos la hoja 1 centrado contra la pantalla entera. En horizontal sigue el experimento de las ramas del tronco. Ojo: la luz del lockup no se ve acá, es animación.</p>
+  <p class="lede"><strong>Nuevo: una vez abierta una captura, se pasa de hoja de costado</strong> — deslizá el dedo, usá las flechas de la barra o el teclado, y recorrés las 12 de ese mismo tamaño sin volver atrás. Lo que escribas se guarda al pasar. Con zoom puesto el dedo vuelve a mover la imagen, no a cambiarla. Contenido: 11 hojas más el pie, que ya no es hoja sino una franja que sube con un gesto más al final (la captura 12 es ese estado). Calibrado contra el teléfono real, 448x803 y 931x372, sin la barra de traducir que me comía 48px. Ojo: la luz del lockup no se ve acá, es animación.</p>
   <p class="status" id="status" data-state="wait"><span class="dot"></span><span id="status-text">Conectando el guardado…</span></p>
 </header>
 
@@ -111,7 +113,10 @@
   <div class="ed">
     <div class="ed-bar">
       <strong id="ed-title"></strong>
-      <span class="pen-note">El lápiz dibuja · el dedo mueve y hace zoom</span>
+      <span class="pen-note">El lápiz dibuja · el dedo pasa de hoja de costado, y con zoom mueve</span>
+      <button class="tool" id="ed-prev" type="button" aria-label="Hoja anterior">&lsaquo;</button>
+      <span class="ed-count" id="ed-count"></span>
+      <button class="tool" id="ed-next" type="button" aria-label="Hoja siguiente">&rsaquo;</button>
       <button class="tool" id="ed-fit" type="button">Encuadrar</button>
       <button class="tool" id="ed-undo" type="button">Deshacer</button>
       <button class="tool" id="ed-clear" type="button">Borrar marcas</button>
@@ -235,6 +240,9 @@
     deviceAreas.set('device-' + d.id, area);
   }
 
+  // One running order per device: the editor walks this, so a swipe sideways
+  // stays inside the size being reviewed.
+  const runs = new Map(DATA.devices.map((d) => [d.id, []]));
   const stagesEl = document.getElementById('stages');
   DATA.stages.forEach((stage, i) => {
     const art = document.createElement('article');
@@ -277,7 +285,10 @@
       hint.className = 'hint';
       hint.textContent = 'Marcar';
       thumb.append(img, canvas, hint);
-      thumb.addEventListener('click', () => openEditor(id, src, 'Hoja ' + (i + 1) + ' · ' + d.name));
+      const run = runs.get(d.id);
+      const at = run.length;
+      run.push({ id, src, title: 'Hoja ' + (i + 1) + ' · ' + d.name });
+      thumb.addEventListener('click', () => openEditor(d.id, at));
       img.addEventListener('load', () => refreshCell(id));
       const area = document.createElement('textarea');
       area.id = 'text-' + id;
@@ -310,7 +321,12 @@
   const edStage = document.getElementById('ed-stage');
   const edText = document.getElementById('ed-text');
   const edTitle = document.getElementById('ed-title');
+  const edPrev = document.getElementById('ed-prev');
+  const edNext = document.getElementById('ed-next');
+  const edCount = document.getElementById('ed-count');
   let edId = null;
+  let edRun = null;
+  let edAt = 0;
   let edBox = null;
   let current = null;
 
@@ -354,8 +370,14 @@
     return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, dist: Math.hypot(a.x - b.x, a.y - b.y) };
   }
 
+  // Sideways swipe steps through the run, but only while the page is not zoomed
+  // in: once it is, the same drag is the only way to reach the rest of it.
+  const SWIPE_PX = 60;
+  let swipe = null;
+
   edWrap.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'pen' || touches.size >= 2) return;
+    if (!touches.size && view.scale <= 1.01) swipe = { x: e.clientX, y: e.clientY, dx: 0, dy: 0 };
     touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
     gesture = { ...gestureState(), scale: view.scale, x0: view.x, y0: view.y };
   });
@@ -364,6 +386,10 @@
     if (!touches.has(e.pointerId) || !gesture) return;
     e.preventDefault();
     touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (swipe) {
+      if (touches.size > 1) swipe = null;
+      else { swipe.dx = e.clientX - swipe.x; swipe.dy = e.clientY - swipe.y; }
+    }
     const now = gestureState();
     if (touches.size === 2 && gesture.dist > 0) {
       const r = edWrap.getBoundingClientRect();
@@ -382,29 +408,68 @@
   const dropTouch = (e) => {
     if (!touches.delete(e.pointerId)) return;
     gesture = touches.size ? { ...gestureState(), scale: view.scale, x0: view.x, y0: view.y } : null;
+    if (swipe && !touches.size) {
+      const { dx, dy } = swipe;
+      swipe = null;
+      if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+    }
   };
   edWrap.addEventListener('pointerup', dropTouch);
   edWrap.addEventListener('pointercancel', dropTouch);
   document.getElementById('ed-fit').addEventListener('click', fitView);
+  edPrev.addEventListener('click', () => step(-1));
+  edNext.addEventListener('click', () => step(1));
+  editor.addEventListener('keydown', (e) => {
+    if (e.target === edText || !edId) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
 
-  function openEditor(id, src, title) {
-    edId = id;
-    edTitle.textContent = title;
-    edText.value = getCell(id).text;
+  function show(at) {
+    const run = runs.get(edRun);
+    const shot = run[at];
+    edAt = at;
+    edId = shot.id;
+    edTitle.textContent = shot.title;
+    edText.value = getCell(shot.id).text;
+    edCount.textContent = at + 1 + ' / ' + run.length;
+    edPrev.disabled = at === 0;
+    edNext.disabled = at === run.length - 1;
     edImg.onload = () => { fitView(); layoutEditor(); };
-    edImg.src = src;
+    edImg.src = shot.src;
     fitView();
+  }
+
+  // Keep what was typed before the image swaps: the textarea is reused.
+  function commit() {
+    if (!edId) return;
+    const id = edId;
+    cells.set(id, { ...getCell(id), text: edText.value });
+    schedule(id, 0);
+    refreshCell(id);
+  }
+
+  function step(delta) {
+    const run = runs.get(edRun);
+    const next = edAt + delta;
+    if (!run || next < 0 || next >= run.length) return;
+    commit();
+    show(next);
+    requestAnimationFrame(() => { fitView(); layoutEditor(); });
+  }
+
+  function openEditor(deviceId, at) {
+    edRun = deviceId;
+    show(at);
     editor.showModal();
     requestAnimationFrame(() => { fitView(); layoutEditor(); });
   }
 
   function closeEditor() {
     if (!edId) return;
-    const id = edId;
-    cells.set(id, { ...getCell(id), text: edText.value });
-    schedule(id, 0);
-    refreshCell(id);
+    commit();
     edId = null;
+    edRun = null;
     if (editor.open) editor.close();
   }
 
