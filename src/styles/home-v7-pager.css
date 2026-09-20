@@ -345,6 +345,14 @@ html[data-device="touch"] .home-v7__row {
   }
 }
 
+/* Stacked, the two forces need air between them or they read as one block
+   (owner, vuelta 5: "espaciado vertical donde quepa claramente"). */
+@media (orientation: portrait) {
+  html[data-device="touch"] .home-v7__row--split .home-v7__spine {
+    row-gap: clamp(2rem, 7svh, 5rem);
+  }
+}
+
 html[data-device="touch"] .home-v7__row,
 html[data-device="touch"] .home-v7__hero {
   padding-bottom: calc(var(--page-edge) + var(--page-lift));

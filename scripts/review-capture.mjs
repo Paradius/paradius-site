@@ -14,6 +14,8 @@ mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: '/usr/bin/chromium' });
 for (const name of DEVICES) {
   const { context, page } = await openConfig(browser, name);
+  // The dev toolbar floats over the bottom of every sheet and is not the site.
+  await page.addStyleTag({ content: 'astro-dev-toolbar { display: none !important; }' });
   const engine = await page.evaluate(() => document.documentElement.getAttribute('data-home-engine'));
   const sheets = await page.evaluate(() => {
     const grouped = [];

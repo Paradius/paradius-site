@@ -1,0 +1,104 @@
+---
+import { SITE_URL, type PageSeo } from '../lib/seo';
+
+const seo: PageSeo = {
+  title: 'Viewport | Paradius',
+  description: 'Viewport readout for device calibration.',
+  canonical: `${SITE_URL}/vp/`,
+  robots: 'noindex, nofollow',
+  webPageName: 'Viewport',
+  webPageDescription: 'Viewport readout.',
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="robots" content={seo.robots} />
+    <title>{seo.title}</title>
+  </head>
+  <body>
+    <main id="out">measuring…</main>
+    <div id="floor">bottom edge</div>
+
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #07070a;
+        color: #ecebe8;
+        font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      #out {
+        padding: 1rem 1rem 4rem;
+        display: grid;
+        gap: 0.35rem;
+      }
+      #out b {
+        color: #7fd4a2;
+        font-weight: 700;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid #23232a;
+        padding-block: 0.3rem;
+      }
+      /* Anchored to the true bottom: whatever covers this strip on the device is
+         the bar the layout has to clear. */
+      #floor {
+        position: fixed;
+        inset: auto 0 0 0;
+        height: 2.5rem;
+        background: repeating-linear-gradient(45deg, #ff2d55 0 10px, #7a0020 10px 20px);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+    </style>
+
+    <script is:inline>
+      const out = document.getElementById('out');
+      const probe = (value) => {
+        const el = document.createElement('div');
+        el.style.cssText = `position:absolute;visibility:hidden;height:${value}`;
+        document.body.append(el);
+        const h = el.getBoundingClientRect().height;
+        el.remove();
+        return Math.round(h * 100) / 100;
+      };
+      const render = () => {
+        const vv = window.visualViewport;
+        const rows = [
+          ['innerWidth x innerHeight', `${window.innerWidth} x ${window.innerHeight}`],
+          ['devicePixelRatio', String(window.devicePixelRatio)],
+          ['screen', `${screen.width} x ${screen.height}`],
+          ['100svh', `${probe('100svh')}px`],
+          ['100lvh', `${probe('100lvh')}px`],
+          ['100dvh', `${probe('100dvh')}px`],
+          ['safe-area top', `${probe('env(safe-area-inset-top, 0px)')}px`],
+          ['safe-area bottom', `${probe('env(safe-area-inset-bottom, 0px)')}px`],
+          ['visualViewport h', vv ? `${Math.round(vv.height)}px` : 'n/a'],
+          ['visualViewport offsetTop', vv ? `${Math.round(vv.offsetTop)}px` : 'n/a'],
+          ['orientation', window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'],
+        ];
+        out.innerHTML = rows
+          .map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`)
+          .join('');
+      };
+      render();
+      window.addEventListener('resize', render);
+      window.visualViewport?.addEventListener('resize', render);
+      window.addEventListener('orientationchange', () => setTimeout(render, 300));
+    </script>
+  </body>
+</html>
