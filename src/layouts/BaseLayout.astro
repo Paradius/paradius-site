@@ -47,6 +47,9 @@ const deviceClassScript = `document.documentElement.setAttribute('data-device',(
     <meta name="robots" content={meta.robots} />
     <meta name="author" content={meta.author} />
     <meta name="keywords" content={meta.keywords} />
+    <!-- The copy is the product: Chrome offers to translate an English page for
+         a phone set to another language, and its bar lands on the lockup. -->
+    <meta name="google" content="notranslate" />
     <link rel="canonical" href={meta.canonical} />
 
     <!-- Geo targeting -->
