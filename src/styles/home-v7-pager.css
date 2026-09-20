@@ -374,8 +374,29 @@ html[data-device="touch"] .home-v7__row--voice .home-v7__peak-lead:last-child {
    blocks has to read smaller than the page's own top and bottom margin or the
    pair stops reading as one group. */
 @media (orientation: portrait) {
+  /* Power and Will hang off the same joint as the fused sheets instead of
+     landing wherever their own height puts them: one --pair-split moves the
+     four of them together. */
+  html[data-device="touch"] .home-v7__row--split.home-v7__row {
+    justify-content: flex-start;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   html[data-device="touch"] .home-v7__row--split .home-v7__spine {
-    row-gap: clamp(1rem, 3svh, 2.5rem);
+    grid-template-rows: var(--pair-split) auto;
+    row-gap: 0;
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--left {
+    align-self: end;
+    margin-top: 0;
+    padding-bottom: calc(var(--pair-air) / 2);
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--right {
+    align-self: start;
+    padding-top: calc(var(--pair-air) / 2);
   }
 }
 
@@ -388,14 +409,19 @@ html[data-device="touch"] .home-v7__hero {
    breaks across a turn. The first block hangs from --pair-split, the second
    starts there, so the two read as one group; --pair-air is the air between
    them. The sheet still adds to 100svh: any less and the next page bleeds in. */
-html[data-device="touch"] .home-v7__row--pair {
-  /* Two blocks on one sheet get a tighter scale: at full size the proofs ran
-     80px past the bottom of a Pixel page, and a sheet cannot scroll. */
-  --page-fs: 0.85;
+/* The joint and the air of the two-block mode live on every sheet, because
+   Power and Will hang off the same joint without being a --pair. */
+html[data-device="touch"] .home-v7__row {
   --pair-air: clamp(2rem, 8svh, 5rem);
   /* Where the two halves meet in portrait. Above the middle, because the glass
      header makes a group hung off 50% read low. */
   --pair-split: 46svh;
+}
+
+html[data-device="touch"] .home-v7__row--pair {
+  /* Two blocks on one sheet get a tighter scale: at full size the proofs ran
+     80px past the bottom of a Pixel page, and a sheet cannot scroll. */
+  --page-fs: 0.85;
   /* Clears the header like every other page: in landscape a page is 412px tall
      and a plain 8svh top pad parks the first line under the logo. */
   --pair-edge: calc(var(--site-header-height) * var(--header-share, 1) + var(--page-edge));

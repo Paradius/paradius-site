@@ -1,5 +1,6 @@
 ---
 import { SITE_URL, type PageSeo } from '../lib/seo';
+import { classifyDevice } from '../scripts/device-class';
 
 const seo: PageSeo = {
   title: 'Viewport | Paradius',
@@ -9,6 +10,9 @@ const seo: PageSeo = {
   webPageName: 'Viewport',
   webPageDescription: 'Viewport readout.',
 };
+
+// The same classifier the site runs, so the readout says what the home would do.
+const deviceClassScript = `window.__classify = ${classifyDevice.toString()};`;
 ---
 
 <html lang="en">
@@ -19,6 +23,7 @@ const seo: PageSeo = {
     <!-- Same as the site: without it Chrome's translate bar eats 48px and the
          readout measures a viewport the real pages never have. -->
     <meta name="google" content="notranslate" />
+    <script is:inline set:html={deviceClassScript} />
     <title>{seo.title}</title>
   </head>
   <body>
@@ -49,6 +54,8 @@ const seo: PageSeo = {
         display: flex;
         justify-content: space-between;
         gap: 1rem;
+        flex-wrap: wrap;
+        overflow-wrap: anywhere;
         border-bottom: 1px solid #23232a;
         padding-block: 0.3rem;
       }
@@ -93,6 +100,15 @@ const seo: PageSeo = {
           ['visualViewport h', vv ? `${Math.round(vv.height)}px` : 'n/a'],
           ['visualViewport offsetTop', vv ? `${Math.round(vv.offsetTop)}px` : 'n/a'],
           ['orientation', window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'],
+          ['clasifica como', window.__classify({
+            platform: navigator.userAgentData && navigator.userAgentData.platform,
+            userAgent: navigator.userAgent,
+            maxTouchPoints: navigator.maxTouchPoints || 0,
+          })],
+          ['uaData.platform', (navigator.userAgentData && navigator.userAgentData.platform) || '(no expone)'],
+          ['uaData.mobile', navigator.userAgentData ? String(navigator.userAgentData.mobile) : '(no expone)'],
+          ['maxTouchPoints', String(navigator.maxTouchPoints || 0)],
+          ['userAgent', navigator.userAgent],
         ];
         out.innerHTML = rows
           .map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`)
