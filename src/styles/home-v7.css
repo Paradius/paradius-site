@@ -299,6 +299,10 @@ body:has(.home-v7) .site-header {
   --row-air-top: clamp(2.5rem, 8vh, 6rem);
 }
 
+.home-v7__row--split {
+  --row-air-top: clamp(9rem, 26vh, 18rem);
+}
+
 .home-v7__row--cup {
   --row-air-bottom: clamp(8rem, 18vh, 14rem);
 }
@@ -313,6 +317,39 @@ body:has(.home-v7) .site-header {
    opposite-side blocks stagger closely instead of stacking with air. */
 .home-v7__row--tuck {
   --row-air-top: clamp(-9rem, -12vh, -5rem);
+}
+
+/* Per sheet, where the modifiers cannot say it. Ids, so the value outranks
+   every modifier above exactly as the inline style it replaces did. Nothing in
+   the markup may set this family. */
+#philosophy {
+  --row-air-top: clamp(-3.6rem, -6.1vh, -2.2rem);
+  --row-air-bottom: clamp(2.5rem, 7vh, 5rem);
+}
+
+#thesis {
+  --row-air-top: clamp(2.5rem, 7vh, 5rem);
+}
+
+#engine {
+  --row-air-top: clamp(9rem, 25vh, 17rem);
+}
+
+#engine-mentor {
+  --row-air-top: clamp(-11rem, -16vh, -7rem);
+}
+
+#engine-close {
+  --row-air-top: clamp(6rem, 15vh, 10rem);
+}
+
+#proofs {
+  --row-air-top: clamp(9rem, 24vh, 16rem);
+}
+
+#assurance {
+  --row-air-top: clamp(3.5rem, 9vh, 6rem);
+  --row-air-bottom: clamp(7.5rem, 23vh, 15rem);
 }
 
 /* == 04 HERO ==== landing: tagline, actions, CTA skeleton + polarity vars */
