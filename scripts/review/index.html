@@ -1,0 +1,509 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Revisión del cuaderno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Zilla+Slab:wght@300;400;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #070707;
+    --panel: #111112;
+    --line: #262629;
+    --ink: #ecebe8;
+    --muted: #8d8c89;
+    --accent: #d6cebc;
+    --pen: #ff4d5e;
+    --saved: #9fc7a4;
+    --warn: #e0a66b;
+    --voice: "Zilla Slab", Georgia, serif;
+    --tech: "Space Grotesk", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--ground); color: var(--ink); }
+  body { font-family: var(--tech); font-size: 15px; line-height: 1.5; margin: 0; padding-inline: clamp(16px, 3vw, 40px); padding-block: 32px 80px; }
+  button { font: inherit; color: inherit; }
+
+  header.top { max-width: 1400px; margin: 0 auto 28px; display: grid; gap: 10px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-family: var(--voice); font-weight: 300; font-size: clamp(30px, 4vw, 48px); line-height: 1.1; margin: 0; text-wrap: balance; }
+  .lede { color: var(--muted); max-width: 72ch; margin: 0; }
+  .status { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; margin: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .status[data-state="ok"] .dot { background: var(--saved); }
+  .status[data-state="off"] .dot { background: var(--warn); }
+
+  section { max-width: 1400px; margin: 0 auto; }
+  h2 { font-family: var(--voice); font-weight: 400; font-size: 24px; margin: 40px 0 14px; }
+  .label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .devices { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .device-note { display: grid; gap: 6px; }
+  .device-note small { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  textarea {
+    width: 100%; min-height: 80px; resize: vertical; font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px;
+  }
+  textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  textarea[data-dirty="true"] { border-color: var(--warn); }
+
+  .stage { border-top: 1px solid var(--line); padding-block: 26px; display: grid; gap: 16px; }
+  .stage-head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; }
+  .stage-index { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; letter-spacing: 0.08em; }
+  .stage-title { font-family: var(--voice); font-weight: 400; font-size: 20px; margin: 0; max-width: 70ch; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; align-items: start; }
+  .cell { display: grid; gap: 8px; }
+  .cell-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .cell-top small { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .marks { color: var(--pen); }
+  .thumb { position: relative; padding: 0; border: 1px solid var(--line); background: #000; border-radius: 4px; cursor: pointer; display: block; width: 100%; }
+  .thumb img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: contain; border-radius: 3px; }
+  .thumb canvas { position: absolute; pointer-events: none; }
+  .thumb .hint { position: absolute; right: 6px; bottom: 6px; font-size: 11px; background: rgb(0 0 0 / 0.7); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; color: var(--ink); }
+
+  /* fixed inset, not 100dvh: in an in-app browser dvh overshoots the visible area
+     and the bottom of the editor lands off screen. */
+  dialog.editor { border: 0; padding: 0; margin: 0; position: fixed; inset: 0; width: auto; height: auto; max-width: none; max-height: none; background: var(--ground); color: var(--ink); }
+  dialog.editor::backdrop { background: #000; }
+  .ed { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); padding: max(12px, env(safe-area-inset-top, 0px)) 14px max(12px, env(safe-area-inset-bottom, 0px)); gap: 10px; }
+  .ed-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .ed-bar strong { font-family: var(--voice); font-weight: 400; font-size: 18px; margin-right: auto; }
+  .tool { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 8px 14px; cursor: pointer; min-height: 44px; }
+  .tool[aria-pressed="true"] { border-color: var(--pen); color: var(--pen); }
+  .tool.primary { background: var(--accent); color: #111; border-color: var(--accent); }
+  .ed-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 320px); gap: 14px; min-height: 0; }
+  /* touch-action none everywhere here: fingers pan and pinch through our own
+     handlers, and Android would otherwise read a stylus drag as a scroll. */
+  .ed-canvas-wrap { position: relative; min-height: 0; overflow: hidden; touch-action: none; }
+  /* flex, not grid: an auto-sized grid row grows to the image's natural height, so
+     max-height: 100% resolved against the image itself and it overflowed the frame. */
+  .ed-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform-origin: 0 0; will-change: transform; }
+  .ed-stage img { max-width: 100%; max-height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+  .ed-stage canvas { position: absolute; cursor: crosshair; }
+  .pen-note { color: var(--muted); font-size: 13px; }
+  .ed-side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 6px; min-height: 0; }
+  .ed-side textarea { height: 100%; min-height: 120px; }
+  @media (max-width: 900px), (orientation: portrait) and (max-width: 1200px) {
+    .ed-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+    .ed-side textarea { min-height: 0; height: 4.5em; }
+    .ed-bar strong { font-size: 16px; }
+    .pen-note { display: none; }
+  }
+</style>
+
+<header class="top">
+  <span class="eyebrow">Paradius · home touch · vuelta 5 · 19 sep 2026</span>
+  <h1>Revisión del cuaderno</h1>
+  <p class="lede">Las 12 hojas recapturadas hoy a los tamaños reales de tus dispositivos (Pixel 448x803 vertical y 931x372 horizontal, Tab 753x1036 y 1204x585), ya con lo último aplicado: los ajustes hoja por hoja que marcaste en la vuelta 4 (aire entre las dos voces, tamaños por hoja y por dispositivo, hero con más caída, hojas 6 y 7 centradas, botones al centro de su tarjeta, pie al fondo) y la raya en L en espejo para POWER/WILL y los dos bloques. Comentario propio por captura, y lápiz para marcar encima (el dedo mueve y hace zoom, así podés apoyar la mano). Ojo: la luz que recorre los bordes del lockup no se ve acá, es animación.</p>
+  <p class="status" id="status" data-state="wait"><span class="dot"></span><span id="status-text">Conectando el guardado…</span></p>
+</header>
+
+<section aria-labelledby="devices-title">
+  <h2 id="devices-title">Notas generales por dispositivo</h2>
+  <div class="devices" id="devices"></div>
+</section>
+
+<section aria-labelledby="stages-title">
+  <h2 id="stages-title">Hojas</h2>
+  <div id="stages"></div>
+</section>
+
+<dialog class="editor" id="editor" aria-labelledby="ed-title">
+  <div class="ed">
+    <div class="ed-bar">
+      <strong id="ed-title"></strong>
+      <span class="pen-note">El lápiz dibuja · el dedo mueve y hace zoom</span>
+      <button class="tool" id="ed-fit" type="button">Encuadrar</button>
+      <button class="tool" id="ed-undo" type="button">Deshacer</button>
+      <button class="tool" id="ed-clear" type="button">Borrar marcas</button>
+      <button class="tool primary" id="ed-close" type="button">Listo</button>
+    </div>
+    <div class="ed-body">
+      <div class="ed-canvas-wrap" id="ed-wrap">
+        <div class="ed-stage" id="ed-stage">
+          <img id="ed-img" alt="">
+          <canvas id="ed-canvas"></canvas>
+        </div>
+      </div>
+      <div class="ed-side">
+        <label class="label" for="ed-text">Comentario de esta captura</label>
+        <textarea id="ed-text" placeholder="Qué ajustar acá…"></textarea>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script id="data" type="application/json">{"devices":[{"id":"pixel-portrait","name":"Pixel 9 · vertical","w":448,"h":803,"shots":["shots5/pixel-portrait-01.jpg","shots5/pixel-portrait-02.jpg","shots5/pixel-portrait-03.jpg","shots5/pixel-portrait-04.jpg","shots5/pixel-portrait-05.jpg","shots5/pixel-portrait-06.jpg","shots5/pixel-portrait-07.jpg","shots5/pixel-portrait-08.jpg","shots5/pixel-portrait-09.jpg","shots5/pixel-portrait-10.jpg","shots5/pixel-portrait-11.jpg","shots5/pixel-portrait-12.jpg"]},{"id":"pixel-landscape","name":"Pixel 9 · horizontal","w":931,"h":372,"shots":["shots5/pixel-landscape-01.jpg","shots5/pixel-landscape-02.jpg","shots5/pixel-landscape-03.jpg","shots5/pixel-landscape-04.jpg","shots5/pixel-landscape-05.jpg","shots5/pixel-landscape-06.jpg","shots5/pixel-landscape-07.jpg","shots5/pixel-landscape-08.jpg","shots5/pixel-landscape-09.jpg","shots5/pixel-landscape-10.jpg","shots5/pixel-landscape-11.jpg","shots5/pixel-landscape-12.jpg"]},{"id":"tab-portrait","name":"Tab S7 · vertical","w":753,"h":1036,"shots":["shots5/tab-portrait-01.jpg","shots5/tab-portrait-02.jpg","shots5/tab-portrait-03.jpg","shots5/tab-portrait-04.jpg","shots5/tab-portrait-05.jpg","shots5/tab-portrait-06.jpg","shots5/tab-portrait-07.jpg","shots5/tab-portrait-08.jpg","shots5/tab-portrait-09.jpg","shots5/tab-portrait-10.jpg","shots5/tab-portrait-11.jpg","shots5/tab-portrait-12.jpg"]},{"id":"tab-landscape","name":"Tab S7 · horizontal","w":1204,"h":585,"shots":["shots5/tab-landscape-01.jpg","shots5/tab-landscape-02.jpg","shots5/tab-landscape-03.jpg","shots5/tab-landscape-04.jpg","shots5/tab-landscape-05.jpg","shots5/tab-landscape-06.jpg","shots5/tab-landscape-07.jpg","shots5/tab-landscape-08.jpg","shots5/tab-landscape-09.jpg","shots5/tab-landscape-10.jpg","shots5/tab-landscape-11.jpg","shots5/tab-landscape-12.jpg"]}],"stages":[{"id":"r5p01","label":"Hero — el lockup y las dos llamadas"},{"id":"r5p02","label":"La confesión — «Theirs is the glory. Ours is the road.»"},{"id":"r5p03","label":"La tesis — las dos fuerzas"},{"id":"r5p04","label":"POWER / WILL"},{"id":"r5p05","label":"Cierre de la tesis — «We seal them together in a creational force.»"},{"id":"r5p06","label":"El hub + el mentor (hoja fusionada)"},{"id":"r5p07","label":"Remoto + estándares (hoja fusionada)"},{"id":"r5p08","label":"«What we forge here, your systems inherit.»"},{"id":"r5p09","label":"Warehouse + Banking (hoja fusionada)"},{"id":"r5p10","label":"El registro y el trabajo (las dos tarjetas)"},{"id":"r5p11","label":"El amanecer"},{"id":"r5p12","label":"El pie de página"}]}</script>
+<script>
+(() => {
+  const DATA = JSON.parse(document.getElementById('data').textContent);
+  const PEN_WIDTH = 0.005;
+  const statusEl = document.getElementById('status');
+  const statusText = document.getElementById('status-text');
+  const setStatus = (state, text) => { statusEl.dataset.state = state; statusText.textContent = text; };
+
+  // cellId -> { text, strokes: number[][] (flat normalized x,y pairs) }
+  const cells = new Map();
+  const cellViews = new Map();
+  const deviceAreas = new Map();
+  let store = null;
+
+  const cellId = (stage, device) => stage.id + '--' + device.id;
+  const getCell = (id) => cells.get(id) || { text: '', strokes: [] };
+
+  function drawStrokes(canvas, strokes, box) {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(box.width * dpr);
+    canvas.height = Math.round(box.height * dpr);
+    canvas.style.width = box.width + 'px';
+    canvas.style.height = box.height + 'px';
+    canvas.style.left = box.left + 'px';
+    canvas.style.top = box.top + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--pen').trim() || '#ff4d5e';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(2, PEN_WIDTH * canvas.width);
+    for (const s of strokes) {
+      if (s.length < 2) continue;
+      ctx.beginPath();
+      ctx.moveTo(s[0] * canvas.width, s[1] * canvas.height);
+      if (s.length === 2) ctx.lineTo(s[0] * canvas.width + 0.1, s[1] * canvas.height);
+      for (let k = 2; k < s.length; k += 2) ctx.lineTo(s[k] * canvas.width, s[k + 1] * canvas.height);
+      ctx.stroke();
+    }
+  }
+
+  // Layout box, not the painted rect: the editor stage carries a zoom transform
+  // and getBoundingClientRect would scale the canvas backing store with it.
+  function imageBox(img) {
+    const nw = img.naturalWidth || 1, nh = img.naturalHeight || 1;
+    const scale = Math.min(img.offsetWidth / nw, img.offsetHeight / nh) || 1;
+    const w = nw * scale, h = nh * scale;
+    return { left: img.offsetLeft + (img.offsetWidth - w) / 2, top: img.offsetTop + (img.offsetHeight - h) / 2, width: w, height: h };
+  }
+
+  function refreshCell(id) {
+    const view = cellViews.get(id);
+    if (!view) return;
+    const cell = getCell(id);
+    if (view.area !== document.activeElement) view.area.value = cell.text;
+    const n = cell.strokes.length;
+    view.marks.textContent = n ? n + (n === 1 ? ' marca' : ' marcas') : '';
+    if (view.img.complete && view.img.naturalWidth) drawStrokes(view.canvas, cell.strokes, imageBox(view.img));
+  }
+
+  const timers = new Map();
+  const saving = new Map();
+  async function persist(id) {
+    if (!store) return;
+    if (saving.get(id)) { saving.set(id, 'again'); return; }
+    saving.set(id, true);
+    const cell = getCell(id);
+    try {
+      await store.cells.doc(id).set({ text: cell.text, strokes: cell.strokes.map((s) => ({ p: s })), updatedAt: new Date().toISOString() });
+      const view = cellViews.get(id);
+      if (view) view.area.dataset.dirty = 'false';
+      setStatus('ok', 'Guardado automático activo');
+    } catch (e) {
+      setStatus('off', 'No se guardó una captura (' + (e && e.code || 'error') + '). Seguí trabajando y se reintenta.');
+    }
+    const again = saving.get(id) === 'again';
+    saving.delete(id);
+    if (again) persist(id);
+  }
+  function schedule(id, ms) {
+    clearTimeout(timers.get(id));
+    timers.set(id, setTimeout(() => persist(id), ms));
+  }
+
+  const devicesEl = document.getElementById('devices');
+  for (const d of DATA.devices) {
+    const wrap = document.createElement('div');
+    wrap.className = 'device-note';
+    const label = document.createElement('label');
+    label.className = 'label';
+    label.htmlFor = 'device-' + d.id;
+    label.textContent = d.name;
+    const small = document.createElement('small');
+    small.textContent = d.w + ' × ' + d.h + ' px CSS';
+    const area = document.createElement('textarea');
+    area.id = 'device-' + d.id;
+    area.placeholder = 'Algo que pase en todas las hojas de este dispositivo…';
+    wrap.append(label, small, area);
+    devicesEl.append(wrap);
+    deviceAreas.set('device-' + d.id, area);
+  }
+
+  const stagesEl = document.getElementById('stages');
+  DATA.stages.forEach((stage, i) => {
+    const art = document.createElement('article');
+    art.className = 'stage';
+    const head = document.createElement('div');
+    head.className = 'stage-head';
+    const idx = document.createElement('span');
+    idx.className = 'stage-index';
+    idx.textContent = 'Hoja ' + (i + 1) + ' de ' + DATA.stages.length;
+    const title = document.createElement('h3');
+    title.className = 'stage-title';
+    title.textContent = stage.label;
+    head.append(idx, title);
+    const grid = document.createElement('div');
+    grid.className = 'cells';
+    for (const d of DATA.devices) {
+      const src = d.shots[i];
+      if (!src) continue;
+      const id = cellId(stage, d);
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      const top = document.createElement('div');
+      top.className = 'cell-top';
+      const name = document.createElement('span');
+      name.className = 'label';
+      name.textContent = d.name;
+      const marks = document.createElement('small');
+      marks.className = 'marks';
+      top.append(name, marks);
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = 'thumb';
+      thumb.setAttribute('aria-label', 'Abrir para marcar: hoja ' + (i + 1) + ', ' + d.name);
+      const img = document.createElement('img');
+      img.src = src;
+      img.loading = 'lazy';
+      img.alt = 'Hoja ' + (i + 1) + ', ' + d.name;
+      const canvas = document.createElement('canvas');
+      const hint = document.createElement('span');
+      hint.className = 'hint';
+      hint.textContent = 'Marcar';
+      thumb.append(img, canvas, hint);
+      thumb.addEventListener('click', () => openEditor(id, src, 'Hoja ' + (i + 1) + ' · ' + d.name));
+      img.addEventListener('load', () => refreshCell(id));
+      const area = document.createElement('textarea');
+      area.id = 'text-' + id;
+      area.setAttribute('aria-label', 'Comentario: hoja ' + (i + 1) + ', ' + d.name);
+      area.placeholder = 'Comentario para este tamaño…';
+      area.addEventListener('input', () => {
+        cells.set(id, { ...getCell(id), text: area.value });
+        area.dataset.dirty = 'true';
+        schedule(id, 900);
+      });
+      area.addEventListener('blur', () => schedule(id, 0));
+      cell.append(top, thumb, area);
+      grid.append(cell);
+      cellViews.set(id, { thumb, img, canvas, area, marks });
+    }
+    art.append(head, grid);
+    stagesEl.append(art);
+  });
+
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { cellViews.forEach((_, id) => refreshCell(id)); if (editor.open) layoutEditor(); }, 150);
+  });
+
+  const editor = document.getElementById('editor');
+  const edImg = document.getElementById('ed-img');
+  const edCanvas = document.getElementById('ed-canvas');
+  const edWrap = document.getElementById('ed-wrap');
+  const edStage = document.getElementById('ed-stage');
+  const edText = document.getElementById('ed-text');
+  const edTitle = document.getElementById('ed-title');
+  let edId = null;
+  let edBox = null;
+  let current = null;
+
+  function layoutEditor() {
+    if (!edId || !edImg.naturalWidth) return;
+    edBox = imageBox(edImg);
+    drawStrokes(edCanvas, getCell(edId).strokes, edBox);
+  }
+
+  const view = { scale: 1, x: 0, y: 0 };
+  // Below 1 the whole page fits with room around it, which is how the owner reads a page.
+  const MIN_SCALE = 0.4, MAX_SCALE = 6;
+
+  function applyView() {
+    view.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, view.scale));
+    const r = edWrap.getBoundingClientRect();
+    if (view.scale <= 1) {
+      // Zoomed out: keep the page centred in the frame instead of drifting away.
+      view.x = (r.width * (1 - view.scale)) / 2;
+      view.y = (r.height * (1 - view.scale)) / 2;
+    } else {
+      view.x = Math.min(0, Math.max(-r.width * (view.scale - 1), view.x));
+      view.y = Math.min(0, Math.max(-r.height * (view.scale - 1), view.y));
+    }
+    edStage.style.transform = 'translate(' + view.x + 'px, ' + view.y + 'px) scale(' + view.scale + ')';
+  }
+
+  function fitView() {
+    view.scale = 1; view.x = 0; view.y = 0;
+    applyView();
+  }
+
+  // Fingers pan and pinch; the stylus is handled by the canvas listeners below.
+  const touches = new Map();
+  let gesture = null;
+
+  function gestureState() {
+    const pts = [...touches.values()];
+    if (pts.length === 1) return { x: pts[0].x, y: pts[0].y, dist: 0 };
+    const [a, b] = pts;
+    return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, dist: Math.hypot(a.x - b.x, a.y - b.y) };
+  }
+
+  edWrap.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'pen' || touches.size >= 2) return;
+    touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    gesture = { ...gestureState(), scale: view.scale, x0: view.x, y0: view.y };
+  });
+
+  edWrap.addEventListener('pointermove', (e) => {
+    if (!touches.has(e.pointerId) || !gesture) return;
+    e.preventDefault();
+    touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const now = gestureState();
+    if (touches.size === 2 && gesture.dist > 0) {
+      const r = edWrap.getBoundingClientRect();
+      const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, gesture.scale * (now.dist / gesture.dist)));
+      const ax = gesture.x - r.left, ay = gesture.y - r.top;
+      view.scale = scale;
+      view.x = now.x - r.left - ((ax - gesture.x0) / gesture.scale) * scale;
+      view.y = now.y - r.top - ((ay - gesture.y0) / gesture.scale) * scale;
+    } else {
+      view.x = gesture.x0 + (now.x - gesture.x);
+      view.y = gesture.y0 + (now.y - gesture.y);
+    }
+    applyView();
+  });
+
+  const dropTouch = (e) => {
+    if (!touches.delete(e.pointerId)) return;
+    gesture = touches.size ? { ...gestureState(), scale: view.scale, x0: view.x, y0: view.y } : null;
+  };
+  edWrap.addEventListener('pointerup', dropTouch);
+  edWrap.addEventListener('pointercancel', dropTouch);
+  document.getElementById('ed-fit').addEventListener('click', fitView);
+
+  function openEditor(id, src, title) {
+    edId = id;
+    edTitle.textContent = title;
+    edText.value = getCell(id).text;
+    edImg.onload = () => { fitView(); layoutEditor(); };
+    edImg.src = src;
+    fitView();
+    editor.showModal();
+    requestAnimationFrame(() => { fitView(); layoutEditor(); });
+  }
+
+  function closeEditor() {
+    if (!edId) return;
+    const id = edId;
+    cells.set(id, { ...getCell(id), text: edText.value });
+    schedule(id, 0);
+    refreshCell(id);
+    edId = null;
+    if (editor.open) editor.close();
+  }
+
+  document.getElementById('ed-close').addEventListener('click', closeEditor);
+  editor.addEventListener('cancel', (e) => { e.preventDefault(); closeEditor(); });
+  document.getElementById('ed-undo').addEventListener('click', () => {
+    const cell = getCell(edId);
+    if (!cell.strokes.length) return;
+    cells.set(edId, { ...cell, strokes: cell.strokes.slice(0, -1) });
+    layoutEditor();
+    schedule(edId, 400);
+  });
+  document.getElementById('ed-clear').addEventListener('click', () => {
+    const cell = getCell(edId);
+    if (!cell.strokes.length) return;
+    cells.set(edId, { ...cell, strokes: [] });
+    layoutEditor();
+    schedule(edId, 400);
+  });
+  edText.addEventListener('input', () => {
+    cells.set(edId, { ...getCell(edId), text: edText.value });
+    schedule(edId, 900);
+  });
+
+  const point = (e) => {
+    const r = edCanvas.getBoundingClientRect();
+    const round = (v) => Math.round(Math.min(1, Math.max(0, v)) * 10000) / 10000;
+    return [round((e.clientX - r.left) / r.width), round((e.clientY - r.top) / r.height)];
+  };
+  // Stylus only (owner call): a resting hand fires touch pointers exactly like a
+  // deliberate stroke, and fingers stay free to scroll.
+  edCanvas.addEventListener('pointerdown', (e) => {
+    if (!edId || e.pointerType !== 'pen') return;
+    e.preventDefault();
+    try { edCanvas.setPointerCapture(e.pointerId); } catch { /* synthetic pointer */ }
+    current = point(e);
+    const cell = getCell(edId);
+    cells.set(edId, { ...cell, strokes: [...cell.strokes, current] });
+  });
+  edCanvas.addEventListener('pointermove', (e) => {
+    if (!current || e.pointerType !== 'pen') return;
+    e.preventDefault();
+    const [x, y] = point(e);
+    const lx = current[current.length - 2], ly = current[current.length - 1];
+    if (Math.hypot(x - lx, y - ly) < 0.003) return;
+    current.push(x, y);
+    const ctx = edCanvas.getContext('2d');
+    const w = edCanvas.width, h = edCanvas.height;
+    ctx.beginPath();
+    ctx.moveTo(lx * w, ly * h);
+    ctx.lineTo(x * w, y * h);
+    ctx.stroke();
+  });
+  const endStroke = () => {
+    if (!current) return;
+    current = null;
+    layoutEditor();
+    schedule(edId, 600);
+  };
+  edCanvas.addEventListener('pointerup', endStroke);
+  edCanvas.addEventListener('pointercancel', endStroke);
+
+  (async () => {
+    const db = window.claude ? await window.claude.use('db') : null;
+    if (!db) {
+      setStatus('off', 'El guardado no está disponible en esta vista: lo que marques o escribas no se va a conservar.');
+      return;
+    }
+    store = { cells: db.collection('cells'), notes: db.collection('notes') };
+    try {
+      const [cellSnap, noteSnap] = await Promise.all([store.cells.get(), store.notes.get()]);
+      for (const doc of cellSnap.docs) {
+        const body = doc.data() || {};
+        const strokes = Array.isArray(body.strokes) ? body.strokes.map((s) => (s && Array.isArray(s.p) ? s.p.filter((n) => typeof n === 'number') : [])).filter((s) => s.length >= 2) : [];
+        if (!cells.has(doc.id)) cells.set(doc.id, { text: typeof body.text === 'string' ? body.text : '', strokes });
+        refreshCell(doc.id);
+      }
+      for (const doc of noteSnap.docs) {
+        const area = deviceAreas.get(doc.id);
+        const text = doc.data() && doc.data().text;
+        if (area && typeof text === 'string' && !area.value) area.value = text;
+      }
+    } catch (e) {
+      setStatus('off', 'No se pudieron leer las marcas guardadas (' + (e && e.code || 'error') + '). Recargá la página.');
+      return;
+    }
+    setStatus('ok', 'Guardado automático activo');
+    for (const [docId, area] of deviceAreas) {
+      let t = 0;
+      const save = async () => {
+        try { await store.notes.doc(docId).set({ text: area.value, updatedAt: new Date().toISOString() }); area.dataset.dirty = 'false'; }
+        catch (e) { setStatus('off', 'No se guardó una nota (' + (e && e.code || 'error') + ').'); }
+      };
+      area.addEventListener('input', () => { area.dataset.dirty = 'true'; clearTimeout(t); t = setTimeout(save, 900); });
+      area.addEventListener('blur', () => { clearTimeout(t); save(); });
+    }
+  })();
+})();
+
+</script>
+
+</body></html>
