@@ -787,6 +787,13 @@ html[data-pager] .footer-ledger {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* Out of the flow: the strip rides over the closing sheet, and the notebook
+     never travels to show it. Parked below the edge until the engine lifts it. */
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 3;
+  transform: translateY(100%);
+  will-change: transform;
 }
 
 
