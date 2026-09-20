@@ -413,9 +413,9 @@ html[data-device="touch"] .home-v7__hero {
    Power and Will hang off the same joint without being a --pair. */
 html[data-device="touch"] .home-v7__row {
   --pair-air: clamp(2rem, 8svh, 5rem);
-  /* Where the two halves meet in portrait. Above the middle, because the glass
-     header makes a group hung off 50% read low. */
-  --pair-split: 46svh;
+  /* Where the two halves meet in portrait: the viewport's own axis (owner,
+     vuelta 5). Sitting it above the middle read too high. */
+  --pair-split: 50svh;
 }
 
 html[data-device="touch"] .home-v7__row--pair {
