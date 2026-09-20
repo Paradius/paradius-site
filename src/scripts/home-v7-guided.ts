@@ -28,8 +28,8 @@ const SCROLL_SPEED = 0.55;
 /* Ceiling on how fast the page may travel, in viewports per second, and on how
    far ahead of the page one gesture may throw the target. A hard flick on a
    trackpad sends deltas big enough to cross the whole home in a blink. */
-const MAX_SPEED_VH_S = 2.2;
-const MAX_LEAD_VH = 1.2;
+const MAX_SPEED_VH_S = 0.6;
+const MAX_LEAD_VH = 0.4;
 const TREE_MIN_OPACITY = 0.04;
 const TREE_MAX_OPACITY = 0.3;
 

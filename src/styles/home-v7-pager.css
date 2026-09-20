@@ -526,7 +526,7 @@ html[data-device="touch"] .home-v7__cta {
   /* A landscape page is 412px tall: the lockup takes what is left after the
      header and the calls, or its top slides under the logo. */
   html[data-device="touch"] .home-v7__hero {
-    --tagline-cap: 38svh;
+    --tagline-cap: 44svh;
     padding-bottom: var(--page-edge);
   }
 
@@ -534,8 +534,18 @@ html[data-device="touch"] .home-v7__cta {
     margin-bottom: clamp(1.25rem, 5svh, 2.5rem);
   }
 
+  /* One line each, both the same width: a fit-content grid resolves its 1fr
+     columns against the widest label, so neither call ever breaks in two. */
   html[data-device="touch"] .home-v7__actions {
-    grid-template-columns: repeat(2, minmax(0, 15rem));
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  html[data-device="touch"] .home-v7__cta {
+    white-space: nowrap;
+    --cta-pad: 0.7rem 1.25rem;
   }
 }
 
@@ -717,32 +727,6 @@ html[data-device="touch"] .home-v7__tagline {
   margin-bottom: clamp(3.25rem, 11svh, 5.5rem);
 }
 
-/* --- Hojas 6 y 7: both blocks speak centred (owner: "ALL centered"). */
-html[data-device="touch"] #engine .home-v7__content,
-html[data-device="touch"] #engine-mentor .home-v7__content,
-html[data-device="touch"] #engine-remote .home-v7__content,
-html[data-device="touch"] #engine-standards .home-v7__content {
-  text-align: center;
-}
-
-html[data-device="touch"] #engine .home-v7__col--left,
-html[data-device="touch"] #engine-mentor .home-v7__col--right,
-html[data-device="touch"] #engine-remote .home-v7__col--left,
-html[data-device="touch"] #engine-standards .home-v7__col--right {
-  align-items: center;
-  text-align: center;
-}
-
-html[data-device="touch"] #engine-mentor .home-v7__ops-block,
-html[data-device="touch"] #engine-remote .home-v7__ops-block,
-html[data-device="touch"] #engine-standards .home-v7__ops-block {
-  border-left: none;
-  border-right: none;
-  padding-left: 0;
-  padding-right: 0;
-  text-align: center;
-}
-
 /* --- Hoja 10: the calls sit in the middle of their card. */
 html[data-device="touch"] .home-v7__teaser-cta {
   align-self: center;
@@ -848,30 +832,64 @@ html[data-device="touch"] #assurance {
   }
 }
 
-/* --- Hojas 4 y 9: the two forces and the two proofs share one shape (owner,
-   vuelta 4: "como la raya en forma de L", mirrored). The rule sits on the outer
-   side of each block and the text hangs from that edge. */
+/* --- Every paired sheet wears the shape of Power and Will (owner, vuelta 5:
+   "las fusionadas eran tal cual como clones de lo de power and will"). The rule
+   sits on the outer side of each block and the text hangs from that edge. */
 html[data-device="touch"] .home-v7__row--split .home-v7__col--left .home-v7__content,
-html[data-device="touch"] #proofs .home-v7__ops-block {
+html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__content {
   border-left: 2px solid var(--color-accent);
   border-right: none;
   padding-left: var(--spacing-md);
   padding-right: 0;
   text-align: left;
+  align-items: flex-start;
 }
 
 html[data-device="touch"] .home-v7__row--split .home-v7__col--right .home-v7__content,
-html[data-device="touch"] #proofs-banking .home-v7__ops-block {
+html[data-device="touch"] .home-v7__row--pair-2 .home-v7__content {
   border-right: 2px solid var(--color-accent);
   border-left: none;
   padding-right: var(--spacing-md);
   padding-left: 0;
   text-align: right;
+  align-items: flex-end;
 }
 
 html[data-device="touch"] .home-v7__row--split .home-v7__col--right,
-html[data-device="touch"] #proofs-banking .home-v7__col--right,
-html[data-device="touch"] #proofs-banking .home-v7__content {
+html[data-device="touch"] .home-v7__row--pair-2 .home-v7__col--right {
   align-items: flex-end;
   text-align: right;
+}
+
+html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__col--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* On the desktop home these blocks hang off the central spine, so each carries
+   its own rule and alignment on the inner side. On a sheet the outer edge owns
+   both, and the block has to stop fighting it. */
+html[data-device="touch"] .home-v7__row--pair .home-v7__ops-block {
+  border-left: none;
+  border-right: none;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: inherit;
+}
+
+html[data-device="touch"] .home-v7__row--pair .home-v7__voice--pump {
+  margin-inline-start: 0;
+  text-align: inherit;
+}
+
+/* Each line still has its own measure, but the paragraph hangs from the edge
+   that carries the rule instead of floating away from it. */
+html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__ops-block > * {
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+}
+
+html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
+  margin-inline-start: auto;
+  margin-inline-end: 0;
 }
