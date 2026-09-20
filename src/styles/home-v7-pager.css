@@ -912,6 +912,7 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
        on the left needs far more air than the one on the right. Two knobs. */
     --branch-left: calc(2.7 * var(--branch-gap));
     --branch-right: calc(2 * var(--branch-gap));
+    --pair-drop: 12svh;
   }
 
   /* Sheet 4: the spine slides right so its centre falls on the trunk, and the
@@ -1015,9 +1016,14 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
   /* Both halves sit in the middle of the sheet. Hanging them from the top left
      a third of the page empty underneath, and the desktop row air pushed sheet
      4 onto the floor of a 372px screen. */
+  /* Both halves hang from the same line, not from their own centres: centring
+     each one apart lifts whichever block has more lines, and on sheet 6 that
+     put the second voice ABOVE the first. --pair-drop is the air that centres
+     the band they share. */
   html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2),
   html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: calc(var(--pair-edge) + var(--pair-drop, 0px));
   }
 
   /* margin, not --row-air-top: the sheet carries that variable in an inline
@@ -1040,5 +1046,43 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
   html[data-device="touch"] .home-v7__row--split,
   html[data-device="touch"] .home-v7__row--pair {
     --inward-step: clamp(0.5rem, 2.5svh, 1rem);
+  }
+}
+
+/* --pair-drop centres the band the two halves share, so it depends on how tall
+   that band is: measured per sheet, because the blocks differ in length. Change
+   the copy of one of these sheets and its number has to be measured again. */
+@media (orientation: landscape) and (max-width: 1099px) {
+  html[data-device="touch"] #proofs,
+  html[data-device="touch"] #proofs-banking {
+    --pair-drop: 5svh;
+  }
+
+  /* 296px of page under the header, and these two sheets asked for 267 and 273
+     of it. A step down in type is what buys them an edge to breathe against. */
+  html[data-device="touch"] .home-v7__row--split {
+    --page-fs: 0.9;
+  }
+
+  html[data-device="touch"] #proofs,
+  html[data-device="touch"] #proofs-banking {
+    --page-fs: 0.8;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 1100px) {
+  html[data-device="touch"] #engine,
+  html[data-device="touch"] #engine-mentor {
+    --pair-drop: 25svh;
+  }
+
+  html[data-device="touch"] #engine-remote,
+  html[data-device="touch"] #engine-standards {
+    --pair-drop: 30svh;
+  }
+
+  html[data-device="touch"] #proofs,
+  html[data-device="touch"] #proofs-banking {
+    --pair-drop: 22svh;
   }
 }
