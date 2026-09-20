@@ -20,3 +20,14 @@ export function findBannedDashes(text: string): BannedDash[] {
   });
   return hits;
 }
+
+/** Blanks out what no reader sees, keeping line and column numbers intact. */
+export function visibleCopyOf(source: string): string {
+  const blank = (match: string) => match.replace(/[^\n]/g, ' ');
+  return source
+    .replace(/^---[\s\S]*?^---/m, blank)
+    .replace(/<style[\s\S]*?<\/style>/gi, blank)
+    .replace(/<script[\s\S]*?<\/script>/gi, blank)
+    .replace(/<!--[\s\S]*?-->/g, blank)
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, blank);
+}

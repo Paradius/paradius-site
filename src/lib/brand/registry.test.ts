@@ -1,17 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   formatCaseCode,
-  formatRegistryEyebrow,
   formatRegistryStatus,
   formatStepCode,
   resolveActiveSection,
 } from './registry';
-
-describe('formatRegistryEyebrow', () => {
-  it('formats architectural eyebrows', () => {
-    expect(formatRegistryEyebrow('01', 'CONVICTION')).toBe('01 — CONVICTION');
-  });
-});
 
 describe('formatCaseCode', () => {
   it('zero-pads case codes', () => {

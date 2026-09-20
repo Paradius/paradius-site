@@ -26,11 +26,6 @@ export const REGISTRY_SECTIONS: readonly RegistrySection[] = [
   { id: 'registry', num: '05', label: 'REGISTRY', href: '/talent' },
 ] as const;
 
-/** Formats an architectural eyebrow: `01 — CONVICTION`. */
-export function formatRegistryEyebrow(num: string, label: string): string {
-  return `${num} — ${label}`;
-}
-
 /** Case study code from 1-based index: `CS-001`. */
 export function formatCaseCode(index: number): string {
   return `CS-${String(index).padStart(3, '0')}`;
