@@ -908,14 +908,22 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
        home-v7.css (left: calc(50% + 1.2vw)); move one, move the other. */
     --trunk-nudge: 1.2vw;
     --branch-gap: clamp(1.75rem, 3.5vw, 3.25rem);
+    /* The trunk does not read centred: its drawing leans right, so the branch
+       on the left needs far more air than the one on the right. Two knobs. */
+    --branch-left: calc(4 * var(--branch-gap));
+    --branch-right: calc(2 * var(--branch-gap));
   }
 
   /* Sheet 4: the spine slides right so its centre falls on the trunk, and the
      gap between its two columns is exactly the two branch margins. */
   html[data-device="touch"] .home-v7__row--split .home-v7__spine {
-    gap: calc(2 * var(--branch-gap));
-    padding-left: calc(var(--bleed-pad) + 2 * var(--trunk-nudge));
-    padding-right: var(--bleed-pad);
+    /* The first column is measured off the screen, not off the grid: its right
+       edge has to land on the trunk's left margin whatever the gutters are. */
+    grid-template-columns:
+      calc(50vw + var(--trunk-nudge) - var(--branch-left) - var(--bleed-pad))
+      minmax(0, 1fr);
+    gap: calc(var(--branch-left) + var(--branch-right));
+    padding-inline: var(--bleed-pad);
   }
 
   html[data-device="touch"] .home-v7__row--split .home-v7__col--left {
@@ -939,11 +947,11 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
 
   html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
     padding-left: var(--bleed-pad);
-    padding-right: calc(var(--branch-gap) - var(--trunk-nudge));
+    padding-right: calc(var(--branch-left) - var(--trunk-nudge));
   }
 
   html[data-device="touch"] .home-v7__row--pair-2 {
-    padding-left: calc(var(--branch-gap) + var(--trunk-nudge));
+    padding-left: calc(var(--branch-right) + var(--trunk-nudge));
     padding-right: var(--bleed-pad);
   }
 
