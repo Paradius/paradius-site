@@ -24,6 +24,10 @@ describe('classifyDevice', () => {
     ['Linux', { platform: 'Linux', userAgent: UA.linux, maxTouchPoints: 0 }, 'desktop'],
     ['ChromeOS', { platform: 'Chrome OS', userAgent: UA.chromeos, maxTouchPoints: 10 }, 'desktop'],
     ['Android UA without client hints', { userAgent: UA.pixel, maxTouchPoints: 5 }, 'touch'],
+    // The pointer outranks every claim the user agent makes.
+    ['tablet on desktop site, no client hints, finger', { userAgent: UA.androidDesktopSite, maxTouchPoints: 5, coarsePointer: true }, 'touch'],
+    ['Windows touchscreen laptop keeps its mouse', { platform: 'Windows', userAgent: UA.windows, maxTouchPoints: 10, coarsePointer: false }, 'desktop'],
+    ['desktop with no touch at all', { userAgent: UA.linux, maxTouchPoints: 0, coarsePointer: false }, 'desktop'],
   ])('classifies %s', (_name, signals, expected) => {
     expect(classifyDevice(signals)).toBe(expected);
   });
@@ -32,6 +36,7 @@ describe('classifyDevice', () => {
     const revived = new Function(`return (${classifyDevice.toString()})`)();
     expect(revived({ platform: 'Android', userAgent: UA.tab, maxTouchPoints: 10 })).toBe('touch');
     expect(revived({ userAgent: UA.windows, maxTouchPoints: 0 })).toBe('desktop');
+    expect(revived({ userAgent: UA.androidDesktopSite, maxTouchPoints: 5, coarsePointer: true })).toBe('touch');
   });
 });
 

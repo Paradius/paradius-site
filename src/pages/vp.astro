@@ -104,10 +104,14 @@ const deviceClassScript = `window.__classify = ${classifyDevice.toString()};`;
             platform: navigator.userAgentData && navigator.userAgentData.platform,
             userAgent: navigator.userAgent,
             maxTouchPoints: navigator.maxTouchPoints || 0,
+            coarsePointer: matchMedia('(pointer: coarse)').matches,
           })],
           ['uaData.platform', (navigator.userAgentData && navigator.userAgentData.platform) || '(no expone)'],
           ['uaData.mobile', navigator.userAgentData ? String(navigator.userAgentData.mobile) : '(no expone)'],
           ['maxTouchPoints', String(navigator.maxTouchPoints || 0)],
+          ['pointer: coarse', String(matchMedia('(pointer: coarse)').matches)],
+          ['any-pointer: fine', String(matchMedia('(any-pointer: fine)').matches)],
+          ['hover: hover', String(matchMedia('(hover: hover)').matches)],
           ['userAgent', navigator.userAgent],
         ];
         out.innerHTML = rows
