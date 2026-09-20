@@ -672,6 +672,35 @@ html[data-pager] .footer-ledger {
   justify-content: center;
 }
 
+/* In the notebook the footer IS a whole sheet, so the site-wide pane, which is
+   inset:0 of the footer, stretched one band of glass across an entire screen
+   and veiled the page above the ledger. Here the band follows the ledger row
+   instead: solid under the text, dissolving upward into the page. */
+html[data-pager] .footer-ledger::before {
+  display: none;
+}
+
+html[data-pager] .footer-ledger__inner {
+  position: relative;
+}
+
+html[data-pager] .footer-ledger__inner::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  top: calc(-1 * var(--footer-fade, 4.5rem));
+  bottom: calc(-1 * var(--spacing-md));
+  z-index: -1;
+  pointer-events: none;
+  background-color: rgb(0 0 0 / 0.48);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-mask-image: linear-gradient(to top, #000 38%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 38%, transparent 100%);
+}
+
 html[data-pager] .home-v7__tree {
   opacity: calc((0.04 + 0.26 * var(--pager-p, 0)) * 0.55);
 }
