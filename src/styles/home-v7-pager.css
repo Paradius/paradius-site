@@ -686,9 +686,12 @@ html[data-pager][data-pager-drag] .home-v7__tree-glow {
   transition: none;
 }
 
-/* The ledger is four short lines: it rides the closing sheet instead of taking
-   a turn of its own (owner, vuelta 5). Pinning its height and taking the same
-   amount off the dawn row keeps the two together at exactly one page. */
+/* The ledger is four short lines, so it is a strip, not a turn: the dawn keeps
+   its whole page and the ledger waits just under the fold. The engine already
+   adds a stop at the foot of the document when it runs past the last sheet, so
+   one more gesture slides the page up by exactly the strip and reveals it
+   (owner, vuelta 5: nobody knows the dawn is the last page, so they keep
+   pulling). */
 html[data-pager] {
   --footer-h: 9.5rem;
 }
@@ -703,12 +706,6 @@ html[data-pager] {
     --page-lift: 0svh;
   }
 
-  /* The dawn and the ledger together have to fit 372px: the closing lines give
-     up a hair so the ledger can ride the same page. The id is what the per-sheet
-     dials above use, so the override has to match it. */
-  html[data-pager][data-device="touch"] #assurance {
-    --page-fs: 0.94;
-  }
 }
 
 @media (orientation: landscape) and (min-width: 1100px) {
@@ -724,9 +721,6 @@ html[data-pager] .footer-ledger {
   justify-content: center;
 }
 
-html[data-pager] .home-v7__row--dawn {
-  min-height: calc(100svh - var(--footer-h));
-}
 
 /* In the notebook the footer IS a whole sheet, so the site-wide pane, which is
    inset:0 of the footer, stretched one band of glass across an entire screen

@@ -1,7 +1,7 @@
 // Shoots the 12 notebook sheets on the four measured device sizes for the review
 // form. Needs the dev server up; PROBE_URL overrides the address.
 // Output feeds scripts/review/index.html — see its shots5/ paths.
-// The ledger rides the closing sheet, so it is not a turn of its own.
+// The last shot is the ledger reveal, not a sheet: one gesture past the dawn.
 import { chromium } from 'playwright-core';
 import { openConfig } from './device-modes-probe.mjs';
 import { mkdirSync } from 'node:fs';
@@ -24,7 +24,11 @@ for (const name of DEVICES) {
       if (last && s.classList.contains('home-v7__row--pair-2')) last.push(s);
       else grouped.push([s]);
     }
-    return grouped.length;
+    // The engine adds a stop at the foot of the document when it runs past the
+    // last sheet: that stop is the ledger reveal, and it is worth a shot.
+    const vh = window.innerHeight;
+    const tail = document.documentElement.scrollHeight - grouped.length * vh > 1;
+    return grouped.length + (tail ? 1 : 0);
   });
   const shots = [];
   for (let i = 0; i < sheets; i++) {
