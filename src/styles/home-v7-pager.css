@@ -342,14 +342,28 @@ html[data-device="touch"] .home-v7__row {
 @media (orientation: portrait) {
   html[data-device="touch"] .home-v7__row {
     --header-share: 0.4;
+    /* Where the first word lands. Measured off the hero: 209 of 803 on the
+       phone, 262 of 1036 on the tablet — the same fraction on both. */
+    --text-line: 25.6svh;
   }
 }
 
 /* Stacked, the two forces need air between them or they read as one block
    (owner, vuelta 5: "espaciado vertical donde quepa claramente"). */
 @media (orientation: portrait) {
+  /* Two modes, two rules (owner, vuelta 5). Text sheets hang from ONE line, the
+     one the hero sets, so the eye finds the first word in the same place every
+     turn; centring them made that line wander with the length of the block. */
+  html[data-device="touch"] .home-v7__row--voice {
+    justify-content: flex-start;
+    padding-top: var(--text-line);
+  }
+
+  /* Two-block sheets stay in the optical middle instead, and the air between
+     the blocks has to read smaller than the page's own top and bottom margin
+     or the pair stops reading as one group. */
   html[data-device="touch"] .home-v7__row--split .home-v7__spine {
-    row-gap: clamp(2rem, 7svh, 5rem);
+    row-gap: clamp(1rem, 3svh, 2.5rem);
   }
 }
 
@@ -366,7 +380,7 @@ html[data-device="touch"] .home-v7__row--pair {
   /* Two blocks on one sheet get a tighter scale: at full size the proofs ran
      80px past the bottom of a Pixel page, and a sheet cannot scroll. */
   --page-fs: 0.85;
-  --pair-air: clamp(3rem, 12svh, 7.5rem);
+  --pair-air: clamp(2rem, 8svh, 5rem);
   /* Where the two halves meet in portrait. Above the middle, because the glass
      header makes a group hung off 50% read low. */
   --pair-split: 46svh;
@@ -850,10 +864,6 @@ html[data-device="touch"] #assurance {
   /* Owner, vuelta 5: the confession sits low, the two cards sit high. --page-lift
      is bottom padding, so more of it raises; --header-share is how much header
      the page reserves, so more of it lowers. */
-  html[data-device="touch"] #philosophy {
-    --page-lift: 12svh;
-  }
-
   html[data-device="touch"] .home-v7__row--cup {
     --page-lift: 0svh;
     --header-share: 0.8;
