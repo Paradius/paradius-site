@@ -6,7 +6,7 @@ import { openConfig } from './device-modes-probe.mjs';
 import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const OUT = process.argv[2] ?? 'scripts/review/shots';
+const OUT = process.argv[2] ?? 'scripts/review/shots5';
 const DEVICES = ['pixel-portrait', 'pixel-landscape', 'tab-portrait', 'tab-landscape'];
 mkdirSync(OUT, { recursive: true });
 
