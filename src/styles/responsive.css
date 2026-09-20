@@ -1,0 +1,233 @@
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 70vh;
+    min-height: 70dvh;
+    padding-top: calc(var(--site-header-height) + clamp(4rem, 12vh, 7rem));
+    padding-bottom: clamp(2.5rem, 6vh, 4rem);
+  }
+
+  .talent-catalog-b__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Collapsed nav: the six item bar needs ~950px to sit on one line, so the
+     hamburger takes over below 1024px instead of below 768px. */
+  .site-header__menu-toggle {
+    display: flex;
+  }
+
+  .site-header__nav {
+    /* Anchored to the header, not to the viewport: the backdrop-filter on
+       .site-header makes it the containing block for fixed descendants. The
+       header sits at the viewport top-left, so viewport units still give a
+       full screen overlay. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--transition-duration-base) ease,
+      visibility var(--transition-duration-base) ease;
+  }
+
+  .site-header__nav--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-header__nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  /* Same size and tracking as the bar itself: the overflow menu is the same
+     navigation, not a second one. The touch target comes from padding. */
+  .site-header__nav-link {
+    padding-block: 0.6rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+  :root {
+    --site-header-height: 4.75rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: calc(var(--site-header-height) + clamp(3.5rem, 10vh, 5.5rem));
+    padding-bottom: 2.5rem;
+  }
+
+  .hero__tagline {
+    max-width: 90vw;
+    width: 80vw;
+  }
+
+  .hero__subtitle {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero__cta {
+    padding: 0.75rem 2rem;
+  }
+
+  .site-header__logo-svg {
+    height: 40px;
+  }
+
+  .expertise__grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  .footer-ledger {
+    padding-block: var(--spacing-md);
+  }
+
+  .footer-ledger__inner {
+    gap: var(--spacing-sm);
+  }
+
+  .footer-ledger__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .footer-ledger__legal {
+    justify-content: center;
+    gap: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .footer-ledger__copy {
+    justify-self: center;
+  }
+
+  .talent-row-a {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding-block: var(--spacing-lg);
+  }
+
+  .talent-row-a__secondary {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .talent-catalog-b__grid {
+    grid-template-columns: 1fr;
+    max-width: 28rem;
+  }
+
+  .profile-dossier-b__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-dossier-b__meta {
+    position: static;
+  }
+
+  .profile-editorial-a__entry-header,
+  .profile-dossier-b__entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .work-case__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --site-header-height: 4.25rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: calc(var(--site-header-height) + 3rem);
+    padding-bottom: 2rem;
+  }
+
+  .hero__tagline {
+    max-width: 95vw;
+    width: 90vw;
+  }
+
+  .site-header__logo-svg {
+    height: 38px;
+  }
+
+  .philosophy__quote {
+    padding: var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+}
+
+@media (min-width: 87.5rem) {
+  .expertise__container {
+    max-width: var(--width-content-wide);
+  }
+
+  .hero__tagline {
+    max-width: 1600px;
+  }
+}
+
+/* Touch devices get the collapsed header at any width; desktop keeps the 1024px cut above. */
+html[data-device="touch"] .site-header__menu-toggle {
+  display: flex;
+}
+
+html[data-device="touch"] .site-header__nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-duration-base) ease,
+    visibility var(--transition-duration-base) ease;
+}
+
+/* Must follow the scoped nav rule: the bare --open modifier loses to its specificity. */
+html[data-device="touch"] .site-header__nav--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+html[data-device="touch"] .site-header__nav-list {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+html[data-device="touch"] .site-header__nav-link {
+  padding-block: 0.6rem;
+}

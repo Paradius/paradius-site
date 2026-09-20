@@ -1,0 +1,93 @@
+/* ---------- Page shell ---------- */
+@layer base {
+  html.menu-open {
+    overflow: hidden;
+  }
+
+  body {
+    position: relative;
+  }
+
+  /* ---------- Tree layer (background) ---------- */
+  body::before {
+    content: '';
+    position: absolute;
+    top: clamp(2.5rem, 6vh, 4.5rem);
+    bottom: clamp(2.5rem, 6vh, 4.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    height: auto;
+    width: auto;
+    aspect-ratio: 1429 / 1345.4;
+    background-color: #fff;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: url('/assets/circuit_tree_full.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    -webkit-mask-size: 100% 100%;
+    mask-image: url('/assets/circuit_tree_full.svg');
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    mask-size: 100% 100%;
+    opacity: var(--circuit-opacity, 0.03);
+    transition: opacity 0.3s ease;
+  }
+
+  .tree-layer {
+    display: none;
+  }
+
+  /* Inverted scroll — tree grows upward from roots */
+  .inverted-scroll {
+    transform: scaleY(-1);
+  }
+
+  .inverted-scroll > * {
+    transform: scaleY(-1);
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- Page layout system ---------- */
+  [data-station] {
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .site-header__nav-link.is-lit {
+    color: var(--color-text-primary);
+  }
+
+  .site-main {
+    padding-top: 8.75rem;
+    min-height: 60vh;
+  }
+
+  @media (max-width: 768px) {
+    .site-main {
+      padding-top: 8.25rem;
+    }
+  }
+}
+
+/* Circuit tree — folded to hero + footer only (reduced opacity, no scroll-wide texture) */
+@layer components {
+  .circuit-texture {
+    pointer-events: none;
+    contain: strict;
+    background-color: #fff;
+    -webkit-mask-image: url('/assets/circuit_tree_full.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    -webkit-mask-size: contain;
+    mask-image: url('/assets/circuit_tree_full.svg');
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    mask-size: contain;
+  }
+}
+

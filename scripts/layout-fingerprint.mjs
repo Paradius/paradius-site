@@ -24,7 +24,24 @@ for (const name of Object.keys(CONFIGS)) {
         pad: [cs.paddingTop, cs.paddingBottom, cs.paddingLeft, cs.paddingRight],
       };
     });
-    return { scrollHeight: document.documentElement.scrollHeight, sheets };
+    /* Every element, not just the sheets: a change in the global stylesheet
+       lands on the header, the footer and the type long before it moves a row.
+       No opacity here: the lockup's light animates, so it is never the same
+       twice and would drown the signal. */
+    const PROPS = [
+      'display', 'position', 'fontFamily', 'fontSize', 'fontWeight', 'lineHeight',
+      'letterSpacing', 'color', 'backgroundColor', 'borderTopWidth', 'borderLeftWidth',
+      'marginTop', 'marginBottom', 'paddingTop', 'paddingLeft', 'zIndex',
+    ];
+    const elements = [...document.body.querySelectorAll('*')].map((el) => {
+      const cs = getComputedStyle(el);
+      return [
+        el.tagName,
+        el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight,
+        ...PROPS.map((prop) => cs[prop]),
+      ].join('|');
+    });
+    return { scrollHeight: document.documentElement.scrollHeight, sheets, elements };
   });
   await context.close();
 }

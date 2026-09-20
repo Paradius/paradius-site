@@ -3,7 +3,13 @@
  * Base layout for every page: full SEO layer (meta, OG, Twitter, JSON-LD),
  * brand font loading, and theme metas.
  */
-import '../styles/global.css';
+// Order is the cascade: tokens, base, shell, components, responsive tail.
+// Concatenated in this order they are the stylesheet they replace.
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/shell.css';
+import '../styles/components.css';
+import '../styles/responsive.css';
 import { buildAllJsonLd, resolvePageMeta, type PageSeo } from '../lib/seo';
 import { classifyDevice } from '../scripts/device-class';
 

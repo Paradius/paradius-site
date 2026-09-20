@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Paradius — Global stylesheet
+   Design tokens extracted from landing_page/css/styles.css (single source
+   of brand truth). Components consume these tokens, never raw values.
+   ========================================================================== */
+
+@import 'tailwindcss';
+
+/* Metric-matched fallbacks — minimize layout shift while webfonts load */
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia');
+  size-adjust: 108%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* ---------- Design tokens (Tailwind theme) ---------- */
+@theme {
+  /* Colors — black minimalist premium palette */
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-divider: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9ca3af;
+  --color-accent: #c0c8d4;
+  --color-accent-dim: rgb(192 200 212 / 0.12);
+  --color-accent-glow: rgb(192 200 212 / 0.06);
+
+  /* Typography — three jurisdictions:
+     Monumento = lockup SVG only;
+     Voz (--font-brand / --font-heading) = manifesto, quotes, bridge lines;
+     Sistema (--font-mono) = operative headings, eyebrows, data, buttons, footer. */
+  --font-heading: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+  --font-brand: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Owner naming (2026-08-30): voice = the myth speaks; tech = the machine speaks */
+  --font-voice: 'Zilla Slab', 'Georgia', serif;
+  --font-tech: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: var(--font-sans);
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace;
+
+  /* Letter-spacing patterns */
+  --tracking-heading: -0.01em; /* large serif headings */
+  --tracking-card-title: 0.01em; /* card titles */
+  --tracking-subtitle: 0.02em; /* italic hero subtitle */
+  --tracking-link: 0.03em; /* footer links / emails */
+  --tracking-caps: 0.1em; /* uppercase nav links & CTAs */
+  --tracking-caps-wide: 0.15em; /* uppercase nav links (mobile) */
+  --tracking-system: 0.08em; /* mono system voice — eyebrows, codes, CTAs */
+
+  /* Spacing scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2.5rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
+  --spacing-3xl: 8rem;
+  --spacing-6: 6rem;
+  --spacing-9: 9rem;
+
+  /* Container widths (Tailwind width scale → max-w-*) */
+  --width-content: 70rem; /* 1120px — default container max */
+  --width-content-wide: 77.5rem; /* 1240px — container max on >=1400px screens */
+  --width-prose: 45rem; /* 720px — philosophy/long-form column */
+  --spacing-gutter: 1.25rem; /* container inline padding */
+  --spacing-gutter-sm: 1rem; /* container inline padding <=480px */
+  --site-header-height: 4.75rem; /* logo + vertical padding */
+
+  /* Transition durations (landing --transition-*) */
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 300ms;
+  --transition-duration-slow: 600ms;
+
+  /* Breakpoint for the wide-container bump */
+  --breakpoint-wide: 87.5rem; /* 1400px */
+
+  /* Motion */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1); /* the landing's slow easing */
+}
+
