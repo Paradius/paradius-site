@@ -893,3 +893,75 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
   margin-inline-start: auto;
   margin-inline-end: 0;
 }
+
+/* ==========================================================================
+   EXPERIMENTO (vuelta 5) — borrar este bloque entero si no cuadra.
+   En horizontal, el modo Power/Will da vuelta las rayas: miran al centro y el
+   texto se apoya contra ellas, con el segundo bloque un escalon mas abajo.
+   ========================================================================== */
+@media (orientation: landscape) {
+  html[data-device="touch"] .home-v7__row--split,
+  html[data-device="touch"] .home-v7__row--pair {
+    --inward-step: clamp(2.25rem, 9svh, 4.5rem);
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--left .home-v7__content,
+  html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__content {
+    border-left: none;
+    border-right: 2px solid var(--color-accent);
+    padding-left: 0;
+    padding-right: var(--spacing-md);
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--right .home-v7__content,
+  html[data-device="touch"] .home-v7__row--pair-2 .home-v7__content {
+    border-right: none;
+    border-left: 2px solid var(--color-accent);
+    padding-right: 0;
+    padding-left: var(--spacing-md);
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--left,
+  html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__col--left {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--right,
+  html[data-device="touch"] .home-v7__row--pair-2 .home-v7__col--right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) .home-v7__ops-block > * {
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
+    margin-inline-start: 0;
+    margin-inline-end: auto;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair .home-v7__voice--pump {
+    margin-inline-start: auto;
+  }
+
+  /* The second voice answers from a step below, never level with the first. */
+  html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
+    padding-top: calc(var(--pair-edge) + var(--inward-step));
+  }
+}
+
+/* A phone landscape page is 372px tall: the step has to be a hint, not a jump,
+   or the longest pair spills off the sheet. */
+@media (orientation: landscape) and (max-width: 1099px) {
+  html[data-device="touch"] .home-v7__row--split,
+  html[data-device="touch"] .home-v7__row--pair {
+    --inward-step: clamp(0.5rem, 2.5svh, 1rem);
+  }
+}
