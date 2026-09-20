@@ -20,11 +20,23 @@ let startY = 0;
 let startAt = 0;
 let dragging = false;
 let frozen = false;
+let closing: HTMLElement | null = null;
+let lastSheetStop = 0;
+/* How much of the ledger reveal the closing lines refuse to travel: 1 holds
+   them still, 0 lets them ride the page up. */
+let closingHold = 1;
 
 function setOffset(y: number): void {
   offset = y;
   const t = `translate3d(0, ${-y}px, 0)`;
   for (const el of movers) el.style.transform = t;
+  // Past the last sheet the page keeps rising to uncover the ledger. The closing
+  // lines hold their place while it does, or the reveal would push them under
+  // the logo (measured: -14px on the phone, -37 in landscape).
+  if (closing) {
+    const reveal = Math.max(0, y - lastSheetStop) * closingHold;
+    closing.style.transform = reveal ? `translate3d(0, ${reveal}px, 0)` : '';
+  }
 }
 
 function journeyProgress(at: number): number {
@@ -61,12 +73,32 @@ function measure(): void {
   stops = sheets.map((sheet) =>
     Math.min(sheet[0].getBoundingClientRect().top + window.scrollY, maxOffset),
   );
-  if (maxOffset > stops[stops.length - 1] + 1) stops.push(maxOffset);
+  lastSheetStop = stops[stops.length - 1];
+  if (maxOffset > lastSheetStop + 1) stops.push(maxOffset);
+  measureClosingHold(maxOffset - lastSheetStop);
   sheets.forEach((sheet, i) => {
     const journey = String(quantize(journeyOf(maxOffset - stops[i], maxOffset)));
     for (const section of sheet) section.style.setProperty('--journey', journey);
   });
   setOffset(offset);
+}
+
+/* The closing lines would rather not move while the ledger rises, but on a short
+   page holding them still would bury them under the strip. Rise the least the
+   footer demands, and only as far as the header allows. */
+const CLOSING_AIR = 12;
+
+function measureClosingHold(footerH: number): void {
+  closingHold = 1;
+  if (!closing || footerH <= 0) return;
+  const sheet = closing.closest<HTMLElement>('.home-v7__row');
+  if (!sheet) return;
+  const sheetTop = sheet.getBoundingClientRect().top;
+  const box = closing.getBoundingClientRect();
+  const header = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0;
+  const needed = box.bottom - sheetTop + footerH + CLOSING_AIR - viewportH;
+  const allowed = box.top - sheetTop - header - CLOSING_AIR;
+  closingHold = 1 - clamp(needed, 0, Math.max(0, allowed)) / footerH;
 }
 
 // Glow clones paint only around the visible page: all pages ride one layer, so far
@@ -145,6 +177,7 @@ export function createPagerEngine(): HomeEngine<number> {
         document.querySelector<HTMLElement>('.footer-ledger'),
       ].filter((el): el is HTMLElement => el !== null);
       trees = [...document.querySelectorAll<HTMLElement>('.home-v7__tree, .home-v7__tree-glow')];
+      closing = document.querySelector<HTMLElement>('.home-v7__row--dawn > *');
       document.documentElement.setAttribute('data-pager', '');
       document.documentElement.style.setProperty('--pager-ms', `${TURN_MS}ms`);
       // The notebook has no scroll of its own to restore, and Chrome restores
