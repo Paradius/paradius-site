@@ -903,6 +903,48 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
   html[data-device="touch"] .home-v7__row--split,
   html[data-device="touch"] .home-v7__row--pair {
     --inward-step: clamp(2.25rem, 9svh, 4.5rem);
+    /* The rules are branches: one margin off the trunk, the same on both sides
+       and on every sheet. --trunk-nudge mirrors the tree's own offset in
+       home-v7.css (left: calc(50% + 1.2vw)); move one, move the other. */
+    --trunk-nudge: 1.2vw;
+    --branch-gap: clamp(1.75rem, 3.5vw, 3.25rem);
+  }
+
+  /* Sheet 4: the spine slides right so its centre falls on the trunk, and the
+     gap between its two columns is exactly the two branch margins. */
+  html[data-device="touch"] .home-v7__row--split .home-v7__spine {
+    gap: calc(2 * var(--branch-gap));
+    padding-left: calc(var(--bleed-pad) + 2 * var(--trunk-nudge));
+    padding-right: var(--bleed-pad);
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--left {
+    padding-right: 0;
+  }
+
+  html[data-device="touch"] .home-v7__row--split .home-v7__col--right {
+    padding-left: 0;
+  }
+
+  /* The fused sheets are floated halves, so the trunk margin is padding on the
+     half itself; their inner spine stops splitting what is already one column. */
+  html[data-device="touch"] .home-v7__row--pair .home-v7__spine {
+    display: block;
+    padding-inline: 0;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair .home-v7__col--empty {
+    display: none;
+  }
+
+  html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
+    padding-left: var(--bleed-pad);
+    padding-right: calc(var(--branch-gap) - var(--trunk-nudge));
+  }
+
+  html[data-device="touch"] .home-v7__row--pair-2 {
+    padding-left: calc(var(--branch-gap) + var(--trunk-nudge));
+    padding-right: var(--bleed-pad);
   }
 
   html[data-device="touch"] .home-v7__row--split .home-v7__col--left .home-v7__content,
