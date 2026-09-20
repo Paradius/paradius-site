@@ -333,7 +333,16 @@ html[data-device="touch"] .home-v7 {
    lift is bottom padding, so a centred row moves up by half of it. */
 html[data-device="touch"] .home-v7__row {
   --page-lift: 4svh;
-  padding-top: calc(var(--site-header-height) + var(--page-edge));
+  /* The header is glass, so the eye centres on the whole screen and a block
+     centred under the header reads low. --header-share is how much of that
+     header the page still reserves; the rest is centred through. */
+  padding-top: calc(var(--site-header-height) * var(--header-share, 1) + var(--page-edge));
+}
+
+@media (orientation: portrait) {
+  html[data-device="touch"] .home-v7__row {
+    --header-share: 0.4;
+  }
 }
 
 html[data-device="touch"] .home-v7__row,
@@ -350,10 +359,12 @@ html[data-device="touch"] .home-v7__row--pair {
      80px past the bottom of a Pixel page, and a sheet cannot scroll. */
   --page-fs: 0.85;
   --pair-air: clamp(0.75rem, 2.5svh, 1.75rem);
-  --pair-split: 50svh;
+  /* Where the two halves meet in portrait. Above the middle, because the glass
+     header makes a group hung off 50% read low. */
+  --pair-split: 46svh;
   /* Clears the header like every other page: in landscape a page is 412px tall
      and a plain 8svh top pad parks the first line under the logo. */
-  --pair-edge: calc(var(--site-header-height) + var(--page-edge));
+  --pair-edge: calc(var(--site-header-height) * var(--header-share, 1) + var(--page-edge));
 }
 
 html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2) {
