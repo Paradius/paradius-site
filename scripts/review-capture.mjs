@@ -1,6 +1,7 @@
 // Shoots the 12 notebook sheets on the four measured device sizes for the review
 // form. Needs the dev server up; PROBE_URL overrides the address.
 // Output feeds scripts/review/index.html — see its shots5/ paths.
+// The ledger rides the closing sheet, so it is not a turn of its own.
 import { chromium } from 'playwright-core';
 import { openConfig } from './device-modes-probe.mjs';
 import { mkdirSync } from 'node:fs';
@@ -21,7 +22,7 @@ for (const name of DEVICES) {
       if (last && s.classList.contains('home-v7__row--pair-2')) last.push(s);
       else grouped.push([s]);
     }
-    return grouped.length + (document.querySelector('.footer-ledger') ? 1 : 0);
+    return grouped.length;
   });
   const shots = [];
   for (let i = 0; i < sheets; i++) {

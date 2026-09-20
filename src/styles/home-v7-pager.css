@@ -328,7 +328,11 @@ html[data-device="touch"] .home-v7 {
   --page-edge: clamp(1.25rem, 4svh, 2.5rem);
 }
 
+/* Optical centre, not geometric: a block that measures centred still reads as
+   sitting low, so every page but the hero rides a little above the middle. The
+   lift is bottom padding, so a centred row moves up by half of it. */
 html[data-device="touch"] .home-v7__row {
+  --page-lift: 4svh;
   padding-top: calc(var(--site-header-height) + var(--page-edge));
 }
 
@@ -663,13 +667,46 @@ html[data-pager][data-pager-drag] .home-v7__tree-glow {
   transition: none;
 }
 
-/* The closing sheet is the footer itself: it used to sit under half a screen of
-   leftover dawn page ("WTF?" on the owner's review). */
+/* The ledger is four short lines: it rides the closing sheet instead of taking
+   a turn of its own (owner, vuelta 5). Pinning its height and taking the same
+   amount off the dawn row keeps the two together at exactly one page. */
+html[data-pager] {
+  --footer-h: 9.5rem;
+}
+
+@media (orientation: landscape) and (max-width: 1099px) {
+  html[data-pager] {
+    --footer-h: 6.5rem;
+  }
+
+  /* A 372px page has no slack to lift into: the sheets already fill it. */
+  html[data-device="touch"] .home-v7__row {
+    --page-lift: 0svh;
+  }
+
+  /* The dawn and the ledger together have to fit 372px: the closing lines give
+     up a hair so the ledger can ride the same page. The id is what the per-sheet
+     dials above use, so the override has to match it. */
+  html[data-pager][data-device="touch"] #assurance {
+    --page-fs: 0.94;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 1100px) {
+  html[data-pager] {
+    --footer-h: 5rem;
+  }
+}
+
 html[data-pager] .footer-ledger {
-  min-height: 100svh;
+  min-height: var(--footer-h);
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+html[data-pager] .home-v7__row--dawn {
+  min-height: calc(100svh - var(--footer-h));
 }
 
 /* In the notebook the footer IS a whole sheet, so the site-wide pane, which is
@@ -1052,7 +1089,7 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
   html[data-device="touch"] .home-v7__row--pair:not(.home-v7__row--pair-2),
   html[data-device="touch"] .home-v7__row--pair.home-v7__row--pair-2 {
     justify-content: flex-start;
-    padding-top: calc(var(--pair-edge) + var(--pair-drop, 0px));
+    padding-top: calc(var(--pair-edge) + var(--pair-drop, 0px) - var(--page-lift, 0px) / 2);
   }
 
   /* margin, not --row-air-top: the sheet carries that variable in an inline
