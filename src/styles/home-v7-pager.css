@@ -910,7 +910,7 @@ html[data-device="touch"] .home-v7__row--pair-2 .home-v7__ops-block > * {
     --branch-gap: clamp(1.75rem, 3.5vw, 3.25rem);
     /* The trunk does not read centred: its drawing leans right, so the branch
        on the left needs far more air than the one on the right. Two knobs. */
-    --branch-left: calc(3 * var(--branch-gap));
+    --branch-left: calc(2.9 * var(--branch-gap));
     --branch-right: calc(2 * var(--branch-gap));
   }
 
