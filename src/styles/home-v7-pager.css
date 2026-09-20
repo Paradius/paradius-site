@@ -339,29 +339,34 @@ html[data-device="touch"] .home-v7__row {
   padding-top: calc(var(--site-header-height) * var(--header-share, 1) + var(--page-edge));
 }
 
+/* Where the first word lands, measured off the hero, which sits at the same
+   fraction of the page on both sizes: 209/803 and 262/1036 upright, 88/372 and
+   139/585 on its side. */
+html[data-device="touch"] .home-v7__row {
+  --text-line: 23.7svh;
+}
+
 @media (orientation: portrait) {
   html[data-device="touch"] .home-v7__row {
     --header-share: 0.4;
-    /* Where the first word lands. Measured off the hero: 209 of 803 on the
-       phone, 262 of 1036 on the tablet — the same fraction on both. */
     --text-line: 25.6svh;
   }
 }
 
 /* Stacked, the two forces need air between them or they read as one block
    (owner, vuelta 5: "espaciado vertical donde quepa claramente"). */
-@media (orientation: portrait) {
-  /* Two modes, two rules (owner, vuelta 5). Text sheets hang from ONE line, the
-     one the hero sets, so the eye finds the first word in the same place every
-     turn; centring them made that line wander with the length of the block. */
-  html[data-device="touch"] .home-v7__row--voice {
-    justify-content: flex-start;
-    padding-top: var(--text-line);
-  }
+/* Two modes, two rules (owner, vuelta 5). Text sheets hang from ONE line, the
+   one the hero sets, so the eye finds the first word in the same place every
+   turn; centring them made that line wander with the length of the block. */
+html[data-device="touch"] .home-v7__row--voice {
+  justify-content: flex-start;
+  padding-top: var(--text-line);
+}
 
-  /* Two-block sheets stay in the optical middle instead, and the air between
-     the blocks has to read smaller than the page's own top and bottom margin
-     or the pair stops reading as one group. */
+/* Two-block sheets stay in the optical middle instead, and the air between the
+   blocks has to read smaller than the page's own top and bottom margin or the
+   pair stops reading as one group. */
+@media (orientation: portrait) {
   html[data-device="touch"] .home-v7__row--split .home-v7__spine {
     row-gap: clamp(1rem, 3svh, 2.5rem);
   }
@@ -718,6 +723,11 @@ html[data-pager] {
   /* A 372px page has no slack to lift into: the sheets already fill it. */
   html[data-device="touch"] .home-v7__row {
     --page-lift: 0svh;
+  }
+
+  /* Hung from the shared line, the thesis runs one pixel past a 372px page. */
+  html[data-device="touch"] #thesis {
+    --page-fs: 0.96;
   }
 
 }
