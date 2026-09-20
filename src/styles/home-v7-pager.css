@@ -363,6 +363,13 @@ html[data-device="touch"] .home-v7__row--voice {
   padding-top: var(--text-line);
 }
 
+/* Hung from the top, a trailing margin under the last line is dead space that
+   only costs the sheet its own height. */
+html[data-device="touch"] .home-v7__row--voice .home-v7__peak:last-child,
+html[data-device="touch"] .home-v7__row--voice .home-v7__peak-lead:last-child {
+  margin-block-end: 0;
+}
+
 /* Two-block sheets stay in the optical middle instead, and the air between the
    blocks has to read smaller than the page's own top and bottom margin or the
    pair stops reading as one group. */
@@ -725,7 +732,18 @@ html[data-pager] {
     --page-lift: 0svh;
   }
 
-  /* Hung from the shared line, the thesis runs one pixel past a 372px page. */
+  /* The hero's line would leave the first word 12px under the navbar on a 372px
+     page: here the text starts lower than the hero, not level with it. */
+  html[data-device="touch"] .home-v7__row {
+    --text-line: 29.5svh;
+  }
+
+  /* Hung from the top, the bottom pad buys nothing and costs the longest sheet
+     its last line on a 372px page. */
+  html[data-device="touch"] .home-v7__row--voice {
+    padding-bottom: 0;
+  }
+
   html[data-device="touch"] #thesis {
     --page-fs: 0.96;
   }
