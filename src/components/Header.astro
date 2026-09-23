@@ -1,5 +1,7 @@
 ---
 import ParadiusLogo from './ParadiusLogo.astro';
+const path = Astro.url.pathname;
+const current = (href: string) => (path === href || path.startsWith(href + '/') ? 'page' : undefined);
 ---
 
 <header class="site-header" id="header">
@@ -9,11 +11,11 @@ import ParadiusLogo from './ParadiusLogo.astro';
     </a>
     <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">
       <ul class="site-header__nav-list">
-        <li><a href="/talent" class="site-header__nav-link">Registry</a></li>
-        <li><a href="/work" class="site-header__nav-link">Work</a></li>
-        <li><a href="/how-we-work" class="site-header__nav-link">How we work</a></li>
-        <li><a href="/about" class="site-header__nav-link">About</a></li>
-        <li><a href="/contact" class="site-header__nav-link">Contact</a></li>
+        <li><a href="/talent" class="site-header__nav-link" aria-current={current('/talent')}>Registry</a></li>
+        <li><a href="/work" class="site-header__nav-link" aria-current={current('/work')}>Work</a></li>
+        <li><a href="/how-we-work" class="site-header__nav-link" aria-current={current('/how-we-work')}>How we work</a></li>
+        <li><a href="/about" class="site-header__nav-link" aria-current={current('/about')}>About</a></li>
+        <li><a href="/contact" class="site-header__nav-link" aria-current={current('/contact')}>Contact</a></li>
         <li><a href="/contact" class="site-header__cta">Start your team</a></li>
       </ul>
     </nav>

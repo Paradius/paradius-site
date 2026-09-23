@@ -116,7 +116,8 @@
   }
 
   .site-header__nav-link:hover,
-  .site-header__nav-link:focus-visible {
+  .site-header__nav-link:focus-visible,
+  .site-header__nav-link[aria-current="page"] {
     color: var(--color-text-primary);
   }
 
