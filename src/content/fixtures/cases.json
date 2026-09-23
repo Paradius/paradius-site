@@ -2,15 +2,15 @@
   "items": [
     {
       "id": "case-001",
-      "title": "The visual language of warehouse automation",
-      "slug": "warehouse-automation",
-      "clientDescriptor": "A warehouse automation company",
-      "problem": "A warehouse floor is a negotiation between robots, storage systems, inventory, people and hundreds of services, each speaking its own dialect. At scale, nobody can see the whole conversation at once. The client, a warehouse automation company, needed its floor to be legible: one language that everything on it could speak.",
-      "solution": "We built that language. A visual system that translates what robots, goods-to-person storage, inventory and services are doing into one coherent, live picture, coordinating hundreds of services without asking any of them to change what they are. Architecture first: the language had to survive new robots, new services and new sites without being redesigned.",
+      "title": "Where the whole city goes out",
+      "slug": "live-events-platform",
+      "clientDescriptor": "A live events platform in Central America: artists, venues, fans and tickets in one place",
+      "problem": "Two products that want opposite things, growing at once. A social network for going out: artists announce, fans follow, review and recommend, and the feed has to be alive every second and forgive anything. And ticketing: one seat sold exactly once, and a gate that has to say yes or no in under a second with no signal. Most platforms pick one and bolt on the other. The client had both, and every big launch was a fight between them: an artist's announcement would flood the feed and take the on-sale down with it.",
+      "solution": "We separated the physics and joined the data. Feed, reviews and recommendations run on an architecture that scales sideways and tolerates being a few seconds behind. Inventory and gates run on one that is strictly consistent and keeps working with the network cut. Between the two, one graph: artist, venue, event, fan, ticket. A scanned ticket becomes proof of attendance, so a review comes from someone who was in the room, and the next recommendation comes from where people actually went, not from what they said they liked. The artist sees an audience of people, not a count of tickets.",
       "stack": [],
-      "outcome": "The language did not stay a pilot. Today a Fortune 500 retailer runs it across its distribution network, at network scale. It became how the floor is read.",
+      "outcome": "On-sales stopped taking the feed down, and the feed stopped taking on-sales down. Reviews carry the weight of a scanned ticket. Artists announce to the fans who came last time. The platform runs the city's biggest nights and its quietest bar on the same graph.",
       "metrics": [],
-      "leftBehind": "The visual grammar itself: documented, extensible, and in daily use by teams that never met us.",
+      "leftBehind": "One graph of who plays, who goes and what they said, and two architectures that never had to become the same.",
       "published": true
     },
     {
@@ -25,9 +25,35 @@
       "metrics": [],
       "leftBehind": "Systems that run without us. No retainer, no dependency, no signature.",
       "published": true
+    },
+    {
+      "id": "case-003",
+      "title": "Every box traced back to the row it grew in",
+      "slug": "fruit-plantations",
+      "clientDescriptor": "An agricultural exporter running fruit plantations across several countries",
+      "problem": "Fruit that leaves a plantation for a supermarket abroad has to answer questions before it is allowed on the shelf: which field, which day, which crew, what was sprayed and when, and whether the pre-harvest interval was respected. The answers are born in the field, where there is no signal, no outlet and no time to type. The company had them on paper, in trucks, a week late, and every audit was a reconstruction.",
+      "solution": "We put the record where the fruit is. Each crew, lot and row has an identity. Harvest, spraying and quality are captured in the field on phones that work for days without a network and sync in order when they find one. The agronomists' rules are enforced on the device: a row inside its spraying interval cannot be harvested, whoever is holding the phone. At the packing plant, one pallet scan closes the chain from the row to the container. Conflicts resolve by the rules of the crop, not by whoever uploaded last.",
+      "stack": [],
+      "outcome": "Every box traces back to the row, the day and the hands, and the certifier sees it without a reconstruction. Decisions that used to wait for the truck are made the same morning. The platform runs across countries and crops, on the same phones, in places where nothing else works.",
+      "metrics": [],
+      "leftBehind": "A model of the plantation the company's own team extends, and an audit that answers itself.",
+      "published": true
+    },
+    {
+      "id": "case-004",
+      "title": "An order that always knows where it is",
+      "slug": "food-delivery-platform",
+      "clientDescriptor": "A food delivery platform operating across Latin America",
+      "problem": "An order is a promise made three times: to the person who is hungry, to the kitchen that has to cook it now, and to the courier who has to be at the door before it goes cold. The platform had grown faster than the systems keeping those three promises in sync. Every lunch and dinner peak turned into orders lost between apps, couriers sent to kitchens that had not started, and a support team that learned about a problem from the customer.",
+      "solution": "We rebuilt the life of an order as one state machine shared by the three apps, customer, restaurant and courier, so every screen reads the same truth at the same moment. Dispatch became event-driven instead of polled. The peaks were designed as the normal case, not the exception: the flow had to hold on a Friday night, in a city with bad coverage, on a phone that had just lost signal.",
+      "stack": [],
+      "outcome": "An order that always knows where it is. Peaks stopped being incidents. The platform kept opening cities on the same flow, without calling us back.",
+      "metrics": [],
+      "leftBehind": "One order model the three apps share, documented, and a team that owns it end to end.",
+      "published": true
     }
   ],
   "page": 1,
   "perPage": 50,
-  "totalItems": 2
+  "totalItems": 4
 }
