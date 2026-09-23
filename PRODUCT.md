@@ -276,3 +276,15 @@ Known, deliberate, and waiting on a decision. Not bugs to be fixed silently.
   requires touching `src/scripts/home-v7.ts`, which is frozen.
 - **Self hosted fonts** are the candidate resolution for the first debt and
   would also remove a third party request from every page load.
+
+## Visual law of the inner pages (validated on mockups 2026-09-20 to 2026-09-22, ported 2026-09-22)
+
+Every non-home page is a branch of the same circuit tree, with its own identity: the tree's own pieces run down the page, and the text never sits on the tree's ink.
+
+- **Two forces, two sides.** A block is either Will (the mythic, the people: Zilla Slab, right of the trunk) or Power (the factual: Space Grotesk, left of the trunk). The force is decided per block, not per page. The hero decides which way the canopy opens (away from the hero); the CTA is factual and closes the page in front of the roots, which fan to the Will side. Kickers and buttons are always Grotesk caps.
+- **Three modes.** Text pages (about, faq, how-we-work, careers, legal, 404, a work case) are `two-sided`: trunk in the middle. Tool pages (registry, work index, contact) are `rail`: trunk down the left edge, the tool full width. The dossier is two-sided from 1200px and a rail below. Under 700px everything is one column: the trunk keeps the side it had relative to the hero's text, runs behind the footer to the end of the document, and never shows roots.
+- **The tree does not stretch with the window.** The trunk stays between 44 and 64 CSS px at every size; the page adapts to the tree.
+- **One branch per entity, never per heading.** Engineers in the registry, jobs in a dossier, cases in the work index carry a branch that grows from the trunk (on hover; on touch, when the row scrolls into view; still and seated under the title in the dossier). Problem / Solution / Outcome are chapters, not entities.
+- **List then detail.** Pages with entities split into an index that is a tool (rows) and a detail that narrates (dossier, case). Mixing both on one page reads dull.
+- **Type scale at 1440.** Hero Will 48/27, hero Power 36/24, kicker 13 caps; Will block 34/22; Power block 27/19; CTA 32/22 with a 13 caps button; labels 13 caps (kicker grey 400, legend and chapter white 500); rows: title 21, code 13 mono, subtitle 13 caps, text 15; badge 12 mono. Sizes are whole pixels.
+- **Copy carries no dashes**: ranges read "2021 to now".
