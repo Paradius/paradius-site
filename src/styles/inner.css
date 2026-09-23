@@ -71,6 +71,12 @@ body:has(.inner-main)::before { display: none; }
   mask-repeat: no-repeat;
 }
 
+/* Keeps the run's tiles resident: once the tab idles, Chromium evicts them and the next
+   scroll bump re-rasterizes the whole masked layer, a visible one-second freeze on desktop. */
+@media (min-width: 700px) {
+  .inner-run { will-change: transform; }
+}
+
 .inner-block {
   position: relative;
   z-index: 1;
