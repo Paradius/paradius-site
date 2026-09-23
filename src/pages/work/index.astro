@@ -1,32 +1,37 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ScrollBehavior from '../../components/ScrollBehavior.astro';
-import TalentPageHero from '../../components/talent/TalentPageHero.astro';
-import WorkCaseStudy from '../../components/work/WorkCaseStudy.astro';
+import InnerLayout from '../../layouts/InnerLayout.astro';
+import InnerBlock from '../../components/inner/InnerBlock.astro';
+import WorkRow from '../../components/work/WorkRow.astro';
 import { getCases } from '../../lib/api';
+import { formatWorkStatus } from '../../lib/brand/registry';
 import { buildWorkCatalogSeo } from '../../lib/seo';
+import '../../styles/inner-tools.css';
 
 const cases = await getCases();
 const seo = buildWorkCatalogSeo(cases);
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <TalentPageHero
-      title="See our work"
-      description="Anonymized engagements, narrated without invented numbers. What we designed, what we built, and what is still standing."
-    />
-    <section class="work-page" aria-label="Case studies">
-      <div class="work-page__cases page-wrap">
-        {cases.map((caseStudy, index) => (
-          <WorkCaseStudy caseStudy={caseStudy} caseIndex={index + 1} headingLevel="h2" />
-        ))}
-      </div>
-    </section>
-  </main>
-  <Footer />
-  <ScrollBehavior />
-</BaseLayout>
+<InnerLayout seo={seo} mode="rail">
+  <InnerBlock force="power" kind="hero" kicker="Work" title="See our work">
+    <p>Anonymized engagements, narrated without invented numbers. What we designed, what we built, and what is still standing.</p>
+  </InnerBlock>
+
+  <InnerBlock force="power" kind="tool" ariaLabel="Case studies">
+    <p class="inner-status">{formatWorkStatus(cases.length)}</p>
+    <div class="inner-register inner-cases" role="list">
+      {cases.map((caseStudy, index) => <WorkRow caseStudy={caseStudy} caseIndex={index + 1} />)}
+    </div>
+  </InnerBlock>
+
+  <InnerBlock force="power" kind="cta" title="Assembling a cross-functional team?">
+    <p>Describe who you need and we assemble the team: we reply within 24 hours.</p>
+    <Fragment slot="actions">
+      <a href="/contact" class="inner-button">Start your team</a>
+    </Fragment>
+  </InnerBlock>
+</InnerLayout>
+
+<script>
+  import { mountInnerRows } from '../../scripts/inner-rows';
+  mountInnerRows();
+</script>

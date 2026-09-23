@@ -1,12 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ScrollBehavior from '../../components/ScrollBehavior.astro';
-import WorkCaseStudy from '../../components/work/WorkCaseStudy.astro';
+import InnerLayout from '../../layouts/InnerLayout.astro';
+import InnerBlock from '../../components/inner/InnerBlock.astro';
+import { formatCaseCode } from '../../lib/brand/registry';
 import { getCases } from '../../lib/api';
 import { buildWorkCaseSeo, buildBreadcrumbJsonLd, SITE_URL } from '../../lib/seo';
 import type { CaseStudy } from '../../lib/api';
+import '../../styles/inner-tools.css';
 
 export async function getStaticPaths() {
   const cases = await getCases();
@@ -35,18 +34,67 @@ const seo = {
 };
 const cases = await getCases();
 const caseIndex = cases.findIndex((entry) => entry.slug === caseStudy.slug) + 1;
+const hasFacts = caseStudy.stack.length > 0 || Boolean(caseStudy.engagementDuration) || Boolean(caseStudy.engagementModel);
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap">
-      <p class="profile-dossier-b__back">
-        <a href="/work/">← Back to case studies</a>
-      </p>
-      <WorkCaseStudy caseStudy={caseStudy} caseIndex={caseIndex} />
-    </div>
-  </main>
-  <Footer />
-  <ScrollBehavior />
-</BaseLayout>
+<InnerLayout seo={seo} mode="two-sided">
+  <InnerBlock force="will" kind="hero" title={caseStudy.title}>
+    <Fragment slot="kicker"><a href="/work/">Work</a> &middot; {formatCaseCode(caseIndex)}</Fragment>
+    <p class="inner-client">{caseStudy.clientDescriptor}</p>
+    <p class="inner-chapter">Problem</p>
+    <p>{caseStudy.problem}</p>
+  </InnerBlock>
+
+  <InnerBlock force="power" ariaLabel="Solution and outcome">
+    {hasFacts && (
+      <div class="inner-console" aria-label="Engagement facts">
+        {caseStudy.stack.length > 0 && (
+          <div class="inner-group">
+            <p class="inner-legend">Stack</p>
+            <div class="inner-pills">{caseStudy.stack.map((tag) => <span class="inner-pill">{tag}</span>)}</div>
+          </div>
+        )}
+        {caseStudy.engagementDuration && (
+          <div class="inner-group">
+            <p class="inner-legend">Duration</p>
+            <div class="inner-pills"><span class="inner-pill">{caseStudy.engagementDuration}</span></div>
+          </div>
+        )}
+        {caseStudy.engagementModel && (
+          <div class="inner-group">
+            <p class="inner-legend">Model</p>
+            <div class="inner-pills"><span class="inner-pill">{caseStudy.engagementModel}</span></div>
+          </div>
+        )}
+      </div>
+    )}
+    <p class="inner-chapter">Solution</p>
+    <p>{caseStudy.solution}</p>
+    <p class="inner-chapter">Outcome</p>
+    <p>{caseStudy.outcome}</p>
+    {caseStudy.metrics.length > 0 && (
+      <div class="inner-metrics" aria-label="Key metrics">
+        {caseStudy.metrics.map((metric) => (
+          <div>
+            <span class="inner-metrics__value">{metric.value}</span>
+            <span class="inner-metrics__label">{metric.label}</span>
+          </div>
+        ))}
+      </div>
+    )}
+  </InnerBlock>
+
+  {caseStudy.leftBehind && (
+    <InnerBlock force="will" ariaLabel="What we left behind">
+      <p class="inner-chapter">What we left behind</p>
+      <p>{caseStudy.leftBehind}</p>
+    </InnerBlock>
+  )}
+
+  <InnerBlock force="power" kind="cta" title="If your operation looks like this, we should talk.">
+    <p>Describe who you need and we assemble the team: we reply within 24 hours.</p>
+    <Fragment slot="actions">
+      <a href="/contact" class="inner-button">Start your team</a>
+    </Fragment>
+  </InnerBlock>
+</InnerLayout>

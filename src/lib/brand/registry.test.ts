@@ -3,6 +3,7 @@ import {
   formatCaseCode,
   formatRegistryStatus,
   formatStepCode,
+  formatWorkStatus,
   resolveActiveSection,
 } from './registry';
 
@@ -31,6 +32,15 @@ describe('formatRegistryStatus', () => {
 
   it('treats full visibility as unfiltered', () => {
     expect(formatRegistryStatus(5, 5)).toBe('Registry: 5 active profiles');
+  });
+});
+
+describe('formatWorkStatus', () => {
+  it('counts the case studies', () => {
+    expect(formatWorkStatus(2)).toBe('Work: 2 case studies');
+  });
+  it('reads one case study in the singular', () => {
+    expect(formatWorkStatus(1)).toBe('Work: 1 case study');
   });
 });
 

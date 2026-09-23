@@ -44,6 +44,11 @@ export function formatRegistryStatus(total: number, visible?: number): string {
   return `Registry: ${total} active profiles`;
 }
 
+/** Work index status line. */
+export function formatWorkStatus(total: number): string {
+  return `Work: ${total} case ${total === 1 ? 'study' : 'studies'}`;
+}
+
 /** Resolves the active registry section from the current URL path. */
 export function resolveActiveSection(pathname: string): RegistrySectionId | null {
   if (pathname === '/talent' || pathname.startsWith('/talent/')) {

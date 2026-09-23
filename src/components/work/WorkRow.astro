@@ -1,0 +1,20 @@
+---
+import type { CaseStudy } from '../../lib/api';
+import { formatCaseCode } from '../../lib/brand/registry';
+import Branch from '../inner/Branch.astro';
+
+interface Props {
+  caseStudy: CaseStudy;
+  caseIndex: number;
+}
+
+const { caseStudy, caseIndex } = Astro.props;
+---
+
+<a class="inner-row" role="listitem" href={`/work/${caseStudy.slug}/`}>
+  <Branch fan="senior" />
+  <span class="inner-row__code">{formatCaseCode(caseIndex)}</span>
+  <span class="inner-row__title">{caseStudy.title}</span>
+  <span class="inner-row__graft"><span class="inner-row__meta">{caseStudy.clientDescriptor}</span></span>
+  {caseStudy.leftBehind && <p class="inner-row__text">{caseStudy.leftBehind}</p>}
+</a>
