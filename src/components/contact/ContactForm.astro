@@ -9,155 +9,75 @@ const { apiBaseUrl } = Astro.props;
 const apiConfigured = apiBaseUrl.trim().length > 0;
 ---
 
-<section class="contact-mockup section-reveal" id="contact-form">
-  <div class="contact-mockup__intro">
-    <p class="contact-mockup__eyebrow">Start a conversation</p>
-    <h1 class="contact-mockup__title">Build your team</h1>
-    <p class="contact-mockup__description">
-      Every engagement is scoped to your architecture. Tell us who you need. We
-      reply within 24 hours with matched profiles and a rate proposal. There is
-      no pricing on this site because requirements determine price: rates are
-      scoped in private conversation.
+<div class="inner-form" data-contact-form data-api-base-url={apiBaseUrl} data-api-configured={apiConfigured ? 'true' : 'false'}>
+  <div class="inner-form__status" data-status="success" hidden role="status" aria-live="polite">
+    <p class="inner-form__status-title">Inquiry sent</p>
+    <p class="inner-form__status-text">Thank you. We reply within 24 hours with vetted profiles that match your needs.</p>
+  </div>
+
+  <div class="inner-form__status inner-form__status--error" data-status="error" hidden role="alert" aria-live="assertive">
+    <p class="inner-form__status-title" data-error-title>Something went wrong</p>
+    <p class="inner-form__status-text" data-error-message></p>
+    <p class="inner-form__status-text" data-error-fallback hidden>
+      Prefer email?
+      <a data-mailto-fallback href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
     </p>
   </div>
 
-  <div
-    class="contact-form"
-    data-contact-form
-    data-api-base-url={apiBaseUrl}
-    data-api-configured={apiConfigured ? 'true' : 'false'}
-  >
-    <div class="contact-form__status contact-form__status--success" data-status="success" hidden role="status" aria-live="polite">
-      <p class="contact-form__status-title">Inquiry sent</p>
-      <p class="contact-form__status-text">
-        Thank you. We reply within 24 hours with vetted profiles that match your needs.
-      </p>
+  {!apiConfigured && (
+    <p class="inner-hint" data-api-note>
+      Online submission is unavailable in this build. Use the form to compose your message,
+      then send it via email below.
+    </p>
+  )}
+
+  <form id="lead-form" novalidate aria-label="Contact form">
+    <div class="inner-field" data-field="name">
+      <label class="inner-legend" for="contact-name">Name</label>
+      <input class="inner-input" type="text" id="contact-name" name="name" autocomplete="name" required placeholder="Your name" />
+      <p class="inner-form__error" id="contact-name-error" data-field-error="name" hidden></p>
     </div>
 
-    <div class="contact-form__status contact-form__status--error" data-status="error" hidden role="alert" aria-live="assertive">
-      <p class="contact-form__status-title" data-error-title>Something went wrong</p>
-      <p class="contact-form__status-text" data-error-message></p>
-      <p class="contact-form__status-fallback" data-error-fallback hidden>
-        Prefer email?
-        <a data-mailto-fallback href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </p>
+    <div class="inner-field" data-field="email">
+      <label class="inner-legend" for="contact-email">Email</label>
+      <input class="inner-input" type="email" id="contact-email" name="email" autocomplete="email" required placeholder="you@company.com" />
+      <p class="inner-form__error" id="contact-email-error" data-field-error="email" hidden></p>
     </div>
 
-    {
-      !apiConfigured && (
-        <p class="contact-form__api-note" data-api-note>
-          Online submission is unavailable in this build. Use the form to compose your message,
-          then send it via email below.
-        </p>
-      )
-    }
+    <div class="inner-field" data-field="company">
+      <label class="inner-legend" for="contact-company">Company</label>
+      <input class="inner-input" type="text" id="contact-company" name="company" autocomplete="organization" required placeholder="Company name" />
+      <p class="inner-form__error" id="contact-company-error" data-field-error="company" hidden></p>
+    </div>
 
-    <form
-      class="contact-mockup__form"
-      id="lead-form"
-      novalidate
-      aria-label="Contact form"
-    >
-      <div class="contact-mockup__field" data-field="name">
-        <label class="contact-mockup__label" for="contact-name">Name</label>
-        <input
-          class="contact-mockup__input"
-          type="text"
-          id="contact-name"
-          name="name"
-          autocomplete="name"
-          required
-          placeholder="Your name"
-        />
-        <p class="contact-form__field-error" id="contact-name-error" data-field-error="name" hidden></p>
-      </div>
+    <div class="inner-field" data-field="profiles" hidden>
+      <span class="inner-legend" id="contact-profiles-label">Requisition</span>
+      <div class="inner-pills" id="contact-profile-chips" role="list" aria-labelledby="contact-profiles-label" data-profile-chips></div>
+      <p class="inner-hint" data-profile-hint>Add profiles from the talent catalog. Chips appear when you follow a profile link.</p>
+    </div>
 
-      <div class="contact-mockup__field" data-field="email">
-        <label class="contact-mockup__label" for="contact-email">Email</label>
-        <input
-          class="contact-mockup__input"
-          type="email"
-          id="contact-email"
-          name="email"
-          autocomplete="email"
-          required
-          placeholder="you@company.com"
-        />
-        <p class="contact-form__field-error" id="contact-email-error" data-field-error="email" hidden></p>
-      </div>
+    <div class="inner-field" data-field="message">
+      <label class="inner-legend" for="contact-message">Message</label>
+      <textarea class="inner-input inner-input--area" id="contact-message" name="message" rows={5} required placeholder="Describe your team needs, timeline, and tech stack..."></textarea>
+      <p class="inner-form__error" id="contact-message-error" data-field-error="message" hidden></p>
+    </div>
 
-      <div class="contact-mockup__field" data-field="company">
-        <label class="contact-mockup__label" for="contact-company">Company</label>
-        <input
-          class="contact-mockup__input"
-          type="text"
-          id="contact-company"
-          name="company"
-          autocomplete="organization"
-          required
-          placeholder="Company name"
-        />
-        <p class="contact-form__field-error" id="contact-company-error" data-field-error="company" hidden></p>
-      </div>
+    <div class="inner-form__honeypot" aria-hidden="true">
+      <label for="contact-website">Website</label>
+      <input type="text" id="contact-website" name={HONEYPOT_FIELD} tabindex={-1} autocomplete="off" />
+    </div>
 
-      <div class="contact-mockup__field" data-field="profiles">
-        <span class="contact-mockup__label" id="contact-profiles-label">Requisition</span>
-        <div
-          class="contact-mockup__chips"
-          id="contact-profile-chips"
-          role="list"
-          aria-labelledby="contact-profiles-label"
-          data-profile-chips
-        >
-        </div>
-        <p class="contact-mockup__hint" data-profile-hint>
-          Add profiles from the talent catalog. Chips appear when you follow a profile link.
-        </p>
-      </div>
+    <div class="inner-actions">
+      <button type="submit" class="inner-button" data-submit>Send inquiry</button>
+    </div>
 
-      <div class="contact-mockup__field" data-field="message">
-        <label class="contact-mockup__label" for="contact-message">Message</label>
-        <textarea
-          class="contact-mockup__textarea"
-          id="contact-message"
-          name="message"
-          rows={5}
-          required
-          placeholder="Describe your team needs, timeline, and tech stack..."
-        ></textarea>
-        <p class="contact-form__field-error" id="contact-message-error" data-field-error="message" hidden></p>
-      </div>
+    <p class="inner-hint">Your data goes only where our <a href="/legal/privacy">privacy policy</a> says it goes.</p>
+  </form>
 
-      <div class="contact-form__honeypot" aria-hidden="true">
-        <label for="contact-website">Website</label>
-        <input
-          type="text"
-          id="contact-website"
-          name={HONEYPOT_FIELD}
-          tabindex={-1}
-          autocomplete="off"
-        />
-      </div>
-
-      <button type="submit" class="contact-mockup__submit contact-form__submit" data-submit>
-        Send inquiry
-      </button>
-
-      <p class="contact-mockup__fallback">
-        Your data goes only where our <a href="/legal/privacy">privacy policy</a> says it goes.
-      </p>
-
-      <p class="contact-mockup__fallback">
-        Prefer email?
-        <a href={`mailto:${CONTACT_EMAIL}`} data-static-mailto>{CONTACT_EMAIL}</a>
-      </p>
-    </form>
-
-    <noscript>
-      <p class="contact-form__noscript">
-        JavaScript is required for online submission. Email us directly at
-        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-      </p>
-    </noscript>
-  </div>
-</section>
+  <noscript>
+    <p class="inner-hint">
+      JavaScript is required for online submission. Email us directly at
+      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+    </p>
+  </noscript>
+</div>

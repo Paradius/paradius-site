@@ -1,7 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import InnerLayout from '../layouts/InnerLayout.astro';
+import InnerBlock from '../components/inner/InnerBlock.astro';
 import { SITE_URL, type PageSeo } from '../lib/seo';
 
 const seo: PageSeo = {
@@ -15,130 +14,40 @@ const seo: PageSeo = {
 };
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap page-wrap--narrow careers">
-      <h1>Careers</h1>
+<InnerLayout seo={seo} mode="two-sided">
+  <InnerBlock force="will" kind="hero" title="Careers">
+    <p>
+      We do not hire headcount. We find the ones with the spark and push them further
+      than they believed they could go.
+    </p>
+  </InnerBlock>
 
-      <!-- The promise, in the serif voice. This is the one page where the mythic
-           register stands on its own, so the opening carries it at full scale. -->
-      <p class="careers__open">
-        We do not hire headcount. We find the ones with the spark and push them further
-        than they believed they could go.
-      </p>
+  <InnerBlock force="will">
+    <p>
+      What that means in practice: you start at our hub in Managua, a senior mentor at
+      the next desk, standards enforced from day one. Then you go remote, and nothing
+      degrades, because the discipline travels with you.
+    </p>
+    <p>
+      Performance pays. Bonuses are tied to what you ship, and training is continuous:
+      multicultural communication, languages, the platforms you have not touched yet.
+    </p>
+    <p>
+      On client systems you will carry a code instead of a name. The glory goes to the
+      client. The growth stays with you.
+    </p>
+    <p>For engineers: a place where your spark is an asset, not a liability.</p>
+  </InnerBlock>
 
-      <section class="careers__body" aria-labelledby="careers-body-heading">
-        <h2 id="careers-body-heading" class="sr-only">What the offer is</h2>
-        <p>
-          What that means in practice: you start at our hub in Managua, a senior mentor at
-          the next desk, standards enforced from day one. Then you go remote, and nothing
-          degrades, because the discipline travels with you.
-        </p>
-        <p>
-          Performance pays. Bonuses are tied to what you ship, and training is continuous:
-          multicultural communication, languages, the platforms you have not touched yet.
-        </p>
-        <p>
-          On client systems you will carry a code instead of a name. The glory goes to the
-          client. The growth stays with you.
-        </p>
-      </section>
-
-      <blockquote class="careers__quote">
-        <p>For engineers: a place where your spark is an asset, not a liability.</p>
-      </blockquote>
-
-      <section class="careers__body" aria-labelledby="careers-close-heading">
-        <h2 id="careers-close-heading" class="sr-only">How to reach us</h2>
-        <p>
-          Designed by an engineer, for engineers. Nobody here is disposable. Almost nobody
-          leaves.
-        </p>
-        <p>
-          There are no open positions listed. We find people through referrals and by
-          watching who builds what. If you think we should be watching you, write:
-          <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
-        </p>
-      </section>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  .careers h1 {
-    font-family: var(--font-sans);
-    font-size: clamp(1.875rem, 4vw, 2.5rem);
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-lg);
-  }
-
-  /* Serif, larger than the about page myth: no operative consequence follows it,
-     so the line has to hold the page on its own. */
-  .careers__open {
-    font-family: var(--font-brand);
-    font-size: clamp(1.5rem, 3.6vw, 2.125rem);
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: var(--tracking-heading);
-    color: var(--color-text-primary);
-    margin-block-end: 0;
-    text-wrap: balance;
-  }
-
-  .careers__body {
-    margin-block-start: var(--spacing-xl);
-  }
-
-  .careers__body p {
-    font-family: var(--font-sans);
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-    margin-block-end: 0.9rem;
-  }
-
-  .careers__body p:last-child {
-    margin-block-end: 0;
-  }
-
-  /* The one line addressed to the reader as a promise rather than a description.
-     Serif again, set apart by the accent rule on the leading edge. */
-  .careers__quote {
-    margin: var(--spacing-xl) 0 0;
-    padding-inline-start: var(--spacing-md);
-    border-inline-start: 2px solid var(--color-accent);
-  }
-
-  .careers__quote p {
-    font-family: var(--font-brand);
-    font-size: clamp(1.25rem, 2.6vw, 1.625rem);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.5;
-    letter-spacing: var(--tracking-heading);
-    color: var(--color-text-primary);
-    margin: 0;
-    text-wrap: balance;
-  }
-
-  .careers a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .careers a:hover,
-  .careers a:focus-visible {
-    color: var(--color-text-primary);
-  }
-
-  @media (max-width: 640px) {
-    .careers__quote {
-      padding-inline-start: var(--spacing-sm);
-    }
-  }
-</style>
+  <InnerBlock force="power" kind="cta">
+    <p>
+      Designed by an engineer, for engineers. Nobody here is disposable. Almost nobody
+      leaves.
+    </p>
+    <p>
+      There are no open positions listed. We find people through referrals and by
+      watching who builds what. If you think we should be watching you, write:
+      <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
+    </p>
+  </InnerBlock>
+</InnerLayout>

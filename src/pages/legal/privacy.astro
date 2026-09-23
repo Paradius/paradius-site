@@ -1,7 +1,6 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
+import InnerLayout from '../../layouts/InnerLayout.astro';
+import InnerBlock from '../../components/inner/InnerBlock.astro';
 import { SITE_URL, type PageSeo } from '../../lib/seo';
 
 const seo: PageSeo = {
@@ -14,90 +13,54 @@ const seo: PageSeo = {
 };
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap page-wrap--narrow legal-page">
-      <h1>Privacy policy</h1>
+<InnerLayout seo={seo} mode="two-sided">
+  <InnerBlock force="power" kind="hero" title="Privacy policy" />
 
-      <h2>What we collect</h2>
-      <p>
-        The contact form asks for your name, email, company and message, plus any profile
-        codes you attach. When you submit it, our infrastructure also records your IP address,
-        which we use for rate limiting and abuse prevention, and a hidden anti spam field
-        travels with the form; humans leave it empty. That is everything this site collects
-        about you.
-      </p>
+  <InnerBlock force="power" title="What we collect">
+    <p>
+      The contact form asks for your name, email, company and message, plus any profile
+      codes you attach. When you submit it, our infrastructure also records your IP address,
+      which we use for rate limiting and abuse prevention, and a hidden anti spam field
+      travels with the form; humans leave it empty. That is everything this site collects
+      about you.
+    </p>
+  </InnerBlock>
 
-      <h2>What we do with it</h2>
-      <p>
-        We use it to reply to you and to follow up on your inquiry. Your inquiry is delivered
-        to our inbox and stored in our systems, the same database that runs our sales
-        pipeline, so the conversation has a record. We do not sell it, share it, or rent it.
-      </p>
+  <InnerBlock force="power" title="What we do with it">
+    <p>
+      We use it to reply to you and to follow up on your inquiry. Your inquiry is delivered
+      to our inbox and stored in our systems, the same database that runs our sales
+      pipeline, so the conversation has a record. We do not sell it, share it, or rent it.
+    </p>
+  </InnerBlock>
 
-      <h2>Where it lives</h2>
-      <p>
-        This site is static and served by Vercel. Form submissions are processed by our own
-        backend on Railway and delivered to our inbox through Resend. Fonts load from Google
-        Fonts, which, like any content delivery network, sees your IP address and browser
-        details. Nothing else leaves this site.
-      </p>
+  <InnerBlock force="power" title="Where it lives">
+    <p>
+      This site is static and served by Vercel. Form submissions are processed by our own
+      backend on Railway and delivered to our inbox through Resend. Fonts load from Google
+      Fonts, which, like any content delivery network, sees your IP address and browser
+      details. Nothing else leaves this site.
+    </p>
+  </InnerBlock>
 
-      <h2>Cookies and analytics</h2>
-      <p>
-        This site sets no cookies and runs no analytics. If that ever changes, this page will
-        say so first.
-      </p>
+  <InnerBlock force="power" title="Cookies and analytics">
+    <p>
+      This site sets no cookies and runs no analytics. If that ever changes, this page will
+      say so first.
+    </p>
+  </InnerBlock>
 
-      <h2>Deletion</h2>
-      <p>
-        Write to <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a> and we
-        delete every record of your inquiry.
-      </p>
+  <InnerBlock force="power" title="Deletion">
+    <p>
+      Write to <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a> and we
+      delete every record of your inquiry.
+    </p>
+  </InnerBlock>
 
-      <h2>Who is responsible</h2>
-      <p>
-        Paradius LLC, 30 N Gould St, STE R, Sheridan, WY 82801, USA.
-        <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
-      </p>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  .legal-page h1 {
-    font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 400;
-    letter-spacing: var(--tracking-heading);
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-md);
-  }
-
-  .legal-page h2 {
-    font-family: var(--font-sans);
-    font-size: 1.15rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin-block: var(--spacing-md) var(--spacing-xs);
-  }
-
-  .legal-page p {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    margin-block-end: 0.75rem;
-  }
-
-  .legal-page a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .legal-page a:hover,
-  .legal-page a:focus-visible {
-    color: var(--color-text-primary);
-  }
-</style>
+  <InnerBlock force="power" kind="cta" title="Who is responsible">
+    <p>
+      Paradius LLC, 30 N Gould St, STE R, Sheridan, WY 82801, USA.
+      <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
+    </p>
+  </InnerBlock>
+</InnerLayout>

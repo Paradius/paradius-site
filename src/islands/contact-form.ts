@@ -39,17 +39,17 @@ function renderChips(
 
   for (const code of profiles) {
     const chip = document.createElement('span');
-    chip.className = 'contact-mockup__chip';
+    chip.className = 'inner-chip';
     chip.setAttribute('role', 'listitem');
     chip.dataset.profileCode = code;
 
     const codeEl = document.createElement('span');
-    codeEl.className = 'contact-mockup__chip-code';
+    codeEl.className = 'inner-chip__code';
     codeEl.textContent = code;
 
     const removeBtn = document.createElement('button');
     removeBtn.type = 'button';
-    removeBtn.className = 'contact-mockup__chip-remove';
+    removeBtn.className = 'inner-chip__remove';
     removeBtn.setAttribute('aria-label', `Remove ${code}`);
     removeBtn.textContent = '×';
     removeBtn.addEventListener('click', () => {
@@ -64,7 +64,7 @@ function renderChips(
 function clearFieldErrors(root: HTMLElement): void {
   for (const key of FIELD_KEYS) {
     const field = root.querySelector<HTMLElement>(`[data-field="${key}"]`);
-    field?.classList.remove('contact-mockup__field--error');
+    field?.classList.remove('inner-field--error');
 
     const input = field?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
       'input, textarea',
@@ -85,7 +85,7 @@ function showFieldErrors(root: HTMLElement, errors: FieldErrors): void {
 
   for (const [key, message] of Object.entries(errors) as [LeadFormFieldKey, string][]) {
     const field = root.querySelector<HTMLElement>(`[data-field="${key}"]`);
-    field?.classList.add('contact-mockup__field--error');
+    field?.classList.add('inner-field--error');
 
     const errorId = `contact-${key}-error`;
     const input = field?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
@@ -124,6 +124,7 @@ function showStatus(
 }
 
 function updateProfileHint(root: HTMLElement, count: number): void {
+  root.querySelector<HTMLElement>('[data-field="profiles"]')?.toggleAttribute('hidden', count === 0);
   const hint = root.querySelector<HTMLElement>('[data-profile-hint]');
   if (!hint) {
     return;
@@ -139,7 +140,7 @@ function updateMailtoLinks(root: HTMLElement, form: HTMLFormElement, profiles: s
   const fields = readFormFields(form);
   const mailtoUrl = buildMailtoUrl(fields, profiles);
 
-  const staticMailto = root.querySelector<HTMLAnchorElement>('[data-static-mailto]');
+  const staticMailto = document.querySelector<HTMLAnchorElement>('[data-static-mailto]');
   if (staticMailto) {
     staticMailto.href = mailtoUrl;
   }

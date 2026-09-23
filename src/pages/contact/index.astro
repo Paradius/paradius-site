@@ -1,23 +1,33 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ScrollBehavior from '../../components/ScrollBehavior.astro';
+import InnerLayout from '../../layouts/InnerLayout.astro';
+import InnerBlock from '../../components/inner/InnerBlock.astro';
 import ContactForm from '../../components/contact/ContactForm.astro';
+import { CONTACT_EMAIL } from '../../lib/contact/constants';
 import { buildContactSeo } from '../../lib/seo';
+import '../../styles/inner-tools.css';
 
 const seo = buildContactSeo();
 const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL ?? '';
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap page-wrap--narrow">
+<InnerLayout seo={seo} mode="rail">
+  <InnerBlock force="power" kind="hero" kicker="Start a conversation" title="Build your team">
+    <Fragment slot="after">
       <ContactForm apiBaseUrl={apiBaseUrl} />
-    </div>
-  </main>
-  <Footer />
-  <ScrollBehavior />
-  <script src="../../islands/contact-form.ts"></script>
-</BaseLayout>
+    </Fragment>
+  </InnerBlock>
+
+  <InnerBlock force="power" id="terms" title="Every engagement is scoped to your architecture.">
+    <p>
+      Tell us who you need. We reply within 24 hours with matched profiles and a rate
+      proposal. There is no pricing on this site because requirements determine price:
+      rates are scoped in private conversation.
+    </p>
+  </InnerBlock>
+
+  <InnerBlock force="will" title="Prefer email?">
+    <p><a href={`mailto:${CONTACT_EMAIL}`} data-static-mailto>{CONTACT_EMAIL}</a></p>
+  </InnerBlock>
+</InnerLayout>
+
+<script src="../../islands/contact-form.ts"></script>

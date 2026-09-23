@@ -23,15 +23,17 @@ const hasActions = Astro.slots.has('actions');
     <div class="inner-block__inner">
       {Astro.slots.has('kicker') ? <p class="inner-kicker"><slot name="kicker" /></p> : kicker && <p class="inner-kicker">{kicker}</p>}
       {title && <Heading class="inner-title">{title}</Heading>}
-      <div class="inner-body"><slot /></div>
+      {Astro.slots.has('default') && <div class="inner-body"><slot /></div>}
       {hasActions && <div class="inner-actions"><slot name="actions" /></div>}
+      {Astro.slots.has('after') && <slot name="after" />}
     </div>
   ) : (
     <>
       {Astro.slots.has('kicker') ? <p class="inner-kicker"><slot name="kicker" /></p> : kicker && <p class="inner-kicker">{kicker}</p>}
       {title && <Heading class="inner-title">{title}</Heading>}
-      <div class="inner-body"><slot /></div>
+      {Astro.slots.has('default') && <div class="inner-body"><slot /></div>}
       {hasActions && <div class="inner-actions"><slot name="actions" /></div>}
+      {Astro.slots.has('after') && <slot name="after" />}
     </>
   )}
 </section>

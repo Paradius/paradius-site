@@ -295,3 +295,33 @@ body:has(.inner-main)::before { display: none; }
     min-height: calc(var(--site-header-height) + 0.5rem + var(--canopy-h) - var(--canopy-lift, 0px) + 1.5rem);
   }
 }
+
+/* Lists inside a body: the steps of how-we-work and any list the copy carries. */
+.inner-body ol,
+.inner-body ul {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  padding-left: 1.4rem;
+}
+
+.inner-body li { margin: 0 0 0.6rem; }
+
+.inner-body li:last-child { margin-bottom: 0; }
+
+.inner-body li::marker {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--color-accent);
+}
+
+.inner-body strong {
+  font-weight: 500;
+  color: #fff;
+}
+
+@media (min-width: 700px) {
+  .inner-block[data-force="power"] .inner-body :is(ol, ul) {
+    margin-left: auto;
+    text-align: left;
+  }
+}
