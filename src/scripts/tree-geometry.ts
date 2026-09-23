@@ -269,6 +269,7 @@ export function seat(input: SeatInput): Seat | null {
 
 export function applySeat(root: HTMLElement, s: Seat): void {
   root.dataset.layout = s.layout;
+  root.dataset.canopy = s.side;
   if (s.trunk) root.dataset.trunk = s.trunk;
   else delete root.dataset.trunk;
   for (const [name, value] of Object.entries(s.props)) root.style.setProperty(name, value);

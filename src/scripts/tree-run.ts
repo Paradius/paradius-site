@@ -123,6 +123,9 @@ export function mountTreeRun(): void {
     pending = requestAnimationFrame(() => {
       pending = 0;
       drawRun();
+      // One frame late on purpose: the first frame paints the run transparent and the fade
+      // starts from it, so the tree never pops in a frame after the text.
+      if (!run.classList.contains('is-drawn')) requestAnimationFrame(() => run.classList.add('is-drawn'));
     });
   };
 

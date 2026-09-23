@@ -78,6 +78,18 @@ body:has(.inner-main)::before { display: none; }
   .inner-run { will-change: transform; }
 }
 
+/* The run is drawn a frame or two after the text: it fades in instead of popping in. */
+.inner-run {
+  opacity: 0;
+  transition: opacity 0.32s ease-out;
+}
+
+.inner-run.is-drawn { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .inner-run { transition: none; }
+}
+
 .inner-block {
   position: relative;
   z-index: 1;
