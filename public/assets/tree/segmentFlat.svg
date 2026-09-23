@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1430 1360">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 4px;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <polyline class="cls-1" points="760.87 589.59 760.87 643.49 657.06 643.49 657.06 589.59"/>
+    </clipPath>
+  </defs>
+  <g class="cls-3">
+    <polyline class="cls-2" points="712.03 651.49 712.03 581.59"/>
+    <polyline class="cls-2" points="738.33 651.49 738.33 581.59"/>
+    <polyline class="cls-2" points="738.33 581.59 738.33 651.49"/>
+    <polyline class="cls-2" points="702.63 651.49 702.63 581.59"/>
+    <polyline class="cls-2" points="677.47 581.59 677.47 651.49"/>
+    <polyline class="cls-2" points="677.47 651.49 677.47 581.59"/>
+  </g>
+</svg>

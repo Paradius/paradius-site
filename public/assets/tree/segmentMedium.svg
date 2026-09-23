@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1430 1360">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 4px;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="658.97" y="788.73" width="100.95" height="91.62"/>
+    </clipPath>
+  </defs>
+  <g class="cls-3">
+    <polyline class="cls-2" points="738.33 888.35 738.33 863.44 729.25 863.4 729.31 837.63 712.03 811.16 712.03 780.73"/>
+    <polyline class="cls-2" points="712.03 888.35 712.03 780.73"/>
+    <polyline class="cls-2" points="738.33 888.35 738.33 863.44 738.33 780.73"/>
+    <polyline class="cls-2" points="738.33 888.35 738.33 780.73"/>
+    <polyline class="cls-2" points="738.33 780.73 738.33 888.35"/>
+    <polyline class="cls-2" points="702.63 888.35 702.63 780.73"/>
+    <polyline class="cls-2" points="702.63 780.73 702.63 888.35"/>
+    <polyline class="cls-2" points="702.63 888.35 702.63 797.19 694.25 809.46 694.25 865.69"/>
+    <path d="M699.26,868.99c0-2.77-2.24-5.01-5.01-5.01s-5.01,2.24-5.01,5.01,2.24,5.01,5.01,5.01,5.01-2.24,5.01-5.01ZM692.09,868.99c0-1.19.97-2.16,2.16-2.16s2.16.97,2.16,2.16-.97,2.16-2.16,2.16-2.16-.97-2.16-2.16Z"/>
+    <polyline class="cls-2" points="677.47 780.73 677.47 888.35"/>
+    <polyline class="cls-2" points="677.47 888.35 677.47 780.73"/>
+    <polyline class="cls-2" points="677.47 888.35 677.47 786.85 685.55 780.73"/>
+    <polyline class="cls-2" points="702.27 888.35 702.63 888.02 702.63 798.31 694.14 811.25 694.14 865.69"/>
+    <path d="M699.15,868.99c0-2.77-2.24-5.01-5.01-5.01s-5.01,2.24-5.01,5.01,2.24,5.01,5.01,5.01,5.01-2.24,5.01-5.01ZM691.99,868.99c0-1.19.97-2.16,2.16-2.16s2.16.97,2.16,2.16-.97,2.16-2.16,2.16-2.16-.97-2.16-2.16Z"/>
+  </g>
+</svg>

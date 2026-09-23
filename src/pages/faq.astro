@@ -1,7 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import InnerLayout from '../layouts/InnerLayout.astro';
+import InnerBlock from '../components/inner/InnerBlock.astro';
 import {
   SITE_URL,
   buildBreadcrumbJsonLd,
@@ -9,85 +8,96 @@ import {
   type PageSeo,
 } from '../lib/seo';
 
-/**
- * Single source for both the visible markup and the FAQPage JSON-LD.
- * Answers are plain register: policies and facts, no invented numbers.
- */
-const FAQ_ITEMS: { question: string; answer: string }[] = [
+const FAQ_ITEMS: { question: string; answer: string; force: 'will' | 'power' }[] = [
   {
     question: 'Where is Paradius located?',
     answer:
       'Paradius LLC is registered in Wyoming, USA. The engineering hub is in Managua, Nicaragua. Contracts, jurisdiction and billing are all US based.',
+    force: 'power',
   },
   {
     question: 'What is your timezone overlap with the US?',
     answer:
       'Full overlap. The hub runs on Central Time, so your team and ours share the whole business day.',
+    force: 'power',
   },
   {
     question: 'What about English?',
     answer:
       'Our engineers work in English every day, and language training is continuous. You will notice in the first call.',
+    force: 'will',
   },
   {
     question: 'Who do I contract with?',
     answer:
       'With Paradius LLC, a Wyoming company, under US jurisdiction, billed in USD. Not with an offshore entity.',
+    force: 'power',
   },
   {
     question: 'Who owns the IP?',
     answer:
       'You do, from day one. Everything built during an engagement is yours: code, documentation, infrastructure. Your systems carry no signature of ours.',
+    force: 'power',
   },
   {
     question: 'Do you sign NDAs?',
     answer:
       'By default, before we see anything of yours. Discretion is not a concession here; it is the product.',
+    force: 'power',
   },
   {
     question: 'Why do engineers carry codes instead of names?',
     answer:
       'Policy, not evasion. Anonymity protects our engineers and keeps your systems free of our signature. Everything else is verifiable right now: stack, years, anonymized experience, languages. Full identity is disclosed later in the deal, off platform. Every code is a real person, interviewed by the principal, and you can confirm that in one call.',
+    force: 'will',
   },
   {
     question: 'What if an engineer is not the right fit?',
     answer:
       'Say so. Every engineer passes a three month proving period with us before reaching a client, so this is rare. When it happens, we transition to another engineer quickly, because context is documented and shared from day one.',
+    force: 'will',
   },
   {
     question: 'What if an engineer leaves mid engagement?',
     answer:
       'Context never lives in one head. Work is documented as it happens and the principal stays close to every engagement. The handover is short because it was prepared before it was needed.',
+    force: 'will',
   },
   {
     question: 'What happens to my systems if Paradius disappears?',
     answer:
       'Nothing. Documentation, repositories and credentials live in your accounts from the start. If we vanished tomorrow, your team would keep shipping.',
+    force: 'power',
   },
   {
     question: 'Why is there no pricing on the site?',
     answer:
       'Because requirements determine price. A senior engineer embedded in a regulated bank is not a line on a rate card. Tell us what you need and we scope rates against your actual architecture, in private, within 24 hours.',
+    force: 'power',
   },
   {
     question: 'What exactly am I buying: an engineer, a team, or a project?',
     answer:
       'One of two things. Engineers from the registry that you manage inside your team, or a team we assemble and run against your goals. We do not sell fixed bid projects.',
-  },
-  {
-    question: 'How fast can we start?',
-    answer:
-      'We reply within 24 hours. Profiles within 48. The engagement starts as soon as you confirm.',
+    force: 'power',
   },
   {
     question: 'What do you not do?',
     answer:
       'We are honest about limits. Hyper specialized niches, like robotics research or frontier AI model work, are not what we sell. Architecture, platforms, mobile, back end systems and the discipline that keeps them alive: that is what we sell.',
+    force: 'power',
   },
   {
     question: 'How do you select engineers?',
     answer:
       'No algorithmic screening. No credential theater. We examine the systems an engineer has built, not their resume, and we talk: what they refuse to ship tells us more than what they list. The last filter is always the person who signs your contract.',
+    force: 'will',
+  },
+  {
+    question: 'How fast can we start?',
+    answer:
+      'We reply within 24 hours. Profiles within 48. The engagement starts as soon as you confirm.',
+    force: 'power',
   },
 ];
 
@@ -108,138 +118,26 @@ const seo: PageSeo = {
 };
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap page-wrap--narrow faq">
-      <h1>Frequently asked questions</h1>
+<InnerLayout seo={seo} mode="two-sided">
+  <InnerBlock force="power" kind="hero" kicker="FAQ" title="Every answer is a policy we hold, not a promise we improvise.">
+    <p>
+      The questions a buyer asks before signing. If yours is missing, write to
+      <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a> and we reply
+      within 24 hours.
+    </p>
+  </InnerBlock>
 
-      <p class="faq__lede">
-        The questions a buyer asks before signing. Every answer is a policy we hold, not a
-        promise we improvise. If yours is missing, write to
-        <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a> and we reply
-        within 24 hours.
-      </p>
+  {FAQ_ITEMS.map((item) => (
+    <InnerBlock force={item.force} title={item.question}>
+      <p>{item.answer}</p>
+    </InnerBlock>
+  ))}
 
-      {
-        FAQ_ITEMS.map((item) => (
-          <section class="faq__item">
-            <h2>{item.question}</h2>
-            <p>{item.answer}</p>
-          </section>
-        ))
-      }
-
-      <div class="faq__actions">
-        <a href="/talent" class="faq__cta">Browse the registry</a>
-        <a href="/contact" class="faq__cta faq__cta--secondary">Start your team</a>
-      </div>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  /* Flat functional register, same as /how-we-work: Inter end to end, no serif voice. */
-  .faq h1 {
-    font-family: var(--font-sans);
-    font-size: clamp(1.875rem, 4vw, 2.5rem);
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-md);
-  }
-
-  .faq__lede {
-    font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-  }
-
-  .faq__item {
-    margin-block-start: var(--spacing-xl);
-  }
-
-  .faq h2 {
-    font-family: var(--font-sans);
-    font-size: 1.15rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-sm);
-    padding-block-end: var(--spacing-xs);
-    border-block-end: 1px solid var(--color-accent-dim);
-  }
-
-  .faq p {
-    font-family: var(--font-sans);
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-    margin-block-end: 0;
-  }
-
-  .faq a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .faq a:hover,
-  .faq a:focus-visible {
-    color: var(--color-text-primary);
-  }
-
-  /* Closing actions: same scoped copy of the hero CTA styling used on /how-we-work. */
-  .faq__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-block-start: var(--spacing-xl);
-    padding-block-start: var(--spacing-lg);
-    border-block-start: 1px solid var(--color-accent-dim);
-  }
-
-  .faq__actions .faq__cta {
-    display: inline-block;
-    padding: 0.875rem 2.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background-color: var(--color-text-primary);
-    border: 1px solid var(--color-text-primary);
-    text-decoration: none;
-    transition:
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
-  }
-
-  .faq__actions .faq__cta:hover,
-  .faq__actions .faq__cta:focus-visible {
-    background-color: transparent;
-    color: var(--color-text-primary);
-  }
-
-  .faq__actions .faq__cta--secondary {
-    color: var(--color-text-primary);
-    background-color: transparent;
-  }
-
-  .faq__actions .faq__cta--secondary:hover,
-  .faq__actions .faq__cta--secondary:focus-visible {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg);
-  }
-
-  @media (max-width: 640px) {
-    .faq__actions .faq__cta {
-      padding: 0.875rem 1.5rem;
-      flex: 1 1 auto;
-      text-align: center;
-    }
-  }
-</style>
+  <InnerBlock force="power" kind="cta" title="Tell us who you need.">
+    <p>We reply within 24 hours with matched profiles and a rate proposal.</p>
+    <Fragment slot="actions">
+      <a href="/talent" class="inner-button">Browse the registry</a>
+      <a href="/contact" class="inner-button inner-button--secondary">Start your team</a>
+    </Fragment>
+  </InnerBlock>
+</InnerLayout>

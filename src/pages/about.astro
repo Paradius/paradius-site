@@ -1,7 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import InnerLayout from '../layouts/InnerLayout.astro';
+import InnerBlock from '../components/inner/InnerBlock.astro';
 import { ORG, SITE_URL, type PageSeo } from '../lib/seo';
 
 const seo: PageSeo = {
@@ -15,227 +14,57 @@ const seo: PageSeo = {
 };
 ---
 
-<BaseLayout seo={seo}>
-  <Header />
-  <main class="site-main" id="main-content">
-    <div class="page-wrap page-wrap--narrow about">
-      <h1>About</h1>
+<InnerLayout seo={seo} mode="two-sided">
+  <InnerBlock force="will" kind="hero" kicker="About" title="Paradius is a dream. In practice, Paradius is me.">
+    <p>
+      I interview every engineer we send. I answer every inquiry myself. The person
+      reading your email is the person who signs your contract.
+    </p>
+  </InnerBlock>
 
-      <section class="about__myth" aria-labelledby="about-myth-heading">
-        <h2 id="about-myth-heading" class="sr-only">The myth</h2>
-        <p>
-          Before it was a company, Paradius was a story: a world made by two forces.
-          Power: the architecture, the guardrails, the discipline that keeps systems
-          from rotting. Will: the spark, the people who cannot leave things worse than
-          they found them. Paradius unites them, builds the morning, and disappears
-          into the client's success.
-        </p>
-        <p>
-          The myth is not decoration. It is why our engineers carry codes instead of
-          names, and why your systems carry no signature of ours.
-        </p>
-      </section>
+  <InnerBlock force="will" title="The story">
+    <p>
+      Before it was a company, Paradius was a story: a world made by two forces.
+      Power: the architecture, the guardrails, the discipline that keeps systems
+      from rotting. Will: the spark, the people who cannot leave things worse than
+      they found them. Paradius unites them, builds the morning, and disappears
+      into the client's success.
+    </p>
+    <p>
+      The myth is not decoration. It is why our engineers carry codes instead of
+      names, and why your systems carry no signature of ours.
+    </p>
+  </InnerBlock>
 
-      <!-- The break. The only first person block on the site: it is signed, so it is
-           set apart from the "we" voice on every side. -->
-      <section class="about__signed" aria-labelledby="about-signed-heading">
-        <h2 id="about-signed-heading" class="sr-only">The break</h2>
-        <p class="about__signed-open">Paradius is a dream. In practice, Paradius is me.</p>
-        <p>
-          My name is Gabriel Chorens. I am an engineer. I built the visual language
-          that lets a Fortune 500 retailer's robots, inventory and hundreds of services
-          move as one. I worked on banking systems where payments stopped going missing
-          and delays became guarantees. Those systems are still standing.
-        </p>
-        <p>
-          I interview every engineer we send. I answer every inquiry myself. The person
-          reading your email is the person who signs your contract.
-        </p>
-        <p class="about__signature">
-          <a
-            href={ORG.founder.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="about__signature-link">{ORG.founder.name}</a
-          >, Principal
-        </p>
-      </section>
+  <InnerBlock force="will" title="The engineer">
+    <p>
+      My name is Gabriel Chorens. I am an engineer. I built the visual language
+      that lets a Fortune 500 retailer's robots, inventory and hundreds of services
+      move as one. I worked on banking systems where payments stopped going missing
+      and delays became guarantees. Those systems are still standing.
+    </p>
+    <p class="inner-signature">
+      <a href={ORG.founder.url} target="_blank" rel="noopener noreferrer">{ORG.founder.name}</a>, Principal
+    </p>
+  </InnerBlock>
 
-      <section class="about__section" aria-labelledby="about-facts-heading">
-        <h2 id="about-facts-heading">The facts, and the size</h2>
-        <p>
-          Paradius LLC is registered in Wyoming, USA. The hub is in Managua, Nicaragua,
-          on Central Time: full overlap with US business hours. Operating since 2026.
-        </p>
-        <p>
-          We never measure our strength by headcount. Paradius runs a deliberately small
-          core and activates vetted engineers per contract. The metric is the density and
-          caliber of what ships, and how long it stays standing.
-        </p>
-      </section>
+  <InnerBlock force="power" title="The facts, and the size">
+    <p>
+      Paradius LLC is registered in Wyoming, USA. The hub is in Managua, Nicaragua,
+      on Central Time: full overlap with US business hours. Operating since 2026.
+    </p>
+    <p>
+      We never measure our strength by headcount. Paradius runs a deliberately small
+      core and activates vetted engineers per contract. The metric is the density and
+      caliber of what ships, and how long it stays standing.
+    </p>
+  </InnerBlock>
 
-      <div class="about__actions">
-        <a href="/talent" class="about__cta">Browse the registry</a>
-        <a href="/contact" class="about__cta about__cta--secondary">Start your team</a>
-      </div>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  .about h1 {
-    font-family: var(--font-sans);
-    font-size: clamp(1.875rem, 4vw, 2.5rem);
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-lg);
-  }
-
-  /* Block 1, the myth. Serif voice: these are the only mythic lines on the page,
-     and the register has to be audible before the break undercuts it. */
-  .about__myth p {
-    font-family: var(--font-brand);
-    font-size: clamp(1.25rem, 2.6vw, 1.5rem);
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: var(--tracking-heading);
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-md);
-  }
-
-  .about__myth p:last-child {
-    color: var(--color-text-secondary);
-    margin-block-end: 0;
-  }
-
-  /* Block 2, the break. Surface panel plus an accent rule on the leading edge:
-     the reader should see the voice change before reading it. */
-  .about__signed {
-    margin-block-start: var(--spacing-2xl);
-    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-accent-dim);
-    border-inline-start: 2px solid var(--color-accent);
-  }
-
-  .about__signed p {
-    font-family: var(--font-sans);
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-    margin-block-end: var(--spacing-md);
-  }
-
-  .about__signed-open {
-    font-size: 1.125rem;
-    color: var(--color-text-primary);
-  }
-
-  .about__signature {
-    margin-block-start: var(--spacing-lg);
-    margin-block-end: 0;
-    padding-block-start: var(--spacing-md);
-    border-block-start: 1px solid var(--color-accent-dim);
-    font-size: 0.8125rem;
-    letter-spacing: var(--tracking-system);
-    color: var(--color-text-secondary);
-  }
-
-  .about__signature-link {
-    color: var(--color-text-primary);
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-  }
-
-  .about__signature-link:hover,
-  .about__signature-link:focus-visible {
-    color: var(--color-accent);
-  }
-
-  /* Block 3, the facts. Flat register, matching how-we-work. */
-  .about__section {
-    margin-block-start: var(--spacing-2xl);
-  }
-
-  .about__section h2 {
-    font-family: var(--font-sans);
-    font-size: 1.15rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--color-text-primary);
-    margin-block-end: var(--spacing-sm);
-    padding-block-end: var(--spacing-xs);
-    border-block-end: 1px solid var(--color-accent-dim);
-  }
-
-  .about__section p {
-    font-family: var(--font-sans);
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-    margin-block-end: 0.9rem;
-  }
-
-  .about__section p:last-child {
-    margin-block-end: 0;
-  }
-
-  /* Closing actions. Visual style copied from .hero__cta and .hero__cta--secondary,
-     kept scoped so this page does not depend on the Hero component, which the home
-     port removes from the site. Same decision as how-we-work. */
-  .about__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-block-start: var(--spacing-xl);
-    padding-block-start: var(--spacing-lg);
-    border-block-start: 1px solid var(--color-accent-dim);
-  }
-
-  .about__actions .about__cta {
-    display: inline-block;
-    padding: 0.875rem 2.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background-color: var(--color-text-primary);
-    border: 1px solid var(--color-text-primary);
-    text-decoration: none;
-    transition:
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
-  }
-
-  .about__actions .about__cta:hover,
-  .about__actions .about__cta:focus-visible {
-    background-color: transparent;
-    color: var(--color-text-primary);
-  }
-
-  .about__actions .about__cta--secondary {
-    color: var(--color-text-primary);
-    background-color: transparent;
-  }
-
-  .about__actions .about__cta--secondary:hover,
-  .about__actions .about__cta--secondary:focus-visible {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg);
-  }
-
-  @media (max-width: 640px) {
-    .about__signed {
-      padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
-    }
-
-    .about__actions .about__cta {
-      padding: 0.875rem 1.5rem;
-      flex: 1 1 auto;
-      text-align: center;
-    }
-  }
-</style>
+  <InnerBlock force="power" kind="cta" title="Tell us who you need.">
+    <p>We reply within 24 hours with matched profiles and a rate proposal.</p>
+    <Fragment slot="actions">
+      <a href="/talent" class="inner-button">Browse the registry</a>
+      <a href="/contact" class="inner-button inner-button--secondary">Start your team</a>
+    </Fragment>
+  </InnerBlock>
+</InnerLayout>

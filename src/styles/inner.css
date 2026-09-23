@@ -1,0 +1,297 @@
+/* Unlayered on purpose: every rule in components.css lives in a @layer, so these win without specificity games. */
+
+body:has(.inner-main)::before { display: none; }
+
+:root {
+  --frame-gutter: clamp(1.7rem, 4.25vw, 3.4rem);
+  --text-line: 23.7svh;
+  --block-air: clamp(3.5rem, 9svh, 6rem);
+  --measure: 34rem;
+  --tree-ink-alpha: 0.30;
+  --will-hero-title: clamp(2.1rem, 4.4vw, 3rem);
+  --will-hero-body: clamp(1.2rem, 1.9vw, 1.7rem);
+  --will-title: clamp(1.6rem, 2.6vw, 2.1rem);
+  --will-body: clamp(1.15rem, 1.5vw, 1.35rem);
+  --power-hero-title: clamp(1.75rem, 2.7vw, 2.25rem);
+  --power-hero-body: clamp(1.1rem, 1.7vw, 1.5rem);
+  --power-title: clamp(1.35rem, 2vw, 1.7rem);
+  --power-body: clamp(1.05rem, 1.35vw, 1.25rem);
+}
+
+@media (orientation: portrait) {
+  :root { --text-line: 25.6svh; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  :root { --text-line: 29.5svh; }
+}
+
+.inner-main {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--frame-gutter) clamp(4rem, 10svh, 7rem);
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+.inner-main::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--site-header-height) + 3rem);
+  background: linear-gradient(to bottom, #000 0, #000 58%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  animation: inner-header-fade linear both;
+  animation-timeline: scroll(root block);
+  animation-range: 0 6rem;
+}
+
+@keyframes inner-header-fade { to { opacity: 1; } }
+
+.inner-run {
+  position: absolute;
+  z-index: 0;
+  top: calc(var(--site-header-height) + 0.5rem - var(--canopy-lift, 0px));
+  pointer-events: none;
+  background: rgb(192 200 212 / var(--tree-ink-alpha));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.inner-block {
+  position: relative;
+  z-index: 1;
+}
+
+.inner-block + .inner-block { margin-top: var(--block-air); }
+
+.inner-block[data-force="will"] { font-family: var(--font-voice); }
+.inner-block[data-force="power"] { font-family: var(--font-tech); }
+
+.inner-kicker {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-tech);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-secondary);
+}
+
+.inner-title {
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.inner-body {
+  margin-top: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+.inner-body p {
+  margin: 0 0 1rem;
+  max-width: var(--measure);
+}
+
+.inner-body p:last-child { margin-bottom: 0; }
+
+.inner-body a {
+  color: #fff;
+  font-weight: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.inner-body strong {
+  color: #fff;
+  font-weight: inherit;
+}
+
+.inner-signature { margin-top: 2rem; }
+
+.inner-block[data-force="will"] .inner-title {
+  font-size: round(nearest, var(--will-title), 1px);
+  font-weight: 300;
+}
+
+.inner-block[data-force="will"] .inner-body {
+  font-size: round(nearest, var(--will-body), 1px);
+  font-weight: 400;
+}
+
+.inner-block[data-force="power"] .inner-title {
+  font-size: round(nearest, var(--power-title), 1px);
+  font-weight: 400;
+}
+
+.inner-block[data-force="power"] .inner-body {
+  font-size: round(nearest, var(--power-body), 1px);
+  font-weight: 400;
+}
+
+.inner-block--hero[data-force="will"] .inner-title { font-size: round(nearest, var(--will-hero-title), 1px); }
+.inner-block--hero[data-force="will"] .inner-body { font-size: round(nearest, var(--will-hero-body), 1px); }
+.inner-block--hero[data-force="power"] .inner-title { font-size: round(nearest, var(--power-hero-title), 1px); }
+.inner-block--hero[data-force="power"] .inner-body { font-size: round(nearest, var(--power-hero-body), 1px); }
+.inner-block--cta[data-force="power"] .inner-title { font-size: round(nearest, calc(var(--power-hero-title) * 0.9), 1px); }
+.inner-block--cta[data-force="power"] .inner-body { font-size: round(nearest, calc(var(--power-hero-body) * 0.9), 1px); }
+
+.inner-block--hero .inner-body,
+.inner-block--cta .inner-body {
+  margin-top: 1.5rem;
+  line-height: 1.45;
+}
+
+.inner-block__inner { width: 100%; }
+.inner-block--cta .inner-actions { margin-top: 2rem; }
+
+.inner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+.inner-button {
+  display: inline-block;
+  padding: 1.05rem 2.5rem;
+  font-family: var(--font-tech);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #fff;
+  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+}
+
+.inner-button:hover,
+.inner-button:focus-visible {
+  background-color: transparent;
+  color: #fff;
+}
+
+.inner-button--secondary {
+  color: #fff;
+  background-color: #000;
+}
+
+.inner-button--secondary:hover,
+.inner-button--secondary:focus-visible {
+  background-color: #fff;
+  color: #000;
+}
+
+@media (min-width: 700px) {
+  .inner-block { width: calc(50% - var(--trunk-edge) - 1.25rem); }
+
+  .inner-block--hero {
+    width: calc(50% - var(--canopy-back) - 1.5rem);
+    padding-top: var(--text-line);
+    min-height: calc(var(--site-header-height) + 0.5rem + var(--canopy-h));
+  }
+
+  .inner-block--cta {
+    display: flex;
+    align-items: center;
+    width: calc(50% - var(--roots-back) - 1.5rem);
+    min-height: var(--roots-h);
+  }
+
+  .inner-block[data-force="will"] {
+    margin-left: auto;
+    text-align: left;
+  }
+
+  .inner-block[data-force="power"] {
+    margin-right: auto;
+    text-align: right;
+  }
+
+  .inner-block[data-force="power"] :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: auto; }
+
+  .inner-actions { justify-content: flex-end; }
+}
+
+@media (max-width: 699.98px) {
+  html[data-trunk="left"] .inner-block {
+    padding-left: calc(var(--trunk-clear) + 1rem);
+    text-align: left;
+  }
+
+  html[data-trunk="right"] .inner-block {
+    padding-right: calc(var(--trunk-clear) + 1rem);
+    text-align: right;
+  }
+
+  html[data-trunk="right"] .inner-block :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: auto; }
+  html[data-trunk="right"] .inner-actions { justify-content: flex-end; }
+
+  .inner-body p { text-align: left; }
+  html[data-trunk="right"] .inner-body p { text-align: right; }
+
+  .inner-block--hero { padding-top: calc(var(--site-header-height) + 0.5rem + var(--canopy-h) - var(--canopy-lift, 0px) + 1.5rem); }
+
+  html[data-trunk="left"] .footer-ledger__inner { padding-left: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
+  html[data-trunk="right"] .footer-ledger__inner { padding-right: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
+}
+
+@media (max-width: 559.98px) {
+  .inner-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inner-button { text-align: center; }
+}
+
+@media (min-width: 700px) {
+  html[data-layout="rail"] .inner-block {
+    width: auto;
+    padding-left: calc(var(--trunk-clear) + 1.5rem);
+  }
+
+  html[data-layout="rail"] .inner-block[data-force] {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+
+  html[data-layout="rail"] .inner-block[data-force="power"] :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: 0; }
+
+  html[data-layout="rail"] .inner-actions { justify-content: flex-start; }
+
+  html[data-layout="rail"] .inner-block--cta {
+    display: block;
+    width: auto;
+    min-height: 0;
+  }
+
+  html[data-layout="rail"] .inner-block--hero {
+    width: auto;
+    min-height: 0;
+    padding-top: calc(var(--site-header-height) + 0.5rem + var(--canopy-h) - var(--canopy-lift, 0px) + 1.5rem);
+  }
+
+  html[data-layout="rail"] .footer-ledger__inner { padding-left: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
+}
+
+@media (min-width: 900px) {
+  html[data-layout="rail"]:not([data-hero="below"]) .inner-block--hero {
+    padding-top: var(--text-line);
+    padding-left: calc(var(--canopy-fan) + 5rem);
+    min-height: calc(var(--site-header-height) + 0.5rem + var(--canopy-h) - var(--canopy-lift, 0px) + 1.5rem);
+  }
+}

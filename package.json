@@ -15,7 +15,8 @@
     "test": "vitest run",
     "lint": "eslint .",
     "audit:lighthouse": "node scripts/lighthouse-audit.mjs",
-    "audit:axe": "node scripts/axe-audit.mjs"
+    "audit:axe": "node scripts/axe-audit.mjs",
+    "tree:pieces": "vite-node scripts/tree-pieces.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

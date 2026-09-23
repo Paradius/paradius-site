@@ -25,3 +25,4 @@ pnpm-debug.log*
 scripts/review/shots*/
 scripts/review/annotated/
 scripts/review/backup/
+scripts/inner-probe/shots/
