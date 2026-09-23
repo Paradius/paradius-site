@@ -843,7 +843,8 @@ button.inner-button { cursor: pointer; }
 .inner-chip__remove:focus-visible { color: #fff; }
 
 /* How we work: each stop is a clock on the Power side and its story across the trunk, hanging from one line. */
-.inner-stop > .inner-block { margin-top: 0; }
+/* Attribute selectors keep these above inner.css on specificity: the production bundle orders the two files the other way round. */
+.inner-stop > .inner-block[data-force] { margin-top: 0; }
 
 .inner-stop + .inner-stop,
 .inner-stop + .inner-block,
@@ -861,7 +862,7 @@ button.inner-button { cursor: pointer; }
   color: color-mix(in oklab, var(--color-text-secondary), #fff calc(var(--stop, 1) * 100%));
 }
 
-.inner-stop__story { margin-top: 0.9rem; }
+.inner-stop > .inner-stop__story[data-force] { margin-top: 0.9rem; }
 
 @media (min-width: 700px) {
   .inner-stop {
@@ -871,13 +872,13 @@ button.inner-button { cursor: pointer; }
     align-items: start;
   }
 
-  .inner-stop > .inner-block {
+  .inner-stop > .inner-block[data-force] {
     width: auto;
     margin-left: 0;
     margin-right: 0;
   }
 
-  .inner-stop__story { margin-top: 0; }
+  .inner-stop > .inner-stop__story[data-force] { margin-top: 0; }
 
   .inner-stop .inner-stop__story[data-force="power"] { text-align: left; }
 
@@ -913,7 +914,7 @@ button.inner-button { cursor: pointer; }
   main[data-spine] .inner-stop { grid-template-columns: calc(var(--spine-x) - var(--trunk-edge) - 1.25rem) minmax(0, 1fr); }
 
   /* Inside a stop the cell already measures the block; a percentage width there would resolve against the cell, not the frame. */
-  main[data-spine] .inner-stop > .inner-block { width: auto; }
+  main[data-spine] .inner-stop > .inner-block[data-force] { width: auto; }
 
   main[data-spine] .inner-stop__story .inner-body p { max-width: calc(var(--measure) * 1.2); }
 }

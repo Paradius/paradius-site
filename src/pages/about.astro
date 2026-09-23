@@ -1,67 +1,56 @@
 ---
 import InnerLayout from '../layouts/InnerLayout.astro';
 import InnerBlock from '../components/inner/InnerBlock.astro';
-import { ORG, SITE_URL, type PageSeo } from '../lib/seo';
+import { SITE_URL, type PageSeo } from '../lib/seo';
 
 const seo: PageSeo = {
   title: 'About | Paradius LLC',
   description:
-    'Who answers for Paradius: the myth of Power and Will, and the engineer behind it. Wyoming LLC, Managua hub, full US overlap.',
+    'Who answers for Paradius: one principal who interviews every engineer and signs every contract. Wyoming LLC, Managua hub, full US overlap.',
   canonical: `${SITE_URL}/about/`,
   webPageName: 'About Paradius',
   webPageDescription:
-    'Who runs Paradius, where it operates from, and why its engineers carry codes instead of names.',
+    'Who runs Paradius, how its engineers are grown, and where it operates from.',
 };
 ---
 
 <InnerLayout seo={seo} mode="two-sided">
-  <InnerBlock force="will" kind="hero" kicker="About" title="Paradius is a dream. In practice, Paradius is me.">
+  <InnerBlock force="will" kind="hero" kicker="About" title="I am the person who answers.">
     <p>
-      I interview every engineer we send. I answer every inquiry myself. The person
-      reading your email is the person who signs your contract.
+      Paradius is engineering tailored to one company at a time, with me in the trench. I
+      interview every engineer, I read every message, and I sign the same contract you
+      sign.
     </p>
   </InnerBlock>
 
-  <InnerBlock force="will" title="The story">
+  <InnerBlock force="will" title="What Paradius does differently">
     <p>
-      Before it was a company, Paradius was a story: a world made by two forces.
-      Power: the architecture, the guardrails, the discipline that keeps systems
-      from rotting. Will: the spark, the people who cannot leave things worse than
-      they found them. Paradius unites them, builds the morning, and disappears
-      into the client's success.
+      Everything is built around how we work. An engagement takes the shape of your
+      company: your problem, your stack, your pace. Our engineers start in one room, beside
+      a senior mentor, inside an environment made for collaboration, and they grow at a
+      rate that surprises the people who hire them. That environment travels with them
+      when they go remote.
     </p>
     <p>
-      The myth is not decoration. It is why our engineers carry codes instead of
-      names, and why your systems carry no signature of ours.
+      I am a full stack engineer with more than six years of experience. In every company
+      I have worked for, I built the systems that changed how the company saw itself from
+      the inside, and I went the extra mile because a closed ticket was never the goal. I
+      leave things better than I found them. That is the standard every engineer at
+      Paradius is held to, and it is the reason someone hires us twice.
     </p>
+    <p class="inner-signature">Gabriel Chorens, principal</p>
   </InnerBlock>
 
-  <InnerBlock force="will" title="The engineer">
+  <InnerBlock force="power" title="The facts">
     <p>
-      My name is Gabriel Chorens. I am an engineer. I built the visual language
-      that lets a Fortune 500 retailer's robots, inventory and hundreds of services
-      move as one. I worked on banking systems where payments stopped going missing
-      and delays became guarantees. Those systems are still standing.
-    </p>
-    <p class="inner-signature">
-      <a href={ORG.founder.url} target="_blank" rel="noopener noreferrer">{ORG.founder.name}</a>, Principal
-    </p>
-  </InnerBlock>
-
-  <InnerBlock force="power" title="The facts, and the size">
-    <p>
-      Paradius LLC is registered in Wyoming, USA. The hub is in Managua, Nicaragua,
-      on Central Time: full overlap with US business hours. Operating since 2026.
-    </p>
-    <p>
-      We never measure our strength by headcount. Paradius runs a deliberately small
-      core and activates vetted engineers per contract. The metric is the density and
-      caliber of what ships, and how long it stays standing.
+      Paradius LLC, Wyoming, USA. Hub in Managua, Nicaragua, on Central Time: full overlap
+      with US business hours. Operating since 2026. A small core, and vetted engineers
+      activated per contract.
     </p>
   </InnerBlock>
 
   <InnerBlock force="power" kind="cta" title="Tell us who you need.">
-    <p>We reply within 24 hours with matched profiles and a rate proposal.</p>
+    <p>We reply within 24 hours. Profiles within 48.</p>
     <Fragment slot="actions">
       <a href="/talent" class="inner-button">Browse the registry</a>
       <a href="/contact" class="inner-button inner-button--secondary">Start your team</a>
