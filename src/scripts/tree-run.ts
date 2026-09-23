@@ -1,8 +1,6 @@
-import { ART, CANOPY, FLAT, PIECE_MARGIN, ROOTS, SEAM, canopyLift, canopySide, rhythm, rhythmCap, rng, runLeft, scale, seedOf, type Force, type Layout, type Side } from './tree-geometry';
+import { ART, CANOPY, FLAT, HERO_BESIDE, PIECE_MARGIN, ROOTS, SEAM, TWO_SIDED, applySeat, rhythm, rhythmCap, rng, runLeft, seat, seedOf, type Force, type Side } from './tree-geometry';
 
 const PIECES = '/assets/tree/';
-const TWO_SIDED = '(min-width: 700px)';
-const HERO_BESIDE = '(min-width: 900px)';
 
 type Mode = 'two-sided' | 'rail' | 'dossier';
 
@@ -22,12 +20,6 @@ export function mountTreeRun(): void {
   const pageSeed = seedOf(location.pathname);
   let pending = 0;
 
-  const layout = (): Layout => {
-    if (!window.matchMedia(TWO_SIDED).matches) return 'column';
-    if (mode === 'rail' || (railBelow && railBelow.matches)) return 'rail';
-    return 'two-sided';
-  };
-
   const px = (units: number, k: number): string => `${(units * k).toFixed(2)}px`;
 
   const anchors = (top: number): number[] => {
@@ -43,27 +35,26 @@ export function mountTreeRun(): void {
   const geometry = (): Geometry | null => {
     const frame = main.getBoundingClientRect();
     const pad = parseFloat(getComputedStyle(main).paddingLeft);
-    const lay = layout();
+    const s = seat({
+      mode,
+      railBelow: parseFloat(main.dataset.railBelow ?? '1200'),
+      spine: parseFloat(main.dataset.spine ?? ''),
+      force: (hero.dataset.force ?? 'power') as Force,
+      frameWidth: frame.width,
+      pad,
+      svh: window.innerHeight,
+      twoSided: window.matchMedia(TWO_SIDED).matches,
+      heroBeside: window.matchMedia(HERO_BESIDE).matches,
+      railBelowMatches: railBelow ? railBelow.matches : false,
+    });
+    if (!s) return null;
+    applySeat(root, s);
+    const lay = s.layout;
     const two = lay === 'two-sided';
-    const force = (hero.dataset.force ?? 'power') as Force;
-    const side = canopySide(force, lay);
+    const side = s.side;
     const canopy = CANOPY[side];
-    const heroBeside = lay === 'rail' && window.matchMedia(HERO_BESIDE).matches;
-    const input = { layout: lay, frameWidth: frame.width, pad, svh: window.innerHeight, heroBeside, canopy };
-    const k = scale(input);
-    if (!(k > 0)) return null;
-
-    root.dataset.layout = lay;
-    if (two) delete root.dataset.trunk;
-    else root.dataset.trunk = side === 'left' ? 'right' : 'left';
-    root.style.setProperty('--canopy-lift', canopyLift(k, input).toFixed(2) + 'px');
-    root.style.setProperty('--canopy-h', px(canopy.h, k));
-    root.style.setProperty('--canopy-back', px(canopy.back, k));
-    root.style.setProperty('--canopy-fan', px(canopy.fan, k));
-    root.style.setProperty('--trunk-edge', px(ART.trunkHalf, k));
-    root.style.setProperty('--trunk-clear', px(ART.trunkHalf * 2, k));
-    root.style.setProperty('--roots-h', px(ROOTS.h, k));
-    root.style.setProperty('--roots-back', px(ROOTS.back, k));
+    const k = s.k;
+    const input = { layout: lay, frameWidth: frame.width, pad, svh: window.innerHeight, heroBeside: lay === 'rail' && window.matchMedia(HERO_BESIDE).matches, canopy };
 
     const spine = window.matchMedia('(min-width: 1200px)').matches ? parseFloat(main.dataset.spine ?? '') : 0;
     // A spine mirrors the whole run: canopy and roots fan into the narrow side, the trunk lands at frame * spine.

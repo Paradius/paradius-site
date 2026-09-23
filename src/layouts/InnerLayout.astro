@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import ScrollBehavior from '../components/ScrollBehavior.astro';
 import type { PageSeo } from '../lib/seo';
 import '../styles/inner.css';
+import { ART, CANOPY, CANOPY_SHARE, HERO_BESIDE, RAIL_SHARE, ROOTS, TREE_FACTOR, TRUNK_MAX, TRUNK_MIN, TWO_SIDED, applySeat, canopyLift, canopySide, scale, seat } from '../scripts/tree-geometry';
 
 interface Props {
   seo: PageSeo;
@@ -15,6 +16,34 @@ interface Props {
 
 const { seo, mode = 'two-sided', railBelow, spine } = Astro.props;
 const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
+// The same seating the tree module runs, inlined so the first layout carries the final geometry.
+const seatScript = [
+  `const ART = ${JSON.stringify(ART)}, CANOPY = ${JSON.stringify(CANOPY)}, ROOTS = ${JSON.stringify(ROOTS)}, TRUNK_MIN = ${TRUNK_MIN}, TRUNK_MAX = ${TRUNK_MAX}, CANOPY_SHARE = ${CANOPY_SHARE}, RAIL_SHARE = ${RAIL_SHARE}, TREE_FACTOR = ${TREE_FACTOR};`,
+  scale.toString(),
+  canopySide.toString(),
+  canopyLift.toString(),
+  seat.toString(),
+  applySeat.toString(),
+  `(function () {
+    const main = document.querySelector('main.inner-main');
+    const hero = document.querySelector('.inner-block--hero');
+    if (!main || !hero) return;
+    const railBelow = parseFloat(main.dataset.railBelow || '1200');
+    const s = seat({
+      mode: main.dataset.mode || 'two-sided',
+      railBelow,
+      spine: parseFloat(main.dataset.spine || ''),
+      force: hero.dataset.force || 'power',
+      frameWidth: main.getBoundingClientRect().width,
+      pad: parseFloat(getComputedStyle(main).paddingLeft),
+      svh: window.innerHeight,
+      twoSided: matchMedia('${TWO_SIDED}').matches,
+      heroBeside: matchMedia('${HERO_BESIDE}').matches,
+      railBelowMatches: main.dataset.mode === 'dossier' && matchMedia('(max-width: ' + (railBelow - 0.02) + 'px)').matches,
+    });
+    if (s) applySeat(document.documentElement, s);
+  })();`,
+].join('\n');
 ---
 
 <BaseLayout seo={seo}>
@@ -23,6 +52,7 @@ const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
   <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below} data-spine={spine} style={spine ? `--spine: ${spine}` : undefined}>
     <div class="inner-run" aria-hidden="true"></div>
     <slot />
+    <script is:inline set:html={seatScript}></script>
   </main>
   <Footer />
   <ScrollBehavior />

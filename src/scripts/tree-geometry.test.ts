@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ART, CANOPY, MODULES, SEAM, canopyLift, canopySide, fillers, rhythm, rhythmCap, rng, runLeft, scale, seedOf } from './tree-geometry';
+import { ART, CANOPY, MODULES, SEAM, canopyLift, canopySide, fillers, rhythm, rhythmCap, rng, runLeft, scale, seat, seedOf } from './tree-geometry';
 
 const trunk = (k: number) => ART.trunkHalf * 2 * k;
 
@@ -100,5 +100,24 @@ describe('rhythm', () => {
     const end = last.piece ? last.top + last.piece.h * k : last.top + (last.len ?? 0);
     expect(end).toBeCloseTo(1000, 0);
     expect(MODULES.length).toBe(3);
+  });
+});
+
+describe('seat', () => {
+  const desk = { mode: 'two-sided' as const, railBelow: 1200, spine: 0, force: 'power' as const, frameWidth: 1699, pad: 54.4, svh: 854, twoSided: true, heroBeside: false, railBelowMatches: false };
+
+  it('seats a two-sided page at the trunk cap', () => {
+    const s = seat(desk);
+    expect(s?.layout).toBe('two-sided');
+    expect(s?.trunk).toBeNull();
+    expect(s?.props['--canopy-h']).toBe('579.90px');
+    expect(s?.props['--trunk-edge']).toBe('32.00px');
+  });
+
+  it('seats a phone column with the trunk on the right for a Power hero', () => {
+    const s = seat({ ...desk, frameWidth: 448, pad: 27.2, svh: 803, twoSided: false });
+    expect(s?.layout).toBe('column');
+    expect(s?.trunk).toBe('right');
+    expect(s?.props['--trunk-edge']).toBe('22.34px');
   });
 });

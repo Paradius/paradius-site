@@ -45,6 +45,8 @@ export const RAIL_SHARE = 0.5;
 export const TREE_FACTOR = 1.4;
 export const TRUNK_MIN = 44;
 export const TRUNK_MAX = 64;
+export const TWO_SIDED = '(min-width: 700px)';
+export const HERO_BESIDE = '(min-width: 900px)';
 
 export interface ScaleInput {
   layout: Layout;
@@ -209,4 +211,65 @@ export function rhythm(
   });
   bridge(to);
   return steps;
+}
+
+export interface SeatInput {
+  mode: 'two-sided' | 'rail' | 'dossier';
+  railBelow: number;
+  spine: number;
+  force: Force;
+  frameWidth: number;
+  pad: number;
+  svh: number;
+  twoSided: boolean;
+  heroBeside: boolean;
+  railBelowMatches: boolean;
+}
+
+export interface Seat {
+  layout: Layout;
+  side: Side;
+  k: number;
+  trunk: 'left' | 'right' | null;
+  props: Record<string, string>;
+}
+
+/* Everything the first layout needs, computed from numbers only: the inline script at the
+   end of main and the deferred module both call it, so the values never differ. */
+export function seat(input: SeatInput): Seat | null {
+  const layout: Layout = !input.twoSided
+    ? 'column'
+    : input.mode === 'rail' || (input.mode === 'dossier' && input.railBelowMatches)
+      ? 'rail'
+      : 'two-sided';
+  const side = canopySide(input.force, layout);
+  const canopy = CANOPY[side];
+  const heroBeside = layout === 'rail' && input.heroBeside;
+  const scaleInput = { layout, frameWidth: input.frameWidth, pad: input.pad, svh: input.svh, heroBeside, canopy };
+  const k = scale(scaleInput);
+  if (!(k > 0)) return null;
+  const px = (units: number): string => `${(units * k).toFixed(2)}px`;
+  return {
+    layout,
+    side,
+    k,
+    trunk: layout === 'two-sided' ? null : side === 'left' ? 'right' : 'left',
+    props: {
+      '--canopy-lift': canopyLift(k, scaleInput).toFixed(2) + 'px',
+      '--canopy-h': px(canopy.h),
+      '--canopy-back': px(canopy.back),
+      '--canopy-fan': px(canopy.fan),
+      '--trunk-edge': px(ART.trunkHalf),
+      '--trunk-clear': px(ART.trunkHalf * 2),
+      '--roots-h': px(ROOTS.h),
+      '--roots-back': px(ROOTS.back),
+    },
+  };
+}
+
+export function applySeat(root: HTMLElement, s: Seat): void {
+  root.dataset.layout = s.layout;
+  if (s.trunk) root.dataset.trunk = s.trunk;
+  else delete root.dataset.trunk;
+  for (const [name, value] of Object.entries(s.props)) root.style.setProperty(name, value);
 }
