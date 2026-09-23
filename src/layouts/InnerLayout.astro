@@ -30,7 +30,9 @@ const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
     // Scroll watcher, armed only with ?watch: records wheel input against scroll position and
     // reports a wheel burst that moves nothing while the page sits at an edge.
     if (location.search.includes('watch')) {
-      const w = (window.__w = { t0: performance.now(), wheel: [], scroll: [], long: [], freezes: [] });
+      const w = (window.__w = { t0: performance.now(), wheel: [], scroll: [], long: [], freezes: [], paints: [] });
+      const run = document.querySelector('.inner-run');
+      if (run) new MutationObserver(() => { const cs = getComputedStyle(run); w.paints.push([Math.round(performance.now()), run.style.height, (cs.webkitMaskImage || cs.maskImage || '').length, (cs.webkitMaskPosition || cs.maskPosition || '').slice(0, 60), document.fonts.status, cs.opacity]); }).observe(run, { attributes: true, attributeFilter: ['style'] });
       const T = () => Math.round(performance.now() - w.t0);
       let stuckSince = 0;
       addEventListener('wheel', (e) => {
