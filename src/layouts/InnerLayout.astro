@@ -69,6 +69,8 @@ const seatScript = [
       const run = document.querySelector('.inner-run');
       if (run) new MutationObserver(() => { const cs = getComputedStyle(run); w.paints.push([Math.round(performance.now()), run.style.height, (cs.maskImage || '').length, (cs.maskPosition || '').slice(0, 60), document.fonts.status, cs.opacity]); }).observe(run, { attributes: true, attributeFilter: ['style'] });
       const T = () => Math.round(performance.now() - w.t0);
+      w.widths = [];
+      (function tick(until) { const a = document.querySelector('.site-header__nav-link'); w.widths.push([T(), document.documentElement.clientWidth, a ? Math.round(a.getBoundingClientRect().left) : -1, document.documentElement.scrollHeight]); if (performance.now() < until) requestAnimationFrame(() => tick(until)); })(performance.now() + 1500);
       let stuckSince = 0;
       addEventListener('wheel', (e) => {
         const max = document.documentElement.scrollHeight - innerHeight;

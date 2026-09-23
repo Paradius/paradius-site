@@ -5,6 +5,19 @@
     overflow-x: hidden;
   }
 
+  /* No native scrollbar anywhere: the first paint often lands before the footer, and a bar
+     arriving one frame later moved everything right-aligned 15px; the home already hid it. */
+  html,
+  body {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
   body {
     font-family: var(--font-body);
     font-size: 1rem;
