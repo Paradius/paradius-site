@@ -39,6 +39,7 @@ export const MODULES: PieceSpec[] = [
 
 export const FLAT = 'flatElastic.svg';
 export const SEAM = 0.5;
+export const PIECE_MARGIN = 8;
 export const CANOPY_SHARE = 0.36;
 export const RAIL_SHARE = 0.5;
 export const TREE_FACTOR = 1.4;

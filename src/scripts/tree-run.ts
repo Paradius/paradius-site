@@ -1,4 +1,4 @@
-import { ART, CANOPY, FLAT, ROOTS, SEAM, canopyLift, canopySide, rhythm, rhythmCap, rng, runLeft, scale, seedOf, type Force, type Layout, type Side } from './tree-geometry';
+import { ART, CANOPY, FLAT, PIECE_MARGIN, ROOTS, SEAM, canopyLift, canopySide, rhythm, rhythmCap, rng, runLeft, scale, seedOf, type Force, type Layout, type Side } from './tree-geometry';
 
 const PIECES = '/assets/tree/';
 const TWO_SIDED = '(min-width: 700px)';
@@ -79,6 +79,9 @@ export function mountTreeRun(): void {
     const height = two ? end - box.top : Math.floor(end - box.top);
     if (!(height > 0)) return null;
     run.style.height = height.toFixed(2) + 'px';
+    // Windowed mask layers include a clip margin past the box: a promoted layer
+    // paints that overflow into the footer unless the run clips.
+    run.style.overflow = 'hidden';
     return { k, two, side, top: box.top, height, cap: rhythmCap(lay, k) };
   };
 
@@ -91,11 +94,12 @@ export function mountTreeRun(): void {
     const sizes: string[] = [];
     const spots: string[] = [];
     const wideAt = px(ART.w, k) + ' ';
-    const whole = wideAt + px(ART.h, k);
-    const lay = (piece: { file: string; y0: number }, destY: number): void => {
+    // Each layer is its piece's window plus the clip margin on both ends, seated so the
+    // window's top lands on destY: the image no longer carries the art above it.
+    const lay = (piece: { file: string; h: number }, destY: number): void => {
       images.push(`url(${PIECES}${piece.file})`);
-      sizes.push(whole);
-      spots.push(`0 ${(destY - piece.y0 * k).toFixed(2)}px`);
+      sizes.push(wideAt + px(piece.h + PIECE_MARGIN * 2, k));
+      spots.push(`0 ${(destY - PIECE_MARGIN * k).toFixed(2)}px`);
     };
     // Half a pixel past both ends: the overlap only ever doubles identical
     // verticals inside one mask, and a shorter layer opens a hairline gap.

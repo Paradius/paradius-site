@@ -23,8 +23,15 @@ function fileUrl(absPath) {
   return pathToFileURL(absPath).href;
 }
 
+function viewBoxOf(svgAbs) {
+  const m = readFileSync(svgAbs, 'utf8').match(/viewBox="([^"]+)"/);
+  const [, y, , h] = (m ? m[1] : '0 0 1430 1360').split(/\s+/).map(Number);
+  return { y, h };
+}
+
 async function raster(page, svgAbs, pngAbs) {
   // Chromium blocks file:// images from about:blank: the img never loads.
+  const { y, h } = viewBoxOf(svgAbs);
   const htmlPath = resolve(TMP, 'frame.html');
   writeFileSync(
     htmlPath,
@@ -33,11 +40,11 @@ async function raster(page, svgAbs, pngAbs) {
 <head>
 <style>
   html, body { margin: 0; padding: 0; background: #fff; overflow: hidden; width: 1430px; height: 1360px; }
-  img { display: block; width: 1430px; height: 1360px; }
+  img { display: block; position: absolute; left: 0; top: ${y}px; width: 1430px; height: ${h}px; }
 </style>
 </head>
 <body>
-  <img src="${fileUrl(svgAbs)}" width="1430" height="1360">
+  <img src="${fileUrl(svgAbs)}" width="1430" height="${h}">
 </body>
 </html>
 `,

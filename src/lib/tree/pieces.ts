@@ -1,3 +1,5 @@
+import { PIECE_MARGIN } from '../../scripts/tree-geometry';
+
 export interface Window {
   x: number;
   y: number;
@@ -230,7 +232,7 @@ function polylineMarkup(cls: string, run: Point[]): string {
   return `<polyline class="${cls}" points="${run.map(([x, y]) => `${x} ${y}`).join(' ')}"/>`;
 }
 
-export function clipPiece(piece: Piece, margin = 8): Piece {
+export function clipPiece(piece: Piece, margin = PIECE_MARGIN): Piece {
   const box = expand(piece.window, margin);
   const pathZone = expand(piece.window, 12);
   const elements: PieceElement[] = [];
@@ -260,9 +262,18 @@ export function clipPiece(piece: Piece, margin = 8): Piece {
   return { header: piece.header, window: piece.window, elements };
 }
 
-export function renderPiece(piece: Piece): string {
+const FULL_VIEW_BOX = /viewBox="0 0 1430 1360"/;
+
+/* A piece drawn on the full art keeps only its clip window, so a mask layer rasterizes the
+   window and not the whole tree. A source that already declares its own window (the flat
+   filler, stretched with preserveAspectRatio) keeps it. */
+export function renderPiece(piece: Piece, window: Window = piece.window): string {
+  const box = expand(window, PIECE_MARGIN);
+  const y = Number(box.y.toFixed(2));
+  const h = Number(box.height.toFixed(2));
+  const header = piece.header.replace(FULL_VIEW_BOX, `viewBox="0 ${y} 1430 ${h}"`);
   return (
-    `${piece.header}\n  <g class="cls-3">\n` +
+    `${header}\n  <g class="cls-3">\n` +
     `${piece.elements.map((el) => `    ${el.markup}`).join('\n')}\n` +
     '  </g>\n</svg>\n'
   );

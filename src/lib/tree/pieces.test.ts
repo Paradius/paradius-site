@@ -79,10 +79,10 @@ describe('clipPiece', () => {
 });
 
 describe('renderPiece', () => {
-  it('keeps the viewBox, the style, the clipPath and the clipped group', () => {
+    it('narrows the viewBox to the clip window with its margin and keeps the style, the clipPath and the clipped group', () => {
     const out = renderPiece(clipPiece(parsePiece(FIXTURE)));
     expect(out.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true);
-    expect(out).toContain('viewBox="0 0 1430 1360"');
+    expect(out).toContain('viewBox="0 581.59 1430 69.9"');
     expect(out).toContain('clip-path: url(#clippath)');
     expect(out).toContain('<clipPath id="clippath">');
     expect(out).toContain('<g class="cls-3">');
