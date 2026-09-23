@@ -1,6 +1,7 @@
 ---
 import InnerLayout from '../layouts/InnerLayout.astro';
 import InnerBlock from '../components/inner/InnerBlock.astro';
+import '../styles/inner-tools.css';
 import { SITE_URL, type PageSeo } from '../lib/seo';
 
 const seo: PageSeo = {
@@ -14,7 +15,7 @@ const seo: PageSeo = {
 };
 ---
 
-<InnerLayout seo={seo} mode="two-sided">
+<InnerLayout seo={seo} mode="two-sided" spine={0.25}>
   <InnerBlock force="power" kind="hero" title="How we work">
     <p>
       Every engineer we send was interviewed by the person who signs your contract. This
@@ -23,82 +24,135 @@ const seo: PageSeo = {
     </p>
   </InnerBlock>
 
-  <InnerBlock force="power" title="Two ways to buy">
-    <p>
-      <strong>Browse the registry.</strong> You pick engineers from our registry, interview
-      them, and run them inside your team. You manage the day to day; we stay responsible
-      for quality, continuity and replacement.
-    </p>
-    <p>
-      <strong>Start your team.</strong> You describe the outcome. We assemble the team, run
-      the day to day, and answer for delivery. You set goals and review progress.
-    </p>
-    <p>There is no third model. We do not sell fixed bid projects.</p>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Today" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Today</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="You write" className="inner-stop__story">
+      <h2 class="inner-title">You write</h2>
+      <div class="inner-body">
+        <p>
+          Tell us who or what you need: the contact form, or
+          <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
+        </p>
+        <p>
+          <strong>Browse the registry.</strong> You pick engineers from our registry, interview
+          them, and run them inside your team. You manage the day to day; we stay responsible
+          for quality, continuity and replacement.
+        </p>
+        <p>
+          <strong>Start your team.</strong> You describe the outcome. We assemble the team, run
+          the day to day, and answer for delivery. You set goals and review progress.
+        </p>
+        <p>There is no third model. We do not sell fixed bid projects.</p>
+      </div>
+    </InnerBlock>
+  </div>
 
-  <InnerBlock force="power" title="The process, with times">
-    <ol role="list">
-      <li>
-        You write. Tell us who or what you need: the contact form, or
-        <a href="mailto:solutions@paradius.dev">solutions@paradius.dev</a>.
-      </li>
-      <li>
-        We reply within 24 hours. A real reply from the principal, with matched profiles
-        or precise questions. Never an autoresponder.
-      </li>
-      <li>
-        Profiles within 48 hours. Anonymized, and verifiable in one call: stack, years,
-        experience, languages. Full identity is disclosed later in the deal, off platform.
-      </li>
-      <li>
-        The engagement starts. Every engineer begins under our hub discipline in Managua,
-        Nicaragua, on Central Time with full overlap with US business hours: a senior
-        mentor at the next desk, standards enforced from day one. Then they go remote, and
-        nothing degrades, because the discipline travels with them.
-      </li>
-    </ol>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0.17`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Within 24 hours" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Within 24 hours</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="We reply" className="inner-stop__story">
+      <h2 class="inner-title">We reply</h2>
+      <div class="inner-body">
+        <p>
+          A real reply from the principal, with matched profiles or precise questions. Never
+          an autoresponder.
+        </p>
+        <p>
+          There is no pricing on this site because requirements determine price. A senior
+          engineer embedded in a regulated bank is not a line on a rate card. Tell us what you
+          need and we scope rates against your actual architecture, in private, within 24
+          hours.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
 
-  <InnerBlock force="will" title="How we select">
-    <p>
-      No algorithmic screening. No credential theater. We examine the systems an engineer
-      has built, not their resume. Then we talk: what they refuse to ship tells us more
-      than what they list. The last filter is always the person who signs your contract.
-    </p>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0.33`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Within 48 hours" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Within 48 hours</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="Profiles" className="inner-stop__story">
+      <h2 class="inner-title">Profiles</h2>
+      <div class="inner-body">
+        <p>
+          Anonymized, and verifiable in one call: stack, years, experience, languages. Full
+          identity is disclosed later in the deal, off platform.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
 
-  <InnerBlock force="will" title="Continuity and replacement">
-    <p>
-      Every engineer passes a three month proving period with us before they ever reach a
-      client, so a bad fit is rare. When it happens, say so: we transition to another
-      engineer quickly, because context is documented and shared from day one. Context
-      never lives in one head.
-    </p>
-    <p>
-      And the question you are too polite to ask: what if Paradius disappears tomorrow?
-      Nothing happens to you. Every system we build ships with documentation, repositories
-      and credentials in your accounts. Your team keeps shipping. That is written into how
-      we work, and it is why our clients' systems are still standing years after we left
-      them.
-    </p>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0.5`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Before day one" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Before day one</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="The paper" className="inner-stop__story">
+      <h2 class="inner-title">The paper</h2>
+      <div class="inner-body">
+        <p>
+          Contracts are with Paradius LLC, registered in Wyoming, under US jurisdiction,
+          billed in USD. The IP is yours from day one. NDAs are signed by default. Your
+          systems carry no signature of ours.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
 
-  <InnerBlock force="power" title="The paper">
-    <p>
-      Contracts are with Paradius LLC, registered in Wyoming, under US jurisdiction,
-      billed in USD. The IP is yours from day one. NDAs are signed by default. Your
-      systems carry no signature of ours.
-    </p>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0.67`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Day one" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Day one</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="The engagement starts" className="inner-stop__story">
+      <h2 class="inner-title">The engagement starts</h2>
+      <div class="inner-body">
+        <p>
+          Every engineer begins under our hub discipline in Managua, Nicaragua, on Central
+          Time with full overlap with US business hours: a senior mentor at the next desk,
+          standards enforced from day one. Then they go remote, and nothing degrades, because
+          the discipline travels with them.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
 
-  <InnerBlock force="power" title="Pricing">
-    <p>
-      There is no pricing on this site because requirements determine price. A senior
-      engineer embedded in a regulated bank is not a line on a rate card. Tell us what you
-      need and we scope rates against your actual architecture, in private, within 24
-      hours.
-    </p>
-  </InnerBlock>
+  <div class="inner-stop" style={`--stop: 0.83`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Month three" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Month three</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="If the fit is wrong" className="inner-stop__story">
+      <h2 class="inner-title">If the fit is wrong</h2>
+      <div class="inner-body">
+        <p>
+          Every engineer passes a three month proving period with us before they ever reach a
+          client, so a bad fit is rare. When it happens, say so: we transition to another
+          engineer quickly, because context is documented and shared from day one. Context
+          never lives in one head.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
+
+
+  <div class="inner-stop" style={`--stop: 1`}>
+    <InnerBlock force="power" kind="tool" ariaLabel="Years later" className="inner-stop__clock">
+      <p class="inner-kicker inner-stop__when">Years later</p>
+    </InnerBlock>
+    <InnerBlock force="will" kind="tool" ariaLabel="If Paradius disappears" className="inner-stop__story">
+      <h2 class="inner-title">If Paradius disappears</h2>
+      <div class="inner-body">
+        <p>
+          And the question you are too polite to ask: what if Paradius disappears tomorrow?
+          Nothing happens to you. Every system we build ships with documentation, repositories
+          and credentials in your accounts. Your team keeps shipping. That is written into how
+          we work, and it is why our clients' systems are still standing years after we left
+          them.
+        </p>
+      </div>
+    </InnerBlock>
+  </div>
 
   <InnerBlock force="power" kind="cta" title="Tell us who you need.">
     <p>We reply within 24 hours with matched profiles and a rate proposal.</p>

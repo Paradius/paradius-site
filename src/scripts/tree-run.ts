@@ -65,7 +65,11 @@ export function mountTreeRun(): void {
     root.style.setProperty('--roots-h', px(ROOTS.h, k));
     root.style.setProperty('--roots-back', px(ROOTS.back, k));
 
-    run.style.left = runLeft(k, side, input).toFixed(2) + 'px';
+    const spine = window.matchMedia('(min-width: 1200px)').matches ? parseFloat(main.dataset.spine ?? '') : 0;
+    // A spine mirrors the whole run: canopy and roots fan into the narrow side, the trunk lands at frame * spine.
+    const mirrored = two && spine > 0;
+    run.style.transform = mirrored ? 'scaleX(-1)' : '';
+    run.style.left = (mirrored ? frame.width * spine - (ART.w - ART.trunkX) * k : runLeft(k, side, input)).toFixed(2) + 'px';
     run.style.width = px(ART.w, k);
 
     const box = run.getBoundingClientRect();

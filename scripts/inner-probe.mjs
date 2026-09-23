@@ -280,7 +280,10 @@ try {
         if (rootsR >= rootsL && g.spine != null) {
           const left = Math.max(0, g.spine - rootsL);
           const right = Math.max(0, rootsR - g.spine);
-          if (!(right > left * 2)) fail('roots-fan-not-on-the-will-side', tag, { spine: g.spine, roots: hits.rootsSpread });
+          // A mirrored run (an off-centre spine) fans its roots into the narrow left side.
+          const mirrored = await page.evaluate(() => getComputedStyle(document.querySelector('.inner-run')).transform !== 'none');
+          const [near, far] = mirrored ? [right, left] : [left, right];
+          if (!(far > near * 2)) fail('roots-fan-not-on-the-will-side', tag, { spine: g.spine, roots: hits.rootsSpread, mirrored });
         }
       }
     }

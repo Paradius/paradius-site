@@ -10,16 +10,17 @@ interface Props {
   seo: PageSeo;
   mode?: 'two-sided' | 'rail' | 'dossier';
   railBelow?: number;
+  spine?: number;
 }
 
-const { seo, mode = 'two-sided', railBelow } = Astro.props;
+const { seo, mode = 'two-sided', railBelow, spine } = Astro.props;
 const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
 ---
 
 <BaseLayout seo={seo}>
   <slot name="head" slot="head" />
   <Header />
-  <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below}>
+  <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below} data-spine={spine} style={spine ? `--spine: ${spine}` : undefined}>
     <div class="inner-run" aria-hidden="true"></div>
     <slot />
   </main>

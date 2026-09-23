@@ -841,3 +841,79 @@ button.inner-button { cursor: pointer; }
 
 .inner-chip__remove:hover,
 .inner-chip__remove:focus-visible { color: #fff; }
+
+/* How we work: each stop is a clock on the Power side and its story across the trunk, hanging from one line. */
+.inner-stop > .inner-block { margin-top: 0; }
+
+.inner-stop + .inner-stop,
+.inner-stop + .inner-block,
+.inner-block + .inner-stop { margin-top: var(--block-air); }
+
+.inner-stop .inner-stop__when {
+  margin: 0;
+  font-family: var(--font-tech);
+  font-size: round(nearest, calc(var(--power-hero-title) * 0.9), 1px);
+  font-weight: 400;
+  line-height: 1.15;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: color-mix(in oklab, var(--color-text-secondary), #fff calc(var(--stop, 1) * 100%));
+}
+
+.inner-stop__story { margin-top: 0.9rem; }
+
+@media (min-width: 700px) {
+  .inner-stop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: calc(var(--trunk-clear) + 2.5rem);
+    align-items: start;
+  }
+
+  .inner-stop > .inner-block {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .inner-stop__story { margin-top: 0; }
+
+  .inner-stop .inner-stop__story[data-force="power"] { text-align: left; }
+
+  .inner-stop .inner-stop__story[data-force="power"] :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: 0; }
+}
+
+@media (min-width: 1200px) {
+  /* An off-centre spine, desktop only: the trunk sits at that share of the frame (main's border box), so the widths count the gutter back in. */
+  main[data-spine] {
+    --spine-x: calc(var(--spine) * (100% + 2 * var(--frame-gutter)) - var(--frame-gutter));
+    --spine-rest: calc((1 - var(--spine)) * (100% + 2 * var(--frame-gutter)) - var(--frame-gutter));
+  }
+
+  main[data-spine] .inner-block[data-force="power"] { width: calc(var(--spine-x) - var(--trunk-edge) - 1.25rem); }
+
+  main[data-spine] .inner-block[data-force="will"] { width: calc(var(--spine-rest) - var(--trunk-edge) - 1.25rem); }
+
+  main[data-spine] .inner-block--hero[data-force="power"],
+  main[data-spine] .inner-block--cta[data-force="power"] {
+    margin-left: auto;
+    margin-right: 0;
+    text-align: left;
+  }
+
+  main[data-spine] .inner-block--hero[data-force="power"] { width: calc(var(--spine-rest) - var(--canopy-back) - 1.5rem); }
+
+  main[data-spine] .inner-block--cta[data-force="power"] { width: calc(var(--spine-rest) - var(--roots-back) - 1.5rem); }
+
+  main[data-spine] :is(.inner-block--hero, .inner-block--cta)[data-force="power"] :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: 0; }
+
+  main[data-spine] .inner-block--cta .inner-actions { justify-content: flex-start; }
+
+  main[data-spine] .inner-stop { grid-template-columns: calc(var(--spine-x) - var(--trunk-edge) - 1.25rem) minmax(0, 1fr); }
+
+  /* Inside a stop the cell already measures the block; a percentage width there would resolve against the cell, not the frame. */
+  main[data-spine] .inner-stop > .inner-block { width: auto; }
+
+  main[data-spine] .inner-stop__story .inner-body p { max-width: calc(var(--measure) * 1.2); }
+}
