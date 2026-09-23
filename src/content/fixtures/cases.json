@@ -3,12 +3,12 @@
     {
       "id": "case-001",
       "title": "The visual language of warehouse automation",
-      "slug": "fortune-500-home-improvement-retailer",
-      "clientDescriptor": "A warehouse automation company acquired by a Fortune 500 home-improvement retailer",
+      "slug": "warehouse-automation",
+      "clientDescriptor": "A warehouse automation company",
       "problem": "A warehouse floor is a negotiation between robots, storage systems, inventory, people and hundreds of services, each speaking its own dialect. At scale, nobody can see the whole conversation at once. The client, a warehouse automation company, needed its floor to be legible: one language that everything on it could speak.",
       "solution": "We built that language. A visual system that translates what robots, goods-to-person storage, inventory and services are doing into one coherent, live picture, coordinating hundreds of services without asking any of them to change what they are. Architecture first: the language had to survive new robots, new services and new sites without being redesigned.",
       "stack": [],
-      "outcome": "It survived the hardest test there is: acquisition. A Fortune 500 retailer bought the company after piloting the system in its own distribution network, and now runs it at network scale. The language did not stay a pilot. It became how the floor is read.",
+      "outcome": "The language did not stay a pilot. Today a Fortune 500 retailer runs it across its distribution network, at network scale. It became how the floor is read.",
       "metrics": [],
       "leftBehind": "The visual grammar itself: documented, extensible, and in daily use by teams that never met us.",
       "published": true
