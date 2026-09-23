@@ -1,0 +1,37 @@
+---
+import type { AnonymousProfile } from '../../lib/api';
+import { formatAvailability, formatSeniority, formatStackTag, overflowStackCount, topStackTags } from '../../lib/talent/formatters';
+import Branch from '../inner/Branch.astro';
+
+interface Props {
+  profile: AnonymousProfile;
+}
+
+// Mapped by how rich each drawing is, not by the owner's file names.
+const FAN = { junior: 'junior', mid: 'mid', senior: 'god-tier', staff: 'senior' } as const;
+
+const { profile } = Astro.props;
+const availability = formatAvailability(profile.availability);
+const visibleStack = topStackTags(profile, 6);
+const overflow = overflowStackCount(profile, 6);
+---
+
+<a
+  class="inner-row"
+  role="listitem"
+  href={`/talent/${profile.code}/`}
+  data-talent-row
+  data-roles={profile.roles.join(' ')}
+  data-seniority={profile.seniority}
+  data-availability={profile.availability}
+  data-stack={profile.stack.join(' ')}
+>
+  <Branch fan={FAN[profile.seniority]} />
+  <span class="inner-row__code">{profile.code}</span>
+  <span class="inner-row__title">{profile.headline}</span>
+  <span class="inner-row__graft">
+    <span class="inner-row__meta">{formatSeniority(profile.seniority)} · {profile.yearsExperience} years</span>
+    <span class="inner-row__stack">{visibleStack.map(formatStackTag).join(', ')}{overflow > 0 && <em> +{overflow}</em>}</span>
+  </span>
+  <span class="inner-badge" data-availability={profile.availability}>{availability.label}</span>
+</a>

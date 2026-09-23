@@ -1,0 +1,26 @@
+---
+import godTier from '../../../public/assets/tree/branches/god-tier.svg?raw';
+import junior from '../../../public/assets/tree/branches/junior.svg?raw';
+import mid from '../../../public/assets/tree/branches/mid.svg?raw';
+import senior from '../../../public/assets/tree/branches/senior.svg?raw';
+import { VIEW_BOX, planBranch, timeStrands } from '../../scripts/branch-plan';
+
+interface Props {
+  fan: 'junior' | 'mid' | 'senior' | 'god-tier';
+}
+
+const FILES = { junior, mid, senior, 'god-tier': godTier };
+const { fan } = Astro.props;
+const strands = timeStrands(planBranch(FILES[fan]));
+---
+
+<span class="inner-branch" aria-hidden="true">
+  <svg class="inner-branch__art" viewBox={VIEW_BOX} focusable="false">
+    {strands.map((strand) => (
+      <>
+        <polyline points={strand.points.map((p) => p.join(' ')).join(' ')} pathLength="1" style={`--at:${strand.at.toFixed(3)};--span:${strand.span.toFixed(3)}`} />
+        {strand.tips.map((tip) => <path d={tip.d} style={`--at:${tip.at.toFixed(3)}`} />)}
+      </>
+    ))}
+  </svg>
+</span>

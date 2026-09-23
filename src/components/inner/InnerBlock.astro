@@ -1,7 +1,7 @@
 ---
 interface Props {
   force: 'will' | 'power';
-  kind?: 'hero' | 'block' | 'cta';
+  kind?: 'hero' | 'block' | 'cta' | 'tool';
   id?: string;
   kicker?: string;
   title?: string;
@@ -14,6 +14,9 @@ const classes = ['inner-block', kind === 'hero' && 'inner-block--hero', kind ===
 const hasActions = Astro.slots.has('actions');
 ---
 
+{kind === 'tool' ? (
+  <section class="inner-block inner-block--tool" data-force={force} id={id} aria-label={ariaLabel}><slot /></section>
+) : (
 <section class={classes} data-force={force} id={id} aria-label={ariaLabel}>
   {kind === 'cta' ? (
     <div class="inner-block__inner">
@@ -31,3 +34,4 @@ const hasActions = Astro.slots.has('actions');
     </>
   )}
 </section>
+)}

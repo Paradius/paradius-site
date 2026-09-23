@@ -1,5 +1,5 @@
 /**
- * Client-side talent catalog filters — progressive enhancement over static cards.
+ * Client-side talent registry filters: progressive enhancement over static rows.
  * With JS disabled, all cards remain visible in the build-rendered HTML.
  */
 
@@ -39,24 +39,24 @@ function writeStateToUrl(state: FilterState): void {
   window.history.replaceState(null, '', nextUrl);
 }
 
-function matchesCard(card: HTMLElement, state: FilterState): boolean {
+function matchesRow(row: HTMLElement, state: FilterState): boolean {
   if (state.role) {
-    const roles = card.dataset.roles?.split(' ') ?? [];
+    const roles = row.dataset.roles?.split(' ') ?? [];
     if (!roles.includes(state.role)) {
       return false;
     }
   }
 
-  if (state.seniority && card.dataset.seniority !== state.seniority) {
+  if (state.seniority && row.dataset.seniority !== state.seniority) {
     return false;
   }
 
-  if (state.availability && card.dataset.availability !== state.availability) {
+  if (state.availability && row.dataset.availability !== state.availability) {
     return false;
   }
 
   if (state.stack) {
-    const stack = card.dataset.stack ?? '';
+    const stack = row.dataset.stack ?? '';
     if (!stack.includes(state.stack)) {
       return false;
     }
@@ -71,29 +71,30 @@ function setActivePill(group: string, value: string): void {
   );
   for (const pill of pills) {
     const isActive = pill.dataset.value === value;
-    pill.classList.toggle('filters__pill--active', isActive);
     pill.setAttribute('aria-pressed', String(isActive));
   }
 }
 
 function applyFilters(
-  cards: HTMLElement[],
+  rows: HTMLElement[],
   state: FilterState,
   statusEl: HTMLElement | null,
 ): void {
   let visible = 0;
-  for (const card of cards) {
-    const show = matchesCard(card, state);
-    card.hidden = !show;
+  for (const row of rows) {
+    const show = matchesRow(row, state);
+    row.hidden = !show;
     if (show) {
       visible += 1;
     }
   }
 
   if (statusEl) {
-    const total = cards.length;
+    const total = rows.length;
     statusEl.textContent = formatRegistryStatus(total, visible);
   }
+  const emptyEl = document.getElementById('talent-empty');
+  if (emptyEl) emptyEl.hidden = visible > 0;
 }
 
 function initTalentFilters(): void {
@@ -103,7 +104,7 @@ function initTalentFilters(): void {
     return;
   }
 
-  const cards = [...catalog.querySelectorAll<HTMLElement>('[data-talent-card]')];
+  const rows = [...catalog.querySelectorAll<HTMLElement>('[data-talent-row]')];
   const statusEl = document.getElementById('talent-filter-status');
   const stackInput = document.getElementById('talent-stack-search') as HTMLInputElement | null;
 
@@ -116,7 +117,7 @@ function initTalentFilters(): void {
     stackInput.value = state.stack;
   }
 
-  applyFilters(cards, state, statusEl);
+  applyFilters(rows, state, statusEl);
 
   root.addEventListener('click', (event) => {
     const target = event.target;
@@ -132,13 +133,13 @@ function initTalentFilters(): void {
     state = { ...state, [group]: target.dataset.value ?? '' };
     setActivePill(group, state[group]);
     writeStateToUrl(state);
-    applyFilters(cards, state, statusEl);
+    applyFilters(rows, state, statusEl);
   });
 
   stackInput?.addEventListener('input', () => {
     state = { ...state, stack: stackInput.value.trim().toLowerCase() };
     writeStateToUrl(state);
-    applyFilters(cards, state, statusEl);
+    applyFilters(rows, state, statusEl);
   });
 }
 
