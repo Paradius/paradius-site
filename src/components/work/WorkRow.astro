@@ -11,7 +11,7 @@ interface Props {
 const { caseStudy, caseIndex } = Astro.props;
 ---
 
-<a class="inner-row" role="listitem" href={`/work/${caseStudy.slug}/`}>
+<a class="inner-row" href={`/work/${caseStudy.slug}/`}>
   <Branch fan="senior" />
   <span class="inner-row__code">{formatCaseCode(caseIndex)}</span>
   <span class="inner-row__title">{caseStudy.title}</span>

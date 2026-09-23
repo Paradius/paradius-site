@@ -774,7 +774,11 @@ button.inner-button { cursor: pointer; }
   color: var(--color-text-secondary);
 }
 
-.inner-hint a { color: #fff; }
+.inner-hint a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
 
 .inner-form__status {
   margin: 0 0 1.5rem;

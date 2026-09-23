@@ -15,10 +15,18 @@ const OUT_DIR = path.join(ROOT, '.lighthouse');
 
 const PAGES = [
   { slug: 'home', path: '/' },
+  { slug: 'about', path: '/about/' },
+  { slug: 'faq', path: '/faq/' },
+  { slug: 'how-we-work', path: '/how-we-work/' },
+  { slug: 'careers', path: '/careers/' },
   { slug: 'talent', path: '/talent/' },
   { slug: 'talent-PRD-001', path: '/talent/PRD-001/' },
   { slug: 'work', path: '/work/' },
+  { slug: 'work-banking-infrastructure', path: '/work/banking-infrastructure/' },
   { slug: 'contact', path: '/contact/' },
+  { slug: 'legal-privacy', path: '/legal/privacy/' },
+  { slug: 'legal-terms', path: '/legal/terms/' },
+  { slug: 'not-found', path: '/404' },
 ];
 
 function runLighthouse(url, outFile, port) {

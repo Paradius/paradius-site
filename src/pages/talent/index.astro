@@ -20,7 +20,7 @@ const seo = buildTalentCatalogSeo(profiles);
     {profiles.length > 0 ? (
       <>
         <TalentConsole profiles={profiles} />
-        <div class="inner-register" id="talent-catalog" role="list">
+        <div class="inner-register" id="talent-catalog">
           {profiles.map((profile) => <TalentRow profile={profile} />)}
         </div>
         <p class="inner-empty" id="talent-empty" hidden>No profiles match these filters.</p>

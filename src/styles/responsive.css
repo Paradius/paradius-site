@@ -7,10 +7,6 @@
     padding-bottom: clamp(2.5rem, 6vh, 4rem);
   }
 
-  .talent-catalog-b__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   /* Collapsed nav: the six item bar needs ~950px to sit on one line, so the
      hamburger takes over below 1024px instead of below 768px. */
   .site-header__menu-toggle {
@@ -117,40 +113,6 @@
     justify-self: center;
   }
 
-  .talent-row-a {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
-    padding-block: var(--spacing-lg);
-  }
-
-  .talent-row-a__secondary {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .talent-catalog-b__grid {
-    grid-template-columns: 1fr;
-    max-width: 28rem;
-  }
-
-  .profile-dossier-b__layout {
-    grid-template-columns: 1fr;
-  }
-
-  .profile-dossier-b__meta {
-    position: static;
-  }
-
-  .profile-editorial-a__entry-header,
-  .profile-dossier-b__entry-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .work-case__footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 @media (max-width: 480px) {

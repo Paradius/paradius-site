@@ -18,7 +18,7 @@ const seo = buildWorkCatalogSeo(cases);
 
   <InnerBlock force="power" kind="tool" ariaLabel="Case studies">
     <p class="inner-status">{formatWorkStatus(cases.length)}</p>
-    <div class="inner-register inner-cases" role="list">
+    <div class="inner-register inner-cases">
       {cases.map((caseStudy, index) => <WorkRow caseStudy={caseStudy} caseIndex={index + 1} />)}
     </div>
   </InnerBlock>
