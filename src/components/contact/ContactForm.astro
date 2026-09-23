@@ -12,7 +12,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
 <div class="inner-form" data-contact-form data-api-base-url={apiBaseUrl} data-api-configured={apiConfigured ? 'true' : 'false'}>
   <div class="inner-form__status" data-status="success" hidden role="status" aria-live="polite">
     <p class="inner-form__status-title">Inquiry sent</p>
-    <p class="inner-form__status-text">Thank you. We reply within 24 hours with vetted profiles that match your needs.</p>
+    <p class="inner-form__status-text">Thank you. We reply within 24 hours.</p>
   </div>
 
   <div class="inner-form__status inner-form__status--error" data-status="error" hidden role="alert" aria-live="assertive">
@@ -23,13 +23,6 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
       <a data-mailto-fallback href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
     </p>
   </div>
-
-  {!apiConfigured && (
-    <p class="inner-hint" data-api-note>
-      Online submission is unavailable in this build. Use the form to compose your message,
-      then send it via email below.
-    </p>
-  )}
 
   <form id="lead-form" novalidate aria-label="Contact form">
     <div class="inner-field" data-field="name">
@@ -51,9 +44,9 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     </div>
 
     <div class="inner-field" data-field="profiles" hidden>
-      <span class="inner-legend" id="contact-profiles-label">Requisition</span>
+      <span class="inner-legend" id="contact-profiles-label">Profiles</span>
       <div class="inner-pills" id="contact-profile-chips" role="list" aria-labelledby="contact-profiles-label" data-profile-chips></div>
-      <p class="inner-hint" data-profile-hint>Add profiles from the talent catalog. Chips appear when you follow a profile link.</p>
+      <p class="inner-hint" data-profile-hint>Profiles you open in the registry appear here.</p>
     </div>
 
     <div class="inner-field" data-field="message">
@@ -68,7 +61,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
     </div>
 
     <div class="inner-actions">
-      <button type="submit" class="inner-button" data-submit>Send inquiry</button>
+      <button type="submit" class="inner-button" data-submit data-idle-label={apiConfigured ? 'Send inquiry' : 'Send by email'}>{apiConfigured ? 'Send inquiry' : 'Send by email'}</button>
     </div>
 
     <p class="inner-hint">Your data goes only where our <a href="/legal/privacy">privacy policy</a> says it goes.</p>
@@ -76,8 +69,7 @@ const apiConfigured = apiBaseUrl.trim().length > 0;
 
   <noscript>
     <p class="inner-hint">
-      JavaScript is required for online submission. Email us directly at
-      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
     </p>
   </noscript>
 </div>

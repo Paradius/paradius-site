@@ -68,8 +68,28 @@ export function formatAvailability(availability: Availability): {
 }
 
 /** Stack slug → display label (e.g. `ci-cd` → `ci cd`). */
+const STACK_LABELS: Record<string, string> = {
+  'api-testing': 'API testing',
+  aws: 'AWS',
+  bloc: 'BLoC',
+  'ci-cd': 'CI/CD',
+  css: 'CSS',
+  ddd: 'DDD',
+  'github-actions': 'GitHub Actions',
+  graphql: 'GraphQL',
+  grpc: 'gRPC',
+  nextjs: 'Next.js',
+  postgresql: 'PostgreSQL',
+  rest: 'REST',
+  typescript: 'TypeScript',
+  wcag: 'WCAG',
+};
+
 export function formatStackTag(tag: string): string {
-  return tag.replace(/-/g, ' ');
+  const known = STACK_LABELS[tag];
+  if (known) return known;
+  const words = tag.replace(/-/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 /** Spoken language with CEFR level. */

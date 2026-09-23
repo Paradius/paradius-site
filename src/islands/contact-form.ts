@@ -106,7 +106,7 @@ function showFieldErrors(root: HTMLElement, errors: FieldErrors): void {
 
 function setSubmitting(submitBtn: HTMLButtonElement, submitting: boolean): void {
   submitBtn.disabled = submitting;
-  submitBtn.textContent = submitting ? 'Sending…' : 'Send inquiry';
+  submitBtn.textContent = submitting ? 'Sending…' : (submitBtn.dataset.idleLabel ?? 'Send inquiry');
   submitBtn.setAttribute('aria-busy', String(submitting));
 }
 
@@ -222,20 +222,8 @@ function initContactForm(): void {
     }
 
     if (!apiConfigured) {
-      const errorTitle = root.querySelector<HTMLElement>('[data-error-title]');
-      const errorMessage = root.querySelector<HTMLElement>('[data-error-message]');
-      const errorFallback = root.querySelector<HTMLElement>('[data-error-fallback]');
-
-      if (errorTitle) {
-        errorTitle.textContent = 'Email your inquiry';
-      }
-      if (errorMessage) {
-        errorMessage.textContent =
-          'Online submission is not configured for this build. Use the link below to email us directly.';
-      }
-      errorFallback?.removeAttribute('hidden');
-      updateMailtoLinks(root, form, profiles);
-      showStatus(root, 'error');
+      window.location.href = buildMailtoUrl(fields, profiles);
+      showStatus(root, 'success');
       return;
     }
 

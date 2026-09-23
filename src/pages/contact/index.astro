@@ -11,7 +11,7 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL ?? '';
 ---
 
 <InnerLayout seo={seo} mode="rail">
-  <InnerBlock force="power" kind="hero" kicker="Start a conversation" title="Build your team">
+  <InnerBlock force="power" kind="hero" kicker="Start a conversation" title="Start your team">
     <Fragment slot="after">
       <ContactForm apiBaseUrl={apiBaseUrl} />
     </Fragment>
@@ -19,14 +19,11 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL ?? '';
 
   <InnerBlock force="power" id="terms" title="Every engagement is scoped to your architecture.">
     <p>
-      Tell us who you need. We reply within 24 hours with matched profiles and a rate
-      proposal. There is no pricing on this site because requirements determine price:
-      rates are scoped in private conversation.
+      Tell us who you need, or what, here or at
+      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We reply within 24 hours
+      with matched profiles and a rate proposal, scoped against your architecture in
+      private.
     </p>
-  </InnerBlock>
-
-  <InnerBlock force="will" title="Prefer email?">
-    <p><a href={`mailto:${CONTACT_EMAIL}`} data-static-mailto>{CONTACT_EMAIL}</a></p>
   </InnerBlock>
 </InnerLayout>
 
