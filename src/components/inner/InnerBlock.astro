@@ -6,28 +6,29 @@ interface Props {
   kicker?: string;
   title?: string;
   ariaLabel?: string;
+  className?: string;
 }
 
-const { force, kind = 'block', id, kicker, title, ariaLabel } = Astro.props;
+const { force, kind = 'block', id, kicker, title, ariaLabel, className } = Astro.props;
 const Heading = kind === 'hero' ? 'h1' : 'h2';
-const classes = ['inner-block', kind === 'hero' && 'inner-block--hero', kind === 'cta' && 'inner-block--cta'].filter(Boolean).join(' ');
+const classes = ['inner-block', kind === 'hero' && 'inner-block--hero', kind === 'cta' && 'inner-block--cta', className].filter(Boolean).join(' ');
 const hasActions = Astro.slots.has('actions');
 ---
 
 {kind === 'tool' ? (
-  <section class="inner-block inner-block--tool" data-force={force} id={id} aria-label={ariaLabel}><slot /></section>
+  <section class:list={['inner-block', 'inner-block--tool', className]} data-force={force} id={id} aria-label={ariaLabel}><slot /></section>
 ) : (
 <section class={classes} data-force={force} id={id} aria-label={ariaLabel}>
   {kind === 'cta' ? (
     <div class="inner-block__inner">
-      {kicker && <p class="inner-kicker">{kicker}</p>}
+      {Astro.slots.has('kicker') ? <p class="inner-kicker"><slot name="kicker" /></p> : kicker && <p class="inner-kicker">{kicker}</p>}
       {title && <Heading class="inner-title">{title}</Heading>}
       <div class="inner-body"><slot /></div>
       {hasActions && <div class="inner-actions"><slot name="actions" /></div>}
     </div>
   ) : (
     <>
-      {kicker && <p class="inner-kicker">{kicker}</p>}
+      {Astro.slots.has('kicker') ? <p class="inner-kicker"><slot name="kicker" /></p> : kicker && <p class="inner-kicker">{kicker}</p>}
       {title && <Heading class="inner-title">{title}</Heading>}
       <div class="inner-body"><slot /></div>
       {hasActions && <div class="inner-actions"><slot name="actions" /></div>}

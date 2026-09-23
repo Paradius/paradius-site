@@ -92,6 +92,12 @@ export function formatExperienceRange(entry: AnonymousExperienceEntry): string {
   return `${start} to ${end}`;
 }
 
+export function formatExperienceYears(entry: AnonymousExperienceEntry): string {
+  const start = entry.startDate.slice(0, 4);
+  const end = entry.endDate ? entry.endDate.slice(0, 4) : 'now';
+  return `${start} to ${end}`;
+}
+
 /** Top N stack tags for compact displays. */
 export function topStackTags(profile: AnonymousProfile, limit = 4): string[] {
   return profile.stack.slice(0, limit);

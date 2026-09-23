@@ -455,3 +455,152 @@
   font-weight: 400;
   font-size: round(nearest, calc(0.9375rem * 1), 1px);
 }
+
+/* Dossier: facts and the ask hug the trunk from the left, the jobs from the right; the note closes at the roots. */
+html[data-layout="two-sided"] { --trace-reach: 1.25rem; }
+
+.inner-pair + .inner-block { margin-top: var(--block-air); }
+
+.inner-pair > .inner-block { margin-top: 0; }
+
+.inner-pair__facts .inner-console { gap: 0.9rem; }
+
+.inner-pair__ask .inner-actions { margin-top: 2.5rem; }
+
+.inner-jobs .inner-row {
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  grid-template-areas:
+    "code title"
+    ". graft"
+    ". feats";
+}
+
+.inner-jobs .inner-row__code { white-space: nowrap; }
+
+.inner-jobs .inner-row__graft {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-size: round(nearest, 0.8125rem, 1px);
+}
+
+.inner-jobs .inner-row__dates { font-size: inherit; }
+
+.inner-jobs .inner-row__meta::after { content: '\00A0\00B7\00A0'; }
+
+.inner-row__feats {
+  grid-area: feats;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.3rem;
+  max-width: 72ch;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-tech);
+  font-size: round(nearest, 0.9375rem, 1px);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.inner-row__feats li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.inner-row__feats li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  box-sizing: border-box;
+  width: 0.4rem;
+  height: 0.4rem;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.inner-register--under .inner-branch { top: calc(var(--lane, 50%) + 0.25rem - var(--u) * 19); }
+
+.inner-register--under .inner-row__feats { margin-top: 1.5rem; }
+
+.inner-register--still .inner-branch__art :is(polyline, path) { transition: none; }
+
+.inner-register--still .inner-row .inner-branch__art polyline { stroke-dashoffset: 0; }
+
+.inner-register--still .inner-row .inner-branch__art path { opacity: 1; }
+
+.inner-register--still .inner-row :is(.inner-row__title, .inner-row__graft, .inner-row__code, .inner-row__feats) {
+  text-shadow: 0 0 0.35em #000, 0 0 0.8em #000;
+}
+
+.inner-note .inner-title {
+  font-family: var(--font-voice);
+  font-weight: 300;
+  font-size: round(nearest, var(--will-title), 1px);
+}
+
+.inner-note .inner-body {
+  font-family: var(--font-voice);
+  font-weight: 400;
+  font-size: round(nearest, var(--will-body), 1px);
+}
+
+@media (min-width: 1200px) {
+  .inner-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "facts jobs"
+      "ask jobs";
+    align-items: start;
+    column-gap: calc(var(--trunk-clear) + 2.5rem);
+    row-gap: var(--block-air);
+    margin-top: var(--block-air);
+  }
+
+  .inner-pair > .inner-block {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .inner-pair__facts { grid-area: facts; }
+  .inner-pair__jobs { grid-area: jobs; }
+  .inner-pair__ask { grid-area: ask; }
+
+  .inner-pair__jobs .inner-register { margin-top: 0; }
+
+  .inner-pair__jobs .inner-row:first-child { padding-top: 0; }
+
+  .inner-pair__facts .inner-group {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: end;
+  }
+
+  .inner-pair__facts .inner-legend { margin-bottom: 0.1rem; }
+
+  .inner-pair__facts .inner-pills { justify-content: flex-end; }
+
+  .inner-pair__facts .inner-pill:first-child { padding-left: 0.55rem; }
+
+  .inner-pair__facts .inner-pill:last-child { padding-right: 0; }
+}
+
+@media (max-width: 1199.98px) {
+  .inner-pair { margin-top: var(--block-air); }
+
+  .inner-pair > .inner-block + .inner-block { margin-top: var(--block-air); }
+}
+
+@media (max-width: 699.98px) {
+  .inner-jobs .inner-row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "code"
+      "title"
+      "graft"
+      "feats";
+  }
+}

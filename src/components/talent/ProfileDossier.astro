@@ -1,12 +1,8 @@
 ---
 import type { AnonymousProfile } from '../../lib/api';
-import {
-  formatAvailability,
-  formatExperienceRange,
-  formatLanguage,
-  formatSeniority,
-  formatStackTag,
-} from '../../lib/talent/formatters';
+import { formatAvailability, formatExperienceRange, formatExperienceYears, formatLanguage, formatSeniority, formatStackTag } from '../../lib/talent/formatters';
+import Branch from '../inner/Branch.astro';
+import InnerBlock from '../inner/InnerBlock.astro';
 
 interface Props {
   profile: AnonymousProfile;
@@ -17,67 +13,61 @@ const availability = formatAvailability(profile.availability);
 const contactUrl = `/contact?profile=${encodeURIComponent(profile.code)}`;
 ---
 
-<article class="profile-dossier-b section-reveal">
-  <header class="profile-dossier-b__header">
-    <p class="profile-dossier-b__code">{profile.code}</p>
-    <h1 class="profile-dossier-b__headline">{profile.headline}</h1>
-    <p class="profile-dossier-b__summary">{profile.summary}</p>
-  </header>
-
-  <div class="profile-dossier-b__layout">
-    <aside class="profile-dossier-b__meta" aria-label="Profile details">
-      <div class="profile-dossier-b__meta-block">
-        <h2 class="profile-dossier-b__meta-title">Availability</h2>
-        <span class={`badge ${availability.modifier}`}>{availability.label}</span>
-        <p class="profile-dossier-b__meta-note">Profiles presented within 48 hours</p>
+<div class="inner-pair">
+  <InnerBlock force="power" kind="tool" ariaLabel="Profile facts" className="inner-pair__facts">
+    <div class="inner-console" aria-label="Profile facts">
+      <div class="inner-group">
+        <p class="inner-legend">Availability</p>
+        <div class="inner-pills"><span class="inner-badge" data-availability={profile.availability}>{availability.label}</span><span class="inner-pill">Profiles presented within 48 hours</span></div>
       </div>
-
-      <div class="profile-dossier-b__meta-block">
-        <h2 class="profile-dossier-b__meta-title">Seniority</h2>
-        <p class="profile-dossier-b__meta-value">
-          {formatSeniority(profile.seniority)} · {profile.yearsExperience} years
-        </p>
+      <div class="inner-group">
+        <p class="inner-legend">Seniority</p>
+        <div class="inner-pills"><span class="inner-pill">{formatSeniority(profile.seniority)} · {profile.yearsExperience} years</span></div>
       </div>
-
-      <div class="profile-dossier-b__meta-block">
-        <h2 class="profile-dossier-b__meta-title">Stack</h2>
-        <div class="profile-dossier-b__tags">
-          {profile.stack.map((tag) => <span class="chip">{formatStackTag(tag)}</span>)}
-        </div>
+      <div class="inner-group">
+        <p class="inner-legend">Stack</p>
+        <div class="inner-pills">{profile.stack.map((tag) => <span class="inner-pill">{formatStackTag(tag)}</span>)}</div>
       </div>
-
-      <div class="profile-dossier-b__meta-block">
-        <h2 class="profile-dossier-b__meta-title">Languages</h2>
-        <ul class="profile-dossier-b__languages">
-          {profile.languages.map((lang) => <li>{formatLanguage(lang)}</li>)}
-        </ul>
+      <div class="inner-group">
+        <p class="inner-legend">Languages</p>
+        <div class="inner-pills">{profile.languages.map((lang) => <span class="inner-pill">{formatLanguage(lang)}</span>)}</div>
       </div>
+    </div>
+  </InnerBlock>
 
-      <a href={contactUrl} class="profile-dossier-b__cta">Request this profile</a>
-    </aside>
+  <InnerBlock force="will" kind="tool" ariaLabel="Experience" className="inner-pair__jobs">
+    <ol class="inner-register inner-jobs inner-register--still inner-register--under" role="list">
+      {profile.experience.map((entry) => (
+        <li class="inner-row">
+          <Branch fan="junior" />
+          <span class="inner-row__code">{formatExperienceYears(entry)}</span>
+          <span class="inner-row__title">{entry.role}</span>
+          <span class="inner-row__graft"><span class="inner-row__meta">{entry.industryDescriptor}</span><span class="inner-row__dates">{formatExperienceRange(entry)}</span></span>
+          {entry.achievements.length > 0 && (
+            <ul class="inner-row__feats">{entry.achievements.map((achievement) => <li>{achievement}</li>)}</ul>
+          )}
+        </li>
+      ))}
+    </ol>
+  </InnerBlock>
 
-    <section class="profile-dossier-b__main" aria-labelledby="experience-heading">
-      <h2 id="experience-heading" class="profile-dossier-b__section-title">Experience</h2>
-      <ol class="profile-dossier-b__timeline">
-        {
-          profile.experience.map((entry) => (
-            <li class="profile-dossier-b__entry">
-              <div class="profile-dossier-b__entry-header">
-                <h3 class="profile-dossier-b__role">{entry.role}</h3>
-                <time class="profile-dossier-b__dates" datetime={entry.startDate}>
-                  {formatExperienceRange(entry)}
-                </time>
-              </div>
-              <p class="profile-dossier-b__industry">{entry.industryDescriptor}</p>
-              <ul class="profile-dossier-b__achievements">
-                {entry.achievements.map((achievement) => (
-                  <li>{achievement}</li>
-                ))}
-              </ul>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-  </div>
-</article>
+  <InnerBlock force="power" title={`Want ${profile.code} on your team?`} className="inner-pair__ask">
+    <p>Tell us about the role and we present the profile within 48 hours.</p>
+    <Fragment slot="actions">
+      <a href={contactUrl} class="inner-button">Request this profile</a>
+    </Fragment>
+  </InnerBlock>
+</div>
+
+<InnerBlock force="power" kind="cta" className="inner-note" title="Why does this engineer carry a code instead of a name?">
+  <p>
+    Engineers here carry codes instead of names. That is policy, not evasion:
+    anonymity protects them and keeps your systems free of our signature.
+    Everything else is verifiable now: stack, years, experience, languages.
+    Full identity is disclosed later in the deal, off platform.
+  </p>
+  <p>
+    Every code is a real person, interviewed by the principal.
+    <a href="/faq">More in the FAQ</a>.
+  </p>
+</InnerBlock>

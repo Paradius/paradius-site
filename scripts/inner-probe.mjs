@@ -239,7 +239,8 @@ try {
       const want = expectedLayout(g.mode, size.width);
       if (g.layout !== want) fail('layout', tag, { expected: want, got: g.layout });
       const cta = g.blocks.find((b) => b.cta);
-      if (!cta || cta.force !== 'power') fail('cta-not-power', tag, cta ?? null);
+      // A rail has no roots and may close without a CTA block; a two-sided page ends on one.
+      if (cta ? cta.force !== 'power' : g.layout === 'two-sided') fail('cta-not-power', tag, cta ?? null);
       if (g.layout === 'two-sided' && g.spine != null) {
         for (const b of g.blocks) {
           if (b.hero || b.cta || b.tool || !Number.isFinite(b.l)) continue;
