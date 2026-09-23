@@ -43,23 +43,24 @@ body:has(.inner-main)::before { display: none; }
   overflow-x: clip;
 }
 
-.inner-main::after {
+/* The fade under the header switches on the scrolled class, never on a scroll timeline:
+   a scroll-driven animation here moved wheel scrolling to the main thread and a fast
+   wheel stalled at both ends of the page (Edge, 2026-09-23). */
+.site-header::after {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: calc(var(--site-header-height) + 3rem);
   background: linear-gradient(to bottom, #000 0, #000 58%, transparent 100%);
   pointer-events: none;
-  z-index: 2;
+  z-index: -2;
   opacity: 0;
-  animation: inner-header-fade linear both;
-  animation-timeline: scroll(root block);
-  animation-range: 0 6rem;
+  transition: opacity 0.3s linear;
 }
 
-@keyframes inner-header-fade { to { opacity: 1; } }
+.site-header--scrolled::after { opacity: 1; }
 
 .inner-run {
   position: absolute;

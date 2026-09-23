@@ -26,6 +26,37 @@ const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
   </main>
   <Footer />
   <ScrollBehavior />
+  <script is:inline>
+    // Scroll watcher, armed only with ?watch: records wheel input against scroll position and
+    // reports a wheel burst that moves nothing while the page sits at an edge.
+    if (location.search.includes('watch')) {
+      const w = (window.__w = { t0: performance.now(), wheel: [], scroll: [], long: [], freezes: [] });
+      const T = () => Math.round(performance.now() - w.t0);
+      let stuckSince = 0;
+      addEventListener('wheel', (e) => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const y = Math.round(scrollY);
+        const canMove = e.deltaY < 0 ? y > 0 : y < max;
+        w.wheel.push([T(), Math.round(e.deltaY), y]);
+        if (canMove) {
+          if (!stuckSince) stuckSince = performance.now();
+        }
+      }, { passive: true, capture: true });
+      addEventListener('scroll', () => { stuckSince = 0; w.scroll.push([T(), Math.round(scrollY)]); }, { passive: true });
+      setInterval(() => {
+        if (stuckSince && performance.now() - stuckSince > 300) {
+          const rec = { at: T(), stuckMs: Math.round(performance.now() - stuckSince), y: Math.round(scrollY), lastWheel: w.wheel.slice(-5), lastScroll: w.scroll.slice(-3) };
+          w.freezes.push(rec); console.warn('FREEZE', JSON.stringify(rec)); stuckSince = 0;
+        }
+      }, 100);
+      new PerformanceObserver((l) => l.getEntries().forEach((e) => w.long.push([Math.round(e.startTime - w.t0), Math.round(e.duration)]))).observe({ type: 'longtask' });
+      const variant = new URLSearchParams(location.search).get('watch') || 'plain';
+      const css = { nomask: '.inner-run { mask-image: none !important; -webkit-mask-image: none !important; }', nowill: '.inner-run { will-change: auto !important; }', noheader: '.site-header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }', noafter: '.site-header::after { display: none !important; }', noanim: '.site-header::after { animation: none !important; opacity: 1 !important; }', notree: '.inner-run { display: none !important; }' }[variant];
+      if (css) document.head.appendChild(Object.assign(document.createElement('style'), { textContent: css }));
+      setInterval(() => console.info('WATCH variant=' + variant + ' freezes=' + w.freezes.length + ' wheel=' + w.wheel.length), 15000);
+      console.info('watch armed', variant);
+    }
+  </script>
   <script>
     import { mountTreeRun } from '../scripts/tree-run';
     mountTreeRun();
