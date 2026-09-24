@@ -1,10 +1,9 @@
 import { INTRO_SEEN_KEY } from '../lib/intro/intro-gate';
 
 const GESTURES = ['wheel', 'keydown', 'pointerdown', 'touchstart'] as const;
-/** Dropping the backdrop layer costs one long frame; it lands at rest, not on the fade. */
 const REMOVE_DELAY_MS = 800;
-/** The hero's entrance (0.3s delay + 1.6s) has ended and the page is at rest. */
-const SETTLE_DELAY_MS = 2600;
+/** Hero entrance (0.3s + 1.6s) and the world's dissolve (2.1s + 1.8s) have ended. */
+const SETTLE_DELAY_MS = 4200;
 
 function markSeen(): void {
   try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch { /* storage blocked: it will play again */ }
@@ -16,13 +15,16 @@ export function mountIntro(): void {
   if (!intro || html.dataset.intro !== 'play') return;
 
   let finished = false;
+  let skipped = false;
   const finish = (): void => {
     if (finished) return;
     finished = true;
     for (const type of GESTURES) window.removeEventListener(type, swallow, true);
     intro.remove();
-    html.dataset.intro = 'done';
     markSeen();
+    // A skipped film owes no choreography: the whole page is there at once.
+    if (skipped) { html.dataset.intro = 'settled'; return; }
+    html.dataset.intro = 'done';
     window.setTimeout(() => { html.dataset.intro = 'settled'; }, SETTLE_DELAY_MS);
   };
   // The page underneath must not scroll or react while the film plays: the first
@@ -31,6 +33,7 @@ export function mountIntro(): void {
     e.preventDefault();
     e.stopImmediatePropagation();
     if (!intro.classList.contains('intro--skip')) {
+      skipped = true;
       intro.classList.add('intro--skip');
       intro.addEventListener('animationend', finish, { once: true });
     }
