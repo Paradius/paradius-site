@@ -21,7 +21,7 @@ const PAGES = [
   ['how-we-work', 'How we work', '/how-we-work/'],
   ['careers', 'Careers', '/careers/'],
   ['talent', 'Registry', '/talent/'],
-  ['talent-PRD-001', 'Dossier PRD-001', '/talent/PRD-001/'],
+  ['talent-PA-D1B6D4', 'Dossier PA-D1B6D4', '/talent/PA-D1B6D4/'],
   ['work', 'Work', '/work/'],
   ['work-case', 'Caso: Payments that stopped going missing', '/work/banking-infrastructure/'],
   ['contact', 'Contact', '/contact/'],

@@ -20,7 +20,7 @@ const PAGES = [
   { slug: 'how-we-work', path: '/how-we-work/' },
   { slug: 'careers', path: '/careers/' },
   { slug: 'talent', path: '/talent/' },
-  { slug: 'talent-PRD-001', path: '/talent/PRD-001/' },
+  { slug: 'talent-PA-D1B6D4', path: '/talent/PA-D1B6D4/' },
   { slug: 'work', path: '/work/' },
   { slug: 'work-banking-infrastructure', path: '/work/banking-infrastructure/' },
   { slug: 'contact', path: '/contact/' },

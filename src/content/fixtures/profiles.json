@@ -1,313 +1,1007 @@
 {
   "items": [
     {
-      "code": "PRD-001",
-      "headline": "Senior Flutter Developer",
-      "seniority": "senior",
-      "roles": ["mobile", "fullstack"],
-      "stack": [
-        "bloc",
-        "ci-cd",
-        "dart",
-        "ddd",
-        "firebase",
-        "flutter",
-        "graphql",
-        "postgresql",
-        "rest",
-        "riverpod",
-        "testing"
+      "code": "PA-D1B6D4",
+      "headline": "Staff Backend Engineer, distributed systems",
+      "seniority": "staff",
+      "roles": [
+        "backend"
       ],
-      "yearsExperience": 9,
-      "summary": "Senior mobile engineer with nine years building production Flutter apps for fintech and logistics clients. Delivers clean-architecture codebases, offline-first experiences, and measurable release velocity through strong CI/CD discipline.",
+      "stack": [
+        "java",
+        "spring-boot",
+        "rabbitmq",
+        "event-driven",
+        "microservices",
+        "tcp-ip",
+        "hl7",
+        "oracle",
+        "postgresql",
+        "angular",
+        "docker",
+        "ci-cd",
+        "python"
+      ],
+      "yearsExperience": 14,
+      "summary": "Fourteen years designing the systems that cannot go down: hospital networks, public health platforms, retail ERPs. Java and Spring Boot, event-driven architecture, concurrent socket integrations and the observability to prove they hold. Master's in artificial intelligence; ships models as services when the problem asks for it.",
       "experience": [
         {
-          "role": "Senior Flutter Developer",
-          "startDate": "2021-04",
-          "industryDescriptor": "fintech startup",
+          "role": "Senior Systems Consultant",
+          "startDate": "2025-04",
+          "endDate": "2025-10",
+          "industryDescriptor": "international public health organization",
           "achievements": [
-            "Led migration of a 120k-MAU consumer wallet from legacy native screens to Flutter, cutting crash-free sessions from 97.1% to 99.6% within two quarters.",
-            "Introduced feature-flagged releases and golden tests that reduced regression defects in payment flows by 42%.",
-            "Mentored four mid-level engineers on DDD folder structure and bloc/cubit testing patterns."
+            "Designed an event-driven auditing architecture on Spring Boot and RabbitMQ that lifted cross-cutting concerns out of the services that used to carry them.",
+            "Turned operational data into real-time analytics the organization uses to monitor and decide.",
+            "Built simulation-friendly interfaces and test harnesses so operational scenarios could be validated before they happened.",
+            "Led two junior developers and coordinated delivery with QA, backend and design."
           ],
-          "stack": ["flutter", "dart", "bloc", "firebase", "graphql"]
+          "stack": [
+            "java",
+            "spring-boot",
+            "rabbitmq",
+            "oracle",
+            "angular",
+            "microservices"
+          ]
         },
         {
-          "role": "Flutter Developer",
-          "startDate": "2018-02",
-          "endDate": "2021-03",
-          "industryDescriptor": "logistics software company",
+          "role": "Specialist Developer",
+          "startDate": "2019-03",
+          "endDate": "2024-12",
+          "industryDescriptor": "national hospital system",
           "achievements": [
-            "Built driver and dispatcher apps for a regional logistics platform handling 18k daily shipments.",
-            "Implemented background geolocation sync and optimistic UI updates for low-connectivity routes.",
-            "Partnered with backend team to design REST contracts later reused across three client projects."
+            "Core member of the nationwide system team recognized by WHO/PAHO in 2023 for digital health innovation.",
+            "Designed HL7 interoperability over TCP/IP (MLLP) with concurrent socket communication between hospitals and the central platform.",
+            "Built the centralized identity service with Spring Security and JWT for a microservices architecture.",
+            "Introduced CI/CD pipelines and automated testing across the platform."
           ],
-          "stack": ["flutter", "dart", "riverpod", "rest", "postgresql"]
+          "stack": [
+            "java",
+            "spring-boot",
+            "jwt",
+            "tcp-ip",
+            "hl7",
+            "pl-sql",
+            "angular",
+            "ci-cd"
+          ]
+        },
+        {
+          "role": "Senior Software Developer",
+          "startDate": "2016-04",
+          "endDate": "2018-08",
+          "industryDescriptor": "retail ERP integrator",
+          "achievements": [
+            "Built ERP-integrated workflows for inventory, billing, sales and purchasing.",
+            "Created a national incident-monitoring platform that reduced fraud and tightened operational control.",
+            "Designed the data-integrity mechanisms for enterprise processing across distributed transactions."
+          ],
+          "stack": [
+            "oracle",
+            "sql-server",
+            "c-sharp",
+            "wcf",
+            "web-api"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B2"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-CF907A",
+      "headline": "Senior Full-stack Engineer, .NET and React",
+      "seniority": "senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "stack": [
+        "dotnet",
+        "c-sharp",
+        "react",
+        "typescript",
+        "nodejs",
+        "angular",
+        "flutter",
+        "sql-server",
+        "postgresql",
+        "azure",
+        "kubernetes",
+        "jwt",
+        "rest",
+        "microservices"
+      ],
+      "yearsExperience": 11,
+      "summary": "Eleven years building and running web, mobile and API products end to end, most recently white-label fintech platforms for a US client. .NET across every generation from WebForms to .NET Core, Clean Architecture, React on the front, Azure underneath. Comfortable owning requirements, delivery and the troubleshooting in between.",
+      "experience": [
+        {
+          "role": "Full-stack Developer",
+          "startDate": "2022-06",
+          "endDate": "2025-06",
+          "industryDescriptor": "US white-label fintech platform",
+          "achievements": [
+            "Developed and optimized full-stack solutions for white-label fintech products on ASP.NET (WebForms, MVC, .NET Core), Clean Architecture, React and SQL Server with Dapper, improving scalability and performance.",
+            "Implemented secure third-party integrations and authentication with JWT and webhooks."
+          ],
+          "stack": [
+            "dotnet",
+            "c-sharp",
+            "react",
+            "sql-server",
+            "jwt",
+            "rest"
+          ]
+        },
+        {
+          "role": "Full-stack Developer",
+          "startDate": "2014-07",
+          "endDate": "2022-06",
+          "industryDescriptor": "software services firm",
+          "achievements": [
+            "Delivered mobile and web applications on Flutter, Angular, .NET, React and Node.js with seamless API integrations.",
+            "Led requirement analysis, troubleshooting and iterative releases, leaving products more stable and easier to extend."
+          ],
+          "stack": [
+            "flutter",
+            "angular",
+            "dotnet",
+            "react",
+            "nodejs"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B2"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-587A1E",
+      "headline": "Senior Android Engineer, Kotlin and Flutter",
+      "seniority": "senior",
+      "roles": [
+        "mobile"
+      ],
+      "stack": [
+        "kotlin",
+        "android",
+        "jetpack-compose",
+        "hilt",
+        "coroutines",
+        "retrofit",
+        "room",
+        "sqlite",
+        "flutter",
+        "dart",
+        "firebase",
+        "graphql",
+        "mvvm",
+        "clean-architecture"
+      ],
+      "yearsExperience": 9,
+      "summary": "Nine years on Android, from utility billing apps used in the field to published consumer products on Google Play. Kotlin with modern Jetpack (Compose, Hilt, Flow), MVVM and Clean Architecture, plus Flutter when one codebase has to serve both stores. Builds from zero and maintains legacy with the same care.",
+      "experience": [
+        {
+          "role": "Mobile Developer",
+          "startDate": "2023-09",
+          "industryDescriptor": "utility billing software company",
+          "achievements": [
+            "Built a Flutter application on MVVM with REST consumption, Provider state, local persistence and background services.",
+            "Developed and maintains the Kotlin Android application: MVVM, Flow, UI states, Jetpack Compose and dependency injection with Hilt."
+          ],
+          "stack": [
+            "flutter",
+            "kotlin",
+            "jetpack-compose",
+            "hilt",
+            "mvvm"
+          ]
+        },
+        {
+          "role": "Android Developer",
+          "startDate": "2023-11",
+          "endDate": "2024-11",
+          "industryDescriptor": "mobile software vendor (Guatemala)",
+          "achievements": [
+            "Extended a Java Android application with new features while migrating its code to current Android SDK versions."
+          ],
+          "stack": [
+            "java",
+            "android"
+          ]
+        },
+        {
+          "role": "Android Developer",
+          "startDate": "2021-12",
+          "endDate": "2023-08",
+          "industryDescriptor": "app development studio (Argentina)",
+          "achievements": [
+            "Built an Android app that measures and records shots at firearm practice ranges.",
+            "Created a health app that gives nutritional recommendations based on pharmaceutical studies."
+          ],
+          "stack": [
+            "kotlin",
+            "mvvm",
+            "hilt",
+            "coroutines",
+            "retrofit"
+          ]
+        },
+        {
+          "role": "Android Developer",
+          "startDate": "2021-06",
+          "endDate": "2022-05",
+          "industryDescriptor": "exam-preparation app publisher (Spain)",
+          "achievements": [
+            "Developed the apps candidates use to prepare for Spanish public service examinations."
+          ],
+          "stack": [
+            "kotlin",
+            "java",
+            "rxjava",
+            "dagger",
+            "retrofit"
+          ]
+        },
+        {
+          "role": "Android Developer",
+          "startDate": "2017-03",
+          "endDate": "2021-06",
+          "industryDescriptor": "utility billing software company",
+          "achievements": [
+            "Built billing and collection apps used by power utilities in El Salvador and Guatemala.",
+            "Created a Flutter customer-service app with invoice history and FAQ."
+          ],
+          "stack": [
+            "kotlin",
+            "java",
+            "flutter",
+            "sqlite",
+            "room",
+            "retrofit"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B1"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-54B6E3",
+      "headline": "Senior Mobile Engineer, Flutter, iOS and React Native",
+      "seniority": "senior",
+      "roles": [
+        "mobile",
+        "fullstack"
+      ],
+      "stack": [
+        "flutter",
+        "dart",
+        "swiftui",
+        "react-native",
+        "nodejs",
+        "nestjs",
+        "dotnet",
+        "react",
+        "nextjs",
+        "firebase",
+        "vtex",
+        "shopify",
+        "ci-cd",
+        "bloc",
+        "clean-architecture"
+      ],
+      "yearsExperience": 6,
+      "summary": "Six years shipping mobile apps that carry real traffic, in Flutter first, SwiftUI and React Native when the platform asks for it. Has led a Flutter team, owns the backend side in Node.js, NestJS or .NET, and knows the e-commerce plumbing (VTEX, Shopify) that mobile checkouts depend on. Diagnoses incidents end to end: mobile, backend and store.",
+      "experience": [
+        {
+          "role": "Senior Flutter Developer, full-stack",
+          "startDate": "2025-12",
+          "endDate": "2026-04",
+          "industryDescriptor": "retail e-commerce operator",
+          "achievements": [
+            "Developed and maintained high-traffic Flutter applications in production, with backend support in Node.js.",
+            "Integrated catalog, cart and order flows with the VTEX platform and resolved incidents end to end across mobile, backend and e-commerce.",
+            "Optimized app performance and API consumption."
+          ],
+          "stack": [
+            "flutter",
+            "nodejs",
+            "vtex",
+            "rest"
+          ]
         },
         {
           "role": "Mobile Developer",
-          "startDate": "2016-06",
-          "endDate": "2018-01",
-          "industryDescriptor": "digital agency",
+          "startDate": "2023-06",
+          "endDate": "2025-11",
+          "industryDescriptor": "global advertising agency",
           "achievements": [
-            "Shipped two white-label retail apps on tight agency timelines with shared design-system components.",
-            "Established CI pipelines with automated widget tests on every pull request."
+            "Built Flutter apps with REST, Firebase and analytics, and SwiftUI views following Apple's Human Interface Guidelines.",
+            "Took part in architecture decisions; set up CI/CD with Codemagic and store releases.",
+            "Optimized performance and wrote unit and widget tests."
           ],
-          "stack": ["flutter", "dart", "ci-cd", "testing"]
+          "stack": [
+            "flutter",
+            "swiftui",
+            "react",
+            "react-native",
+            "firebase",
+            "ci-cd"
+          ]
+        },
+        {
+          "role": "Flutter Developer, contract",
+          "startDate": "2023-10",
+          "endDate": "2025-02",
+          "industryDescriptor": "on-demand services startup",
+          "achievements": [
+            "Integrated real-time communication with Agora and app protection with RASP.",
+            "Built in-app support features and geospatial map features such as route polylines.",
+            "Profiled and optimized with Dart DevTools."
+          ],
+          "stack": [
+            "flutter",
+            "agora",
+            "dart"
+          ]
+        },
+        {
+          "role": "Flutter Developer and technical lead",
+          "startDate": "2021-09",
+          "endDate": "2023-06",
+          "industryDescriptor": "software services company",
+          "achievements": [
+            "Led the Flutter team on decisions and practices; delivered mobile and Flutter Web solutions deployed on GCP with Docker.",
+            "Contributed key flows to VTEX and Shopify e-commerce projects; earlier built .NET Core REST services on MySQL."
+          ],
+          "stack": [
+            "flutter",
+            "gcp",
+            "docker",
+            "vtex",
+            "shopify",
+            "dotnet"
+          ]
+        },
+        {
+          "role": "Web Developer",
+          "startDate": "2020-08",
+          "endDate": "2021-10",
+          "industryDescriptor": "consumer credit company",
+          "achievements": [
+            "Built web applications on ASP.NET Web Forms and MVC with SQL Server reporting; refactored legacy apps for performance."
+          ],
+          "stack": [
+            "dotnet",
+            "sql-server",
+            "javascript"
+          ]
         }
       ],
       "languages": [
-        { "lang": "es", "level": "native" },
-        { "lang": "en", "level": "C1" }
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "A2"
+        }
       ],
       "availability": "available"
     },
     {
-      "code": "PRD-002",
-      "headline": "Senior Backend Engineer (Go & Java)",
+      "code": "PA-28EFC9",
+      "headline": "Senior Backend and DevOps Engineer, Node.js and event-driven systems",
       "seniority": "senior",
-      "roles": ["backend"],
+      "roles": [
+        "backend",
+        "devops"
+      ],
       "stack": [
+        "typescript",
+        "nodejs",
+        "nestjs",
+        "nextjs",
+        "kafka",
+        "rabbitmq",
+        "redis",
+        "postgresql",
+        "mysql",
+        "gcp",
         "aws",
         "docker",
-        "event-driven",
-        "go",
-        "grpc",
-        "java",
-        "kafka",
-        "kubernetes",
-        "postgresql",
-        "redis",
-        "spring-boot",
-        "terraform"
+        "ci-cd",
+        "angular",
+        "react",
+        "stripe"
       ],
-      "yearsExperience": 11,
-      "summary": "Backend specialist with eleven years designing event-driven platforms for retail and payments. Strong in Go microservices and Java integration layers, with a track record of cutting p99 latency while keeping operational complexity manageable.",
+      "yearsExperience": 5,
+      "summary": "Backend engineer who also runs the infrastructure his systems live on. TypeScript and Node.js with Kafka and RabbitMQ at the core, from a production-scheduling engine with an event backbone to messaging platforms that carry traffic for telecoms. On the other side of the deploy: Linux, GCP, AWS, Docker and the CI/CD to get there.",
       "experience": [
         {
-          "role": "Staff Backend Engineer",
-          "startDate": "2020-01",
-          "industryDescriptor": "enterprise retail technology group",
+          "role": "Senior Developer and Solution Architect",
+          "startDate": "2026-01",
+          "endDate": "2026-04",
+          "industryDescriptor": "manufacturing planning software vendor",
           "achievements": [
-            "Replaced a monolithic order service with twelve Go microservices on Kubernetes, improving peak-season throughput by 3.2× without additional headcount.",
-            "Introduced outbox-pattern event publishing to Kafka, eliminating duplicate charges in marketplace checkout flows.",
-            "Owned on-call rotation and reduced Sev-1 incidents from nine per quarter to two through SLO dashboards and runbooks."
+            "Designed a microservices architecture on Express and Next.js joined by a Kafka event backbone, keeping orders, inventory and notifications consistent while decoupled.",
+            "Built the scheduling engine: a Tetris-style optimizer that loads machines, inserts critical orders and shifts existing production.",
+            "Modeled concurrent production between areas with WIP buffers and micro-batches, and real-time traceability that reschedules on reported deviations.",
+            "Automated deployment with Docker."
           ],
-          "stack": ["go", "kafka", "kubernetes", "postgresql", "redis", "terraform"]
+          "stack": [
+            "nodejs",
+            "nextjs",
+            "kafka",
+            "docker",
+            "typescript"
+          ]
         },
         {
-          "role": "Senior Java Developer",
-          "startDate": "2016-03",
-          "endDate": "2019-12",
-          "industryDescriptor": "payments processor",
+          "role": "DevOps and Senior Developer",
+          "startDate": "2024-07",
+          "industryDescriptor": "European IT consultancy",
           "achievements": [
-            "Built Spring Boot services handling card-present and card-not-present authorization for mid-market merchants.",
-            "Designed idempotent settlement APIs consumed by three acquiring partners.",
-            "Led PCI-scoped audit preparation for two consecutive years with zero critical findings."
+            "Runs Linux servers, MySQL and PostgreSQL (hosted and containerized) with migrations and backups, and access and firewall policy.",
+            "Administers GCP (snapshots, load balancers, CDN, instances, IAM) and AWS services (SES, RDS, EC2) for production environments."
           ],
-          "stack": ["java", "spring-boot", "postgresql", "aws", "docker"]
+          "stack": [
+            "gcp",
+            "aws",
+            "docker",
+            "postgresql",
+            "mysql",
+            "nodejs"
+          ]
         },
         {
-          "role": "Backend Developer",
-          "startDate": "2013-07",
-          "endDate": "2016-02",
-          "industryDescriptor": "B2B SaaS company",
+          "role": "Software Developer",
+          "startDate": "2021-11",
+          "endDate": "2024-07",
+          "industryDescriptor": "digital agency serving telecoms and retail",
           "achievements": [
-            "Maintained multi-tenant billing and usage-metering services supporting 400+ enterprise accounts.",
-            "Migrated reporting workloads from synchronous SQL to Redis-backed materialized views."
+            "Built a Twilio-style messaging platform on Node.js and Kafka, event-driven, integrating Gupshup, Amazon SES, Meta, Twilio and SparkPost for telecom and call-center clients.",
+            "Developed geolocation-based recommendation services (Turf.js, Google Maps, KMZ processing) for a telecom operator.",
+            "Delivered e-commerce backends on NestJS, Redis and RabbitMQ with React frontends for supermarket and coffee retail chains."
           ],
-          "stack": ["java", "postgresql", "redis", "rest"]
+          "stack": [
+            "nodejs",
+            "nestjs",
+            "kafka",
+            "rabbitmq",
+            "redis",
+            "react",
+            "ddd"
+          ]
         }
       ],
       "languages": [
-        { "lang": "en", "level": "native" },
-        { "lang": "es", "level": "B2" }
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B1"
+        }
       ],
-      "availability": "soon"
+      "availability": "available"
     },
     {
-      "code": "PRD-003",
-      "headline": "Senior React Frontend Engineer",
-      "seniority": "senior",
-      "roles": ["frontend", "fullstack"],
+      "code": "PA-BCBEAD",
+      "headline": "Full-stack Engineer, React, .NET and cross-platform mobile",
+      "seniority": "mid",
+      "roles": [
+        "fullstack",
+        "mobile",
+        "frontend"
+      ],
       "stack": [
-        "accessibility",
-        "css",
-        "nextjs",
         "react",
-        "storybook",
-        "tailwind",
-        "testing",
+        "nextjs",
         "typescript",
-        "vite",
-        "wcag"
+        "tailwind",
+        "dotnet",
+        "c-sharp",
+        "sql-server",
+        "flutter",
+        "react-native",
+        "firebase",
+        "graphql",
+        "rest",
+        "zustand",
+        "redux",
+        "ci-cd"
+      ],
+      "yearsExperience": 6,
+      "summary": "Six years taking products from first architecture to the App Store, Google Play or production web. React and Next.js on the front, .NET and SQL Server behind, Flutter and React Native for mobile, with the release plumbing (Firebase, push, in-app purchases, store consoles) handled. Has worked under financial regulation and knows what a compliant component looks like.",
+      "experience": [
+        {
+          "role": "Mobile Developer",
+          "startDate": "2026-01",
+          "industryDescriptor": "mobile product company",
+          "achievements": [
+            "Builds native-feeling iOS and Android interfaces in Flutter, integrating REST and GraphQL APIs with real-time sync and reliable local persistence."
+          ],
+          "stack": [
+            "flutter",
+            "dart",
+            "graphql",
+            "rest"
+          ]
+        },
+        {
+          "role": "Full-stack Developer",
+          "startDate": "2023-01",
+          "industryDescriptor": "regional retail and consumer finance group",
+          "achievements": [
+            "Developed WhatsApp-connected landing pages that render personalized product recommendations.",
+            "Built virtual assistants and interactive recruiting panels in React and Blazor.",
+            "Standardized frontend components across corporate repositories to meet financial regulation (SUGEF 10-07)."
+          ],
+          "stack": [
+            "react",
+            "blazor",
+            "dotnet",
+            "typescript"
+          ]
+        },
+        {
+          "role": "Mobile Developer",
+          "startDate": "2025-06",
+          "endDate": "2026-06",
+          "industryDescriptor": "video social app startup",
+          "achievements": [
+            "Cut memory use in infinite video feeds with a tuned FlatList in React Native.",
+            "Implemented session persistence and real-time transaction state with Redux and Zustand; designed the Firebase authentication flows."
+          ],
+          "stack": [
+            "react-native",
+            "redux",
+            "zustand",
+            "firebase"
+          ]
+        },
+        {
+          "role": "Frontend Developer, freelance",
+          "startDate": "2019-12",
+          "endDate": "2022-12",
+          "industryDescriptor": "independent clients",
+          "achievements": [
+            "Designed and built fast, SEO-optimized landing pages on React, Vite and Tailwind.",
+            "Built point-of-sale interfaces integrated with a .NET backend and SQL Server."
+          ],
+          "stack": [
+            "react",
+            "tailwind",
+            "dotnet",
+            "sql-server"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B2"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-E624C4",
+      "headline": "Senior QA Automation Engineer, end-to-end and performance",
+      "seniority": "senior",
+      "roles": [
+        "qa"
+      ],
+      "stack": [
+        "playwright",
+        "cypress",
+        "typescript",
+        "k6",
+        "api-testing",
+        "contract-testing",
+        "load-testing",
+        "ci-cd",
+        "github-actions",
+        "docker",
+        "postgresql"
       ],
       "yearsExperience": 8,
-      "summary": "Frontend engineer focused on design-system-driven React applications for B2B and consumer brands. Combines strong accessibility discipline with performance tuning, consistently shipping sub-2s LCP on content-heavy dashboards.",
+      "summary": "Eight years making releases boring. Builds the automation that lets a team ship daily: end-to-end suites in Playwright that stay green, contract tests between services, and load tests in k6 that find the ceiling before customers do. Treats flaky tests as bugs and test code as production code.",
       "experience": [
         {
-          "role": "Senior Frontend Engineer",
-          "startDate": "2021-09",
-          "industryDescriptor": "healthcare analytics platform",
+          "role": "Senior QA Automation Engineer",
+          "startDate": "2022-03",
+          "industryDescriptor": "health insurance marketplace",
           "achievements": [
-            "Led rebuild of clinician dashboard from legacy jQuery to React 18 + TypeScript, improving task completion time by 28% in usability studies.",
-            "Established Storybook as the single source for 60+ accessible components with automated axe checks in CI.",
-            "Partnered with design to implement WCAG 2.1 AA patterns for data tables, modals, and form validation."
+            "Replaced a two-day manual regression cycle with a Playwright suite that runs in under twenty minutes on every pull request.",
+            "Introduced consumer-driven contract tests between fourteen services, catching breaking API changes before integration.",
+            "Designed k6 load scenarios for open-enrollment peaks and turned their results into capacity targets the platform team builds against."
           ],
-          "stack": ["react", "typescript", "storybook", "vite", "accessibility"]
+          "stack": [
+            "playwright",
+            "typescript",
+            "k6",
+            "contract-testing",
+            "github-actions"
+          ]
         },
         {
-          "role": "Frontend Developer",
-          "startDate": "2018-05",
-          "endDate": "2021-08",
-          "industryDescriptor": "e-commerce marketplace",
+          "role": "QA Engineer",
+          "startDate": "2018-06",
+          "endDate": "2022-02",
+          "industryDescriptor": "online travel agency",
           "achievements": [
-            "Built seller portal features in Next.js serving 12k active merchants.",
-            "Reduced client bundle size by 35% through route-based code splitting and image optimization.",
-            "Introduced visual regression tests that caught layout breaks before production releases."
+            "Built the Cypress automation for booking and payment flows across three brands and six currencies.",
+            "Set up test data management so suites run in parallel against isolated environments.",
+            "Wrote the API test layer for the pricing service and made it a release gate."
           ],
-          "stack": ["react", "nextjs", "typescript", "tailwind", "testing"]
-        },
-        {
-          "role": "UI Developer",
-          "startDate": "2016-01",
-          "endDate": "2018-04",
-          "industryDescriptor": "media streaming startup",
-          "achievements": [
-            "Implemented responsive marketing sites and embedded players used by two million monthly visitors.",
-            "Collaborated with backend on GraphQL schema for personalized content rails."
-          ],
-          "stack": ["react", "css", "typescript"]
+          "stack": [
+            "cypress",
+            "api-testing",
+            "docker",
+            "postgresql"
+          ]
         }
       ],
       "languages": [
-        { "lang": "en", "level": "C1" },
-        { "lang": "pt", "level": "B1" }
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "C1"
+        }
       ],
       "availability": "available"
     },
     {
-      "code": "PRD-004",
-      "headline": "Senior QA Engineer",
-      "seniority": "mid",
-      "roles": ["fullstack"],
-      "stack": [
-        "api-testing",
-        "ci-cd",
-        "cypress",
-        "jest",
-        "playwright",
-        "postman",
-        "selenium",
-        "test-automation",
-        "test-planning"
-      ],
-      "yearsExperience": 7,
-      "summary": "Quality engineer with seven years bridging manual exploratory testing and automated coverage for web and mobile products. Builds pragmatic test pyramids that catch regressions early without slowing delivery teams.",
-      "experience": [
-        {
-          "role": "Senior QA Engineer",
-          "startDate": "2020-06",
-          "industryDescriptor": "insurtech scale-up",
-          "achievements": [
-            "Designed end-to-end Playwright suites for policy quoting and claims workflows, cutting production defects by 48% within six months.",
-            "Introduced contract tests between mobile apps and GraphQL gateway, surfacing breaking changes in pull requests.",
-            "Ran release readiness reviews with product and engineering, establishing clear go/no-go criteria."
-          ],
-          "stack": ["playwright", "api-testing", "ci-cd", "postman"]
-        },
-        {
-          "role": "QA Automation Engineer",
-          "startDate": "2018-01",
-          "endDate": "2020-05",
-          "industryDescriptor": "HR software company",
-          "achievements": [
-            "Migrated flaky Selenium suites to Cypress for payroll and benefits modules.",
-            "Built performance test harness validating 5k concurrent users on annual enrollment peaks.",
-            "Authored test data factories reused across three product squads."
-          ],
-          "stack": ["cypress", "selenium", "jest", "test-automation"]
-        },
-        {
-          "role": "QA Analyst",
-          "startDate": "2017-03",
-          "endDate": "2017-12",
-          "industryDescriptor": "digital agency",
-          "achievements": [
-            "Owned manual and exploratory testing for client launches across retail and nonprofit verticals.",
-            "Documented reproducible bug reports that reduced developer rework cycles."
-          ],
-          "stack": ["test-planning", "api-testing"]
-        }
-      ],
-      "languages": [
-        { "lang": "en", "level": "C1" },
-        { "lang": "es", "level": "native" }
-      ],
-      "availability": "available"
-    },
-    {
-      "code": "PRD-005",
-      "headline": "Staff DevOps Engineer",
+      "code": "PA-A2E993",
+      "headline": "Staff Platform Engineer, Kubernetes and cloud reliability",
       "seniority": "staff",
-      "roles": ["devops", "backend"],
+      "roles": [
+        "devops"
+      ],
       "stack": [
-        "ansible",
-        "aws",
-        "docker",
-        "github-actions",
-        "grafana",
-        "helm",
         "kubernetes",
-        "linux",
+        "terraform",
+        "aws",
+        "gcp",
+        "helm",
+        "argo-cd",
         "prometheus",
-        "terraform"
+        "grafana",
+        "opentelemetry",
+        "linux",
+        "go",
+        "python",
+        "ci-cd"
       ],
       "yearsExperience": 12,
-      "summary": "Staff-level platform engineer with twelve years operating cloud-native infrastructure for high-traffic consumer and enterprise workloads. Expert in Terraform/IaC, Kubernetes hardening, and observability stacks that keep on-call sustainable.",
+      "summary": "Twelve years running the ground other engineers build on. Designs cloud platforms as products: Kubernetes clusters teams deploy to without tickets, infrastructure as code that reviews like software, and observability that tells you what broke before the customer does. Has carried the pager for systems with real money on them.",
       "experience": [
         {
-          "role": "Staff DevOps Engineer",
-          "startDate": "2019-02",
-          "industryDescriptor": "global streaming media company",
+          "role": "Staff Platform Engineer",
+          "startDate": "2021-01",
+          "industryDescriptor": "payments processor",
           "achievements": [
-            "Designed multi-region EKS clusters serving 40M monthly active users with automated failover drills.",
-            "Reduced infrastructure provisioning time from days to under 20 minutes via Terraform modules and GitOps workflows.",
-            "Built cost attribution dashboards that drove 22% savings on idle compute without impacting SLOs."
+            "Built the internal developer platform on Kubernetes, Helm and Argo CD; sixty services deploy through it several times a day with no platform ticket.",
+            "Migrated the core infrastructure to Terraform with reviewed, tested modules; environment drift dropped to zero.",
+            "Designed the observability stack on OpenTelemetry, Prometheus and Grafana, and the SLOs that page a human only when a customer would notice."
           ],
-          "stack": ["kubernetes", "terraform", "aws", "helm", "prometheus", "grafana"]
+          "stack": [
+            "kubernetes",
+            "helm",
+            "argo-cd",
+            "terraform",
+            "opentelemetry",
+            "prometheus",
+            "aws"
+          ]
         },
         {
-          "role": "Senior Site Reliability Engineer",
-          "startDate": "2015-08",
-          "endDate": "2019-01",
-          "industryDescriptor": "ad-tech platform",
+          "role": "Site Reliability Engineer",
+          "startDate": "2016-08",
+          "endDate": "2020-12",
+          "industryDescriptor": "video streaming service",
           "achievements": [
-            "Owned CI/CD pipelines processing 300+ daily deployments across 80 microservices.",
-            "Implemented golden-signal alerting that cut mean time to detect from 18 minutes to under four.",
-            "Led incident retrospectives and blameless postmortems adopted company-wide."
+            "Ran the multi-region GCP footprint for live event peaks, including the runbooks and game days that rehearsed them.",
+            "Cut monthly cloud spend by a third through rightsizing, spot capacity and autoscaling tuned to real traffic.",
+            "Led the incident process: blameless postmortems, error budgets and the follow-through that closed them."
           ],
-          "stack": ["docker", "kubernetes", "github-actions", "prometheus", "linux"]
+          "stack": [
+            "gcp",
+            "kubernetes",
+            "terraform",
+            "grafana",
+            "python"
+          ]
         },
         {
-          "role": "Systems Engineer",
-          "startDate": "2012-06",
-          "endDate": "2015-07",
+          "role": "Systems Administrator",
+          "startDate": "2013-05",
+          "endDate": "2016-07",
           "industryDescriptor": "managed hosting provider",
           "achievements": [
-            "Automated bare-metal provisioning and configuration with Ansible for hundreds of customer environments.",
-            "Migrated legacy VM farms to containerized workloads on early Docker Swarm clusters."
+            "Automated provisioning and patching for a Linux fleet of several hundred hosts.",
+            "Built the first CI pipelines and configuration management the company shipped from."
           ],
-          "stack": ["ansible", "linux", "docker", "aws"]
+          "stack": [
+            "linux",
+            "ci-cd",
+            "python"
+          ]
         }
       ],
       "languages": [
-        { "lang": "en", "level": "native" }
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "C1"
+        }
       ],
-      "availability": "unavailable"
+      "availability": "available"
+    },
+    {
+      "code": "PA-E134A0",
+      "headline": "Senior Data Engineer, pipelines and analytics platforms",
+      "seniority": "senior",
+      "roles": [
+        "data",
+        "backend"
+      ],
+      "stack": [
+        "python",
+        "sql",
+        "spark",
+        "airflow",
+        "dbt",
+        "bigquery",
+        "snowflake",
+        "kafka",
+        "postgresql",
+        "data-modeling",
+        "docker",
+        "terraform"
+      ],
+      "yearsExperience": 9,
+      "summary": "Nine years building the pipelines a company's numbers depend on. Batch and streaming, Spark and Kafka, warehouses on BigQuery and Snowflake modeled with dbt so that finance, product and data science read one truth. Cares about lineage, tests and cost as much as throughput.",
+      "experience": [
+        {
+          "role": "Senior Data Engineer",
+          "startDate": "2021-06",
+          "industryDescriptor": "digital bank",
+          "achievements": [
+            "Designed the lakehouse and the dbt models that became the single source for regulatory reporting, product analytics and risk.",
+            "Built the streaming ingestion on Kafka that lands transactions in the warehouse within seconds, with schema evolution handled by contract.",
+            "Cut warehouse spend by forty percent by reworking partitioning, incremental models and query patterns."
+          ],
+          "stack": [
+            "python",
+            "dbt",
+            "bigquery",
+            "kafka",
+            "airflow",
+            "data-modeling"
+          ]
+        },
+        {
+          "role": "Data Engineer",
+          "startDate": "2017-02",
+          "endDate": "2021-05",
+          "industryDescriptor": "e-commerce marketplace",
+          "achievements": [
+            "Rebuilt the nightly Spark pipelines into orchestrated, tested Airflow DAGs; failures went from weekly to rare and visible.",
+            "Modeled the order and catalog domains for analytics used by two hundred internal users.",
+            "Owned the migration from an on-premise warehouse to Snowflake without a reporting outage."
+          ],
+          "stack": [
+            "spark",
+            "airflow",
+            "snowflake",
+            "sql",
+            "python"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "B2"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-FFE279",
+      "headline": "Senior Frontend Engineer, design systems and accessibility",
+      "seniority": "senior",
+      "roles": [
+        "frontend"
+      ],
+      "stack": [
+        "react",
+        "typescript",
+        "nextjs",
+        "storybook",
+        "design-tokens",
+        "css",
+        "wcag",
+        "a11y",
+        "vite",
+        "figma",
+        "testing",
+        "ci-cd"
+      ],
+      "yearsExperience": 10,
+      "summary": "Ten years on the front end, the last five building the design systems other teams ship with. Components in React and TypeScript documented in Storybook, tokens that keep code and Figma in agreement, and accessibility to WCAG AA treated as a requirement rather than an audit. Works with designers as a peer, not a renderer.",
+      "experience": [
+        {
+          "role": "Senior Frontend Engineer, design systems",
+          "startDate": "2021-09",
+          "industryDescriptor": "enterprise SaaS for HR",
+          "achievements": [
+            "Built and maintains the component library used by eleven product teams; adoption reached ninety percent of new screens within a year.",
+            "Set up the token pipeline from Figma to code so that a color change ships everywhere in one pull request.",
+            "Led the accessibility program that took the product to WCAG 2.1 AA and kept it there with automated and manual audits."
+          ],
+          "stack": [
+            "react",
+            "typescript",
+            "storybook",
+            "design-tokens",
+            "wcag",
+            "figma"
+          ]
+        },
+        {
+          "role": "Frontend Engineer",
+          "startDate": "2016-01",
+          "endDate": "2021-08",
+          "industryDescriptor": "news publisher",
+          "achievements": [
+            "Rebuilt the article and homepage rendering on React with server-side rendering; Core Web Vitals moved from failing to green across the site.",
+            "Created the shared UI kit across four publications and the visual regression tests that guard it.",
+            "Reduced JavaScript shipped per page by half through code splitting and a leaner dependency policy."
+          ],
+          "stack": [
+            "react",
+            "nextjs",
+            "css",
+            "vite",
+            "testing"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "C1"
+        }
+      ],
+      "availability": "available"
+    },
+    {
+      "code": "PA-E01BE8",
+      "headline": "Senior Backend Engineer, Go and high-throughput services",
+      "seniority": "senior",
+      "roles": [
+        "backend"
+      ],
+      "stack": [
+        "go",
+        "grpc",
+        "protobuf",
+        "postgresql",
+        "redis",
+        "nats",
+        "kafka",
+        "kubernetes",
+        "docker",
+        "aws",
+        "rest",
+        "microservices",
+        "testing"
+      ],
+      "yearsExperience": 9,
+      "summary": "Nine years writing the services that sit on the hot path: Go, gRPC and Postgres, tuned with profiles rather than guesses. Has built matching engines, ingestion APIs and the internal libraries a whole backend organization standardizes on. Prefers boring, observable systems and knows when one goroutine is enough.",
+      "experience": [
+        {
+          "role": "Senior Backend Engineer",
+          "startDate": "2020-10",
+          "industryDescriptor": "logistics marketplace",
+          "achievements": [
+            "Designed the dispatch matching service in Go that pairs shipments with carriers in real time across the marketplace, with p99 latency under fifty milliseconds.",
+            "Built the event ingestion API on gRPC and NATS that receives telemetry from tens of thousands of vehicles.",
+            "Wrote the internal Go service framework (config, tracing, health, retries) that every new backend service starts from."
+          ],
+          "stack": [
+            "go",
+            "grpc",
+            "nats",
+            "postgresql",
+            "kubernetes",
+            "redis"
+          ]
+        },
+        {
+          "role": "Backend Engineer",
+          "startDate": "2016-11",
+          "endDate": "2020-09",
+          "industryDescriptor": "ad-tech platform",
+          "achievements": [
+            "Rewrote the bidding endpoint from a scripting runtime to Go, cutting infrastructure cost by seventy percent at the same traffic.",
+            "Built the Kafka consumers that aggregate billions of daily events into reporting stores.",
+            "Introduced load testing and profiling as part of the release checklist."
+          ],
+          "stack": [
+            "go",
+            "kafka",
+            "postgresql",
+            "docker",
+            "aws"
+          ]
+        }
+      ],
+      "languages": [
+        {
+          "lang": "es",
+          "level": "native"
+        },
+        {
+          "lang": "en",
+          "level": "C1"
+        }
+      ],
+      "availability": "available"
     }
   ],
   "page": 1,
   "perPage": 50,
-  "totalItems": 5
+  "totalItems": 11
 }

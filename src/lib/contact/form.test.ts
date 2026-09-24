@@ -20,31 +20,31 @@ const validFields = {
 
 describe('parseProfileParams', () => {
   it('reads singular profile param', () => {
-    expect(parseProfileParams('?profile=PRD-001')).toEqual(['PRD-001']);
+    expect(parseProfileParams('?profile=PA-28EFC9')).toEqual(['PA-28EFC9']);
   });
 
   it('reads repeated profile params', () => {
-    expect(parseProfileParams('?profile=PRD-001&profile=PRD-003')).toEqual([
-      'PRD-001',
-      'PRD-003',
+    expect(parseProfileParams('?profile=PA-28EFC9&profile=PA-587A1E')).toEqual([
+      'PA-28EFC9',
+      'PA-587A1E',
     ]);
   });
 
   it('reads comma-separated profiles param', () => {
-    expect(parseProfileParams('?profiles=PRD-001,PRD-002')).toEqual([
-      'PRD-001',
-      'PRD-002',
+    expect(parseProfileParams('?profiles=PA-28EFC9,PA-54B6E3')).toEqual([
+      'PA-28EFC9',
+      'PA-54B6E3',
     ]);
   });
 
   it('merges profile and profiles params with deduplication', () => {
     expect(
-      parseProfileParams('?profile=PRD-001&profiles=PRD-001,PRD-002&profile=PRD-003'),
-    ).toEqual(['PRD-001', 'PRD-003', 'PRD-002']);
+      parseProfileParams('?profile=PA-28EFC9&profiles=PA-28EFC9,PA-54B6E3&profile=PA-587A1E'),
+    ).toEqual(['PA-28EFC9', 'PA-587A1E', 'PA-54B6E3']);
   });
 
   it('ignores invalid profile codes', () => {
-    expect(parseProfileParams('?profile=INVALID&profile=PRD-007')).toEqual(['PRD-007']);
+    expect(parseProfileParams('?profile=INVALID&profile=PA-D1B6D4')).toEqual(['PA-D1B6D4']);
   });
 });
 
@@ -81,12 +81,12 @@ describe('validateLeadForm', () => {
 
 describe('buildLeadPayload', () => {
   it('maps form fields to API camelCase body', () => {
-    expect(buildLeadPayload(validFields, ['PRD-001', 'PRD-003'])).toEqual({
+    expect(buildLeadPayload(validFields, ['PA-28EFC9', 'PA-587A1E'])).toEqual({
       name: 'Pat Buyer',
       email: 'pat@acme.example',
       companyName: 'Acme Corp',
       message: 'We need Flutter engineers.',
-      interestedProfiles: ['PRD-001', 'PRD-003'],
+      interestedProfiles: ['PA-28EFC9', 'PA-587A1E'],
       source: 'website',
       website: '',
     });
@@ -137,9 +137,9 @@ describe('mapSubmitHttpError', () => {
 
 describe('buildMailtoUrl', () => {
   it('includes profile codes in subject when present', () => {
-    const url = buildMailtoUrl(validFields, ['PRD-001']);
+    const url = buildMailtoUrl(validFields, ['PA-28EFC9']);
     expect(url).toContain('mailto:solutions@paradius.dev');
-    expect(decodeURIComponent(url)).toContain('PRD-001');
+    expect(decodeURIComponent(url)).toContain('PA-28EFC9');
   });
 });
 

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-/** Matches `DeveloperCode` in core_models: `PRD-NNN`. */
+/** `PA-` plus six hex digits derived from the person's full name (scripts/developer-code.mjs). */
 export const developerCodeSchema = z
   .string()
-  .regex(/^PRD-\d{3}$/, 'Developer code must match PRD-NNN (e.g. PRD-007)');
+  .regex(/^PA-[0-9A-F]{6}$/, 'Developer code must match PA-XXXXXX (six uppercase hex digits)');
 
 export const senioritySchema = z.enum(['junior', 'mid', 'senior', 'staff']);
 
@@ -15,6 +15,8 @@ export const developerRoleSchema = z.enum([
   'frontend',
   'fullstack',
   'devops',
+  'qa',
+  'data',
 ]);
 
 export const spokenLanguageSchema = z.object({

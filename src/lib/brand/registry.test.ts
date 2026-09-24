@@ -47,7 +47,7 @@ describe('formatWorkStatus', () => {
 describe('resolveActiveSection', () => {
   it('maps talent routes to registry', () => {
     expect(resolveActiveSection('/talent')).toBe('registry');
-    expect(resolveActiveSection('/talent/PRD-001/')).toBe('registry');
+    expect(resolveActiveSection('/talent/PA-28EFC9/')).toBe('registry');
   });
 
   it('maps work routes to evidence', () => {
