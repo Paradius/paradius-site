@@ -2,7 +2,7 @@
 // Drives the home with real wheel input over CDP (an Edge/Chrome launched with
 // --remote-debugging-port) and records every animation frame together with the
 // instants each block toggles its --moving layer promotion.
-// Usage: node scripts/home-frame-probe.mjs [cdpUrl] [pageUrlPrefix] [variant ...]
+// Usage: [PROBE_PATH=/about/] node scripts/home-frame-probe.mjs [cdpUrl] [pageUrlPrefix] [variant ...]
 // A variant injects a CSS override after load (see VARIANTS); 'default' injects nothing.
 import { chromium } from 'playwright-core';
 import { writeFileSync } from 'node:fs';
@@ -21,7 +21,9 @@ const browser = await chromium.connectOverCDP(CDP);
 const page = browser.contexts().flatMap((c) => c.pages()).find((p) => p.url().startsWith(PREFIX));
 if (!page) throw new Error(`no tab starting with ${PREFIX}`);
 await page.bringToFront();
-await page.reload({ waitUntil: 'load' });
+const path = process.env.PROBE_PATH;
+if (path) await page.goto(new URL(path, PREFIX).href, { waitUntil: 'load' });
+else await page.reload({ waitUntil: 'load' });
 await sleep(1500);
 const visible = await page.evaluate(() => document.visibilityState);
 if (visible !== 'visible') throw new Error(`tab is ${visible}; bring it to the front`);
