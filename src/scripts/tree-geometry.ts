@@ -57,8 +57,11 @@ export interface ScaleInput {
   canopy: CanopySpec;
 }
 
-export function canopySide(force: Force, layout: Layout): Side {
-  return layout === 'rail' ? 'right' : (force === 'will') === (layout === 'two-sided') ? 'left' : 'right';
+/** In a column the trunk sits left unless the page asks for the right (columnTrunk). */
+export function canopySide(force: Force, layout: Layout, columnTrunk?: Side): Side {
+  if (layout === 'column') return columnTrunk === 'right' ? 'left' : 'right';
+  if (layout === 'rail') return 'right';
+  return force === 'will' ? 'left' : 'right';
 }
 
 export function scale(input: ScaleInput): number {
@@ -214,6 +217,7 @@ export function rhythm(
 }
 
 export interface SeatInput {
+  columnTrunk?: Side;
   mode: 'two-sided' | 'rail' | 'dossier';
   railBelow: number;
   spine: number;
@@ -227,6 +231,7 @@ export interface SeatInput {
 }
 
 export interface Seat {
+  force: Force;
   layout: Layout;
   side: Side;
   k: number;
@@ -242,7 +247,7 @@ export function seat(input: SeatInput): Seat | null {
     : input.mode === 'rail' || (input.mode === 'dossier' && input.railBelowMatches)
       ? 'rail'
       : 'two-sided';
-  const side = canopySide(input.force, layout);
+  const side = canopySide(input.force, layout, input.columnTrunk);
   const canopy = CANOPY[side];
   const heroBeside = layout === 'rail' && input.heroBeside;
   const scaleInput = { layout, frameWidth: input.frameWidth, pad: input.pad, svh: input.svh, heroBeside, canopy };
@@ -250,6 +255,7 @@ export function seat(input: SeatInput): Seat | null {
   if (!(k > 0)) return null;
   const px = (units: number): string => `${(units * k).toFixed(2)}px`;
   return {
+    force: input.force,
     layout,
     side,
     k,
@@ -268,6 +274,7 @@ export function seat(input: SeatInput): Seat | null {
 }
 
 export function applySeat(root: HTMLElement, s: Seat): void {
+  root.dataset.force = s.force;
   root.dataset.layout = s.layout;
   root.dataset.canopy = s.side;
   if (s.trunk) root.dataset.trunk = s.trunk;

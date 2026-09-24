@@ -237,6 +237,15 @@ body:has(.inner-main)::before { display: none; }
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
+  container-type: inline-size;
+}
+
+/* Too narrow for two buttons side by side: they stack at one full width each. */
+@container (max-width: 30rem) {
+  .inner-button {
+    flex: 1 1 100%;
+    text-align: center;
+  }
 }
 
 .inner-button {
@@ -306,7 +315,25 @@ body:has(.inner-main)::before { display: none; }
   :root {
     --trunk-edge: 22px;
     --trunk-clear: 44px;
+    /* Phone body runs 1.2x the desktop floor and titles 1.1x: the desktop sizes
+       read small in the hand, and the hero must keep dominating its body. */
+    --will-hero-title: 2.3rem;
+    --will-hero-body: 1.44rem;
+    --will-title: 1.75rem;
+    --will-body: 1.38rem;
+    --power-hero-title: 1.95rem;
+    --power-hero-body: 1.32rem;
+    --power-title: 1.5rem;
+    --power-body: 1.26rem;
   }
+
+  /* One side, one voice: in a column the whole page speaks the hero's font. */
+  html[data-force="power"] .inner-block { font-family: var(--font-tech); }
+  html[data-force="will"] .inner-block { font-family: var(--font-voice); }
+  html[data-force="power"] .inner-block[data-force="will"] .inner-title { font-size: round(nearest, var(--power-title), 1px); font-weight: 400; }
+  html[data-force="power"] .inner-block[data-force="will"] .inner-body { font-size: round(nearest, var(--power-body), 1px); }
+  html[data-force="will"] .inner-block[data-force="power"] .inner-title { font-size: round(nearest, var(--will-title), 1px); font-weight: 300; }
+  html[data-force="will"] .inner-block[data-force="power"] .inner-body { font-size: round(nearest, var(--will-body), 1px); }
 
   html[data-trunk="left"] .inner-block {
     padding-left: calc(var(--trunk-clear) + 1rem);
@@ -320,14 +347,15 @@ body:has(.inner-main)::before { display: none; }
 
   html[data-trunk="right"] .inner-block :is(.inner-kicker, .inner-title, .inner-body, .inner-body p, .inner-actions) { margin-left: auto; }
   html[data-trunk="right"] .inner-actions { justify-content: flex-end; }
+  html[data-trunk="right"] .inner-body p { text-align: right; }
+  html[data-trunk="right"] .footer-ledger__inner { padding-right: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
+
 
   .inner-body p { text-align: left; }
-  html[data-trunk="right"] .inner-body p { text-align: right; }
 
   .inner-block--hero { padding-top: calc(var(--site-header-height) + 0.5rem + var(--canopy-h) - var(--canopy-lift, 0px) + 1.5rem); }
 
   html[data-trunk="left"] .footer-ledger__inner { padding-left: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
-  html[data-trunk="right"] .footer-ledger__inner { padding-right: calc(var(--frame-gutter) + var(--trunk-clear) + 1rem); }
 }
 
 @media (max-width: 559.98px) {

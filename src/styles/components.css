@@ -115,10 +115,16 @@
     transition: color var(--transition-duration-fast) ease;
   }
 
-  .site-header__nav-link:hover,
   .site-header__nav-link:focus-visible,
   .site-header__nav-link[aria-current="page"] {
     color: var(--color-text-primary);
+  }
+
+  /* Touch keeps a tapped link in :hover until the next page lands: two white entries. */
+  @media (hover: hover) {
+    .site-header__nav-link:hover {
+      color: var(--color-text-primary);
+    }
   }
 
 

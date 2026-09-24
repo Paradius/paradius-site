@@ -148,7 +148,7 @@ function collectReveals(): void {
    Dials: SNAP_RADIUS_VH (capture range), SNAP_PULL (drift speed),
    SNAP_IDLE_MS (rest before pull), SNAP_READING_LINE (park line, vh),
    SNAP_MERGE_VH (anchors closer than this fuse into one). */
-const SNAP_ENABLED_DEFAULT = true;
+const SNAP_ENABLED_DEFAULT = false;
 /** Runtime state; the A key toggles it (tuning aid). */
 let snapEnabled = SNAP_ENABLED_DEFAULT;
 const SNAP_RADIUS_VH = 0.35;

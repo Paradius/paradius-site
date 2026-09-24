@@ -335,6 +335,12 @@
 
   .inner-legend { margin-bottom: 0.1rem; }
 
+  /* Seniority on its own line; the stack wraps below it, never clipped. */
+  .inner-row__graft { display: block; }
+  .inner-row__meta { display: block; }
+  .inner-row__meta::after { content: none; }
+  .inner-row__stack { display: block; }
+
   .inner-row {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
@@ -952,4 +958,13 @@ button.inner-button { cursor: pointer; }
   main[data-spine] .inner-stop > .inner-block[data-force] { width: auto; }
 
   main[data-spine] .inner-stop__story .inner-body p { max-width: calc(var(--measure) * 1.2); }
+}
+
+/* Phone list views (registry, work): one notch larger in the hand. */
+@media (max-width: 699.98px) {
+  .inner-main .inner-row__code { font-size: round(nearest, calc(0.8125rem * 1.1), 1px); }
+  .inner-main .inner-row__title { font-size: round(nearest, calc(1.25rem * 1.05 * 1.1), 1px); }
+  .inner-main .inner-row__graft { font-size: round(nearest, calc(0.875rem * 1.1 * 1.1), 1px); }
+  .inner-main .inner-row__text { font-size: round(nearest, calc(1rem * 1.1), 1px); }
+  .inner-main .inner-badge { font-size: round(nearest, calc(0.6875rem * 1.1 * 1.1), 1px); }
 }

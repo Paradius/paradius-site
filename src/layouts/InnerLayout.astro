@@ -12,9 +12,13 @@ interface Props {
   mode?: 'two-sided' | 'rail' | 'dossier';
   railBelow?: number;
   spine?: number;
+  /** Phone column: which side the trunk takes; left unless a page wants variety. */
+  columnTrunk?: 'left' | 'right';
 }
 
-const { seo, mode = 'two-sided', railBelow, spine } = Astro.props;
+const { seo, mode = 'two-sided', railBelow, spine, columnTrunk } = Astro.props;
+// Preloaded so the masks are in cache when the run seats: fetched late they pop in after the text.
+const TREE_PIECES = ['topNoLeft.svg', 'topNoRight.svg', 'segmentSmall.svg', 'segmentMedium.svg', 'segmentLarge.svg', 'segmentFlat.svg', 'flatElastic.svg', 'bottomNoLeft.svg', 'bottomNoRight.svg'];
 const below = mode === 'dossier' ? String(railBelow ?? 1200) : undefined;
 // The same seating the tree module runs, inlined so the first layout carries the final geometry.
 const seatScript = [
@@ -34,6 +38,7 @@ const seatScript = [
       railBelow,
       spine: parseFloat(main.dataset.spine || ''),
       force: hero.dataset.force || 'power',
+      columnTrunk: main.dataset.columnTrunk,
       frameWidth: main.getBoundingClientRect().width,
       pad: parseFloat(getComputedStyle(main).paddingLeft),
       svh: window.innerHeight,
@@ -47,9 +52,12 @@ const seatScript = [
 ---
 
 <BaseLayout seo={seo}>
-  <slot name="head" slot="head" />
+  <Fragment slot="head">
+    <slot name="head" />
+    {TREE_PIECES.map((file) => <link rel="preload" as="image" href={`/assets/tree/${file}`} />)}
+  </Fragment>
   <Header />
-  <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below} data-spine={spine} style={spine ? `--spine: ${spine}` : undefined}>
+  <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below} data-spine={spine} data-column-trunk={columnTrunk} style={spine ? `--spine: ${spine}` : undefined}>
     <div class="inner-run" aria-hidden="true">
       <div class="inner-run__light">
         <span class="inner-run__band" style="--ga: 0%; --gb: 100%"></span>

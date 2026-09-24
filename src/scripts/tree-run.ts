@@ -40,6 +40,7 @@ export function mountTreeRun(): void {
       railBelow: parseFloat(main.dataset.railBelow ?? '1200'),
       spine: parseFloat(main.dataset.spine ?? ''),
       force: (hero.dataset.force ?? 'power') as Force,
+      columnTrunk: main.dataset.columnTrunk as 'left' | 'right' | undefined,
       frameWidth: frame.width,
       pad,
       svh: window.innerHeight,

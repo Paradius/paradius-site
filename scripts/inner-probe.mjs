@@ -248,10 +248,13 @@ try {
           if (b.force === 'power' && !(b.r < g.spine)) fail('power-not-left', tag, b);
         }
       }
+      // One side, one voice: in a column every block speaks the hero's font.
+      const pageForce = g.blocks.find((b) => b.hero)?.force;
       for (const b of g.blocks) {
         if (b.cta || b.tool) continue;
-        if (b.title && !faceOk(b.title.font, b.force)) fail('title-face', tag, b);
-        if (b.body && !faceOk(b.body.font, b.force)) fail('body-face', tag, b);
+        const face = g.layout === 'column' && pageForce ? pageForce : b.force;
+        if (b.title && !faceOk(b.title.font, face)) fail('title-face', tag, b);
+        if (b.body && !faceOk(b.body.font, face)) fail('body-face', tag, b);
       }
       const hero = g.blocks.find((b) => b.hero);
       if (hero?.title && hero.body && hero.title.px < hero.body.px * 1.35) {

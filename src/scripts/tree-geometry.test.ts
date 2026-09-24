@@ -8,9 +8,11 @@ describe('canopySide', () => {
     expect(canopySide('will', 'two-sided')).toBe('left');
     expect(canopySide('power', 'two-sided')).toBe('right');
   });
-  it('column: the trunk keeps the side it had, so the canopy crosses over', () => {
+  it('column: the trunk is on the left unless the page asks for the right', () => {
     expect(canopySide('will', 'column')).toBe('right');
-    expect(canopySide('power', 'column')).toBe('left');
+    expect(canopySide('power', 'column')).toBe('right');
+    expect(canopySide('power', 'column', 'right')).toBe('left');
+    expect(canopySide('will', 'two-sided', 'right')).toBe('left');
   });
   it('rail: always fans right', () => {
     expect(canopySide('will', 'rail')).toBe('right');
@@ -114,10 +116,10 @@ describe('seat', () => {
     expect(s?.props['--trunk-edge']).toBe('32.00px');
   });
 
-  it('seats a phone column with the trunk on the right for a Power hero', () => {
+  it('seats a phone column with the trunk on the left whatever the hero force', () => {
     const s = seat({ ...desk, frameWidth: 448, pad: 27.2, svh: 803, twoSided: false });
     expect(s?.layout).toBe('column');
-    expect(s?.trunk).toBe('right');
-    expect(s?.props['--trunk-edge']).toBe('22.34px');
+    expect(s?.trunk).toBe('left');
+    expect(s?.props['--trunk-edge']).toBe('22.33px');
   });
 });
