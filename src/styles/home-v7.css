@@ -105,7 +105,7 @@ body:has(.home-v7) .site-header {
   left: var(--ga, 0%);
   width: calc(var(--gb, 100%) - var(--ga, 0%));
   top: -125%;
-  height: 700%;
+  height: 490%;
   background: linear-gradient(
     to top,
     transparent 0%,
@@ -123,24 +123,10 @@ body:has(.home-v7) .site-header {
   );
   background-size: 100% 50%;
   background-repeat: repeat-y;
-  /* Horizontal bell, no plateau: the light dies to nothing at the column
-     edges, so no straight seam can ever print on the tree. */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgb(255 255 255 / 0.4) 25%,
-    #fff 50%,
-    rgb(255 255 255 / 0.4) 75%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgb(255 255 255 / 0.4) 25%,
-    #fff 50%,
-    rgb(255 255 255 / 0.4) 75%,
-    transparent 100%
-  );
+  /* Column edges soften over a fifth of the band and neighbours overlap, so
+     the light reaches full strength across the column and no seam prints. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
   animation: home-v7-glow-loop var(--gs, 11s) linear infinite;
   animation-delay: var(--gd, 0s);
   will-change: transform;
