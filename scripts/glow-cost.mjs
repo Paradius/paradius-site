@@ -17,7 +17,7 @@ const path = args[0]?.startsWith('/') ? args.shift() : '/';
 
 const VARIANTS = {
   default: '',
-  off: '.home-v7__glow-ramp, .inner-run__band { display: none !important; }',
+  off: '.home-v7__glow-ramp, .inner-run__light, .inner-branch__light { display: none !important; }',
   one: '.home-v7__glow-band:not(:first-child), .inner-run__band:not(:first-child) { display: none !important; }',
   noramp: '.home-v7__glow-ramp { mask-image: none !important; -webkit-mask-image: none !important; }',
   loop: '.home-v7__glow-band { top: -125%; height: 700%; background-size: 100% 50%; background-repeat: repeat-y; animation-name: glow-loop-probe; animation-duration: calc(var(--gs, 11s) * 1.43); animation-delay: calc(var(--gd, 0s) * -1); } @keyframes glow-loop-probe { from { transform: translateY(0); } to { transform: translateY(-50%); } }',

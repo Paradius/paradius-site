@@ -116,6 +116,11 @@ export function mountTreeRun(): void {
     style.webkitMaskSize = style.maskSize = sizes.join(', ');
     style.webkitMaskPosition = style.maskPosition = spots.join(', ');
     style.webkitMaskRepeat = style.maskRepeat = 'no-repeat';
+    // The branches' light rides the run's band: same height, each offset by its own seat.
+    root.style.setProperty('--run-h', geo.height.toFixed(2) + 'px');
+    document.querySelectorAll<HTMLElement>('.inner-branch').forEach((branch) => {
+      branch.style.setProperty('--branch-d', (branch.getBoundingClientRect().top - geo.top).toFixed(2) + 'px');
+    });
   };
 
   const paint = (): void => {

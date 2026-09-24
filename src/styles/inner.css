@@ -91,7 +91,15 @@ body:has(.inner-main)::before { display: none; }
 }
 
 /* The light: bands travel by transform inside the run's silhouette, rastered once;
-   the ramp is dim at the roots and full at the canopy, a second nested mask. */
+   the ramp is dim at the roots and full at the canopy, a second nested mask. The
+   branches carry the same band in page coordinates, so the light crosses them at
+   the instant it crosses the trunk beside them. */
+.inner-main {
+  --light-period: 20s;
+  --light-phase: -6s;
+  --light-gradient: linear-gradient(to top, transparent 0%, transparent 12%, rgb(255 255 255 / 0.35) 18%, transparent 24%, transparent 36%, rgb(255 255 255 / 0.9) 44%, rgb(255 255 255 / 0.9) 48%, transparent 56%, transparent 66%, rgb(255 255 255 / 0.5) 72%, transparent 78%, transparent 100%);
+}
+
 .inner-run__light {
   position: absolute;
   inset: 0;
@@ -112,13 +120,13 @@ body:has(.inner-main)::before { display: none; }
   width: calc(var(--gb, 100%) - var(--ga, 0%));
   top: -125%;
   height: 490%;
-  background: linear-gradient(to top, transparent 0%, transparent 12%, rgb(255 255 255 / 0.35) 18%, transparent 24%, transparent 36%, rgb(255 255 255 / 0.9) 44%, rgb(255 255 255 / 0.9) 48%, transparent 56%, transparent 66%, rgb(255 255 255 / 0.5) 72%, transparent 78%, transparent 100%);
+  background: var(--light-gradient);
   background-size: 100% 50%;
   background-repeat: repeat-y;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
-  animation: inner-run-loop var(--gs, 11s) linear infinite;
-  animation-delay: var(--gd, 0s);
+  animation: inner-run-loop var(--light-period) linear infinite;
+  animation-delay: var(--light-phase);
   will-change: transform;
 }
 
@@ -128,7 +136,7 @@ body:has(.inner-main)::before { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .inner-run__light { display: none; }
+  .inner-run__light, .inner-branch__light { display: none; }
 }
 
 .inner-block {

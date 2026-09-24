@@ -73,3 +73,10 @@ export function timeStrands(list: Strand[]): TimedStrand[] {
     };
   });
 }
+
+/** The whole branch in white on the art window: the light's mask, so it aligns with the drawn strands. */
+export function maskSvg(list: TimedStrand[]): string {
+  const strokes = list.map((s) => `<polyline points="${s.points.map((p) => p.join(' ')).join(' ')}"/>`).join('');
+  const tips = list.flatMap((s) => s.tips.map((t) => `<path d="${t.d}"/>`)).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}"><g fill="none" stroke="#fff" stroke-width="4" stroke-miterlimit="10">${strokes}</g><g fill="#fff">${tips}</g></svg>`;
+}

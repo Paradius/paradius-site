@@ -52,7 +52,7 @@ const seatScript = [
   <main class="inner-main" id="main-content" data-mode={mode} data-rail-below={below} data-spine={spine} style={spine ? `--spine: ${spine}` : undefined}>
     <div class="inner-run" aria-hidden="true">
       <div class="inner-run__light">
-        <span class="inner-run__band" style="--ga: 0%; --gb: 100%; --gd: -6s; --gs: 20s"></span>
+        <span class="inner-run__band" style="--ga: 0%; --gb: 100%"></span>
       </div>
     </div>
     <slot />
@@ -93,7 +93,7 @@ const seatScript = [
         }
       }, 100);
       new PerformanceObserver((l) => l.getEntries().forEach((e) => w.long.push([Math.round(e.startTime - w.t0), Math.round(e.duration)]))).observe({ type: 'longtask' });
-      const css = { nomask: '.inner-run { mask-image: none !important; -webkit-mask-image: none !important; }', nowill: '.inner-run { will-change: auto !important; }', noheader: '.site-header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }', noafter: '.site-header::after { display: none !important; }', noanim: '.site-header::after { animation: none !important; opacity: 1 !important; }', notree: '.inner-run { display: none !important; }', noband: '.inner-run__light { display: none !important; }' }[variant];
+      const css = { nomask: '.inner-run { mask-image: none !important; -webkit-mask-image: none !important; }', nowill: '.inner-run { will-change: auto !important; }', noheader: '.site-header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }', noafter: '.site-header::after { display: none !important; }', noanim: '.site-header::after { animation: none !important; opacity: 1 !important; }', notree: '.inner-run { display: none !important; }', noband: '.inner-run__light, .inner-branch__light { display: none !important; }' }[variant];
       if (css) document.head.appendChild(Object.assign(document.createElement('style'), { textContent: css }));
       setInterval(() => console.info('WATCH variant=' + variant + ' freezes=' + w.freezes.length + ' wheel=' + w.wheel.length), 15000);
       console.info('watch armed', variant);

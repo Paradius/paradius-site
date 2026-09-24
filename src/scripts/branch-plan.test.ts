@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MAIN_SPAN, planBranch, timeStrands } from './branch-plan';
+import { MAIN_SPAN, VIEW_BOX, maskSvg, planBranch, timeStrands } from './branch-plan';
 
 const JUNIOR = `<?xml version="1.0" encoding="UTF-8"?>
 <svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1430 1360">
@@ -55,5 +55,17 @@ describe('timeStrands', () => {
     const before = JSON.stringify(strands);
     timeStrands(strands);
     expect(JSON.stringify(strands)).toBe(before);
+  });
+});
+
+describe('maskSvg', () => {
+  it('draws every strand and tip of the branch in white, whole, on the art window', () => {
+    const strands = timeStrands(planBranch(JUNIOR));
+    const svg = maskSvg(strands);
+    expect(svg).toContain(`viewBox="${VIEW_BOX}"`);
+    expect(svg.match(/<polyline /g)).toHaveLength(strands.length);
+    expect(svg.match(/<path /g)).toHaveLength(strands.reduce((n, s) => n + s.tips.length, 0));
+    expect(svg).toContain('stroke="#fff"');
+    expect(svg).not.toContain('dasharray');
   });
 });

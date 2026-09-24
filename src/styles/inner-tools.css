@@ -396,6 +396,41 @@
   transition: opacity 0.08s linear calc(var(--grow, 0.4s) * var(--at, 0));
 }
 
+/* The branch's light: the run's band, seated in page coordinates (--run-h and the branch's
+   offset --branch-d come from tree-run.ts), masked by the branch's own drawing. */
+.inner-branch__light {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s linear 0.6s;
+  -webkit-mask-image: var(--branch-mask);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: var(--branch-mask);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
+.inner-row:is(:hover, :focus-visible, .is-grown) .inner-branch__light,
+.inner-register--still .inner-row .inner-branch__light {
+  opacity: var(--branch-light, 0.6);
+}
+
+.inner-branch__band {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: calc(var(--run-h, 0px) * -1.25 - var(--branch-d, 0px));
+  height: calc(var(--run-h, 0px) * 4.9);
+  background: var(--light-gradient);
+  background-size: 100% 50%;
+  background-repeat: repeat-y;
+  animation: inner-run-loop var(--light-period) linear infinite;
+  animation-delay: var(--light-phase);
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .inner-branch__art :is(polyline, path),
   .inner-row:is(:hover, :focus-visible, .is-grown) .inner-branch__art :is(polyline, path) { transition: none; }
