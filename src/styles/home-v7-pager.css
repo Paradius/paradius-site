@@ -3,10 +3,6 @@
    ISOLATION CONTRACT: every rule here is scoped to touch; the pager is tuned
    HERE and only here. home-v7.css is desktop territory. */
 
-html:not([data-device="touch"]) .home-v7__tree-glow {
-  display: none;
-}
-
 /* Mobile re-decides the vertical rhythm WHOLESALE. Desktop tuning lives
    in inline --row-air-* vars on the markup, which no media query can
    override at the variable level; overriding the consuming PROPERTIES
@@ -120,8 +116,7 @@ html[data-device="touch"] .home-v7__row--cup .home-v7__text {
    screen at moment one, the trunk owns the width through the journey, the
    canopy arrives at the top. At poster size the traversal illusion dies.
    lvh, not dvh: the URL-bar collapse must never resize this layer live. */
-html[data-device="touch"] .home-v7__tree,
-html[data-device="touch"] .home-v7__tree-shimmer {
+html[data-device="touch"] .home-v7__tree {
   width: 576vw;
   height: 408lvh;
 }
@@ -135,16 +130,12 @@ html[data-device="touch"] .home-v7__tree {
   mask-size: 100% 100%;
 }
 
-/* Shimmer OFF on mobile (owner experiment, 09-03) */
-html[data-device="touch"] .home-v7__tree-shimmer {
-  display: none;
+/* The glow on the phone geometry. The ramp wrapper has no box here, so the
+   glow stays the fixed layer under .home-v7 that the pager moves. */
+html[data-device="touch"] .home-v7__glow-ramp {
+  display: contents;
 }
 
-/* Shimmer v2 (prototype): the parent holds ONE static tree mask, rastered
-   once; the traveling bands are children moved by transform, composited on
-   the GPU. The browser intersects band and silhouette for free because the
-   children render inside the masked parent: no mask-composite anywhere,
-   which is also what the Safari outside-the-tree bug fed on. */
 html[data-device="touch"] .home-v7__tree-glow {
   display: block;
   position: fixed;
@@ -693,17 +684,6 @@ html[data-device="touch"] .home-v7__cta {
   html[data-device="touch"] .home-v7__cup-grid {
     grid-template-columns: 1fr 1fr;
     gap: clamp(1rem, 3vw, 2rem);
-  }
-}
-
-/* The band is 3.5x the trunk height; a 35% self-translate sweeps the whole
-   layer. Rising, like the heartbeat the twins meant to be. */
-@keyframes home-v7-glow-rise {
-  from {
-    transform: translateY(35%);
-  }
-  to {
-    transform: translateY(-35%);
   }
 }
 

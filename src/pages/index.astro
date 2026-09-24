@@ -41,20 +41,14 @@ const traceWide = traceOf(lockupWide);
 
   <div class="home-v7">
     <div class="home-v7__tree" data-home-v7-tree aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s1" data-home-v7-tree-shimmer aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s2" data-home-v7-tree-shimmer aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s3" data-home-v7-tree-shimmer aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s4" data-home-v7-tree-shimmer aria-hidden="true"></div>
-    <div class="home-v7__tree-shimmer home-v7__tree-shimmer--s5" data-home-v7-tree-shimmer aria-hidden="true"></div>
-    <!-- Shimmer v2 prototype (mobile only): ONE static tree mask on the parent,
-         traveling bands as transform-animated children clipped by it. Hidden by
-         default; the mobile sheet turns it on. -->
-    <div class="home-v7__tree-glow" aria-hidden="true">
-      <span class="home-v7__glow-band" style="--ga: 42%; --gb: 58%; --gd: 0s; --gs: 10.3s"></span>
-      <span class="home-v7__glow-band" style="--ga: 30%; --gb: 48%; --gd: 1.4s; --gs: 13.7s"></span>
-      <span class="home-v7__glow-band" style="--ga: 52%; --gb: 70%; --gd: 2.6s; --gs: 8.9s"></span>
-      <span class="home-v7__glow-band" style="--ga: 24%; --gb: 44%; --gd: 4.1s; --gs: 15.1s"></span>
-      <span class="home-v7__glow-band" style="--ga: 56%; --gb: 76%; --gd: 5.3s; --gs: 11.9s"></span>
+    <div class="home-v7__glow-ramp" aria-hidden="true">
+      <div class="home-v7__tree-glow">
+        <span class="home-v7__glow-band" style="--ga: 42%; --gb: 58%; --gd: 0s; --gs: 14.7s"></span>
+        <span class="home-v7__glow-band" style="--ga: 30%; --gb: 48%; --gd: -1.4s; --gs: 19.6s"></span>
+        <span class="home-v7__glow-band" style="--ga: 52%; --gb: 70%; --gd: -2.6s; --gs: 12.7s"></span>
+        <span class="home-v7__glow-band" style="--ga: 24%; --gb: 44%; --gd: -4.1s; --gs: 21.6s"></span>
+        <span class="home-v7__glow-band" style="--ga: 56%; --gb: 76%; --gd: -5.3s; --gs: 17.0s"></span>
+      </div>
     </div>
 
     <main id="main-content" class="home-v7__main">
