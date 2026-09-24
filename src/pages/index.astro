@@ -7,6 +7,10 @@ import lockupNarrow from '../../public/assets/architecting_the_dawn_from_within_
 import lockupWide from '../../public/assets/architecting_the_dawn_from_within.svg?raw';
 import '../styles/home-v7.css';
 import '../styles/home-v7-pager.css';
+import '../styles/intro.css';
+import { INTRO_SEEN_KEY, shouldPlayIntro } from '../lib/intro/intro-gate';
+
+const introGateScript = `(function(){var play=false;try{play=(${shouldPlayIntro.toString()})({search:location.search,seen:localStorage.getItem('${INTRO_SEEN_KEY}'),reducedMotion:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches});}catch(e){play=false}document.documentElement.setAttribute('data-intro',play?'play':'skip');})();`;
 
 // The lockup is one compound path: reused as a stroke so a light can run it.
 const traceOf = (svg: string) => ({
@@ -21,6 +25,16 @@ const traceWide = traceOf(lockupWide);
 ---
 
 <BaseLayout seo={HOME_SEO}>
+  <script is:inline slot="head" set:html={introGateScript} />
+  <div class="intro" aria-hidden="true">
+    <div class="intro__texture"></div>
+    <div class="intro__glow intro__glow--bloom"><div class="intro__glow-ink"></div></div>
+    <div class="intro__glow intro__glow--body"><div class="intro__glow-ink"></div></div>
+    <div class="intro__glow intro__glow--rim"><div class="intro__glow-ink"></div></div>
+    <div class="intro__symbol"></div>
+    <div class="intro__white"></div>
+    <div class="intro__after"></div>
+  </div>
   <link
     slot="head"
     rel="preload"
@@ -387,5 +401,9 @@ const traceWide = traceOf(lockupWide);
 
   <Footer />
   <script src="../scripts/home-v7.ts"></script>
+  <script>
+    import { mountIntro } from '../scripts/intro';
+    mountIntro();
+  </script>
 </BaseLayout>
 

@@ -1,0 +1,225 @@
+/* == INTRO ===== the dawn: black, the symbol lit slowly from nothing, its light
+   spreading until the screen burns white, a cut to black, and the home fading in.
+   Plays once per browser (localStorage) or on ?intro=1; skipped by any gesture,
+   by ?intro=off and by reduced motion. One timeline: every layer animates for
+   --intro-total and places its beats in percentages, so one dial retimes the film.
+   All motion is transform and opacity on promoted layers; the tree texture and
+   the symbol are masks rastered once. */
+.intro {
+  --intro-k: 1;
+  --intro-total: calc(6s * var(--intro-k));
+  --intro-warm: 214 206 188;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #000;
+  contain: strict;
+  /* The reveal is a dissolve with a focus pull: the black thins while the page
+     behind it comes from out of focus to sharp. */
+  animation: intro-reveal var(--intro-total) linear forwards;
+}
+
+html:not([data-intro="play"]) .intro {
+  display: none;
+}
+
+.intro > * {
+  grid-area: 1 / 1;
+  animation-duration: var(--intro-total);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.intro__texture {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  /* Same framing as .home-v7__tree, so the texture is the tree that stays behind. */
+  -webkit-mask: url('/assets/circuit_tree_full.svg') center center / 100% 86% no-repeat;
+  mask: url('/assets/circuit_tree_full.svg') center center / 100% 86% no-repeat;
+  animation-name: intro-texture;
+}
+
+.intro__symbol,
+.intro__glow {
+  height: 80svh;
+  aspect-ratio: 364.41 / 774.56;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* The mask lives on the inner ink and the blur on the wrapper: a mask applied
+   to the blurred element itself clips the blur back to the silhouette. */
+.intro__symbol,
+.intro__glow-ink {
+  background: #fff;
+  -webkit-mask: url('/assets/paradius_logo.svg') center / contain no-repeat;
+  mask: url('/assets/paradius_logo.svg') center / contain no-repeat;
+}
+
+.intro__glow-ink {
+  width: 100%;
+  height: 100%;
+}
+
+.intro__symbol {
+  transform: scale(0.98);
+  animation-name: intro-symbol;
+}
+
+/* The radiance is the symbol itself, blurred at three radii like the clones'
+   shadow stack: a tight rim, a body of light, and a wide bloom that spreads
+   the symbol's shape across the screen. */
+.intro__glow--rim {
+  filter: blur(18px);
+  animation-name: intro-glow-rim;
+}
+
+.intro__glow--body {
+  filter: blur(70px);
+  animation-name: intro-glow-body;
+}
+
+.intro__glow--bloom {
+  filter: blur(160px);
+  animation-name: intro-glow-bloom;
+}
+
+.intro__white {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  will-change: opacity;
+  animation-name: intro-white;
+}
+
+/* Afterimage: the white implodes to black at the centre first and lingers for
+   an instant at the edges, the way a flash does on the retina. */
+.intro__after {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, transparent 0 38%, rgb(255 255 255 / 0.55) 75%, rgb(255 255 255 / 0.9) 100%);
+  opacity: 0;
+  will-change: opacity;
+  animation-name: intro-after;
+}
+
+/* A gesture cuts straight to black and lets the home in. */
+.intro--skip > * {
+  animation: none;
+}
+
+.intro--skip {
+  animation: intro-reveal-skip 0.3s ease-out forwards;
+}
+
+/* Beats (of --intro-total): 0-35% the symbol is lit; 35-68% the light spreads
+   and the screen burns; 68-72.5% white held; a one-frame cut to black at 72.5%;
+   black until 85%; 85-100% the black dissolves while the home pulls into focus. */
+@keyframes intro-symbol {
+  0% { opacity: 0; transform: scale(0.98); }
+  35% { opacity: 0.85; transform: scale(1); }
+  68% { opacity: 1; transform: scale(1.02); }
+  72.5% { opacity: 1; }
+  72.6%, 100% { opacity: 0; }
+}
+
+@keyframes intro-glow-rim {
+  0% { opacity: 0; transform: scale(1); }
+  35% { opacity: 0.5; transform: scale(1.01); }
+  68% { opacity: 1; transform: scale(1.06); }
+  72.5% { opacity: 1; }
+  72.6%, 100% { opacity: 0; }
+}
+
+@keyframes intro-glow-body {
+  0% { opacity: 0; transform: scale(1); }
+  35% { opacity: 0.3; transform: scale(1.05); }
+  68% { opacity: 1; transform: scale(1.35); }
+  72.5% { opacity: 1; }
+  72.6%, 100% { opacity: 0; }
+}
+
+@keyframes intro-glow-bloom {
+  0% { opacity: 0; transform: scale(1); }
+  35% { opacity: 0.15; transform: scale(1.2); }
+  68% { opacity: 1; transform: scale(2.6); }
+  72.5% { opacity: 1; }
+  72.6%, 100% { opacity: 0; }
+}
+
+@keyframes intro-texture {
+  0% { opacity: 0; }
+  40% { opacity: 0.07; }
+  68% { opacity: 0.2; }
+  72.5% { opacity: 0.2; }
+  72.6%, 100% { opacity: 0; }
+}
+
+@keyframes intro-white {
+  0%, 40% { opacity: 0; }
+  52% { opacity: 0.12; }
+  60% { opacity: 0.4; }
+  68% { opacity: 1; }
+  72.5% { opacity: 1; }
+  72.6%, 100% { opacity: 0; }
+}
+
+/* The backdrop blur exists from the first frame, hidden behind the opaque black:
+   creating it mid-film cost a 38ms frame. Dropping it costs one ~90ms frame,
+   which is why the engine removes the layer only once the page is at rest. */
+@keyframes intro-after {
+  0%, 72.5% { opacity: 0; }
+  72.6% { opacity: 1; }
+  74% { opacity: 0.55; }
+  76.5% { opacity: 0.22; }
+  81%, 100% { opacity: 0; }
+}
+
+@keyframes intro-reveal {
+  0%, 85% { opacity: 1; backdrop-filter: blur(48px); }
+  91% { opacity: 0.8; backdrop-filter: blur(36px); }
+  96% { opacity: 0.35; backdrop-filter: blur(14px); }
+  100% { opacity: 0; backdrop-filter: blur(0); }
+}
+
+.intro--done {
+  pointer-events: none;
+}
+
+@keyframes intro-reveal-skip {
+  to { opacity: 0; }
+}
+
+/* The hero waits: the world comes into focus first, then the words and the
+   buttons emerge with the same dissolve. Children only, so the settle engine's
+   own opacity and filter on the clip are never contested. */
+html[data-intro="play"] .home-v7__hero-inner > *,
+html[data-intro="done"] .home-v7__hero-inner > * {
+  /* Own layers while the blur runs: without them every frame re-rasters the
+     glow clones, and dropping the filter at the end cost a 138ms frame. The
+     engine releases them once the page is at rest (data-intro="settled"). */
+  will-change: filter, opacity;
+}
+
+html[data-intro="play"] .home-v7__hero-inner > * {
+  opacity: 0;
+  filter: blur(28px);
+}
+
+html[data-intro="done"] .home-v7__hero-inner > * {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity 1.6s ease-out 0.3s,
+    filter 1.6s ease-out 0.3s;
+}
+
+html[data-device="touch"] .intro {
+  --intro-k: 0.8;
+}
