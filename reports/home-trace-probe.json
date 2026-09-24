@@ -1,0 +1,991 @@
+{
+ "summary": {
+  "mainThread": "CrRendererMain",
+  "longTasks": 43,
+  "longTasksMs": 1571,
+  "withMovingToggle": 18,
+  "withNearToggle": 0,
+  "byPhase": {
+   "pre": 0,
+   "down-fast": 19,
+   "up-medium": 7,
+   "down-slow": 17
+  },
+  "breakdownMsAcrossLongTasks": {
+   "FunctionCall": 997.9,
+   "UpdateLayoutTree": 185.5,
+   "Commit": 210.9,
+   "HitTest": 3.3,
+   "MajorGC": 172.2,
+   "PrePaint": 3.5,
+   "Paint": 0.7
+  },
+  "rasterMsTotal": 1913,
+  "events": 1166887
+ },
+ "rows": [
+  {
+   "t": 553,
+   "phase": "down-fast",
+   "ts": 367670408274,
+   "end": 367670459865,
+   "dur": 51.6,
+   "top": [
+    "FunctionCall 45.4",
+    "UpdateLayoutTree 4.8",
+    "Commit 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 46.7,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 45.4"
+   ],
+   "other": {
+    "FireAnimationFrame": 45.4,
+    "ScrollLayer": 45.2
+   }
+  },
+  {
+   "t": 1074,
+   "phase": "down-fast",
+   "ts": 367670929085,
+   "end": 367670968533,
+   "dur": 39.4,
+   "top": [
+    "Commit 34.1",
+    "UpdateLayoutTree 4.3",
+    "FunctionCall 0.3",
+    "HitTest 0.2"
+   ],
+   "rasterMs": 38.9,
+   "toggles": [
+    "moving-#1"
+   ],
+   "fns": [],
+   "other": {}
+  },
+  {
+   "t": 1261,
+   "phase": "down-fast",
+   "ts": 367671116260,
+   "end": 367671152855,
+   "dur": 36.6,
+   "top": [
+    "UpdateLayoutTree 35.0",
+    "MajorGC 30.6",
+    "Commit 0.5",
+    "FunctionCall 0.1"
+   ],
+   "rasterMs": 0,
+   "toggles": [],
+   "fns": [],
+   "other": {
+    "V8.GC_MARK_COMPACTOR": 30.5,
+    "V8.GC_MC_MARK": 26.6,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 25.9,
+    "V8.GCMarkTransitiveClosureFixpoint": 24.8,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 24.8,
+    "V8.GCReachTransitiveClosureWithEmbedder": 24.8,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 24.7
+   }
+  },
+  {
+   "t": 1324,
+   "phase": "down-fast",
+   "ts": 367671179646,
+   "end": 367671219030,
+   "dur": 39.4,
+   "top": [
+    "Commit 34.2",
+    "UpdateLayoutTree 4.5",
+    "FunctionCall 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 38.7,
+   "toggles": [],
+   "fns": [],
+   "other": {}
+  },
+  {
+   "t": 1859,
+   "phase": "down-fast",
+   "ts": 367671714140,
+   "end": 367671745918,
+   "dur": 31.8,
+   "top": [
+    "FunctionCall 26.1",
+    "UpdateLayoutTree 4.7",
+    "Commit 0.2",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 30.4,
+   "toggles": [
+    "moving-#2"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 26.1"
+   ],
+   "other": {
+    "FireAnimationFrame": 26.1,
+    "ScrollLayer": 25.9
+   }
+  },
+  {
+   "t": 2261,
+   "phase": "down-fast",
+   "ts": 367672116397,
+   "end": 367672136494,
+   "dur": 20.1,
+   "top": [
+    "FunctionCall 13.9",
+    "UpdateLayoutTree 4.9",
+    "Paint 0.2",
+    "HitTest 0.2"
+   ],
+   "rasterMs": 18.9,
+   "toggles": [
+    "moving+#4"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 13.8"
+   ],
+   "other": {
+    "FireAnimationFrame": 14,
+    "ScrollLayer": 13.5
+   }
+  },
+  {
+   "t": 2576,
+   "phase": "down-fast",
+   "ts": 367672431222,
+   "end": 367672463115,
+   "dur": 31.9,
+   "top": [
+    "FunctionCall 24.7",
+    "UpdateLayoutTree 5.6",
+    "Commit 0.5",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 31.7,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 24.7"
+   ],
+   "other": {
+    "FireAnimationFrame": 24.8,
+    "ScrollLayer": 24.5
+   }
+  },
+  {
+   "t": 3100,
+   "phase": "down-fast",
+   "ts": 367672955270,
+   "end": 367672992668,
+   "dur": 37.4,
+   "top": [
+    "FunctionCall 32.1",
+    "UpdateLayoutTree 4.5",
+    "PrePaint 0.4",
+    "Commit 0.2"
+   ],
+   "rasterMs": 37.1,
+   "toggles": [
+    "moving-#4"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 32.1"
+   ],
+   "other": {
+    "FireAnimationFrame": 32.2,
+    "ScrollLayer": 31.9
+   }
+  },
+  {
+   "t": 3436,
+   "phase": "down-fast",
+   "ts": 367673291202,
+   "end": 367673324551,
+   "dur": 33.3,
+   "top": [
+    "FunctionCall 28.0",
+    "UpdateLayoutTree 4.1",
+    "HitTest 0.4",
+    "Commit 0.2"
+   ],
+   "rasterMs": 31.6,
+   "toggles": [
+    "moving+#3"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 28.0"
+   ],
+   "other": {
+    "FireAnimationFrame": 28,
+    "ScrollLayer": 27.7
+   }
+  },
+  {
+   "t": 4261,
+   "phase": "down-fast",
+   "ts": 367674116369,
+   "end": 367674147434,
+   "dur": 31.1,
+   "top": [
+    "FunctionCall 24.6",
+    "UpdateLayoutTree 5.2",
+    "Commit 0.3",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 34.5,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 24.6"
+   ],
+   "other": {
+    "FireAnimationFrame": 24.6,
+    "ScrollLayer": 24.4
+   }
+  },
+  {
+   "t": 4794,
+   "phase": "down-fast",
+   "ts": 367674649723,
+   "end": 367674689476,
+   "dur": 39.8,
+   "top": [
+    "FunctionCall 32.9",
+    "UpdateLayoutTree 5.5",
+    "Commit 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 40.1,
+   "toggles": [
+    "moving-#7"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 32.9"
+   ],
+   "other": {
+    "FireAnimationFrame": 32.9,
+    "ScrollLayer": 32.6
+   }
+  },
+  {
+   "t": 5330,
+   "phase": "down-fast",
+   "ts": 367675185017,
+   "end": 367675215510,
+   "dur": 30.5,
+   "top": [
+    "FunctionCall 24.8",
+    "UpdateLayoutTree 4.6",
+    "Commit 0.2",
+    "Paint 0.1"
+   ],
+   "rasterMs": 34.6,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 24.8"
+   ],
+   "other": {
+    "FireAnimationFrame": 24.8,
+    "ScrollLayer": 24.5
+   }
+  },
+  {
+   "t": 5875,
+   "phase": "down-fast",
+   "ts": 367675729821,
+   "end": 367675751035,
+   "dur": 21.2,
+   "top": [
+    "FunctionCall 15.7",
+    "UpdateLayoutTree 4.3",
+    "Paint 0.2",
+    "Commit 0.2"
+   ],
+   "rasterMs": 31.6,
+   "toggles": [
+    "moving-#9"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 15.7"
+   ],
+   "other": {
+    "FireAnimationFrame": 15.7,
+    "ScrollLayer": 15.3
+   }
+  },
+  {
+   "t": 6676,
+   "phase": "down-fast",
+   "ts": 367676530933,
+   "end": 367676557771,
+   "dur": 26.8,
+   "top": [
+    "FunctionCall 24.3",
+    "UpdateLayoutTree 1.5",
+    "Commit 0.2",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 30.1,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 24.3"
+   ],
+   "other": {
+    "FireAnimationFrame": 24.3,
+    "ScrollLayer": 24
+   }
+  },
+  {
+   "t": 6878,
+   "phase": "down-fast",
+   "ts": 367676732992,
+   "end": 367676780841,
+   "dur": 47.8,
+   "top": [
+    "FunctionCall 40.5",
+    "UpdateLayoutTree 6.0",
+    "Commit 0.2",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 45,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 40.5"
+   ],
+   "other": {
+    "FireAnimationFrame": 40.5,
+    "ScrollLayer": 40.3
+   }
+  },
+  {
+   "t": 7205,
+   "phase": "down-fast",
+   "ts": 367677060701,
+   "end": 367677095949,
+   "dur": 35.2,
+   "top": [
+    "Commit 28.8",
+    "UpdateLayoutTree 5.4",
+    "FunctionCall 0.2",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 34,
+   "toggles": [
+    "moving-#11"
+   ],
+   "fns": [],
+   "other": {}
+  },
+  {
+   "t": 7400,
+   "phase": "down-fast",
+   "ts": 367677255715,
+   "end": 367677301548,
+   "dur": 45.8,
+   "top": [
+    "Commit 44.4",
+    "UpdateLayoutTree 0.6",
+    "FunctionCall 0.2",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 44.9,
+   "toggles": [
+    "moving-#12"
+   ],
+   "fns": [],
+   "other": {}
+  },
+  {
+   "t": 7589,
+   "phase": "down-fast",
+   "ts": 367677444350,
+   "end": 367677509693,
+   "dur": 65.3,
+   "top": [
+    "FunctionCall 63.1",
+    "UpdateLayoutTree 1.1",
+    "Commit 0.2",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 67.3,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 63.1"
+   ],
+   "other": {
+    "FireAnimationFrame": 63.1,
+    "ScrollLayer": 62.9
+   }
+  },
+  {
+   "t": 8113,
+   "phase": "down-fast",
+   "ts": 367677968471,
+   "end": 367678029718,
+   "dur": 61.2,
+   "top": [
+    "Commit 56.0",
+    "UpdateLayoutTree 4.3",
+    "PrePaint 0.2",
+    "FunctionCall 0.2"
+   ],
+   "rasterMs": 60.4,
+   "toggles": [
+    "moving+#15",
+    "moving-#13",
+    "moving-#14"
+   ],
+   "fns": [],
+   "other": {}
+  },
+  {
+   "t": 12203,
+   "phase": "up-medium",
+   "ts": 367682058051,
+   "end": 367682098871,
+   "dur": 40.8,
+   "top": [
+    "FunctionCall 35.0",
+    "UpdateLayoutTree 5.0",
+    "Commit 0.1",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 38.3,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 35.0"
+   ],
+   "other": {
+    "FireAnimationFrame": 35,
+    "ScrollLayer": 34.7
+   }
+  },
+  {
+   "t": 13096,
+   "phase": "up-medium",
+   "ts": 367682951420,
+   "end": 367682982377,
+   "dur": 31,
+   "top": [
+    "FunctionCall 29.5",
+    "UpdateLayoutTree 0.7",
+    "Commit 0.1",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 33.9,
+   "toggles": [
+    "moving+#9"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 29.5"
+   ],
+   "other": {
+    "FireAnimationFrame": 29.5,
+    "ScrollLayer": 29.3
+   }
+  },
+  {
+   "t": 14111,
+   "phase": "up-medium",
+   "ts": 367683966409,
+   "end": 367683997417,
+   "dur": 31,
+   "top": [
+    "FunctionCall 19.2",
+    "Commit 6.0",
+    "UpdateLayoutTree 4.9",
+    "PrePaint 0.1"
+   ],
+   "rasterMs": 36.8,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 19.2"
+   ],
+   "other": {
+    "FireAnimationFrame": 19.2,
+    "ScrollLayer": 18.8
+   }
+  },
+  {
+   "t": 14851,
+   "phase": "up-medium",
+   "ts": 367684706327,
+   "end": 367684732121,
+   "dur": 25.8,
+   "top": [
+    "FunctionCall 19.2",
+    "UpdateLayoutTree 5.6",
+    "PrePaint 0.1",
+    "Commit 0.1"
+   ],
+   "rasterMs": 31.8,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 19.2"
+   ],
+   "other": {
+    "FireAnimationFrame": 19.2,
+    "ScrollLayer": 18.9
+   }
+  },
+  {
+   "t": 15159,
+   "phase": "up-medium",
+   "ts": 367685014261,
+   "end": 367685035694,
+   "dur": 21.4,
+   "top": [
+    "FunctionCall 16.0",
+    "UpdateLayoutTree 4.4",
+    "Commit 0.2",
+    "HitTest 0.2"
+   ],
+   "rasterMs": 20.8,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 16.0"
+   ],
+   "other": {
+    "FireAnimationFrame": 16,
+    "ScrollLayer": 15.8
+   }
+  },
+  {
+   "t": 16067,
+   "phase": "up-medium",
+   "ts": 367685921841,
+   "end": 367685943280,
+   "dur": 21.4,
+   "top": [
+    "FunctionCall 15.5",
+    "UpdateLayoutTree 4.9",
+    "Commit 0.3",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 35.6,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 15.5"
+   ],
+   "other": {
+    "FireAnimationFrame": 15.5,
+    "ScrollLayer": 15.2
+   }
+  },
+  {
+   "t": 16880,
+   "phase": "up-medium",
+   "ts": 367686735515,
+   "end": 367686797213,
+   "dur": 61.7,
+   "top": [
+    "MajorGC 61.6"
+   ],
+   "rasterMs": 0,
+   "toggles": [],
+   "fns": [],
+   "other": {
+    "V8.GC_MARK_COMPACTOR": 61.3,
+    "V8.GC_MC_MARK": 53.4,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 53.3,
+    "V8.GCMarkTransitiveClosureFixpoint": 53.2,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 53.2,
+    "V8.GCReachTransitiveClosureWithEmbedder": 53.2,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 53.2
+   }
+  },
+  {
+   "t": 17328,
+   "phase": "down-slow",
+   "ts": 367687183066,
+   "end": 367687208799,
+   "dur": 25.7,
+   "top": [
+    "FunctionCall 19.2",
+    "UpdateLayoutTree 5.3",
+    "Commit 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 21,
+   "toggles": [
+    "moving+#2"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 19.2"
+   ],
+   "other": {
+    "FireAnimationFrame": 19.2,
+    "ScrollLayer": 19
+   }
+  },
+  {
+   "t": 17741,
+   "phase": "down-slow",
+   "ts": 367687596453,
+   "end": 367687626339,
+   "dur": 29.9,
+   "top": [
+    "FunctionCall 27.9",
+    "UpdateLayoutTree 0.9",
+    "Commit 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 33.7,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 27.9"
+   ],
+   "other": {
+    "FireAnimationFrame": 27.9,
+    "ScrollLayer": 27.7
+   }
+  },
+  {
+   "t": 18109,
+   "phase": "down-slow",
+   "ts": 367687964563,
+   "end": 367687995210,
+   "dur": 30.6,
+   "top": [
+    "FunctionCall 24.4",
+    "UpdateLayoutTree 5.6",
+    "Commit 0.2",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 31.9,
+   "toggles": [
+    "moving-#4"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 24.4"
+   ],
+   "other": {
+    "FireAnimationFrame": 24.4,
+    "ScrollLayer": 24.1
+   }
+  },
+  {
+   "t": 18532,
+   "phase": "down-slow",
+   "ts": 367688387500,
+   "end": 367688430386,
+   "dur": 42.9,
+   "top": [
+    "FunctionCall 37.2",
+    "UpdateLayoutTree 4.2",
+    "Commit 0.5",
+    "HitTest 0.4"
+   ],
+   "rasterMs": 39.8,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 37.2"
+   ],
+   "other": {
+    "FireAnimationFrame": 37.2,
+    "ScrollLayer": 37
+   }
+  },
+  {
+   "t": 19540,
+   "phase": "down-slow",
+   "ts": 367689395585,
+   "end": 367689439386,
+   "dur": 43.8,
+   "top": [
+    "FunctionCall 37.0",
+    "UpdateLayoutTree 5.1",
+    "Commit 0.5",
+    "HitTest 0.4"
+   ],
+   "rasterMs": 39,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 37.0"
+   ],
+   "other": {
+    "FireAnimationFrame": 37,
+    "ScrollLayer": 36.7
+   }
+  },
+  {
+   "t": 20203,
+   "phase": "down-slow",
+   "ts": 367690058177,
+   "end": 367690089998,
+   "dur": 31.8,
+   "top": [
+    "FunctionCall 25.9",
+    "UpdateLayoutTree 4.4",
+    "HitTest 0.3",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 32.4,
+   "toggles": [
+    "moving-#7"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 25.9"
+   ],
+   "other": {
+    "FireAnimationFrame": 26,
+    "ScrollLayer": 25.7
+   }
+  },
+  {
+   "t": 20203,
+   "phase": "down-slow",
+   "ts": 367690058441,
+   "end": 367690089983,
+   "dur": 31.5,
+   "top": [
+    "FunctionCall 25.9",
+    "UpdateLayoutTree 4.4",
+    "HitTest 0.3",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 32.4,
+   "toggles": [
+    "moving-#7"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 25.9"
+   ],
+   "other": {
+    "FireAnimationFrame": 26,
+    "ScrollLayer": 25.7
+   }
+  },
+  {
+   "t": 20406,
+   "phase": "down-slow",
+   "ts": 367690261506,
+   "end": 367690293028,
+   "dur": 31.5,
+   "top": [
+    "MajorGC 31.4"
+   ],
+   "rasterMs": 0,
+   "toggles": [],
+   "fns": [],
+   "other": {
+    "V8.GC_MARK_COMPACTOR": 31.2,
+    "V8.GC_MC_MARK": 24.3,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 24.2,
+    "V8.GCMarkTransitiveClosureFixpoint": 23.6,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 23.6,
+    "V8.GCReachTransitiveClosureWithEmbedder": 23.6,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 23.5
+   }
+  },
+  {
+   "t": 20888,
+   "phase": "down-slow",
+   "ts": 367690743127,
+   "end": 367690773440,
+   "dur": 30.3,
+   "top": [
+    "FunctionCall 28.5",
+    "UpdateLayoutTree 0.9",
+    "Commit 0.1",
+    "HitTest 0.1"
+   ],
+   "rasterMs": 35.9,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 28.5"
+   ],
+   "other": {
+    "FireAnimationFrame": 28.6,
+    "ScrollLayer": 28.2
+   }
+  },
+  {
+   "t": 21592,
+   "phase": "down-slow",
+   "ts": 367691447736,
+   "end": 367691478166,
+   "dur": 30.4,
+   "top": [
+    "FunctionCall 29.0",
+    "UpdateLayoutTree 0.6",
+    "Paint 0.2",
+    "Commit 0.2"
+   ],
+   "rasterMs": 33.3,
+   "toggles": [
+    "moving-#9"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 29.0"
+   ],
+   "other": {
+    "FireAnimationFrame": 29,
+    "ScrollLayer": 28.8
+   }
+  },
+  {
+   "t": 22628,
+   "phase": "down-slow",
+   "ts": 367692483063,
+   "end": 367692520189,
+   "dur": 37.1,
+   "top": [
+    "FunctionCall 30.8",
+    "UpdateLayoutTree 5.1",
+    "Commit 0.2",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 35.3,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 30.8"
+   ],
+   "other": {
+    "FireAnimationFrame": 30.8,
+    "ScrollLayer": 30.3
+   }
+  },
+  {
+   "t": 22901,
+   "phase": "down-slow",
+   "ts": 367692756334,
+   "end": 367692801079,
+   "dur": 44.7,
+   "top": [
+    "FunctionCall 42.6",
+    "UpdateLayoutTree 1.2",
+    "PrePaint 0.2",
+    "Commit 0.2"
+   ],
+   "rasterMs": 46.6,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 42.6"
+   ],
+   "other": {
+    "FireAnimationFrame": 42.6,
+    "ScrollLayer": 42.4
+   }
+  },
+  {
+   "t": 23102,
+   "phase": "down-slow",
+   "ts": 367692957766,
+   "end": 367692984200,
+   "dur": 26.4,
+   "top": [
+    "MajorGC 26.4"
+   ],
+   "rasterMs": 0,
+   "toggles": [],
+   "fns": [],
+   "other": {
+    "V8.GC_MARK_COMPACTOR": 26.2,
+    "V8.GC_MC_MARK": 20.5,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 20.4,
+    "V8.GCMarkTransitiveClosureFixpoint": 20.4,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 20.3,
+    "V8.GCReachTransitiveClosureWithEmbedder": 20.3,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 20.3
+   }
+  },
+  {
+   "t": 23588,
+   "phase": "down-slow",
+   "ts": 367693442893,
+   "end": 367693479512,
+   "dur": 36.6,
+   "top": [
+    "FunctionCall 34.4",
+    "UpdateLayoutTree 1.0",
+    "Commit 0.5",
+    "HitTest 0.2"
+   ],
+   "rasterMs": 40.6,
+   "toggles": [
+    "moving-#12"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 34.4"
+   ],
+   "other": {
+    "FireAnimationFrame": 34.4,
+    "ScrollLayer": 34.2
+   }
+  },
+  {
+   "t": 23836,
+   "phase": "down-slow",
+   "ts": 367693691492,
+   "end": 367693759092,
+   "dur": 67.6,
+   "top": [
+    "FunctionCall 60.8",
+    "UpdateLayoutTree 5.5",
+    "Commit 0.2",
+    "PrePaint 0.2"
+   ],
+   "rasterMs": 62.9,
+   "toggles": [],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 60.8"
+   ],
+   "other": {
+    "FireAnimationFrame": 60.8,
+    "ScrollLayer": 60.7
+   }
+  },
+  {
+   "t": 24520,
+   "phase": "down-slow",
+   "ts": 367694374970,
+   "end": 367694423944,
+   "dur": 49,
+   "top": [
+    "FunctionCall 42.6",
+    "UpdateLayoutTree 4.9",
+    "Commit 0.3",
+    "PrePaint 0.3"
+   ],
+   "rasterMs": 45.5,
+   "toggles": [
+    "moving-#13",
+    "moving-#14"
+   ],
+   "fns": [
+    "W@index.astro_astro_type_script_index_0_lang.CTuZQhEg.js:1 42.6"
+   ],
+   "other": {
+    "FireAnimationFrame": 42.9,
+    "ScrollLayer": 42.1
+   }
+  },
+  {
+   "t": 26838,
+   "phase": "down-slow",
+   "ts": 367696693807,
+   "end": 367696716039,
+   "dur": 22.2,
+   "top": [
+    "MajorGC 22.2"
+   ],
+   "rasterMs": 0,
+   "toggles": [],
+   "fns": [],
+   "other": {
+    "V8.GC_MARK_COMPACTOR": 22,
+    "V8.GC_MC_MARK": 17.3,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 17.2,
+    "V8.GCMarkTransitiveClosureFixpoint": 17.2,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 17.2,
+    "V8.GCReachTransitiveClosureWithEmbedder": 17.2,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 17.1
+   }
+  }
+ ]
+}
