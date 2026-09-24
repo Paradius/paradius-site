@@ -12,6 +12,11 @@
 export const SETTLE_ENTRY_START = 0;
 /** Fully emerged when the leading (bottom) edge reaches this fraction of viewport. */
 export const SETTLE_ENTRY_END = 0.5;
+/** Leaving in reverse, gone once the leading edge rises to this fraction: shorter
+ *  than the entry, so the departing block never stacks on the neighbour below. */
+export const SETTLE_EXIT_END = 0.25;
+
+export type SettleWindow = 'entry' | 'exit';
 /** Near the canopy, remaining blocks RAMP to completion as scroll approaches 0. */
 export const CANOPY_RAMP = 0.3;
 
@@ -44,13 +49,14 @@ export function smoothstep(t: number): number {
 
 /**
  * Build progress for a block whose visual box spans [top, bottom] in
- * viewport px. 0 = not entered, 1 = fully built.
+ * viewport px. 0 = not entered, 1 = fully built. The exit window is the
+ * shorter path a block follows while leaving in reverse.
  */
-export function settleProgress(env: LifecycleEnv, top: number, bottom: number): number {
+export function settleProgress(env: LifecycleEnv, top: number, bottom: number, window: SettleWindow = 'entry'): number {
   if (bottom <= 0) return 0;
   if (top >= env.viewportH) return 1;
 
-  const start = env.viewportH * SETTLE_ENTRY_START;
+  const start = env.viewportH * (window === 'exit' ? SETTLE_EXIT_END : SETTLE_ENTRY_START);
   const end = env.viewportH * SETTLE_ENTRY_END;
   let t = smoothstep((bottom - start) / (end - start));
 
@@ -61,6 +67,17 @@ export function settleProgress(env: LifecycleEnv, top: number, bottom: number): 
   }
 
   return clamp(t, 0, 1);
+}
+
+/**
+ * The window a block follows. It switches only where both windows agree
+ * (built: leading edge past the entry end; gone: leading edge above the top
+ * edge), so a reversal mid-build never jumps.
+ */
+export function settleWindow(prev: SettleWindow, bottom: number, viewportH: number, reverse: boolean): SettleWindow {
+  if (bottom >= viewportH * SETTLE_ENTRY_END) return reverse ? 'exit' : 'entry';
+  if (bottom <= 0) return 'entry';
+  return prev;
 }
 
 /** Funnel-exit progress: 0 = still parked/reading, 1 = fully departed.

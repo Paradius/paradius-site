@@ -5,11 +5,13 @@ import {
   FUNNEL_EXIT_END,
   FUNNEL_EXIT_START,
   SETTLE_ENTRY_END,
+  SETTLE_EXIT_END,
   dampingFactor,
   exitProgress,
   journeyOf,
   quantize,
   settleProgress,
+  settleWindow,
   captureBoxAnchor,
   nearestPageIndex,
   restoreBoxAnchor,
@@ -47,6 +49,40 @@ describe('settleProgress', () => {
     const hijacked = { viewportH: VH, current: 0, hijack: true };
     expect(settleProgress(hijacked, 100, 120)).toBe(1);
     expect(settleProgress(native, 100, 120)).toBeLessThan(0.2);
+  });
+});
+
+describe('settleProgress on the exit window', () => {
+  it('is fully built at the entry end line, same as the entry window', () => {
+    const bottom = VH * SETTLE_ENTRY_END;
+    expect(settleProgress(midJourney, bottom - 300, bottom, 'exit')).toBe(1);
+  });
+
+  it('is gone once the leading edge rises to the exit end line', () => {
+    const bottom = VH * SETTLE_EXIT_END;
+    expect(settleProgress(midJourney, bottom - 300, bottom, 'exit')).toBe(0);
+  });
+
+  it('is halfway at the middle of the exit window, where the entry window is still mostly built', () => {
+    const bottom = (VH * (SETTLE_ENTRY_END + SETTLE_EXIT_END)) / 2;
+    expect(settleProgress(midJourney, bottom - 300, bottom, 'exit')).toBeCloseTo(0.5, 5);
+    expect(settleProgress(midJourney, bottom - 300, bottom)).toBeGreaterThan(0.8);
+  });
+});
+
+describe('settleWindow', () => {
+  it('latches the exit window only when the block is built and travel is reverse', () => {
+    expect(settleWindow('entry', VH * SETTLE_ENTRY_END, VH, true)).toBe('exit');
+    expect(settleWindow('entry', VH * SETTLE_ENTRY_END, VH, false)).toBe('entry');
+  });
+
+  it('keeps the current window mid-build whatever the direction', () => {
+    expect(settleWindow('exit', VH * 0.4, VH, false)).toBe('exit');
+    expect(settleWindow('entry', VH * 0.4, VH, true)).toBe('entry');
+  });
+
+  it('returns to the entry window once the block is gone above the top edge', () => {
+    expect(settleWindow('exit', 0, VH, true)).toBe('entry');
   });
 });
 

@@ -857,6 +857,7 @@ body:has(.home-v7) .site-header {
                           flow cancels the ascent and the birth reads as a
                           horizontal wipe.
      --exit-pull          extra downward travel while funnel-exiting
+     --pull-y (--leaving) the lighter pull while a block leaves in reverse
      --scale-pull         collapsed shrink (anchored at the spine-bottom
                           corner via transform-origin below)
      --fade-delay         build fraction where opacity starts rising
@@ -889,6 +890,12 @@ body:has(.home-v7) .site-header {
 .home-v7__clip--center {
   --sign: 0;
   transform-origin: center bottom;
+}
+
+/* Leaving in reverse: a lighter downward pull, so the departing block never
+   rides over the neighbour still built below it. */
+.home-v7__clip--leaving {
+  --pull-y: 40vh;
 }
 
 .home-v7__clip--live {

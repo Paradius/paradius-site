@@ -9,6 +9,7 @@ import {
   type Box,
   type BoxAnchor,
   type LifecycleEnv,
+  type SettleWindow,
   captureBoxAnchor,
   clamp,
   dampingFactor,
@@ -17,6 +18,7 @@ import {
   quantize,
   restoreBoxAnchor,
   settleProgress,
+  settleWindow,
 } from './home-v7-math';
 import type { HomeEngine } from './home-v7-reflow';
 
@@ -42,12 +44,15 @@ interface RevealTarget {
   /** Document-space geometry: visual top/bottom = doc value - scrollY. */
   docTop: number;
   docBottom: number;
+  /** Latched by settleWindow at rest; never switched mid-build. */
+  window: SettleWindow;
   /* Last written values, for dirty-checking the style writes. */
   lastSettle: string;
   lastSettleQ: string;
   lastExit: string;
   lastMoving: boolean;
   lastNear: boolean;
+  lastLeaving: boolean;
 }
 
 let target = 0;
@@ -124,11 +129,13 @@ function collectReveals(): void {
       el,
       docTop: 0,
       docBottom: 0,
+      window: 'entry',
       lastSettle: '',
       lastSettleQ: '',
       lastExit: '',
       lastMoving: false,
       lastNear: false,
+      lastLeaving: false,
     });
     el.classList.add('home-v7__clip--live');
   });
@@ -246,6 +253,11 @@ function applySettle(item: RevealTarget, t: number, exit: number): void {
     item.lastExit = exitOut;
     item.el.style.setProperty('--exit', exitOut);
   }
+  const leaving = item.window === 'exit';
+  if (leaving !== item.lastLeaving) {
+    item.lastLeaving = leaving;
+    item.el.classList.toggle('home-v7__clip--leaving', leaving);
+  }
   writeMoving(item, build > 0 && (build < 1 || exit > 0));
 }
 
@@ -273,12 +285,14 @@ function writeNear(item: RevealTarget, index: number, top: number, bottom: numbe
 
 function updateReveals(scrollY: number): void {
   const e = env();
+  const reverse = target > current;
   nearBudget = 1;
   for (let i = 0; i < reveals.length; i++) {
     const item = reveals[i];
     const top = item.docTop - scrollY;
     const bottom = item.docBottom - scrollY;
-    const t = settleProgress(e, top, bottom);
+    item.window = settleWindow(item.window, bottom, e.viewportH, reverse);
+    const t = settleProgress(e, top, bottom, item.window);
     applySettle(item, t, exitProgress(e, top));
     writeNear(item, i, top, bottom);
   }
