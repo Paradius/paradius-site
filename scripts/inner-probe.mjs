@@ -17,7 +17,7 @@ const SIZES = [
 ];
 
 const TREE_ONLY_CSS =
-  '.site-header, .footer-ledger, .inner-main > *:not(.inner-run), .inner-main::after, astro-dev-toolbar { visibility: hidden !important; } .inner-run::after { display: none !important; }';
+  '.site-header, .footer-ledger, .inner-main > *:not(.inner-run), .inner-main::after, astro-dev-toolbar { visibility: hidden !important; } .inner-run::after, .inner-run__light { display: none !important; }';
 
 function pageSlug(pagePath) {
   return pagePath.replace(/^\/+|\/+$/g, '').replaceAll('/', '-') || 'root';

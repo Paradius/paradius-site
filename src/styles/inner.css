@@ -90,6 +90,47 @@ body:has(.inner-main)::before { display: none; }
   .inner-run { transition: none; }
 }
 
+/* The light: bands travel by transform inside the run's silhouette, rastered once;
+   the ramp is dim at the roots and full at the canopy, a second nested mask. */
+.inner-run__light {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.7;
+  -webkit-mask-image: linear-gradient(to top, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0.45) 30%, rgb(255 255 255 / 0.75) 60%, #fff 85%, #fff 100%);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: linear-gradient(to top, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0.45) 30%, rgb(255 255 255 / 0.75) 60%, #fff 85%, #fff 100%);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
+/* Two periods of the gradient; one cycle slides exactly one, so the loop has no seam. */
+.inner-run__band {
+  position: absolute;
+  left: var(--ga, 0%);
+  width: calc(var(--gb, 100%) - var(--ga, 0%));
+  top: -125%;
+  height: 490%;
+  background: linear-gradient(to top, transparent 0%, transparent 12%, rgb(255 255 255 / 0.35) 18%, transparent 24%, transparent 36%, rgb(255 255 255 / 0.9) 44%, rgb(255 255 255 / 0.9) 48%, transparent 56%, transparent 66%, rgb(255 255 255 / 0.5) 72%, transparent 78%, transparent 100%);
+  background-size: 100% 50%;
+  background-repeat: repeat-y;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
+  animation: inner-run-loop var(--gs, 11s) linear infinite;
+  animation-delay: var(--gd, 0s);
+  will-change: transform;
+}
+
+@keyframes inner-run-loop {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner-run__light { display: none; }
+}
+
 .inner-block {
   position: relative;
   z-index: 1;
