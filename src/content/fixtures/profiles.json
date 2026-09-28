@@ -418,104 +418,6 @@
       "availability": "available"
     },
     {
-      "code": "PA-28EFC9",
-      "headline": "Senior Backend and DevOps Engineer, Node.js and event-driven systems",
-      "seniority": "senior",
-      "roles": [
-        "backend",
-        "devops"
-      ],
-      "stack": [
-        "typescript",
-        "nodejs",
-        "nestjs",
-        "nextjs",
-        "kafka",
-        "rabbitmq",
-        "redis",
-        "postgresql",
-        "mysql",
-        "gcp",
-        "aws",
-        "docker",
-        "ci-cd",
-        "angular",
-        "react",
-        "stripe"
-      ],
-      "yearsExperience": 5,
-      "summary": "Backend engineer who also runs the infrastructure his systems live on. TypeScript and Node.js with Kafka and RabbitMQ at the core, from a production-scheduling engine with an event backbone to messaging platforms that carry traffic for telecoms. On the other side of the deploy: Linux, GCP, AWS, Docker and the CI/CD to get there.",
-      "experience": [
-        {
-          "role": "Senior Developer and Solution Architect",
-          "startDate": "2026-01",
-          "endDate": "2026-04",
-          "industryDescriptor": "manufacturing planning software vendor",
-          "achievements": [
-            "Designed a microservices architecture on Express and Next.js joined by a Kafka event backbone, keeping orders, inventory and notifications consistent while decoupled.",
-            "Built the scheduling engine: a Tetris-style optimizer that loads machines, inserts critical orders and shifts existing production.",
-            "Modeled concurrent production between areas with WIP buffers and micro-batches, and real-time traceability that reschedules on reported deviations.",
-            "Automated deployment with Docker."
-          ],
-          "stack": [
-            "nodejs",
-            "nextjs",
-            "kafka",
-            "docker",
-            "typescript"
-          ]
-        },
-        {
-          "role": "DevOps and Senior Developer",
-          "startDate": "2024-07",
-          "industryDescriptor": "European IT consultancy",
-          "achievements": [
-            "Runs Linux servers, MySQL and PostgreSQL (hosted and containerized) with migrations and backups, and access and firewall policy.",
-            "Administers GCP (snapshots, load balancers, CDN, instances, IAM) and AWS services (SES, RDS, EC2) for production environments."
-          ],
-          "stack": [
-            "gcp",
-            "aws",
-            "docker",
-            "postgresql",
-            "mysql",
-            "nodejs"
-          ]
-        },
-        {
-          "role": "Software Developer",
-          "startDate": "2021-11",
-          "endDate": "2024-07",
-          "industryDescriptor": "digital agency serving telecoms and retail",
-          "achievements": [
-            "Built a Twilio-style messaging platform on Node.js and Kafka, event-driven, integrating Gupshup, Amazon SES, Meta, Twilio and SparkPost for telecom and call-center clients.",
-            "Developed geolocation-based recommendation services (Turf.js, Google Maps, KMZ processing) for a telecom operator.",
-            "Delivered e-commerce backends on NestJS, Redis and RabbitMQ with React frontends for supermarket and coffee retail chains."
-          ],
-          "stack": [
-            "nodejs",
-            "nestjs",
-            "kafka",
-            "rabbitmq",
-            "redis",
-            "react",
-            "ddd"
-          ]
-        }
-      ],
-      "languages": [
-        {
-          "lang": "es",
-          "level": "native"
-        },
-        {
-          "lang": "en",
-          "level": "B1"
-        }
-      ],
-      "availability": "available"
-    },
-    {
       "code": "PA-BCBEAD",
       "headline": "Full-stack Engineer, React, .NET and cross-platform mobile",
       "seniority": "mid",
@@ -1003,5 +905,5 @@
   ],
   "page": 1,
   "perPage": 50,
-  "totalItems": 11
+  "totalItems": 10
 }
