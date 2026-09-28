@@ -111,6 +111,11 @@ async function fetchAllPages(path: string): Promise<unknown> {
       break;
     }
   }
+  if (items.length < totalItems) {
+    throw new Error(
+      `[paradius-site] API ${path} reported ${totalItems} items but pagination returned ${items.length}`,
+    );
+  }
   return { items, page: 1, perPage: Math.max(items.length, 1), totalItems };
 }
 
