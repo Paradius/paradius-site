@@ -80,6 +80,45 @@ async function fetchApiPayload(path: string): Promise<unknown> {
   }
 }
 
+const API_PAGE_SIZE = 100;
+const API_MAX_PAGES = 50;
+
+/**
+ * Fetch every page of a paginated list endpoint and merge them into one envelope,
+ * so the build never silently drops records beyond the API's default page size.
+ */
+async function fetchAllPages(path: string): Promise<unknown> {
+  const items: unknown[] = [];
+  let totalItems = 0;
+  for (let page = 1; page <= API_MAX_PAGES; page++) {
+    const separator = path.includes('?') ? '&' : '?';
+    const raw = await fetchApiPayload(
+      `${path}${separator}page=${page}&perPage=${API_PAGE_SIZE}`,
+    );
+    if (typeof raw !== 'object' || raw === null) {
+      return raw;
+    }
+    const envelope = raw as { items?: unknown; totalItems?: unknown };
+    if (
+      !Array.isArray(envelope.items) ||
+      typeof envelope.totalItems !== 'number'
+    ) {
+      return raw;
+    }
+    items.push(...envelope.items);
+    totalItems = envelope.totalItems;
+    if (envelope.items.length === 0 || items.length >= totalItems) {
+      break;
+    }
+  }
+  if (items.length < totalItems) {
+    throw new Error(
+      `[paradius-site] API ${path} reported ${totalItems} items but pagination returned ${items.length}`,
+    );
+  }
+  return { items, page: 1, perPage: Math.max(items.length, 1), totalItems };
+}
+
 function validateEnvelope<T>(
   raw: unknown,
   resource: string,
@@ -136,14 +175,14 @@ async function loadProfilesPayload(): Promise<unknown> {
   if (resolveDataSource() === 'fixtures') {
     return readFixtureFile('profiles.json');
   }
-  return fetchApiPayload('/v1/public/profiles');
+  return fetchAllPages('/v1/public/profiles');
 }
 
 async function loadCasesPayload(): Promise<unknown> {
   if (resolveDataSource() === 'fixtures') {
     return readFixtureFile('cases.json');
   }
-  return fetchApiPayload('/v1/public/cases');
+  return fetchAllPages('/v1/public/cases');
 }
 
 let profilesCache: AnonymousProfile[] | undefined;
