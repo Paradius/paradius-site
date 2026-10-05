@@ -892,6 +892,15 @@ body:has(.home-v7) .site-header {
   transform-origin: center bottom;
 }
 
+/* Each sheet carries the inverted-scroll flip, so each is its own stacking
+   context and siblings paint in document order: the sheet after the hero lands
+   on top of it. It is parked over the two calls with opacity 0 the whole way
+   down, invisible and still the one receiving the click. */
+.home-v7__hero {
+  position: relative;
+  z-index: 1;
+}
+
 /* Leaving in reverse: a lighter downward pull, so the departing block never
    rides over the neighbour still built below it. */
 .home-v7__clip--leaving {
