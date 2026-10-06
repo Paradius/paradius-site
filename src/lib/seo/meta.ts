@@ -1,4 +1,4 @@
-import { DEFAULT_KEYWORDS } from './constants';
+import { DEFAULT_KEYWORDS, ORG } from './constants';
 import type { PageSeo } from './types';
 
 export interface ResolvedPageMeta {
@@ -16,10 +16,13 @@ export interface ResolvedPageMeta {
   ogDescription: string;
   ogSiteName: string;
   ogLocale: string;
+  ogImage: string;
+  ogImageAlt: string;
   twitterCard: string;
   twitterTitle: string;
   twitterDescription: string;
   twitterSite: string;
+  twitterImage: string;
 }
 
 /** Resolve meta/OG/Twitter/canonical tags for a page. */
@@ -45,26 +48,30 @@ export function resolvePageMeta(page: PageSeo): ResolvedPageMeta {
       'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full overlap with US business hours from our Managua hub.',
     ogSiteName: 'Paradius',
     ogLocale: 'en_US',
-    twitterCard: 'summary',
+    ogImage: ORG.image,
+    ogImageAlt: 'Paradius logotype over Architecting the Dawn from Within',
+    twitterCard: 'summary_large_image',
     twitterTitle: ogTitle,
     twitterDescription:
       page.twitterDescription ??
       'Paradius LLC: senior nearshore engineers under anonymous codes. US contracts, full US overlap, architecture first. We build systems that endure.',
     twitterSite: '@paradius_dev',
+    twitterImage: ORG.image,
   };
 }
 
 /** Home page SEO: metadata for the `/` route. */
 export const HOME_SEO: PageSeo = {
-  title: 'Paradius | High-End Software Engineering Consultancy | Paradius LLC',
+  // Kept under ~60 and ~160 characters so search results show them whole.
+  title: 'Paradius | High-End Software Engineering Consultancy',
   description:
-    'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full US overlap from our Managua hub. We build systems that endure, and we disappear into your success.',
+    'Paradius LLC: staff augmentation with senior nearshore engineers chosen by code, not by name. Pick from the registry or let us run the team. US contracts.',
   canonical: 'https://paradius.dev/',
   ogTitle: 'Paradius | High-End Software Engineering Consultancy',
   ogDescription:
-    'Paradius is a staff augmentation consultancy of senior nearshore engineers. Anonymous profiles under code names, US contracts, full overlap with US business hours from our hub in Managua, Nicaragua.',
+    'Senior nearshore engineers chosen by code, not by name. Pick them from the registry or have us run the team, then we disappear into your success.',
   twitterDescription:
-    'Paradius LLC: senior nearshore engineers under anonymous codes. US contracts, full US overlap, architecture first. We build systems that endure.',
+    'Senior nearshore engineers chosen by code, not by name. US contracts, full US overlap. We build systems that endure.',
   webPageName: 'Paradius: High-End Software Engineering Consultancy',
   webPageDescription:
     'Paradius LLC is a staff augmentation consultancy. Senior nearshore engineers under anonymous codes, US contracts in USD, full overlap with US business hours from our Managua hub.',

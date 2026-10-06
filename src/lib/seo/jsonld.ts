@@ -18,6 +18,7 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
     alternateName: [...ORG.alternateNames],
     url: SITE_URL,
     logo: ORG.logo,
+    image: ORG.image,
     description: ORG_DESCRIPTION,
     foundingDate: ORG.foundingDate,
     founder: {
@@ -35,7 +36,7 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
     },
     areaServed: ORG.areaServed,
     email: ORG.email,
-    sameAs: [ORG.linkedIn],
+    sameAs: [ORG.linkedIn, ORG.gitHub],
     knowsAbout: [...ORG_KNOWS_ABOUT],
     slogan: ORG.slogan,
   };
@@ -66,7 +67,7 @@ export function buildProfessionalServiceJsonLd(): Record<string, unknown> {
     areaServed: ORG.areaServed,
     serviceType: [...SERVICE_TYPES],
     email: ORG.email,
-    sameAs: [ORG.linkedIn],
+    sameAs: [ORG.linkedIn, ORG.gitHub],
   };
 }
 
