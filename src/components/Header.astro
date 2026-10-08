@@ -2,11 +2,13 @@
 import ParadiusLogo from './ParadiusLogo.astro';
 const path = Astro.url.pathname;
 const current = (href: string) => (path === href || path.startsWith(href + '/') ? 'page' : undefined);
+// On the home the logo replays the intro: the gate honours ?intro=1 and the film strips it.
+const logoHref = path === '/' ? '/?intro=1' : '/';
 ---
 
 <header class="site-header" id="header">
   <div class="site-header__container">
-    <a href="/" class="site-header__logo" aria-label="Paradius, Home" title="Paradius LLC">
+    <a href={logoHref} class="site-header__logo" aria-label="Paradius, Home" title="Paradius LLC">
       <ParadiusLogo class="site-header__logo-svg" />
     </a>
     <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">

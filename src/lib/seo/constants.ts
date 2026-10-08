@@ -8,7 +8,7 @@ export const ORG = {
   alternateNames: ['Paradius LLC', 'Paradius Software', 'Paradius Dev'] as const,
   email: 'solutions@paradius.dev',
   foundingDate: '2026',
-  slogan: 'Architecting the dawn from within',
+  slogan: 'From roots we build, the dawn we raise',
   // Raster on purpose: search engines ignore SVG logos.
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-image.png`,

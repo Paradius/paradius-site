@@ -3,8 +3,8 @@ import BaseLayout, { GOOGLE_FONTS_URL } from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { HOME_SEO } from '../lib/seo';
-import lockupNarrow from '../../public/assets/architecting_the_dawn_from_within_mobile.svg?raw';
-import lockupWide from '../../public/assets/architecting_the_dawn_from_within.svg?raw';
+import lockupNarrow from '../../public/assets/from_roots_we_build_the_dawn_we_raise_mobile.svg?raw';
+import lockupWide from '../../public/assets/from_roots_we_build_the_dawn_we_raise.svg?raw';
 import '../styles/home-v7.css';
 import '../styles/home-v7-pager.css';
 import '../styles/intro.css';
@@ -38,7 +38,7 @@ const traceWide = traceOf(lockupWide);
   <link
     slot="head"
     rel="preload"
-    href="/assets/architecting_the_dawn_from_within.svg"
+    href="/assets/from_roots_we_build_the_dawn_we_raise.svg"
     as="image"
   />
   {/*
@@ -72,20 +72,20 @@ const traceWide = traceOf(lockupWide);
              way out instead of lingering under the confession frame. -->
         <div class="home-v7__hero-inner home-v7__clip home-v7__clip--center">
           <h1 id="hero-heading" class="sr-only">
-            Paradius: Architecting the Dawn from Within | Software Engineering Consultancy
+            Paradius: From Roots We Build, the Dawn We Raise | Software Engineering Consultancy
           </h1>
           <span class="home-v7__lockup">
             <picture>
               <source
                 media="(max-width: 768px)"
-                srcset="/assets/architecting_the_dawn_from_within_mobile.svg"
+                srcset="/assets/from_roots_we_build_the_dawn_we_raise_mobile.svg"
               />
               <img
                 class="home-v7__tagline"
-                src="/assets/architecting_the_dawn_from_within.svg"
-                alt="Paradius: Architecting the Dawn from Within"
-                width="288"
-                height="97"
+                src="/assets/from_roots_we_build_the_dawn_we_raise.svg"
+                alt="Paradius: From Roots We Build, the Dawn We Raise"
+                width="404"
+                height="86"
                 fetchpriority="high"
                 decoding="async"
               />

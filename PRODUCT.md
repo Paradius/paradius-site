@@ -24,7 +24,7 @@ on the page, but never as its voice.
 
 ## Visual law (non-negotiable)
 
-- **The lockup is sacred.** "Architecting the Dawn from Within" (SVG, stencil
+- **The lockup is sacred.** "From Roots We Build, the Dawn We Raise" (SVG, stencil
   circuit letterforms) is the hero, centered, with its dawn-rise animation.
   It is the tuning fork: everything else must rise to its strangeness, never
   dilute it.

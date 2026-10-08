@@ -49,7 +49,7 @@ export function resolvePageMeta(page: PageSeo): ResolvedPageMeta {
     ogSiteName: 'Paradius',
     ogLocale: 'en_US',
     ogImage: ORG.image,
-    ogImageAlt: 'Paradius logotype over Architecting the Dawn from Within',
+    ogImageAlt: 'Paradius logotype over From Roots We Build, the Dawn We Raise',
     twitterCard: 'summary_large_image',
     twitterTitle: ogTitle,
     twitterDescription:
