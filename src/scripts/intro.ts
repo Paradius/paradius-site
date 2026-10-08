@@ -13,6 +13,10 @@ export function mountIntro(): void {
   const html = document.documentElement;
   const intro = document.querySelector<HTMLElement>('.intro');
   if (!intro || html.dataset.intro !== 'play') return;
+  // A replay was asked for by URL; a reload after it must not replay again.
+  if (new URLSearchParams(location.search).get('intro') === '1') {
+    history.replaceState(history.state, '', location.pathname + location.hash);
+  }
 
   let finished = false;
   let skipped = false;

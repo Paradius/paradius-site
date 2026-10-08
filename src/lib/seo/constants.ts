@@ -8,7 +8,7 @@ export const ORG = {
   alternateNames: ['Paradius LLC', 'Paradius Software', 'Paradius Dev'] as const,
   email: 'solutions@paradius.dev',
   foundingDate: '2026',
-  slogan: 'Architecting the dawn from within',
+  slogan: 'From roots we build, the dawn we raise',
   logo: `${SITE_URL}/assets/paradius_logo.svg`,
   linkedIn: 'https://www.linkedin.com/company/paradius/',
   founder: {
