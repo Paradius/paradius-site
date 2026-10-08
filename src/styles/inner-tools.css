@@ -409,7 +409,8 @@
   inset: 0;
   overflow: hidden;
   opacity: 0;
-  transition: opacity 0.3s linear 0.6s;
+  /* Out: dies with the stroke (0.15s). The arrival delay lives on the hover rule. */
+  transition: opacity 0.15s linear;
   -webkit-mask-image: var(--branch-mask);
   -webkit-mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
@@ -421,6 +422,7 @@
 .inner-row:is(:hover, :focus-visible, .is-grown) .inner-branch__light,
 .inner-register--still .inner-row .inner-branch__light {
   opacity: var(--branch-light, 0.6);
+  transition: opacity 0.3s linear 0.6s;
 }
 
 .inner-branch__band {
