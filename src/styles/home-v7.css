@@ -368,11 +368,11 @@ body:has(.home-v7) .site-header {
 
 .home-v7__tagline {
   display: block;
-  width: 60vw;
-  max-width: 1100px;
+  width: 52vw;
+  max-width: 960px;
   /* Floor: the lockup must never shrink below its own CTA row (~700px);
      mid-size windows kept the vw width shrinking while nav/buttons stayed fixed. */
-  min-width: min(880px, 92vw);
+  min-width: min(780px, 92vw);
   height: auto;
   margin-inline: auto;
   /* The retired facts line used to sit here; its air stays (owner call). */
