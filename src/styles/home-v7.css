@@ -372,7 +372,7 @@ body:has(.home-v7) .site-header {
   max-width: 960px;
   /* Floor: the lockup must never shrink below its own CTA row (~700px);
      mid-size windows kept the vw width shrinking while nav/buttons stayed fixed. */
-  min-width: min(780px, 92vw);
+  min-width: min(700px, 92vw);
   height: auto;
   margin-inline: auto;
   /* The retired facts line used to sit here; its air stays (owner call). */
@@ -1099,9 +1099,12 @@ body:has(.home-v7) .site-header {
     padding-right: 0;
   }
 
+  /* The four-line mobile lockup is near square: at 92vw it towered over a
+     narrow desktop window. 400px keeps its height where the old lockup's was. */
   html:not([data-device="touch"]) .home-v7__tagline {
-    width: 80vw;
-    max-width: 90vw;
+    width: min(76vw, 400px);
+    min-width: 0;
+    max-width: none;
   }
 
   html:not([data-device="touch"]) .home-v7__cup-grid {
