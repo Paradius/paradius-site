@@ -9,8 +9,11 @@ export const ORG = {
   email: 'solutions@paradius.dev',
   foundingDate: '2026',
   slogan: 'From roots we build, the dawn we raise',
-  logo: `${SITE_URL}/assets/paradius_logo.svg`,
+  // Raster on purpose: search engines ignore SVG logos.
+  logo: `${SITE_URL}/logo.png`,
+  image: `${SITE_URL}/og-image.png`,
   linkedIn: 'https://www.linkedin.com/company/paradius/',
+  gitHub: 'https://github.com/Paradius',
   founder: {
     name: 'Gabriel Chorens',
     url: 'https://www.linkedin.com/in/gabrielchorens/',

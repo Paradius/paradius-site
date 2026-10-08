@@ -14,7 +14,8 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       serialize(item) {
-        if (item.url.includes('/mockups/')) {
+        // Noindex pages stay out: a sitemap entry for them is a mixed signal.
+        if (item.url.includes('/mockups/') || item.url === 'https://paradius.dev/vp/') {
           return undefined;
         }
         if (item.url === 'https://paradius.dev/') {
