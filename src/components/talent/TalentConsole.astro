@@ -1,22 +1,17 @@
 ---
-import type { AnonymousProfile, Availability, DeveloperRole, Seniority } from '../../lib/api';
+import { getVocabulary, type AnonymousProfile, type DeveloperRole } from '../../lib/api';
 import { formatRegistryStatus } from '../../lib/brand/registry';
-import { collectRoles, collectStackTags, formatRole, formatSeniority } from '../../lib/talent/formatters';
+import { collectRoles, collectStackTags, formatRole } from '../../lib/talent/formatters';
 
 interface Props {
   profiles: readonly AnonymousProfile[];
 }
 
 const { profiles } = Astro.props;
+// collectRoles orders by the loaded vocabulary: await it first.
+const { seniorities, availabilities } = await getVocabulary();
 const roles = collectRoles(profiles);
 const stackTags = collectStackTags(profiles);
-const seniorityOptions: Seniority[] = ['junior', 'mid', 'senior', 'staff'];
-const availabilityOptions: Availability[] = ['available', 'soon', 'unavailable'];
-const availabilityLabels: Record<Availability, string> = {
-  available: 'Available now',
-  soon: 'Available soon',
-  unavailable: 'Currently assigned',
-};
 ---
 
 <p class="inner-status" id="talent-filter-status" aria-live="polite">{formatRegistryStatus(profiles.length)}</p>
@@ -34,8 +29,8 @@ const availabilityLabels: Record<Availability, string> = {
     <p class="inner-legend" id="talent-legend-seniority">Seniority</p>
     <div class="inner-pills">
       <button type="button" class="inner-pill" data-filter="seniority" data-value="" aria-pressed="true">All</button>
-      {seniorityOptions.map((seniority) => (
-        <button type="button" class="inner-pill" data-filter="seniority" data-value={seniority} aria-pressed="false">{formatSeniority(seniority)}</button>
+      {seniorities.map((seniority) => (
+        <button type="button" class="inner-pill" data-filter="seniority" data-value={seniority.value} aria-pressed="false">{seniority.label}</button>
       ))}
     </div>
   </div>
@@ -43,8 +38,8 @@ const availabilityLabels: Record<Availability, string> = {
     <p class="inner-legend" id="talent-legend-availability">Availability</p>
     <div class="inner-pills">
       <button type="button" class="inner-pill" data-filter="availability" data-value="" aria-pressed="true">All</button>
-      {availabilityOptions.map((availability) => (
-        <button type="button" class="inner-pill" data-filter="availability" data-value={availability} aria-pressed="false">{availabilityLabels[availability]}</button>
+      {availabilities.map((availability) => (
+        <button type="button" class="inner-pill" data-filter="availability" data-value={availability.value} aria-pressed="false">{availability.label}</button>
       ))}
     </div>
   </div>

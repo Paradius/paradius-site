@@ -1,55 +1,24 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { z } from 'zod';
 import type { ZodType } from 'zod';
 import { formatValidationError, recordIdentifier } from './errors';
 import {
   anonymousProfileSchema,
   caseStudySchema,
+  vocabularySchema,
   type AnonymousProfile,
   type CaseStudy,
+  type Vocabulary,
 } from './schemas';
-
-/** Fixture JSON lives under src/content/fixtures (cwd = project root at build/dev). */
-const FIXTURES_DIR = join(process.cwd(), 'src/content/fixtures');
-
-export type DataSource = 'api' | 'fixtures';
-
-function resolveDataSource(): DataSource {
-  const raw = process.env.DATA_SOURCE ?? 'fixtures';
-  if (raw !== 'api' && raw !== 'fixtures') {
-    throw new Error(
-      `[paradius-site] Invalid DATA_SOURCE "${raw}". Expected "api" or "fixtures".`,
-    );
-  }
-  return raw;
-}
+import { assertProfilesUseVocabulary, setVocabulary } from './vocabulary';
 
 function resolveApiBaseUrl(): string {
-  const baseUrl = process.env.PUBLIC_API_BASE_URL ?? 'https://api.paradius.dev';
+  const baseUrl = process.env.PUBLIC_API_BASE_URL;
+  if (!baseUrl) {
+    throw new Error(
+      '[paradius-site] PUBLIC_API_BASE_URL is not set. Export the Paradius Core API base URL (see .env.example) before building.',
+    );
+  }
   return baseUrl.replace(/\/$/, '');
-}
-
-function readFixtureFile(filename: string): unknown {
-  const filePath = join(FIXTURES_DIR, filename);
-  let raw: string;
-  try {
-    raw = readFileSync(filePath, 'utf8');
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(
-      `[paradius-site] Failed to read fixture "${filename}" at ${filePath}: ${message}`,
-    );
-  }
-
-  try {
-    return JSON.parse(raw) as unknown;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(
-      `[paradius-site] Fixture "${filename}" is not valid JSON: ${message}`,
-    );
-  }
 }
 
 async function fetchApiPayload(path: string): Promise<unknown> {
@@ -60,7 +29,7 @@ async function fetchApiPayload(path: string): Promise<unknown> {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new Error(
-      `[paradius-site] Failed to fetch ${url} (DATA_SOURCE=api): ${message}`,
+      `[paradius-site] Failed to fetch ${url}: ${message}`,
     );
   }
 
@@ -171,30 +140,35 @@ function validateEnvelope<T>(
   });
 }
 
-async function loadProfilesPayload(): Promise<unknown> {
-  if (resolveDataSource() === 'fixtures') {
-    return readFixtureFile('profiles.json');
-  }
-  return fetchAllPages('/v1/public/profiles');
-}
-
-async function loadCasesPayload(): Promise<unknown> {
-  if (resolveDataSource() === 'fixtures') {
-    return readFixtureFile('cases.json');
-  }
-  return fetchAllPages('/v1/public/cases');
-}
-
 let profilesCache: AnonymousProfile[] | undefined;
 let casesCache: CaseStudy[] | undefined;
+let vocabularyCache: Vocabulary | undefined;
 
 /** Load and validate all public wire data. Called at build start; also usable directly. */
 export async function loadPublicData(): Promise<{
+  vocabulary: Vocabulary;
   profiles: AnonymousProfile[];
   cases: CaseStudy[];
 }> {
+  const vocabulary = await getVocabulary();
   const [profiles, cases] = await Promise.all([getProfiles(), getCases()]);
-  return { profiles, cases };
+  return { vocabulary, profiles, cases };
+}
+
+/** Role, seniority and availability values with their display labels, in Core's display order. */
+export async function getVocabulary(): Promise<Vocabulary> {
+  if (vocabularyCache) {
+    return vocabularyCache;
+  }
+
+  const raw = await fetchApiPayload('/v1/public/vocabulary');
+  const result = vocabularySchema.safeParse(raw);
+  if (!result.success) {
+    throw new Error(formatValidationError('vocabulary', 'response', result.error));
+  }
+  vocabularyCache = result.data;
+  setVocabulary(vocabularyCache);
+  return vocabularyCache;
 }
 
 /** Published anonymous profiles for catalog and detail pages (S3+). */
@@ -203,13 +177,11 @@ export async function getProfiles(): Promise<AnonymousProfile[]> {
     return profilesCache;
   }
 
-  const raw = await loadProfilesPayload();
-  profilesCache = validateEnvelope(
-    raw,
-    'profile',
-    'code',
-    anonymousProfileSchema,
-  );
+  const vocabulary = await getVocabulary();
+  const raw = await fetchAllPages('/v1/public/profiles');
+  const profiles = validateEnvelope(raw, 'profile', 'code', anonymousProfileSchema);
+  assertProfilesUseVocabulary(profiles, vocabulary);
+  profilesCache = profiles;
   return profilesCache;
 }
 
@@ -219,7 +191,7 @@ export async function getCases(): Promise<CaseStudy[]> {
     return casesCache;
   }
 
-  const raw = await loadCasesPayload();
+  const raw = await fetchAllPages('/v1/public/cases');
   const allCases = validateEnvelope(
     raw,
     'case study',
@@ -234,4 +206,6 @@ export async function getCases(): Promise<CaseStudy[]> {
 export function resetDataCache(): void {
   profilesCache = undefined;
   casesCache = undefined;
+  vocabularyCache = undefined;
+  setVocabulary(undefined);
 }

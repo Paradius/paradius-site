@@ -5,30 +5,9 @@ import type {
   DeveloperRole,
   Seniority,
   SpokenLanguage,
+  VocabularyEntry,
 } from '../api';
-
-const SENIORITY_LABELS: Record<Seniority, string> = {
-  junior: 'Junior',
-  mid: 'Mid-level',
-  senior: 'Senior',
-  staff: 'Staff',
-};
-
-const ROLE_LABELS: Record<DeveloperRole, string> = {
-  mobile: 'Mobile',
-  backend: 'Backend',
-  frontend: 'Frontend',
-  fullstack: 'Full-stack',
-  devops: 'DevOps',
-  qa: 'QA',
-  data: 'Data',
-};
-
-const AVAILABILITY_LABELS: Record<Availability, { label: string; modifier: string }> = {
-  available: { label: 'Available now', modifier: 'badge--available' },
-  soon: { label: 'Available soon', modifier: 'badge--soon' },
-  unavailable: { label: 'Currently assigned', modifier: 'badge--unavailable' },
-};
+import { currentVocabulary } from '../api/vocabulary';
 
 const LANGUAGE_NAMES: Record<string, string> = {
   en: 'English',
@@ -51,14 +30,22 @@ const MONTH_LABELS = [
   'Dec',
 ] as const;
 
+function capitalize(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function vocabularyLabel(entries: readonly VocabularyEntry[] | undefined, value: string): string {
+  return entries?.find((entry) => entry.value === value)?.label ?? capitalize(value);
+}
+
 /** Human-readable seniority label. */
 export function formatSeniority(seniority: Seniority): string {
-  return SENIORITY_LABELS[seniority];
+  return vocabularyLabel(currentVocabulary()?.seniorities, seniority);
 }
 
 /** Human-readable developer role label. */
 export function formatRole(role: DeveloperRole): string {
-  return ROLE_LABELS[role];
+  return vocabularyLabel(currentVocabulary()?.roles, role);
 }
 
 /** Availability badge copy and CSS modifier. */
@@ -66,7 +53,10 @@ export function formatAvailability(availability: Availability): {
   label: string;
   modifier: string;
 } {
-  return AVAILABILITY_LABELS[availability];
+  return {
+    label: vocabularyLabel(currentVocabulary()?.availabilities, availability),
+    modifier: `badge--${availability}`,
+  };
 }
 
 /** Stack slug → display label (e.g. `ci-cd` → `ci cd`). */
@@ -208,7 +198,7 @@ export function overflowStackCount(profile: AnonymousProfile, limit = 4): number
   return Math.max(0, profile.stack.length - limit);
 }
 
-/** Unique roles across profiles, sorted for stable filter UI. */
+/** Unique roles across profiles in vocabulary order; roles it does not list go last, alphabetically. */
 export function collectRoles(profiles: readonly AnonymousProfile[]): DeveloperRole[] {
   const roles = new Set<DeveloperRole>();
   for (const profile of profiles) {
@@ -216,7 +206,12 @@ export function collectRoles(profiles: readonly AnonymousProfile[]): DeveloperRo
       roles.add(role);
     }
   }
-  return [...roles].sort();
+  const order = (currentVocabulary()?.roles ?? []).map((entry) => entry.value);
+  const rank = (role: DeveloperRole) => {
+    const index = order.indexOf(role);
+    return index === -1 ? order.length : index;
+  };
+  return [...roles].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
 }
 
 /** Unique stack tags across profiles, sorted alphabetically. */

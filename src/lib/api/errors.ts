@@ -6,9 +6,22 @@ export function formatValidationError(
   recordId: string,
   error: ZodError,
 ): string {
-  const fieldErrors = error.issues
+  return formatFieldIssues(resource, recordId, error.issues);
+}
+
+export interface FieldIssue {
+  path: readonly PropertyKey[];
+  message: string;
+}
+
+export function formatFieldIssues(
+  resource: string,
+  recordId: string,
+  issues: readonly FieldIssue[],
+): string {
+  const fieldErrors = issues
     .map((issue) => {
-      const path = issue.path.length > 0 ? issue.path.join('.') : '(root)';
+      const path = issue.path.length > 0 ? issue.path.map(String).join('.') : '(root)';
       return `    • ${path}: ${issue.message}`;
     })
     .join('\n');

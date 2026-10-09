@@ -8,7 +8,8 @@ interface Props {
 }
 
 // Mapped by how rich each drawing is, not by the owner's file names.
-const FAN = { junior: 'junior', mid: 'mid', senior: 'god-tier', staff: 'senior' } as const;
+// A seniority Core adds later has no drawing yet and falls back to the mid fan.
+const FAN: Partial<Record<string, 'junior' | 'mid' | 'senior' | 'god-tier'>> = { junior: 'junior', mid: 'mid', senior: 'god-tier', staff: 'senior' };
 
 const { profile } = Astro.props;
 const availability = formatAvailability(profile.availability);
@@ -25,7 +26,7 @@ const overflow = overflowStackCount(profile, 6);
   data-availability={profile.availability}
   data-stack={profile.stack.join(' ')}
 >
-  <Branch fan={FAN[profile.seniority]} />
+  <Branch fan={FAN[profile.seniority] ?? 'mid'} />
   <span class="inner-row__code">{profile.code}</span>
   <span class="inner-row__title">{profile.headline}</span>
   <span class="inner-row__graft">
