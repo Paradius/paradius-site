@@ -17,6 +17,8 @@ export const developerRoleSchema = z.enum([
   'devops',
   'qa',
   'data',
+  'embedded',
+  'robotics',
 ]);
 
 export const spokenLanguageSchema = z.object({

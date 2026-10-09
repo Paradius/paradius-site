@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { formatExperienceRange, formatExperienceYears, formatStackTag } from './formatters';
+import { developerRoleSchema } from '../api';
+import { formatExperienceRange, formatExperienceYears, formatRole, formatStackTag } from './formatters';
 
 const open = { role: 'Senior Flutter Developer', startDate: '2021-04', industryDescriptor: 'fintech startup', achievements: [], stack: [] };
 const closed = { ...open, startDate: '2018-02', endDate: '2021-03' };
@@ -18,4 +19,9 @@ describe('formatStackTag', () => {
   it('spells a known acronym', () => { expect(formatStackTag('ci-cd')).toBe('CI/CD'); });
   it('spells a known brand', () => { expect(formatStackTag('nextjs')).toBe('Next.js'); });
   it('capitalizes an unknown hyphenated tag', () => { expect(formatStackTag('some-thing')).toBe('Some thing'); });
+});
+
+describe('formatRole', () => {
+  it('labels an embedded role sent by Core', () => { expect(formatRole(developerRoleSchema.parse('embedded'))).toBe('Embedded'); });
+  it('labels a robotics role sent by Core', () => { expect(formatRole(developerRoleSchema.parse('robotics'))).toBe('Robotics'); });
 });

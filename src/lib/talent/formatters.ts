@@ -22,6 +22,8 @@ const ROLE_LABELS: Record<DeveloperRole, string> = {
   devops: 'DevOps',
   qa: 'QA',
   data: 'Data',
+  embedded: 'Embedded',
+  robotics: 'Robotics',
 };
 
 const AVAILABILITY_LABELS: Record<Availability, { label: string; modifier: string }> = {
