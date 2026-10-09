@@ -1,9 +1,9 @@
 export {
   getProfiles,
   getCases,
+  getVocabulary,
   loadPublicData,
   resetDataCache,
-  type DataSource,
 } from './client';
 
 export {
@@ -18,6 +18,8 @@ export {
   profilesResponseSchema,
   senioritySchema,
   spokenLanguageSchema,
+  vocabularyEntrySchema,
+  vocabularySchema,
   type AnonymousExperienceEntry,
   type AnonymousProfile,
   type Availability,
@@ -27,6 +29,8 @@ export {
   type PaginatedProfilesResponse,
   type Seniority,
   type SpokenLanguage,
+  type Vocabulary,
+  type VocabularyEntry,
 } from './schemas';
 
 export { formatValidationError, recordIdentifier } from './errors';

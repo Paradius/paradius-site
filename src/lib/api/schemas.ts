@@ -5,19 +5,23 @@ export const developerCodeSchema = z
   .string()
   .regex(/^PA-[0-9A-F]{6}$/, 'Developer code must match PA-XXXXXX (six uppercase hex digits)');
 
-export const senioritySchema = z.enum(['junior', 'mid', 'senior', 'staff']);
+export const senioritySchema = z.string().min(1);
 
-export const availabilitySchema = z.enum(['available', 'soon', 'unavailable']);
+export const availabilitySchema = z.string().min(1);
 
-export const developerRoleSchema = z.enum([
-  'mobile',
-  'backend',
-  'frontend',
-  'fullstack',
-  'devops',
-  'qa',
-  'data',
-]);
+export const developerRoleSchema = z.string().min(1);
+
+export const vocabularyEntrySchema = z.object({
+  value: z.string().min(1),
+  label: z.string().min(1),
+});
+
+/** `GET /v1/public/vocabulary`: each list is in Core's canonical display order. */
+export const vocabularySchema = z.object({
+  roles: z.array(vocabularyEntrySchema),
+  seniorities: z.array(vocabularyEntrySchema),
+  availabilities: z.array(vocabularyEntrySchema),
+});
 
 export const spokenLanguageSchema = z.object({
   lang: z.string().min(1),
@@ -108,5 +112,7 @@ export type CaseMetric = z.infer<typeof caseMetricSchema>;
 export type Seniority = z.infer<typeof senioritySchema>;
 export type Availability = z.infer<typeof availabilitySchema>;
 export type DeveloperRole = z.infer<typeof developerRoleSchema>;
+export type VocabularyEntry = z.infer<typeof vocabularyEntrySchema>;
+export type Vocabulary = z.infer<typeof vocabularySchema>;
 export type PaginatedProfilesResponse = z.infer<typeof profilesResponseSchema>;
 export type PaginatedCasesResponse = z.infer<typeof casesResponseSchema>;
