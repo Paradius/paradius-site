@@ -15,7 +15,7 @@ export default defineConfig({
       priority: 0.7,
       serialize(item) {
         // Noindex pages stay out: a sitemap entry for them is a mixed signal.
-        if (item.url.includes('/mockups/') || item.url === 'https://paradius.dev/vp/') {
+        if (item.url.includes('/mockups/') || item.url.includes('/room/') || item.url === 'https://paradius.dev/vp/') {
           return undefined;
         }
         if (item.url === 'https://paradius.dev/') {

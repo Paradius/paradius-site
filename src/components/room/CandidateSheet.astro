@@ -1,0 +1,43 @@
+---
+import type { RoomCandidate } from '../../lib/api';
+import { onePagerFile, stageLabel } from '../../lib/rooms/rooms';
+import { formatAvailability, formatSeniority } from '../../lib/talent/formatters';
+
+interface Props {
+  slug: string;
+  positionPath: string;
+  candidate: RoomCandidate;
+}
+
+const { slug, positionPath, candidate } = Astro.props;
+const file = onePagerFile(candidate.code, positionPath);
+const pdf = candidate.onePager ? `/room/${slug}/${file}` : null;
+const facts = [
+  formatSeniority(candidate.seniority),
+  candidate.english ? `English ${candidate.english}` : null,
+  formatAvailability(candidate.availability).label,
+].filter((fact): fact is string => Boolean(fact));
+---
+
+<article class="room-sheet" data-stage={candidate.stage}>
+  {pdf ? (
+    <a class="room-sheet__page" href={pdf} target="_blank" rel="noopener" data-room-view={pdf} data-room-title={candidate.name} data-room-file={file}>
+      <canvas data-room-thumb={pdf} role="img" aria-label={`First page of the profile of ${candidate.name}`}></canvas>
+    </a>
+  ) : (
+    <div class="room-sheet__page room-sheet__page--pending"><span>Profile in preparation</span></div>
+  )}
+  <div class="room-sheet__head">
+    <span class="room-sheet__code">{candidate.code}</span>
+    <span class="room-sheet__stage">{stageLabel(candidate.stage)}</span>
+  </div>
+  <h3 class="room-sheet__name">{candidate.name}</h3>
+  <p class="room-sheet__title">{candidate.headline}</p>
+  <ul class="room-sheet__facts">{facts.map((fact) => <li>{fact}</li>)}</ul>
+  {pdf && (
+    <p class="room-sheet__actions">
+      <a class="room-button" href={pdf} target="_blank" rel="noopener" data-room-view={pdf} data-room-title={candidate.name} data-room-file={file}>View profile</a>
+      <a class="room-link" href={pdf} download={file}>Download PDF</a>
+    </p>
+  )}
+</article>

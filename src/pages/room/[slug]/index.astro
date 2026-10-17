@@ -1,0 +1,43 @@
+---
+import InnerLayout from '../../../layouts/InnerLayout.astro';
+import InnerBlock from '../../../components/inner/InnerBlock.astro';
+import Branch from '../../../components/inner/Branch.astro';
+import { getRooms, getVocabulary, type Room } from '../../../lib/api';
+import { positionSlug } from '../../../lib/rooms/rooms';
+import { buildRoomSeo } from '../../../lib/seo/room';
+import '../../../styles/inner-tools.css';
+import '../../../styles/room.css';
+
+export async function getStaticPaths() {
+  await getVocabulary();
+  return (await getRooms()).map((room) => ({ params: { slug: room.slug }, props: { room } }));
+}
+
+interface Props {
+  room: Room;
+}
+
+const { room } = Astro.props;
+const updated = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<InnerLayout seo={buildRoomSeo(room)} mode="rail" room>
+  <InnerBlock force="power" kind="hero" kicker="Prepared for" title={room.client} className="room-cover">
+    <p class="room-updated">Updated {updated}</p>
+  </InnerBlock>
+
+  <InnerBlock force="power" kind="tool" ariaLabel="Open positions">
+    <p class="inner-kicker">Open positions</p>
+    <div class="inner-register room-positions">
+      {room.positions.map((position) => (
+        <a class="inner-row room-position" href={`/room/${room.slug}/${positionSlug(position.title)}/`}>
+          <Branch fan="senior" />
+          <span class="inner-row__title">{position.title}</span>
+          <span class="room-position__count">
+            {position.candidates.length} {position.candidates.length === 1 ? 'candidate' : 'candidates'}
+          </span>
+        </a>
+      ))}
+    </div>
+  </InnerBlock>
+</InnerLayout>
