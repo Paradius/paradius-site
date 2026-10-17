@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getProfiles, getVocabulary, resetDataCache } from './client';
+import { getProfiles, getRoomOnePager, getRooms, getVocabulary, resetDataCache } from './client';
 
 const BASE_URL = 'https://core.test';
 
@@ -93,5 +93,79 @@ describe('getProfiles', () => {
     });
 
     await expect(getProfiles()).rejects.toThrow(/Record: PA-1C2D3E[\s\S]*roles\.1: unknown value "ml"/);
+  });
+});
+
+const roomWire = {
+  slug: 'k3f9q2m8x7c4v1b6n5z0a2s4',
+  client: 'Harbor Robotics',
+  positions: [
+    {
+      title: 'Firmware Lead',
+      summary: 'Owns the firmware.',
+      description: null,
+      candidates: [
+        {
+          candidacyId: 'c1',
+          code: 'PA-1C2D3E',
+          name: 'Ana Ruiz',
+          headline: 'Embedded Engineer',
+          seniority: 'senior',
+          english: 'B2',
+          availability: 'available',
+          stage: 'presented',
+          onePager: true,
+        },
+      ],
+    },
+  ],
+};
+
+describe('getRooms', () => {
+  it('reads the rooms from Core with the rooms token', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    const fetchMock = serve({ '/v1/rooms': { items: [roomWire] } });
+
+    const rooms = await getRooms();
+
+    expect(rooms).toEqual([roomWire]);
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(new Headers(init.headers).get('Authorization')).toBe('Bearer rooms-secret');
+  });
+
+  it('builds without rooms when the token is missing', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', '');
+    const fetchMock = serve({});
+
+    expect(await getRooms()).toEqual([]);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('fails the build on a room without an address', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    serve({ '/v1/rooms': { items: [{ ...roomWire, slug: '' }] } });
+
+    await expect(getRooms()).rejects.toThrow(/Invalid room data[\s\S]*slug/);
+  });
+
+  it('keeps the token out of a failure message', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    serve({});
+
+    await expect(getRooms()).rejects.toThrow(/404/);
+    await expect(getRooms()).rejects.not.toThrow(/rooms-secret/);
+  });
+
+  it('reads a one-pager as bytes with the rooms token', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    const fetchMock = vi.fn(async () => new Response(new Uint8Array([0x25, 0x50, 0x44, 0x46]), { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const pdf = new Uint8Array(await getRoomOnePager('c1'));
+
+    expect(String.fromCharCode(...pdf)).toBe('%PDF');
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe(`${BASE_URL}/v1/rooms/one-pagers/c1`);
+    expect(new Headers(init.headers).get('Authorization')).toBe('Bearer rooms-secret');
   });
 });

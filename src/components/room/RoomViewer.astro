@@ -1,0 +1,16 @@
+---
+---
+
+<dialog class="room-viewer" aria-label="Candidate profile">
+  <div class="room-viewer__bar">
+    <span class="room-viewer__title"></span>
+    <a class="room-button room-viewer__download" href="#">Download PDF</a>
+    <button class="room-link room-viewer__close" type="button">Close</button>
+  </div>
+  <div class="room-viewer__pages"></div>
+</dialog>
+
+<script>
+  import { mountRoomPdf } from '../../scripts/room-pdf';
+  mountRoomPdf();
+</script>

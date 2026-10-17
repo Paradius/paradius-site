@@ -101,6 +101,31 @@ export function paginatedEnvelopeSchema<T extends z.ZodType>(itemSchema: T) {
     });
 }
 
+export const roomCandidateSchema = z.object({
+  candidacyId: z.string().min(1),
+  code: developerCodeSchema,
+  name: z.string().min(1),
+  headline: z.string().min(1),
+  seniority: senioritySchema,
+  english: z.string().nullable(),
+  availability: availabilitySchema,
+  stage: z.string().min(1),
+  onePager: z.boolean(),
+});
+
+export const roomPositionSchema = z.object({
+  title: z.string().min(1),
+  summary: z.string().nullable(),
+  description: z.string().nullable(),
+  candidates: z.array(roomCandidateSchema),
+});
+
+export const roomSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9]{16,}$/, 'expected a hidden address of 16+ lowercase letters and digits'),
+  client: z.string().min(1),
+  positions: z.array(roomPositionSchema),
+});
+
 export const profilesResponseSchema = paginatedEnvelopeSchema(anonymousProfileSchema);
 export const casesResponseSchema = paginatedEnvelopeSchema(caseStudySchema);
 
@@ -114,5 +139,8 @@ export type Availability = z.infer<typeof availabilitySchema>;
 export type DeveloperRole = z.infer<typeof developerRoleSchema>;
 export type VocabularyEntry = z.infer<typeof vocabularyEntrySchema>;
 export type Vocabulary = z.infer<typeof vocabularySchema>;
+export type Room = z.infer<typeof roomSchema>;
+export type RoomPosition = z.infer<typeof roomPositionSchema>;
+export type RoomCandidate = z.infer<typeof roomCandidateSchema>;
 export type PaginatedProfilesResponse = z.infer<typeof profilesResponseSchema>;
 export type PaginatedCasesResponse = z.infer<typeof casesResponseSchema>;

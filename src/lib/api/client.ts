@@ -4,9 +4,11 @@ import { formatValidationError, recordIdentifier } from './errors';
 import {
   anonymousProfileSchema,
   caseStudySchema,
+  roomSchema,
   vocabularySchema,
   type AnonymousProfile,
   type CaseStudy,
+  type Room,
   type Vocabulary,
 } from './schemas';
 import { assertProfilesUseVocabulary, setVocabulary } from './vocabulary';
@@ -141,6 +143,7 @@ function validateEnvelope<T>(
 }
 
 let profilesCache: AnonymousProfile[] | undefined;
+let roomsCache: Room[] | undefined;
 let casesCache: CaseStudy[] | undefined;
 let vocabularyCache: Vocabulary | undefined;
 
@@ -204,8 +207,64 @@ export async function getCases(): Promise<CaseStudy[]> {
 
 /** Reset in-memory caches (for tests or repeated validation in one process). */
 export function resetDataCache(): void {
+  roomsCache = undefined;
   profilesCache = undefined;
   casesCache = undefined;
   vocabularyCache = undefined;
   setVocabulary(undefined);
+}
+
+function roomsToken(): string | undefined {
+  return process.env.ROOMS_API_TOKEN || undefined;
+}
+
+// The token rides in a header and never in a message: build logs are visible in Vercel.
+async function fetchWithRoomsToken(path: string, token: string): Promise<Response> {
+  const url = `${resolveApiBaseUrl()}${path}`;
+  let response: Response;
+  try {
+    response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`[paradius-site] Failed to fetch ${url}: ${message}`);
+  }
+  if (!response.ok) {
+    throw new Error(`[paradius-site] API ${url} returned HTTP ${response.status} ${response.statusText}`);
+  }
+  return response;
+}
+
+/** Private client rooms, read with the rooms token; empty when the build has no token. */
+export async function getRooms(): Promise<Room[]> {
+  if (roomsCache) {
+    return roomsCache;
+  }
+  const token = roomsToken();
+  if (!token) {
+    console.warn('[paradius-site] ROOMS_API_TOKEN is not set: building without client rooms.');
+    roomsCache = [];
+    return roomsCache;
+  }
+  const raw = (await (await fetchWithRoomsToken('/v1/rooms', token)).json()) as { items?: unknown };
+  if (!Array.isArray(raw.items)) {
+    throw new Error('[paradius-site] Invalid room data: expected { items: [...] }');
+  }
+  roomsCache = raw.items.map((item, index) => {
+    const parsed = roomSchema.safeParse(item);
+    if (!parsed.success) {
+      throw new Error(formatValidationError('room', recordIdentifier(item, index, 'client'), parsed.error));
+    }
+    return parsed.data;
+  });
+  return roomsCache;
+}
+
+/** The one-pager PDF of a candidacy shown in a room. */
+export async function getRoomOnePager(candidacyId: string): Promise<ArrayBuffer> {
+  const token = roomsToken();
+  if (!token) {
+    throw new Error('[paradius-site] ROOMS_API_TOKEN is not set: cannot read a one-pager.');
+  }
+  const response = await fetchWithRoomsToken(`/v1/rooms/one-pagers/${encodeURIComponent(candidacyId)}`, token);
+  return response.arrayBuffer();
 }

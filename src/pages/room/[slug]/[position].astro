@@ -1,0 +1,54 @@
+---
+import InnerLayout from '../../../layouts/InnerLayout.astro';
+import InnerBlock from '../../../components/inner/InnerBlock.astro';
+import CandidateSheet from '../../../components/room/CandidateSheet.astro';
+import RoomViewer from '../../../components/room/RoomViewer.astro';
+import { getVocabulary } from '../../../lib/api';
+import { roomPositionPages, type RoomPositionPage } from '../../../lib/rooms/load';
+import { parseJobDescription } from '../../../lib/rooms/rooms';
+import { buildRoomSeo } from '../../../lib/seo/room';
+import '../../../styles/inner-tools.css';
+import '../../../styles/room.css';
+
+export async function getStaticPaths() {
+  await getVocabulary();
+  return (await roomPositionPages()).map((page) => ({
+    params: { slug: page.room.slug, position: page.path },
+    props: page,
+  }));
+}
+
+type Props = RoomPositionPage;
+
+const { room, position, path } = Astro.props;
+const description = position.description ? parseJobDescription(position.description) : [];
+const count = position.candidates.length;
+---
+
+<InnerLayout seo={buildRoomSeo(room, position, path)} mode="rail" room>
+  <InnerBlock force="power" kind="hero" title={position.title}>
+    <a slot="kicker" class="room-back" href={`/room/${room.slug}/`}>{room.client}</a>
+    {position.summary && <p class="room-summary">{position.summary}</p>}
+    {description.length > 0 && (
+      <details class="room-jd">
+        <summary>Full job description</summary>
+        <div class="room-jd__body">
+          {description.map((block) =>
+            block.kind === 'heading' ? <h2>{block.text}</h2>
+            : block.kind === 'subheading' ? <h3>{block.text}</h3>
+            : block.kind === 'list' ? <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+            : <p>{block.text}</p>,
+          )}
+        </div>
+      </details>
+    )}
+  </InnerBlock>
+
+  <InnerBlock force="power" kind="tool" ariaLabel="Candidates">
+    <p class="inner-kicker">{count} {count === 1 ? 'candidate' : 'candidates'}</p>
+    <div class="room-grid">
+      {position.candidates.map((candidate) => <CandidateSheet slug={room.slug} positionPath={path} candidate={candidate} />)}
+    </div>
+  </InnerBlock>
+  <RoomViewer />
+</InnerLayout>
