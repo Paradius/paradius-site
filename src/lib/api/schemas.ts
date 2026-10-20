@@ -111,6 +111,10 @@ export const roomCandidateSchema = z.object({
   availability: availabilitySchema,
   stage: z.string().min(1),
   onePager: z.boolean(),
+  presentation: z
+    .object({ headline: z.string().nullable(), facts: z.array(z.string()) })
+    .nullable()
+    .optional(),
 });
 
 export const roomPositionSchema = z.object({

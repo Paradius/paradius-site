@@ -68,3 +68,17 @@ export function parseJobDescription(text: string): JobDescriptionBlock[] {
   flush();
   return blocks;
 }
+
+export type CardPresentation = { headline: string | null; facts: string[] } | null | undefined;
+
+/** What a room card reads: the presentation written with the one-pager, the profile where it is silent. */
+export function cardText(
+  profileHeadline: string,
+  profileFacts: string[],
+  presentation: CardPresentation,
+): { headline: string; facts: string[] } {
+  return {
+    headline: presentation?.headline ?? profileHeadline,
+    facts: presentation && presentation.facts.length > 0 ? presentation.facts : profileFacts,
+  };
+}
