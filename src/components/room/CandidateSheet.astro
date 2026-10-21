@@ -1,6 +1,6 @@
 ---
 import type { RoomCandidate } from '../../lib/api';
-import { onePagerFile, stageLabel } from '../../lib/rooms/rooms';
+import { cardText, onePagerFile, stageLabel } from '../../lib/rooms/rooms';
 import { formatAvailability, formatSeniority } from '../../lib/talent/formatters';
 
 interface Props {
@@ -12,11 +12,12 @@ interface Props {
 const { slug, positionPath, candidate } = Astro.props;
 const file = onePagerFile(candidate.code, positionPath);
 const pdf = candidate.onePager ? `/room/${slug}/${file}` : null;
-const facts = [
+const profileFacts = [
   formatSeniority(candidate.seniority),
   candidate.english ? `English ${candidate.english}` : null,
   formatAvailability(candidate.availability).label,
 ].filter((fact): fact is string => Boolean(fact));
+const { headline, facts } = cardText(candidate.headline, profileFacts, candidate.presentation);
 ---
 
 <article class="room-sheet" data-stage={candidate.stage}>
@@ -32,7 +33,7 @@ const facts = [
     <span class="room-sheet__stage">{stageLabel(candidate.stage)}</span>
   </div>
   <h3 class="room-sheet__name">{candidate.name}</h3>
-  <p class="room-sheet__title">{candidate.headline}</p>
+  <p class="room-sheet__title">{headline}</p>
   <ul class="room-sheet__facts">{facts.map((fact) => <li>{fact}</li>)}</ul>
   {pdf && (
     <p class="room-sheet__actions">

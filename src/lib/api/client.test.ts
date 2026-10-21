@@ -133,6 +133,17 @@ describe('getRooms', () => {
     expect(new Headers(init.headers).get('Authorization')).toBe('Bearer rooms-secret');
   });
 
+  it('keeps the card presentation written with the one-pager', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    const presentation = { headline: 'Staff Firmware Engineer', facts: ['Staff', 'English C1'] };
+    const candidate = { ...roomWire.positions[0]!.candidates[0]!, presentation };
+    serve({ '/v1/rooms': { items: [{ ...roomWire, positions: [{ ...roomWire.positions[0]!, candidates: [candidate] }] }] } });
+
+    const [room] = await getRooms();
+
+    expect(room?.positions[0]?.candidates[0]?.presentation).toEqual(presentation);
+  });
+
   it('builds without rooms when the token is missing', async () => {
     vi.stubEnv('ROOMS_API_TOKEN', '');
     const fetchMock = serve({});
