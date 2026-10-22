@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardText, onePagerFile, parseJobDescription, positionSlug, stageLabel } from './rooms';
+import { cardText, onePagerFile, opensOnePager, parseJobDescription, positionSlug, stageLabel } from './rooms';
 
 describe('positionSlug', () => {
   it('turns a position title into a lowercase path segment', () => {
@@ -81,5 +81,23 @@ describe('cardText', () => {
       headline: 'Senior Flutter Engineer',
       facts: profileFacts,
     });
+  });
+});
+
+describe('opensOnePager', () => {
+  it('opens the one-pager of an available candidate', () => {
+    expect(opensOnePager({ onePager: true, available: true })).toBe(true);
+  });
+
+  it('treats a candidate without the availability field as available', () => {
+    expect(opensOnePager({ onePager: true })).toBe(true);
+  });
+
+  it('keeps the one-pager of an unavailable candidate closed', () => {
+    expect(opensOnePager({ onePager: true, available: false })).toBe(false);
+  });
+
+  it('has nothing to open without a one-pager', () => {
+    expect(opensOnePager({ onePager: false })).toBe(false);
   });
 });

@@ -1,6 +1,6 @@
 ---
 import type { RoomCandidate } from '../../lib/api';
-import { cardText, onePagerFile, stageLabel } from '../../lib/rooms/rooms';
+import { cardText, onePagerFile, opensOnePager, stageLabel } from '../../lib/rooms/rooms';
 import { formatAvailability, formatSeniority } from '../../lib/talent/formatters';
 
 interface Props {
@@ -11,7 +11,8 @@ interface Props {
 
 const { slug, positionPath, candidate } = Astro.props;
 const file = onePagerFile(candidate.code, positionPath);
-const pdf = candidate.onePager ? `/room/${slug}/${file}` : null;
+const closed = candidate.onePager && !opensOnePager(candidate);
+const pdf = opensOnePager(candidate) ? `/room/${slug}/${file}` : null;
 const profileFacts = [
   formatSeniority(candidate.seniority),
   candidate.english ? `English ${candidate.english}` : null,
@@ -20,8 +21,10 @@ const profileFacts = [
 const { headline, facts } = cardText(candidate.headline, profileFacts, candidate.presentation);
 ---
 
-<article class="room-sheet" data-stage={candidate.stage}>
-  {pdf ? (
+<article class="room-sheet" data-stage={candidate.stage} data-unavailable={closed ? '' : undefined}>
+  {closed ? (
+    <div class="room-sheet__page room-sheet__page--closed"><span>No longer available</span></div>
+  ) : pdf ? (
     <a class="room-sheet__page" href={pdf} target="_blank" rel="noopener" data-room-view={pdf} data-room-title={candidate.name} data-room-file={file}>
       <canvas data-room-thumb={pdf} role="img" aria-label={`First page of the profile of ${candidate.name}`}></canvas>
     </a>
@@ -30,11 +33,11 @@ const { headline, facts } = cardText(candidate.headline, profileFacts, candidate
   )}
   <div class="room-sheet__head">
     <span class="room-sheet__code">{candidate.code}</span>
-    <span class="room-sheet__stage">{stageLabel(candidate.stage)}</span>
+    <span class="room-sheet__stage">{closed ? 'Unavailable' : stageLabel(candidate.stage)}</span>
   </div>
   <h3 class="room-sheet__name">{candidate.name}</h3>
   <p class="room-sheet__title">{headline}</p>
-  <ul class="room-sheet__facts">{facts.map((fact) => <li>{fact}</li>)}</ul>
+  {!closed && <ul class="room-sheet__facts">{facts.map((fact) => <li>{fact}</li>)}</ul>}
   {pdf && (
     <p class="room-sheet__actions">
       <a class="room-button" href={pdf} target="_blank" rel="noopener" data-room-view={pdf} data-room-title={candidate.name} data-room-file={file}>View profile</a>

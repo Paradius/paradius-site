@@ -188,6 +188,23 @@ a.room-sheet__page:hover { transform: translateY(-4px); }
 
 .room-sheet[data-stage="out"] { opacity: 0.45; }
 
+.room-sheet[data-unavailable] {
+  opacity: 0.4;
+  filter: grayscale(1);
+  user-select: none;
+}
+
+.room-sheet__page--closed {
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .room-sheet__name {
   margin-top: 0.75rem;
   font-family: var(--font-sans);
