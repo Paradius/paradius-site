@@ -11,7 +11,7 @@ interface Props {
 
 const { slug, positionPath, candidate } = Astro.props;
 const file = onePagerFile(candidate.code, positionPath);
-const closed = candidate.onePager && !opensOnePager(candidate);
+const closed = candidate.available === false;
 const pdf = opensOnePager(candidate) ? `/room/${slug}/${file}` : null;
 const profileFacts = [
   formatSeniority(candidate.seniority),
