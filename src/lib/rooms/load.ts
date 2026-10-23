@@ -1,5 +1,5 @@
 import { getRooms, type Room, type RoomCandidate, type RoomPosition } from '../api';
-import { onePagerFile, positionSlug } from './rooms';
+import { onePagerFile, opensOnePager, positionSlug } from './rooms';
 
 export type RoomPositionPage = {
   room: Room;
@@ -22,7 +22,7 @@ export async function roomPositionPages(): Promise<RoomPositionPage[]> {
 export async function roomDocuments(): Promise<RoomDocument[]> {
   return (await roomPositionPages()).flatMap(({ room, position, path }) =>
     position.candidates
-      .filter((candidate) => candidate.onePager)
+      .filter(opensOnePager)
       .map((candidate) => ({ slug: room.slug, file: onePagerFile(candidate.code, path), candidate })),
   );
 }

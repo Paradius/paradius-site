@@ -144,6 +144,16 @@ describe('getRooms', () => {
     expect(room?.positions[0]?.candidates[0]?.presentation).toEqual(presentation);
   });
 
+  it('keeps a candidate marked unavailable', async () => {
+    vi.stubEnv('ROOMS_API_TOKEN', 'rooms-secret');
+    const candidate = { ...roomWire.positions[0]!.candidates[0]!, available: false };
+    serve({ '/v1/rooms': { items: [{ ...roomWire, positions: [{ ...roomWire.positions[0]!, candidates: [candidate] }] }] } });
+
+    const [room] = await getRooms();
+
+    expect(room?.positions[0]?.candidates[0]?.available).toBe(false);
+  });
+
   it('builds without rooms when the token is missing', async () => {
     vi.stubEnv('ROOMS_API_TOKEN', '');
     const fetchMock = serve({});

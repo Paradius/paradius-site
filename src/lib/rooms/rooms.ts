@@ -27,6 +27,11 @@ export function onePagerFile(code: string, slug: string): string {
   return `${code}-${slug}.pdf`;
 }
 
+/** An unavailable candidate stays on the page greyed out, with the one-pager neither shown nor published. */
+export function opensOnePager(candidate: { onePager: boolean; available?: boolean }): boolean {
+  return candidate.onePager && candidate.available !== false;
+}
+
 export function stageLabel(stage: string): string {
   const known = STAGE_LABELS[stage];
   if (known) {
