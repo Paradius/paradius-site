@@ -32,6 +32,23 @@ export function opensOnePager(candidate: { onePager: boolean; available?: boolea
   return candidate.onePager && candidate.available !== false;
 }
 
+const STATE_LABELS = { interviewed: 'Interviewed', disregarded: 'Disregarded' } as const;
+
+export type RoomState = keyof typeof STATE_LABELS;
+
+export function cardState(candidate: { state?: string | null }): RoomState | null {
+  const state = candidate.state;
+  return state && state in STATE_LABELS ? (state as RoomState) : null;
+}
+
+export function cardLabel(candidate: { stage: string; state?: string | null; available?: boolean }): string {
+  if (candidate.available === false) {
+    return 'Unavailable';
+  }
+  const state = cardState(candidate);
+  return state ? STATE_LABELS[state] : stageLabel(candidate.stage);
+}
+
 export function stageLabel(stage: string): string {
   const known = STAGE_LABELS[stage];
   if (known) {

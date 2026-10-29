@@ -122,6 +122,7 @@
 }
 
 .room-sheet__page {
+  position: relative;
   display: block;
   aspect-ratio: 612 / 792;
   background: #fff;
@@ -186,7 +187,28 @@ a.room-sheet__page:hover { transform: translateY(-4px); }
   color: #000;
 }
 
-.room-sheet[data-stage="out"] { opacity: 0.45; }
+.room-sheet__band {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 0.55rem 0;
+  border-top: 1px solid rgb(255 255 255 / 0.28);
+  border-bottom: 1px solid rgb(255 255 255 / 0.28);
+  background: rgb(0 0 0 / 0.38);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  pointer-events: none;
+}
+
+.room-sheet[data-state="disregarded"] { opacity: 0.5; }
 
 .room-sheet[data-unavailable] {
   opacity: 0.4;
@@ -219,17 +241,20 @@ a.room-sheet__page:hover { transform: translateY(-4px); }
   color: var(--color-text-secondary);
 }
 
+/* Every fact carries its separator; the one that starts a wrapped line falls in the clipped gutter. */
 .room-sheet__facts {
+  --fact-gap: calc(1.4rem + 1px);
   display: flex;
   flex-wrap: wrap;
-  margin: 0.85rem 0 0;
+  margin: 0.85rem 0 0 calc(-1 * var(--fact-gap));
   padding: 0;
+  clip-path: inset(0 0 0 var(--fact-gap));
   list-style: none;
   font-size: 0.8125rem;
   color: var(--color-accent);
 }
 
-.room-sheet__facts li + li::before {
+.room-sheet__facts li::before {
   content: '';
   display: inline-block;
   width: 1px;
