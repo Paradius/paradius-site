@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardText, onePagerFile, opensOnePager, parseJobDescription, positionSlug, stageLabel } from './rooms';
+import { cardLabel, cardState, cardText, onePagerFile, opensOnePager, parseJobDescription, positionSlug, stageLabel } from './rooms';
 
 describe('positionSlug', () => {
   it('turns a position title into a lowercase path segment', () => {
@@ -99,5 +99,33 @@ describe('opensOnePager', () => {
 
   it('has nothing to open without a one-pager', () => {
     expect(opensOnePager({ onePager: false })).toBe(false);
+  });
+});
+
+describe('cardState', () => {
+  it('reads the two states a room shows', () => {
+    expect(cardState({ state: 'interviewed' })).toBe('interviewed');
+    expect(cardState({ state: 'disregarded' })).toBe('disregarded');
+  });
+
+  it('shows no band for a missing or unknown state', () => {
+    expect(cardState({})).toBeNull();
+    expect(cardState({ state: null })).toBeNull();
+    expect(cardState({ state: 'hired' })).toBeNull();
+  });
+});
+
+describe('cardLabel', () => {
+  it('names the state over the stage', () => {
+    expect(cardLabel({ stage: 'client_interview', state: 'interviewed' })).toBe('Interviewed');
+    expect(cardLabel({ stage: 'out', state: 'disregarded' })).toBe('Disregarded');
+  });
+
+  it('falls back to the stage without a state', () => {
+    expect(cardLabel({ stage: 'client_interview', state: null })).toBe('Interview');
+  });
+
+  it('says unavailable before anything else', () => {
+    expect(cardLabel({ stage: 'client_interview', state: 'interviewed', available: false })).toBe('Unavailable');
   });
 });
